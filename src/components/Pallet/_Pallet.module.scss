@@ -1,0 +1,118 @@
+@import '../../styles/variables';
+
+.pallet-wrap {
+  position: absolute;
+  right: 20px;
+  background-color: #fff;
+  border-radius: 2px;
+  width: 5.125rem;
+  border: 1px solid #d1d1d1;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+
+  &.normal-top {
+    top: 20px;
+  }
+
+  &.lower-top {
+    top: 100px;
+  }
+
+  .pallet-expand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #d1d1d1;
+
+    button {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 0.5rem 0;
+
+      p {
+        transition: $transition;
+      }
+      &.active {
+        p {
+          transform: rotate(270deg);
+        }
+      }
+      &.inactive {
+        p {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  .pallet-main {
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem;
+
+    &.active {
+      display: flex;
+    }
+
+    &.inactive {
+      display: none;
+    }
+
+    .pallet-item {
+      display: flex;
+      width: 4rem;
+      height: 4rem;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0.25rem 0;
+      padding: 0.3rem;
+      border-radius: 4px;
+      position: relative;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  
+      &:hover {
+        background-color: #d1d1d1;
+      }
+  
+      span {
+        font-size: 0.75rem;
+        margin-top: 0.4rem;
+        font-weight: 600;
+      }
+      
+      .extend-icon {
+        position: absolute;
+        bottom: 4px;
+        left: 4px;
+      }
+  
+      .extend-options {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        border: 1px solid #d1d1d1;
+        right: 96%;
+        background-color: #fff;
+        top: 30%;
+        border-radius: 2px;
+        padding: 0.5rem;
+  
+        .pallet-item {
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+  
+      &:hover .extend-options {
+        display: flex;
+      }
+    }
+  }
+}

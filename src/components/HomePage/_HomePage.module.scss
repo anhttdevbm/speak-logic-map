@@ -1,0 +1,22 @@
+@import '../../styles/variables';
+
+.home-wrap {
+  margin: 0 auto;
+  width: 100%;
+
+  .home-content {
+    display: flex;
+    margin-top: $topbar-hight;
+    min-height: calc(100vh - $topbar-hight);
+
+    .side-bar {
+      border-right: 1px solid #d1d1d1;
+    }
+
+    .map {
+      flex: 1;
+      position: relative;
+      background-color: #AAD3DF;
+    }
+  }
+}

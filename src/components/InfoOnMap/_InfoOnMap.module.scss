@@ -1,0 +1,43 @@
+.info-wrap {
+  position: absolute;
+  z-index: 999;
+  min-width: 12.5rem;
+  border-radius: 2px;
+  padding: 0.625rem 1rem;
+  background-color: #d1d1d1;
+
+  &.full-horizontal {
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &.left {
+    bottom: 5%;
+    left: 0;
+  }
+
+  &.right {
+    bottom: 5%;
+    right: 0;
+  }
+
+  &.top {
+    padding-left: 3.75rem;
+    top: 0;
+  }
+
+  &.down {
+    bottom: 0;
+  }
+
+  .info-list {
+
+    li {
+      list-style: inside;
+      font-size: 0.813rem;
+      padding: 0.3rem;
+    }
+  }
+}
