@@ -199,6 +199,35 @@ const Options: React.FC = (): JSX.Element => {
             </li>
           </ul>
         </li>
+
+        <li className={`${!globalStore.rectangularView}`}>
+          Rectangular View
+          <RightArrowIcon className={`${styles['sub-icon']}`} />
+          <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.toggleRectangularView('rect-map')}>
+              Show country with map
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.boatName !== 'boat' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleRectangularView('rect-name')}>
+              Show country only name
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.boatName !== 'b' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleRectangularView('rect-house')}>
+              Show country with house
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.boatName !== '' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+          </ul>
+        </li>
+
         <li>
           Show Sun/Moon
           <RightArrowIcon className={`${styles['sub-icon']}`} />

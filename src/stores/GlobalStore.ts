@@ -21,6 +21,7 @@ export class GlobalStore {
   roomView: 'room-countries' | '' = '';
   floorPlanView: 'floorplan-countries' | '' = '';
   boatView: 'boat-world' | 'boat-countries' | '' = '';
+  rectangularView: 'rect-world' | 'rect-countries' | 'rect-map' | 'rect-name' | 'rect-house' | '' = '';
   countryName: 'location' | 'l' | '' = '';
   roomName: 'room' | 'r' | '' = '';
   fpRoomName: 'room' | 'r' | '' = '';
@@ -196,5 +197,14 @@ export class GlobalStore {
 
   toggleBoatWave = (): void => {
     this.showBoatWave = !this.showBoatWave;
+  }
+
+  toggleRectangularView = (value: 'rect-countries' | 'rect-world' | 'rect-map' | 'rect-name' | 'rect-house' | ''): void => {
+    if (value === this.rectangularView) {
+      this.rectangularView = '';
+    }
+    else {
+      this.rectangularView = value;
+    }
   }
 }
