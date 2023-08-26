@@ -1,0 +1,37 @@
+@import '../../../styles/variables';
+
+.top-tools-wrap {
+  background-color: #ffffffe5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  height: $topbar-hight;
+
+  .top-tools-content {
+    border: 1px solid #d1d1d1;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.6rem;
+
+    .content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .left-content {
+    }
+  
+    .middle-content {
+      flex: 1;
+    }
+
+    .right-content {
+    }
+  }
+}

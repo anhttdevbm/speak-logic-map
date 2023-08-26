@@ -1,0 +1,29 @@
+.sun-moon-wrap {
+  position: absolute;
+  display: flex;
+  width: 100px;
+  height: 100px;
+  right: 6rem;
+  z-index: 999;
+
+  &.normal-top {
+    top: 10px;
+  }
+
+  &.lower-top {
+    top: 90px;
+  }
+
+  .sun-moon-icon {
+    width: 4rem;
+    height: 4rem;
+
+    &.sun {
+      color: yellow;
+    }
+
+    &.moon {
+      color: purple;
+    }
+  }
+}
