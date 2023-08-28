@@ -52,7 +52,7 @@ const Options: React.FC = (): JSX.Element => {
         <li className={`${globalStore.map && styles['disable']}`}>
           Country Mode
           <ul className={`${styles['minor-list']}`}>
-            <li 
+            <li
               onClick={() => globalStore.toggleMainLand(true)}
             >
               Show Mainland Only
@@ -208,22 +208,39 @@ const Options: React.FC = (): JSX.Element => {
               Show country with map
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.boatName !== 'boat' ? styles['hide'] : styles['show']}
+                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li onClick={() => globalStore.toggleRectangularView('rect-name')}>
               Show country only name
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.boatName !== 'b' ? styles['hide'] : styles['show']}
+                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => globalStore.toggleRectangularView('rect-house')}>
+            <li className={`${!globalStore.rectangularView}`}>
               Show country with house
-              <CheckIcon className={`
-                ${styles['sub-icon']} 
-                ${globalStore.boatName !== '' ? styles['hide'] : styles['show']}
-              `}/>
+              <RightArrowIcon className={`${styles['sub-icon']}`} />
+              <ul className={`${styles['minor-list']}`}>
+                <li onClick={() => globalStore.toggleRectangularView('rect-house')}>
+                  Show country as house inside rectangle
+                  <CheckIcon
+                      className={`
+                        ${styles['sub-icon']} 
+                        ${globalStore.rectangularView !== 'rect-house' ? styles['hide'] : styles['show']}
+                      `}
+                  />
+                </li>
+                <li onClick={() => globalStore.toggleRectangularView('rect-house-no-border')}>
+                  Show country as house outside rectangle
+                  <CheckIcon
+                      className={`
+                        ${styles['sub-icon']} 
+                        ${globalStore.rectangularView !== 'rect-house-no-border' ? styles['hide'] : styles['show']}
+                      `}
+                  />
+                </li>
+              </ul>
             </li>
           </ul>
         </li>

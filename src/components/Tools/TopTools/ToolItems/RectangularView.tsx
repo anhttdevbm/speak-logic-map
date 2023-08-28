@@ -8,9 +8,9 @@ const RectangularView: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
     const toggleRectangularView = () => {
         if (!globalStore.houseView  && !globalStore.floorPlanView && !globalStore.boatView) {
-            globalStore.toggleRectangularView('rect-countries');
+            globalStore.toggleRectangularView('rect-house');
         }
-        console.log('global', globalStore.rectangularView)
+        console.log("globalStore.rectangularView", globalStore.rectangularView)
     }
 
     return (

@@ -26,6 +26,7 @@ import HouseView from './MapContents/Views/HouseView';
 import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
+import RectangularView from "./MapContents/Views/RectangularView";
 
 
 const bounds = new L.LatLngBounds(
@@ -167,6 +168,7 @@ const MapSSR: React.FC = (): JSX.Element => {
           <RoomView selectedData={selectedData} />
           <FloorPlanView />
           <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />
+          <RectangularView />
         </>
       )}
     </MapContainer>
