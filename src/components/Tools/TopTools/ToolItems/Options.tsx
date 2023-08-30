@@ -245,6 +245,41 @@ const Options: React.FC = (): JSX.Element => {
           </ul>
         </li>
 
+        <li className={`${!globalStore.rectangularView}`}>
+          More View
+          <RightArrowIcon className={`${styles['sub-icon']}`} />
+          <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.toggleMoreView('world-as-country')}>
+              World as Function
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleMoreView('population-view')}>
+              Population View
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleMoreView('population-view-with-map')}>
+              Population View With Country
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleMoreView('world-problem-view')}>
+              World Problem View
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+          </ul>
+        </li>
+
         <li>
           Show Sun/Moon
           <RightArrowIcon className={`${styles['sub-icon']}`} />

@@ -27,7 +27,7 @@ import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
 import RectView from './MapContents/Views/RectView';
-import RectangularView from "./MapContents/Views/RectangularView";
+import MoreView from "./MapContents/Views/MoreView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 
@@ -171,6 +171,7 @@ const MapSSR: React.FC = (): JSX.Element => {
           <FloorPlanView />
           <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />
           <RectView />
+          <MoreView />
         </>
       )}
 
