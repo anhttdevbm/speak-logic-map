@@ -26,6 +26,8 @@ import { removeTempList, setupGroup, setupMainSet, showDistance } from '../Marke
 
 import { resetAllColor } from '../Markers/HandleRouteAndDistance';
 import { addSoluOrProbFn, addStopFn, addTemporaryFn } from '../Markers/AddMarkers';
+import {renderToString} from "react-dom/server";
+import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
 
 // A function that execute whenever user right click on function marker
 // Includes all custom window global functions
@@ -1204,4 +1206,32 @@ export const roomPopup = (map, e) => {
   //   }
   //   map.removeLayer(popup);
   // }
+}
+
+// Popup shown when right-click on world map
+export const rectPopup = (map, e, isMap, toggleModalInsertCountry) => {
+  clearAllPopups(map);
+  console.log('testtttttttttt')
+
+  const popupWorld = L.popup();
+  popupWorld.options.type = 'rect_popup';
+
+  if (isMap) {
+    popupWorld
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(renderToString(RectHouse))
+        .addTo(map);
+
+    const rect = document.querySelector('#plus');
+    rect.onclick = () => {
+      toggleModalInsertCountry(true);
+      map.closePopup();
+    }
+
+    const country = document.querySelector('.country');
+    country.onclick = () => {
+      toggleHouseView("house-countries");
+      map.closePopup();
+    }
+  }
 }

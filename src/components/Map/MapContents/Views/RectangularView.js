@@ -1,7 +1,7 @@
 // /* eslint-disable react-hooks/exhaustive-deps */
 import L from 'leaflet';
 import {observer} from 'mobx-react-lite';
-import {useMap} from 'react-leaflet';
+import {useMap, useMapEvents} from 'react-leaflet';
 import {allLayer} from '../Variables/Variables';
 import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
@@ -10,86 +10,59 @@ import styles from '../_MapContents.module.scss';
 import {addStaticDistance} from '../Markers/AddMarkers';
 import * as turf from '@turf/turf';
 import {getGeoMainLand} from "@/utils/get_geo_mainland";
+import ICON_HOUSE from "@/assets/icons/house-icon.png";
+import RectName from "@/components/Map/MapContents/Views/rect/RectName";
+import ReactDOM from "react-dom";
+import {renderToStaticMarkup, renderToString} from 'react-dom/server'
+import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
+import {groupPopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
+import {rectPopup, worldPopup} from "@/components/Map/MapContents/Popups/Popups";
 
 const RectangularView = () => {
     const map = useMap();
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
 
-    const [zoom, setZoom] = useState(map.getZoom());
-    const [boundingBox, setBoundingBox] = useState(map.getBounds());
+    const [zoom, setZoom] = useState();
+
+    const currentPosition = [44.96479793033104 - 20, -6.416015625000001];
 
     map.on('zoomend', () => {
         setZoom(map.getZoom());
     });
 
     useEffect(() => {
-        if (globalStore.clear) {
-            map.eachLayer(layer => {
-                if (
-                    layer.options.target?.status === 'add' || layer.options.status === 'add' ||
-                    layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
-                    layer.options.type?.status === 'add'
-                ) {
-                    map.removeLayer(layer);
-                }
-            });
+        globalStore.setListCountryInRect(['Canada', 'USA', 'Mexico'])
+    }, []);
 
-            globalStore.toggleClear();
+    useEffect(() => {
+        if (!globalStore.showModalInsertCountry) {
+            console.log('globalStore.showModalInsertCountry', globalStore.showModalInsertCountry)
+            addMarkerCountryToMap()
         }
-    }, [globalStore.clear]);
 
-    useEffect(() => {
-        addMarkerCountryToMap()
-    }, [boundingBox, globalStore.map, globalStore.rectangularView, globalStore.countryQuantity, globalStore.fpRoomName]);
+    }, [globalStore.map, globalStore.rectangularView, globalStore.listCountryInRect, globalStore.showModalInsertCountry, globalStore.click]);
 
-    // Change floor plan text size after zoom
-    useEffect(() => {
-        setBoundingBox(map.getBounds());
-    }, [zoom])
-
-    useEffect(() => {
-        if (globalStore.showRoomDistance && globalStore.map && globalStore.rectangularView && !globalStore.roomView) {
-            const roomList = [];
-            map.eachLayer(layer => {
-                // console.log(layer)
-                if (layer.options.options?.type === 'room') {
-                    roomList.push(layer);
-                }
-            })
-
-            if (roomList.length > 1) {
-                for (let i = 0; i < roomList.length - 1; i++) {
-                    for (let j = i + 1; j < roomList.length; j++) {
-                        setTimeout(() => {
-                            addStaticDistance(map, roomList[i]._latlng.lat, roomList[i]._latlng.lng, roomList[j]._latlng.lat, roomList[j]._latlng.lng, true, 'room-distance')
-                        }, 1000)
-                    }
-                }
+    useMapEvents({
+        contextmenu(e) {
+            console.log('1232')
+            if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
+                console.log("879567")
+                rectPopup(map, e, globalStore.map, globalStore.toggleModalInsertCountry());
             }
-        } else {
-            map.eachLayer(layer => {
-                if (layer.options.options?.type === 'room-distance') {
-                    map.removeLayer(layer.parentLine);
-                    map.removeLayer(layer.parentLine_1);
-                    map.removeLayer(layer.parentArc);
-                    if (layer.parentArcArrow) {
-                        map.removeLayer(layer.parentArcArrow);
-                    }
-                    if (layer.parentArcArrow_1) {
-                        map.removeLayer(layer.parentArcArrow_1);
-                    }
-                    map.removeLayer(layer);
-                }
-            })
         }
-    }, [globalStore.showRoomDistance, globalStore.map, globalStore.rectangularView])
+    })
 
-    const isWithinBoundingBox = (markerLatLng) => {
-        return markerLatLng[0] <= boundingBox._northEast.lng &&
-            markerLatLng[0] >= boundingBox._southWest.lng &&
-            markerLatLng[1] <= boundingBox._northEast.lat &&
-            markerLatLng[1] >= boundingBox._southWest.lat;
+    const clickHandler = () => {
+        console.count("click");
+    };
+    const test = () => {
+        console.log('HUHU')
+        const buttonEl = document.getElementById("plus");
+        console.log('v', buttonEl)
+        if (buttonEl) {
+            buttonEl.addEventListener("click", clickHandler);
+        }
     }
 
     const addMarkerCountryToMap = () => {
@@ -99,6 +72,10 @@ const RectangularView = () => {
         const countriesLayer = [];
         if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
             if (globalStore.rectangularView === 'rect-name' || globalStore.rectangularView === 'rect-house') {
+                map.dragging.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
+                map.scrollWheelZoom.disable();
                 map.eachLayer(layer => {
                     if (layer._arrowheads) {
                         layer.remove();
@@ -109,52 +86,21 @@ const RectangularView = () => {
                 map.eachLayer(layer => map.removeLayer(layer));
 
                 if (globalStore.map) {
-                    const firstLat = 83;
-                    const firstLng = -175;
-                    const latList = [81.5, 79, 75.8, 71.6, 66.4, 59.5, 51, 40.5, 28, 14, -1, -16, -29.7, -42, -52.2, -60.5, -67, -72.3, -76.3, -79.4, -81.8];
-                    const lngList = [-156.5, -128, -99, -70, -42, -14, 14, 41, 69.5, 98, 127, 155.5]
-                    // Add the floor-plan boundary
-                    let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-                    fpBoundary = L.rectangle(bounds, {weight: 1, opacity: 1, fillOpacity: 0});
-                    fpBoundary.addTo(map);
-                    console.log("fpBoundary", fpBoundary)
-                    countryStore.countries.forEach((country, index) => {
-                        // console.log('logcountry', country.data[0].features[0].geometry.coordinates[0][0][0], boundingBox)
-                        if (!country.name.codeName.includes('-99')) {
-                            const lat = latList[index % latList.length];
-                            const lng = lngList[Math.floor(index / latList.length)];
-                            // console.log('lat, lng', lat, lng, name)
-                            const mainLand = getGeoMainLand(country.data[0]);
-                            const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
-                            console.log('mainLand', mainLand)
-                            console.log('center', center, isWithinBoundingBox(center))
-                            const isInsideBoundingBox = isWithinBoundingBox(center);
-                            if (isInsideBoundingBox) {
-                                const countryMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: 'room',
-                                    },
-                                    icon: globalStore.rectangularView === 'rect-name'
-                                        ? markerRectNameIcon(
-                                            `${styles['rect-icon']}`,
-                                            country.name.fullName)
-                                        : globalStore.rectangularView === 'rect-house'
-                                            ? markerRectHouseIcon(
-                                                `${styles['rect-icon']}`,
-                                                country.name.fullName
-                                            ) : markerRectHouseIcon(
-                                                `${styles['rect-icon-no-border']}`,
-                                                country.name.fullName,)
-                                })
-                                    .on('click', e => {
-                                        // addSelectedItem(e, map, globalStore.lock);
-                                    })
-                                    .addTo(map);
 
-                                countriesLayer.push(countryMarker);
-                            }
-                        }
-                    })
+                    // const rectHouse = renderToString(<RectHouse listCountry={globalStore.listCountryInRect}
+                    //                                             openModal={openModal}/>);
+                    console.log('globalStore.model', globalStore.showModalInsertCountry)
+                    const popup = L.popup();
+                    popup
+                        .addEventListener("popupopen", test)
+                        .setLatLng(currentPosition)
+                        .setContent(renderToString(<RectHouse listCountry={globalStore.listCountryInRect}/>))
+                        .addTo(map);
+                    // console.log('23432')
+                    // document.getElementById('plus').onclick = function (){
+                    //         console.log('hu')
+                    //         globalStore.toggleModalInsertCountry();
+                    //     }
                 }
             } else if (globalStore.rectangularView === '') {
                 let orientation;

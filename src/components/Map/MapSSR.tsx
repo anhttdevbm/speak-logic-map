@@ -26,7 +26,9 @@ import HouseView from './MapContents/Views/HouseView';
 import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
+import RectView from './MapContents/Views/RectView';
 import RectangularView from "./MapContents/Views/RectangularView";
+import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 
 const bounds = new L.LatLngBounds(
@@ -168,8 +170,14 @@ const MapSSR: React.FC = (): JSX.Element => {
           <RoomView selectedData={selectedData} />
           <FloorPlanView />
           <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />
-          <RectangularView />
+          <RectView />
         </>
+      )}
+
+      {globalStore.rectangularView == 'rect-house' && globalStore.showModalInsertCountry && (
+          <ModalWrap setToggleModal={setModal}>
+            <InsertCountryM/>
+          </ModalWrap>
       )}
     </MapContainer>
 

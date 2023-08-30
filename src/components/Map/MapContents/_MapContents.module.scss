@@ -719,7 +719,7 @@ $blue: random(255);
   color: #3388ff;
 }
 .rect-icon {
-  display: flex;
+  //display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -727,6 +727,10 @@ $blue: random(255);
   background-color: rgba(255, 255, 255, 0.3);
   font-size: 1rem;
   font-weight: 600;
+  width: 800px !important;
+  height: 300px !important;
+  transform: translate3d(30%, 35%, 0px) !important;
+  z-index: 1000 !important;
 }
 
 .rect-icon-no-border {
@@ -736,6 +740,21 @@ $blue: random(255);
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
+}
+
+.rectangular-item {
+  width: 300px;
+  height: 150px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.rectangular-list {
+  display: flex;
+  overflow-x: auto;
+  padding: 20px;
 }
 
 .boat-icon {

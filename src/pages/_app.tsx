@@ -74,6 +74,7 @@ declare global {
     replaceGroupWithImg: (event: any) => void;
     replaceGroupWithAudio: (event: any) => void;
     replaceGroupWithVideo: (event: any) => void;
+    openModalInsertCountryToRect: (event: any) => void;
   }
 }
 

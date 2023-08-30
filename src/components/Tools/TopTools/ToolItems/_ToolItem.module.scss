@@ -268,6 +268,13 @@
       animation-timing-function: linear;
     }
 
+    .search-loading-insert-rect {
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
     .search-mode {
       display: flex;
       border-bottom: 1px solid #d1d1d1;
@@ -312,8 +319,11 @@
           color: #fff;
         }
       }
+      .suggested-btn-insert-rect {
+        min-height: 2.5rem!important;
+        padding: 0.5rem!important;
+      }
     }
-    
   }
 }
 

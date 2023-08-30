@@ -33,6 +33,8 @@ export class GlobalStore {
     showFloorPlanDistance: boolean = false;
     showBoatWave: boolean = false;
     countryQuantity: number = 0;
+    listCountryInRect: any = [];
+    showModalInsertCountry: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -200,5 +202,23 @@ export class GlobalStore {
         } else {
             this.rectangularView = value;
         }
+    }
+
+    toggleModalInsertCountry = (): void => {
+        this.showModalInsertCountry = !this.showModalInsertCountry;
+    }
+
+    setListCountryInRect = (countries: any[]): void => {
+        this.listCountryInRect = countries;
+    }
+
+    addCountryToRect = (country: any): void => {
+        if (country && country !== '') {
+            this.listCountryInRect.push(country)
+        }
+    }
+
+    removeCountryToRect = (country: any): void => {
+        this.listCountryInRect = this.listCountryInRect.filter((item: any) => item !== country);
     }
 }

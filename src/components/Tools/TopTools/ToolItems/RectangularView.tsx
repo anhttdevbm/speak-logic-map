@@ -7,7 +7,7 @@ import {useGlobalStore} from "@/providers/RootStoreProvider";
 const RectangularView: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
     const toggleRectangularView = () => {
-        if (!globalStore.houseView  && !globalStore.floorPlanView && !globalStore.boatView) {
+        if (!globalStore.houseView  && !globalStore.floorPlanView && !globalStore.boatView && !globalStore.roomView) {
             globalStore.toggleRectangularView('rect-house');
         }
         console.log("globalStore.rectangularView", globalStore.rectangularView)

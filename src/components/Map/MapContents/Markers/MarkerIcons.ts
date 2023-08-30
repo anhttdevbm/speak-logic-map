@@ -178,14 +178,11 @@ export const markerRectNameIcon = (className: string, name: string): L.DivIcon =
     })
 }
 
-export const markerRectHouseIcon = (className: string, name: string): L.DivIcon => {
+export const markerRectHouseIcon = (className: string, name: string, html: any): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 150],
+        iconSize: [500, 300],
         iconAnchor: [50, 25],
-        html: (
-                `<img src=${ICON_HOUSE.src} alt="House" width="70" height="50" />
-                <div class="${styles["marker-house-name-rect"]}"><p>${name}</p></div>`
-        )
+        html: html
     })
 }
