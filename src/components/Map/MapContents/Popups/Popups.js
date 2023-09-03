@@ -28,6 +28,7 @@ import {resetAllColor} from '../Markers/HandleRouteAndDistance';
 import {addSoluOrProbFn, addStopFn, addTemporaryFn} from '../Markers/AddMarkers';
 import {renderToString} from "react-dom/server";
 import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
+import {useGlobalStore} from "@/providers/RootStoreProvider";
 
 // A function that execute whenever user right click on function marker
 // Includes all custom window global functions
@@ -96,6 +97,7 @@ export const worldPopup = (map, e, isMap, toggleHouseView) => {
 // Popup shown when right-click on function marker
 export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
     clearAllPopups(map);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     // console.log(e.target)
 
     let type = false;
@@ -413,6 +415,11 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
     };
 
     window.deleteItem = () => {
+        console.log('delete', e.target);
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const globalStore = useGlobalStore();
+
+        globalStore.removeMarkerFnList(e.target.options.target.index)
         map.removeLayer(e.target);
         map.removeLayer(popup);
     }

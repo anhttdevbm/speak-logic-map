@@ -15,7 +15,7 @@ import styles from '../_MapContents.module.scss';
 
 import {worldPopup, wrappingPopup} from '../Popups/Popups'
 
-import { markerPersonIndex, markerFnIndex, selectedList } from '../Variables/Variables';
+import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../Variables/Variables';
 
 import { 
   addMarkerPerson, addMarkerFn, addMarkerWelcomeSign, 
@@ -211,13 +211,16 @@ const Markers = ({ setModal, setModalType }) => {
         // Add Person Marker
         if (globalStore.addIcon === 'person') {
           addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType)
+          let index = markerPersonIndex[0];
+          globalStore.addMarkerPopulationToList(index)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'function') {
-          addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType)
+          addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          let index = markerFnIndex[0];
+          globalStore.addMarkerFnToList(index)
           markerFnIndex[0]++;
-          console.log('markerFnIndex', markerFnIndex)
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'house') {

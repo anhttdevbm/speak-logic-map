@@ -1,10 +1,17 @@
-.rectangularItem {
+.moreItem {
   width: 100px;
-  height: 100px;
+  height: 50px;
   background-color: #f0f0f0;
   border: 1px solid #333333;
   padding: 10px;
   margin-right: 20px;
+}
+
+.moreItemPopulationView {
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  margin-right: 10px;
 }
 
 .divPlus {

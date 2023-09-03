@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import L from "leaflet";
 import {CountryName} from "@/pages/api/countries";
+import {listMarkerFn} from "@/components/Map/MapContents/Variables/Variables";
 
 export class GlobalStore {
     code: string = '';
@@ -37,6 +38,8 @@ export class GlobalStore {
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
+    listMarkerFunction: any[] = [];
+    listMarkerPopulation: any[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -229,8 +232,24 @@ export class GlobalStore {
     }
 
     removeCountryToRect = (country: any): void => {
-        console.log('vllll', country)
         this.listCountryInRect = this.listCountryInRect.filter((item: any) => item.codeName !== country);
-        console.log('this.listCountryInRect', this.listCountryInRect)
+    }
+
+    addMarkerFnToList = (index: number): void => {
+        this.listMarkerFunction.push({key: index, value: 'Function ' + index})
+    }
+
+    removeMarkerFnList = (index: number): void => {
+        debugger
+        this.listMarkerFunction = this.listMarkerFunction.filter((item: any) => item.key != index)
+    }
+
+    addMarkerPopulationToList = (index: number): void => {
+        this.listMarkerPopulation.push({key: index, value: 'Function ' + index})
+    }
+
+    removeMarkerPopulationList = (index: number): void => {
+        debugger
+        this.listMarkerPopulation = this.listMarkerPopulation.filter((item: any) => item.key != index)
     }
 }

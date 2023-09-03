@@ -245,7 +245,7 @@ const Options: React.FC = (): JSX.Element => {
           </ul>
         </li>
 
-        <li className={`${!globalStore.rectangularView}`}>
+        <li className={`${!globalStore.moreView}`}>
           More View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>
@@ -253,28 +253,28 @@ const Options: React.FC = (): JSX.Element => {
               World as Function
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
+                ${globalStore.moreView !== 'world-as-country' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li onClick={() => globalStore.toggleMoreView('population-view')}>
               Population View
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
+                ${globalStore.moreView !== 'population-view' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li onClick={() => globalStore.toggleMoreView('population-view-with-map')}>
               Population View With Country
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
+                ${globalStore.moreView !== 'population-view-with-map' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li onClick={() => globalStore.toggleMoreView('world-problem-view')}>
               World Problem View
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
+                ${globalStore.moreView !== 'world-problem-view' ? styles['hide'] : styles['show']}
               `}/>
             </li>
           </ul>

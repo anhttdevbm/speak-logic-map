@@ -5,38 +5,30 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
 import {allLayer, markerFnIndex} from "@/components/Map/MapContents/Variables/Variables";
 import MoreDetail from "@/components/Map/MapContents/Views/more/MoreDetail";
+import MoreDetailPopulationView from "@/components/Map/MapContents/Views/more/MoreDetailPopulationView";
 // import './index.css'
 const MoreView = () => {
     const map = useMap();
     const globalStore = useGlobalStore();
     const markerRef = useRef(null);
     const position = [44.96479793033104, -6.416015625000001];
-    const [listCountry, setListCountry] = useState(globalStore.listCountryInRect);
     const [listFunction, setListFunction] = useState([]);
+    const VALUE_MORE_VIEW = ['world-as-country', 'population-view', 'population-view-with-map', 'world-problem-view']
 
     useEffect(() => {
         // globalStore.setListCountryInRect(['Canada', 'USA', 'Mexico'])
-        setListCountry(globalStore.listCountryInRect)
+        // setListCountry(globalStore.listCountryInRect)
     }, []);
 
     useEffect(() => {
-        removeLayoutMap();
+        if (VALUE_MORE_VIEW.includes(globalStore.moreView)) {
+            removeLayoutMap();
+        }
     }, [globalStore.moreView])
 
     useEffect(() => {
-        console.log('markerFnIndex', markerFnIndex, markerFnIndex[0])
-        setListFunction(createArray(markerFnIndex[0]))
-        console.log('list function', listFunction)
-    }, [markerFnIndex])
-
-    const createArray = (number) => {
-        let myArray = [];
-
-        for (let i = 1; i <= 6; i++) {
-            myArray.push('Function ' + i);
-        }
-        return myArray
-    }
+        setListFunction(globalStore.listMarkerFunction)
+    }, [markerFnIndex, globalStore.listMarkerFunction])
 
     // useEffect(() => {
     //     console.log('globalStore.moreView', globalStore.moreView, globalStore.listCountryInRect)
@@ -62,16 +54,17 @@ const MoreView = () => {
         }
     }
 
-    const addNewRect = () => {
-        console.log('CLICK VIEWWWWWWW')
-        globalStore.toggleModalInsertCountry();
-    }
-
-    if (globalStore.moreView === 'world-as-country') {
+    if (VALUE_MORE_VIEW.includes(globalStore.moreView)) {
+        console.log('globalStore.moreView', globalStore.moreView)
         return (
             <Marker position={position}>
                 <Popup autoOpen={true}>
-                    <MoreDetail listFunction={listFunction}/>
+                    {globalStore.moreView === 'world-as-country'
+                        ? <MoreDetail listFunction={globalStore.listMarkerFunction}/>
+                        : globalStore.moreView === 'population-view'
+                            ? <MoreDetailPopulationView listPopulation={globalStore.listMarkerPopulation}/>
+                            : <></>
+                    }
                 </Popup>
             </Marker>)
     }
