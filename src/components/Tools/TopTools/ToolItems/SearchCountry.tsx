@@ -26,10 +26,10 @@ const SearchCountry = ({setCountry}) => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
 
-    const handleSearch = (code: string) => {
+    const handleSearch = (countryName: CountryName) => {
         // globalStore.addCountryToRect(code);
-        setSearchValue(code)
-        setCountry(code)
+        setSearchValue(countryName.fullName)
+        setCountry(countryName)
     }
 
     const fetchSuggestion = async (mode: string) => {
@@ -111,7 +111,7 @@ const SearchCountry = ({setCountry}) => {
                 />
                 <button
                     type='button' className={`${styles['search-btn']}`}
-                    onClick={() => suggestedValues.length > 0 && handleSearch(suggestedValues[selectedIndex].fullName)}
+                    onClick={() => suggestedValues.length > 0 && handleSearch(suggestedValues[selectedIndex])}
                 >
                     <SearchIcon className={`${styles['search-icon']}`}/>
                 </button>
@@ -147,7 +147,7 @@ const SearchCountry = ({setCountry}) => {
                                                     <button
                                                         className={`${styles['suggested-btn']} ${styles['suggested-btn-insert-rect']} ${selectedIndex === index ? styles['active'] : null}`}
                                                         key={index}
-                                                        onClick={() => handleSearch(name.fullName)}
+                                                        onClick={() => handleSearch(name)}
                                                         onMouseEnter={() => setSelectedIndex(index)}
                                                     >
                                                         {searchModeIndex === 0 ? `${name.fullName} (${name.codeName})` : name.fullName}

@@ -175,7 +175,7 @@ const MapSSR: React.FC = (): JSX.Element => {
         </>
       )}
 
-      {globalStore.rectangularView == 'rect-house' && globalStore.showModalInsertCountry && (
+      {globalStore.rectangularView !== '' && globalStore.showModalInsertCountry && (
           <ModalWrap setToggleModal={setModal}>
             <InsertCountryM/>
           </ModalWrap>

@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import L from "leaflet";
+import {CountryName} from "@/pages/api/countries";
 
 export class GlobalStore {
     code: string = '';
@@ -21,7 +22,7 @@ export class GlobalStore {
     roomView: 'room-countries' | '' = '';
     floorPlanView: 'floorplan-countries' | '' = '';
     boatView: 'boat-world' | 'boat-countries' | '' = '';
-    rectangularView: 'rect-world' | 'rect-countries' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
     moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
@@ -34,7 +35,7 @@ export class GlobalStore {
     showFloorPlanDistance: boolean = false;
     showBoatWave: boolean = false;
     countryQuantity: number = 0;
-    listCountryInRect: any = [];
+    listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
 
     constructor() {
@@ -197,7 +198,7 @@ export class GlobalStore {
         this.showBoatWave = !this.showBoatWave;
     }
 
-    toggleRectangularView = (value: 'rect-countries' | 'rect-world' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+    toggleRectangularView = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
         if (value === this.rectangularView) {
             this.rectangularView = '';
         } else {
@@ -217,17 +218,19 @@ export class GlobalStore {
         this.showModalInsertCountry = !this.showModalInsertCountry;
     }
 
-    setListCountryInRect = (countries: any[]): void => {
+    setListCountryInRect = (countries: CountryName[]): void => {
         this.listCountryInRect = countries;
     }
 
-    addCountryToRect = (country: any): void => {
-        if (country && country !== '') {
+    addCountryToRect = (country: CountryName): void => {
+        if (country && country.fullName !== '') {
             this.listCountryInRect.push(country)
         }
     }
 
     removeCountryToRect = (country: any): void => {
-        this.listCountryInRect = this.listCountryInRect.filter((item: any) => item !== country);
+        console.log('vllll', country)
+        this.listCountryInRect = this.listCountryInRect.filter((item: any) => item.codeName !== country);
+        console.log('this.listCountryInRect', this.listCountryInRect)
     }
 }

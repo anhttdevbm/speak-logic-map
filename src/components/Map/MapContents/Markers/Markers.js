@@ -217,6 +217,7 @@ const Markers = ({ setModal, setModalType }) => {
         else if (globalStore.addIcon === 'function') {
           addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType)
           markerFnIndex[0]++;
+          console.log('markerFnIndex', markerFnIndex)
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'house') {
