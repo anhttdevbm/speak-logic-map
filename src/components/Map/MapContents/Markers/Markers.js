@@ -122,8 +122,19 @@ const Markers = ({ setModal, setModalType }) => {
     });
 
     const showScanSelection = () => {
+      console.log('SHOW')
       if (!globalStore.inAreaSelection) {
         globalStore.changeActiveAreaSelection(true);
+        restrictPopup = 0;
+        map.addControl(areaSelection);
+        areaSelection.activate();
+      }
+    }
+
+    const hideScanSelection = () => {
+      console.log('HIDE')
+      if (globalStore.inAreaSelection) {
+        globalStore.changeActiveAreaSelection(false);
         restrictPopup = 0;
         map.addControl(areaSelection);
         areaSelection.activate();
@@ -133,7 +144,7 @@ const Markers = ({ setModal, setModalType }) => {
     getButton.addEventListener("click", showScanSelection);
     
     return () => {
-      getButton.removeEventListener("click", showScanSelection);
+      getButton.removeEventListener("click", hideScanSelection);
     };
   }, [])
 

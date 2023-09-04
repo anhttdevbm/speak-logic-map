@@ -24,12 +24,15 @@ export class GlobalStore {
     floorPlanView: 'floorplan-countries' | '' = '';
     boatView: 'boat-world' | 'boat-countries' | '' = '';
     rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    mapView: '' = '';
+    tableView: '' = '';
     moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
+    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'ellipse' | '' = '';
     clear: boolean = false;
     inAreaSelection: boolean = false;
     showRoomDistance: boolean = false;
@@ -214,6 +217,14 @@ export class GlobalStore {
             this.moreView = '';
         } else {
             this.moreView = value;
+        }
+    }
+
+    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'ellipse' | ''): void => {
+        if (value === this.palletOption) {
+            this.palletOption = '';
+        } else {
+            this.palletOption = value;
         }
     }
 

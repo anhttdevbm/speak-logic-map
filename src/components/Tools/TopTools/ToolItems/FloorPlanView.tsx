@@ -9,7 +9,12 @@ const FloorPlanView: React.FC = (): JSX.Element => {
   const globalStore = useGlobalStore();
 
   const toggleFPView = (): void => {
-    if (!globalStore.houseView && !globalStore.roomView && globalStore.map && !globalStore.boatView) {
+    if (!globalStore.houseView
+        && !globalStore.roomView
+        && !globalStore.boatView
+        && !globalStore.rectangularView
+        && !globalStore.mapView
+        && !globalStore.tableView) {
       globalStore.toggleFloorPlanView('floorplan-countries');
     }
   }
