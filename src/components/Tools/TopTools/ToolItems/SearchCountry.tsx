@@ -9,10 +9,10 @@ import styles from './_ToolItem.module.scss';
 const searchModes = ['Countries', 'States', 'Cities'];
 
 interface Props {
-    setCountry: React.Dispatch<React.SetStateAction<boolean>>;
+    setCountry: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const SearchCountry = ({setCountry}) => {
+const SearchCountry = ({setCountry}: Props) => {
     const globalStore = useGlobalStore();
     const [searchValue, setSearchValue] = useState<string>('');
     const [suggestedValues, setSuggestedValues] = useState<CountryName[]>([]);
