@@ -24,7 +24,7 @@ export class GlobalStore {
     floorPlanView: 'floorplan-countries' | '' = '';
     boatView: 'boat-world' | 'boat-countries' | '' = '';
     rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
-    mapView: '' = '';
+    mapView: 'map-world' | 'map-countries' | '' = '';
     tableView: '' = '';
     moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
@@ -32,7 +32,7 @@ export class GlobalStore {
     fpRoomName: 'room' | 'r' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
-    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'ellipse' | '' = '';
+    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | '' = '';
     clear: boolean = false;
     inAreaSelection: boolean = false;
     showRoomDistance: boolean = false;
@@ -212,6 +212,14 @@ export class GlobalStore {
         }
     }
 
+    toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
+        if (value === this.mapView) {
+            this.mapView = '';
+        } else {
+            this.mapView = value;
+        }
+    }
+
     toggleMoreView = (value: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | ''): void => {
         if (value === this.moreView) {
             this.moreView = '';
@@ -220,7 +228,7 @@ export class GlobalStore {
         }
     }
 
-    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'ellipse' | ''): void => {
+    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | ''): void => {
         if (value === this.palletOption) {
             this.palletOption = '';
         } else {

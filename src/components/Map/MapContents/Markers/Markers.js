@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-draw/dist/leaflet.draw.css';
+import 'leaflet-draw/dist/leaflet.draw';
 import "@elfalem/leaflet-curve";
 import "leaflet-textpath";
 import "leaflet-arrowheads";
@@ -87,66 +90,161 @@ const Markers = ({ setModal, setModalType }) => {
 
   // Get all function by wrapping in area (to add into a group)
   useEffect(() => {
-    const getButton = document.getElementById("pointer-event");
-    let restrictPopup = 0;
-    areaSelection = new DrawAreaSelection({
-      onPolygonReady: (polygon) => {
-        if (polygon && polygon._latlngs) {
-          const arr = polygon._latlngs[0].map((e) => Object.values(e));
+    if (globalStore.map) {
+      const getButton = document.getElementById("pointer-event");
+      const textEvent = document.getElementById("text-event");
+      const rectEvent = document.getElementById("rectangle-event");
+      const ellipseEvent = document.getElementById("ellipse-event");
+      let restrictPopup = 0;
+      areaSelection = new DrawAreaSelection({
+        onPolygonReady: (polygon) => {
+          if (polygon && polygon._latlngs) {
+            const arr = polygon._latlngs[0].map((e) => Object.values(e));
 
-          map.eachLayer(layer => {
-            if (layer._latlng) {
-              if (
-                turf.booleanPointInPolygon(
-                  turf.point(Object.values(layer._latlng)),
-                  turf.polygon([[...arr, arr[0]]])
-                )
-              ) {
-                if (layer.options.index || layer.options.target || layer.options.options?.shape || layer.options.group?.type === 'mainset') {
-                  selectedList.push(layer);
-                  layer._icon.classList.add('selected-icon');
-                  if (layer.options.group?.type === 'mainset') {
-                    restrictPopup = 1;
+            map.eachLayer(layer => {
+              if (layer._latlng) {
+                if (
+                    turf.booleanPointInPolygon(
+                        turf.point(Object.values(layer._latlng)),
+                        turf.polygon([[...arr, arr[0]]])
+                    )
+                ) {
+                  if (layer.options.index || layer.options.target || layer.options.options?.shape || layer.options.group?.type === 'mainset') {
+                    selectedList.push(layer);
+                    layer._icon.classList.add('selected-icon');
+                    if (layer.options.group?.type === 'mainset') {
+                      restrictPopup = 1;
+                    }
                   }
                 }
               }
+            });
+            if (selectedList.length > 0) {
+              wrappingPopup(map, arr[2][0], arr[2][1], globalStore.lock, selectedList, restrictPopup);
             }
-          });
-          if (selectedList.length > 0) {
-            wrappingPopup(map, arr[2][0], arr[2][1], globalStore.lock, selectedList, restrictPopup);
+            areaSelection.deactivate();
+            globalStore.changeActiveAreaSelection(false);
           }
-          areaSelection.deactivate();
+        },
+      });
+
+      let drawnItems = new L.FeatureGroup();
+      const drawControl = new L.Control.Draw({
+        draw: {
+          rectangle: true, // Enable drawing rectangles
+          marker: true,
+          polyline: false,
+          circle: false,
+          polygon: false,
+          circlemarker: false
+        },
+        edit: {
+          featureGroup: drawnItems, // Create a feature group to store drawn rectangles
+          remove: true,
+          edit: false
+        },
+      });
+
+      let drawnItemsCircle = new L.FeatureGroup();
+      const drawControlCircle = new L.Control.Draw({
+        draw: {
+          rectangle: false, // Enable drawing rectangles
+          marker: false,
+          polyline: false,
+          circle: true,
+          polygon: false,
+          circlemarker: false
+        },
+        edit: {
+          featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
+          remove: true,
+          edit: false
+        },
+      });
+
+      const showScanSelection = () => {
+        refreshLayerAndControlRect(map, drawnItems, drawControl);
+        refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        globalStore.togglePalletOption('pointer')
+        if (!globalStore.inAreaSelection && globalStore.palletOption === 'pointer') {
+          globalStore.changeActiveAreaSelection(true);
+          restrictPopup = 0;
+          map.addControl(areaSelection);
+          areaSelection.activate();
+        } else {
+          areaSelection?.deactivate();
           globalStore.changeActiveAreaSelection(false);
         }
-      },
-    });
-
-    const showScanSelection = () => {
-      console.log('SHOW')
-      if (!globalStore.inAreaSelection) {
-        globalStore.changeActiveAreaSelection(true);
-        restrictPopup = 0;
-        map.addControl(areaSelection);
-        areaSelection.activate();
       }
-    }
 
-    const hideScanSelection = () => {
-      console.log('HIDE')
-      if (globalStore.inAreaSelection) {
-        globalStore.changeActiveAreaSelection(false);
-        restrictPopup = 0;
-        map.addControl(areaSelection);
-        areaSelection.activate();
+      const insertTextToMap = () => {
+        refreshLayerAndControlRect(map, drawnItems, drawControl);
+        refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        globalStore.togglePalletOption('text')
       }
-    }
 
-    getButton.addEventListener("click", showScanSelection);
-    
-    return () => {
-      getButton.removeEventListener("click", hideScanSelection);
-    };
-  }, [])
+      const drawRectangle = () => {
+        refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        if (globalStore.palletOption === 'pointer') {
+          areaSelection?.deactivate();
+        }
+        globalStore.togglePalletOption('rectangle');
+
+        if (globalStore.palletOption === 'rectangle') {
+          map.addLayer(drawnItems);
+          map.addControl(drawControl);
+
+          map.on(L.Draw.Event.CREATED, (event) => {
+            const layer = event.layer;
+            drawnItems.addLayer(layer);
+          });
+        } else {
+          refreshLayerAndControlRect(map, drawnItems, drawControl);
+        }
+      }
+
+      const drawCircle = () => {
+        refreshLayerAndControlRect(map, drawnItems, drawControl);
+        if (globalStore.palletOption === 'pointer') {
+          areaSelection?.deactivate();
+        }
+        globalStore.togglePalletOption('circle');
+        if (globalStore.palletOption === 'circle') {
+          map.addLayer(drawnItemsCircle);
+          map.addControl(drawControlCircle);
+
+          map.on(L.Draw.Event.CREATED, (event) => {
+            const layer = event.layer;
+            drawnItems.addLayer(layer);
+          });
+        } else {
+          refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        }
+      }
+
+      getButton?.addEventListener("click", showScanSelection);
+      textEvent?.addEventListener("click", insertTextToMap);
+      rectEvent?.addEventListener("click", drawRectangle);
+      ellipseEvent?.addEventListener("click", drawCircle);
+
+      return () => {
+        getButton?.removeEventListener("click", showScanSelection);
+        textEvent?.removeEventListener("click", insertTextToMap);
+        rectEvent?.removeEventListener("click", drawRectangle);
+        ellipseEvent?.removeEventListener("click", drawCircle);
+      };
+    }
+  }, []);
+
+  const refreshLayerAndControlRect = (map, drawnItemsCircle, drawControlCircle) => {
+    map.removeLayer(drawnItemsCircle);
+    map.removeControl(drawControlCircle)
+  }
+
+  const refreshLayerAndControlCircle = (map, drawnItems, drawControl) => {
+    map.removeLayer(drawnItems);
+    map.removeControl(drawControl)
+  }
 
   // Remove all temp item when clicking on map
   useEffect(() => {

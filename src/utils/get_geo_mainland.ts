@@ -3,8 +3,6 @@ import * as turf from '@turf/turf';
 
 // Get the main land polygon by seeking the most large polygon in multipolygon
 export const getGeoMainLand = (geoJson: CountryData): turf.AllGeoJSON => {
-  // console.log(geoJson);
-  debugger
   let bestIndex = 0;
   let count = 0;
   let mainLandGeoJson: CountryData = JSON.parse(JSON.stringify(geoJson));
