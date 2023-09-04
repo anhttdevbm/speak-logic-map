@@ -9,7 +9,7 @@ import styles from './_ToolItem.module.scss';
 const searchModes = ['Countries', 'States', 'Cities'];
 
 interface Props {
-    setCountry: (event: React.MouseEvent<HTMLElement>) => void;
+    setCountry: (event: CountryName) => void;
 }
 
 const SearchCountry = ({setCountry}: Props) => {
