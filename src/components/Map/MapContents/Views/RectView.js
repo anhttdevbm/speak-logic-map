@@ -29,8 +29,11 @@ const RectView = () => {
     }, []);
 
     useEffect(() => {
+        console.log('globalStore.rectangularView', globalStore.rectangularView)
         if (VALUE_RECT_VIEW.includes(globalStore.rectangularView)) {
+            debugger
             removeLayoutMap();
+            openPopup();
         }
     }, [globalStore.rectangularView])
 
@@ -70,9 +73,15 @@ const RectView = () => {
         // }
     }
 
+    const openPopup = () => {
+        if (markerRef.current) {
+            markerRef.current.openPopup();
+        }
+    }
+
     if (globalStore.rectangularView !== '') {
         return (
-            <Marker position={position}>
+            <Marker position={position} ref={markerRef}>
                 <Popup autoOpen={true}>
                     <RectHouse
                         listCountry={listCountrySelected}

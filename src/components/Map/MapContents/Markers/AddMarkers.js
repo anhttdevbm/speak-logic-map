@@ -15,6 +15,8 @@ import {
 import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit, 
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
+import {Marker, Popup} from "react-leaflet";
+import {useRef} from "react";
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType) => {
   L.marker([lat, lng], {
@@ -111,7 +113,7 @@ export const addMarkerCountryGroupFn = (map, lat, lng, name, countryName, group,
     .openPopup();
 }
 
-export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
+export const addMarkerWelcomeSign2 = (map, lat, lng, isLocked) => {
   L.marker([lat, lng], {
     target: { status: 'add' },
     icon: markerNavigationSignIcon(),
@@ -130,6 +132,10 @@ export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
     })
     .addTo(map)
 }
+
+export const addMarkerScrollFeature = (map, lat, lng, isLocked) => {
+}
+
 
 export const addHouseMarker = (map, lat, lng, isLocked) => {
   L.marker([lat, lng], {
