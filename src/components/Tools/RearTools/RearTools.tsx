@@ -1,16 +1,4 @@
-import {
-  CircleIcon,
-  HomeIcon,
-  LeftArrowIcon,
-  LocationIcon,
-  MainsetIcon,
-  PersonIcon,
-  RectangleIcon,
-  RightArrowIcon,
-  ScrollFeatureIcon,
-  VectorIcon,
-  WelcomeSignIcon
-} from '@/components/Icons/Icons';
+import { CircleIcon, HomeIcon, LeftArrowIcon, LocationIcon, MainsetIcon, PersonIcon, RectangleIcon, RightArrowIcon, VectorIcon, WelcomeSignIcon } from '@/components/Icons/Icons';
 import { useGlobalStore } from '@/providers/RootStoreProvider';
 import { ItemInterface } from '@/utils/util_interfaces';
 import { observer } from 'mobx-react-lite';
@@ -29,7 +17,8 @@ const ItemList: ItemInterface[] = [
   {value: 'distance', Icon: LocationIcon, name: 'Distance', ability: true},
   {value: 'philosophy', Icon: CircleIcon, name: 'Philosophy', ability: false},
   {value: 'welcome-sign', Icon: WelcomeSignIcon, name: 'Welcome', ability: true},
-  {value: 'Scroll-feature', Icon: ScrollFeatureIcon, name: 'Scroll feature', ability: true},
+  // {value: 'horizontal-line', Icon: VectorIcon, name: 'Horizontal Line', ability: true},
+  {value: 'scroll-feature', Icon: VectorIcon, name: 'Scroll feature', ability: true},
 
 ]
 

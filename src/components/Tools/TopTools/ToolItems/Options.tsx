@@ -52,7 +52,7 @@ const Options: React.FC = (): JSX.Element => {
         <li className={`${globalStore.map && styles['disable']}`}>
           Country Mode
           <ul className={`${styles['minor-list']}`}>
-            <li 
+            <li
               onClick={() => globalStore.toggleMainLand(true)}
             >
               Show Mainland Only
@@ -199,6 +199,87 @@ const Options: React.FC = (): JSX.Element => {
             </li>
           </ul>
         </li>
+
+        <li className={`${!globalStore.rectangularView}`}>
+          Rectangular View
+          <RightArrowIcon className={`${styles['sub-icon']}`} />
+          <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.toggleRectangularView('rect-map')}>
+              Show country with map
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleRectangularView('rect-name')}>
+              Show country only name
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li className={`${!globalStore.rectangularView}`}>
+              Show country with house
+              <RightArrowIcon className={`${styles['sub-icon']}`} />
+              <ul className={`${styles['minor-list']}`}>
+                <li onClick={() => globalStore.toggleRectangularView('rect-house')}>
+                  Show country as house inside rectangle
+                  <CheckIcon
+                      className={`
+                        ${styles['sub-icon']} 
+                        ${globalStore.rectangularView !== 'rect-house' ? styles['hide'] : styles['show']}
+                      `}
+                  />
+                </li>
+                <li onClick={() => globalStore.toggleRectangularView('rect-house-no-border')}>
+                  Show country as house outside rectangle
+                  <CheckIcon
+                      className={`
+                        ${styles['sub-icon']} 
+                        ${globalStore.rectangularView !== 'rect-house-no-border' ? styles['hide'] : styles['show']}
+                      `}
+                  />
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li className={`${!globalStore.moreView}`}>
+          More View
+          <RightArrowIcon className={`${styles['sub-icon']}`} />
+          <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.toggleMoreView('world-as-country')}>
+              World as Function
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.moreView !== 'world-as-country' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleMoreView('population-view')}>
+              Population View
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.moreView !== 'population-view' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleMoreView('population-view-with-map')}>
+              Population View With Country
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.moreView !== 'population-view-with-map' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.toggleMoreView('world-problem-view')}>
+              World Problem View
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.moreView !== 'world-problem-view' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+          </ul>
+        </li>
+
         <li>
           Show Sun/Moon
           <RightArrowIcon className={`${styles['sub-icon']}`} />

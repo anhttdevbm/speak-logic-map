@@ -11,7 +11,12 @@ const RoomView: React.FC = (): JSX.Element => {
   const globalStore = useGlobalStore();
 
   const toggleRoomView = () => {
-    if (!globalStore.houseView  && !globalStore.floorPlanView && !globalStore.boatView) {
+    if (!globalStore.houseView
+        && !globalStore.floorPlanView
+        && !globalStore.boatView
+        && !globalStore.rectangularView
+        && !globalStore.mapView
+        && !globalStore.tableView) {
       globalStore.toggleRoomView('room-countries');
     }
   }

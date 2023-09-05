@@ -39,6 +39,19 @@ $blue: random(255);
   white-space: nowrap;
 }
 
+.marker-house-name-rect {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  font-weight: 800;
+  font-size: 1rem;
+  word-wrap: break-word;
+  white-space:pre-wrap;
+  width: 100%;
+}
+
 .upload-file-wrapper {
   position: relative;
   input {
@@ -704,6 +717,44 @@ $blue: random(255);
   margin-top: 1rem !important;
   white-space: nowrap;
   color: #3388ff;
+}
+.rect-icon {
+  //display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+  font-weight: 600;
+  width: 800px !important;
+  height: 300px !important;
+  transform: translate3d(30%, 35%, 0px) !important;
+  z-index: 1000 !important;
+}
+
+.rect-icon-no-border {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.rectangular-item {
+  width: 300px;
+  height: 150px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.rectangular-list {
+  display: flex;
+  overflow-x: auto;
+  padding: 20px;
 }
 
 .boat-icon {

@@ -26,7 +26,11 @@ import HouseView from './MapContents/Views/HouseView';
 import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
+import RectView from './MapContents/Views/RectView';
+import MoreView from "./MapContents/Views/MoreView";
+import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
+import ScrollFeatureView from '../Tools/RearTools/ToolItems/ScrollFeatureView'
 
 const bounds = new L.LatLngBounds(
   new L.LatLng(85, -180),
@@ -125,6 +129,7 @@ const MapSSR: React.FC = (): JSX.Element => {
         : <></>
       }
       <GridLayer showGrid={globalStore.grid} />
+      {globalStore.positionOfScroll.length > 0 && <ScrollFeatureView position={globalStore.positionOfScroll}/>}
       <Markers setModal={setModal} setModalType={setModalType}/>
       {modal && modalType && (
         <ModalWrap setToggleModal={setModal}>
@@ -167,7 +172,15 @@ const MapSSR: React.FC = (): JSX.Element => {
           <RoomView selectedData={selectedData} />
           <FloorPlanView />
           <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />
+          <RectView />
+          <MoreView />
         </>
+      )}
+
+      {globalStore.rectangularView !== '' && globalStore.showModalInsertCountry && (
+          <ModalWrap setToggleModal={setModal}>
+            <InsertCountryM/>
+          </ModalWrap>
       )}
     </MapContainer>
 

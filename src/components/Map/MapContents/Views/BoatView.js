@@ -280,8 +280,8 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
   }, [globalStore.map, globalStore.boatView, globalStore.boatName, selectedData]);
 
   useEffect(() => {
-    console.log("boatFG: ", boatFG)
-    console.log('bodyBoatLatLngsState: ',bodyBoatLatLngsState)
+    // console.log("boatFG: ", boatFG)
+    // console.log('bodyBoatLatLngsState: ',bodyBoatLatLngsState)
     if (!globalStore.click && boatFG && bodyBoatLatLngsState) {
       const boatBody = document.querySelector('.boat-body');
       boatBody.ondragover = (e) => e.preventDefault();

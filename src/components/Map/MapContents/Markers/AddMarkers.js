@@ -15,6 +15,8 @@ import {
 import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit, 
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
+import {Marker, Popup} from "react-leaflet";
+import {useRef} from "react";
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType) => {
   L.marker([lat, lng], {

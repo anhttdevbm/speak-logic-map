@@ -68,11 +68,17 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
 
   const data = selectedData[0];
 
+  console.log(selectedData)
+
   geoJson = JSON.parse(JSON.stringify(data));
 
   const geoJsonMainLand = getGeoMainLand(data);
 
+  console.log('geoJsonMainLand', geoJsonMainLand)
+
   const geoBounds = L.geoJSON(geoJsonMainLand).getBounds();
+
+  console.log('geoBounds', geoBounds)
 
   const centroid = turf.centroid(geoJsonMainLand);
 

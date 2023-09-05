@@ -201,6 +201,21 @@ export const personPopupHTML = (): string => {
   `;
 }
 
+export const rectPopupHTML = (listCountry: any): string => {
+    return `
+    <div className={styles.rectIcon}>
+            <div className={styles.rectangularList}>
+                {listCountry.map(item => <RectangularItem key={item} countryName={item}/>)}
+                <div className={styles.divPlus}>
+                    <button className={styles.plus} id='plus'>
+                        +
+                    </button>
+                </div>
+            </div>
+        </div>
+  `;
+}
+
 // Right-click menu on Group Marker
 export const groupPopupHTML = (): string => {
   return `
