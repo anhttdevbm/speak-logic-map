@@ -133,7 +133,11 @@ const Markers = ({ setModal, setModalType }) => {
         draw: {
           rectangle: true, // Enable drawing rectangles
           marker: true,
-          polyline: false,
+          polyline: {
+            shapeOptions: {
+              color: '#f06eaa', // Line color
+            },
+          },
           circle: false,
           polygon: false,
           circlemarker: false
@@ -299,6 +303,12 @@ const Markers = ({ setModal, setModalType }) => {
           addDistance(map, latlng.lat, latlng.lng, globalStore.lock);
           globalStore.addIconHandle(''); 
         }
+        else if (globalStore.addIcon === 'scroll-feature') {
+          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+          // globalStore.addIconHandle('');
+          globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
+          globalStore.addIconHandle('');
+        }
       }
     }
   }, [globalStore.click, globalStore.addIcon])
@@ -319,7 +329,6 @@ const Markers = ({ setModal, setModalType }) => {
       if (globalStore.click) {
         // Add Person Marker
         if (globalStore.addIcon === 'person') {
-          globalStore.resetPositionScroll();
           addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType)
           let index = markerPersonIndex[0];
           globalStore.addMarkerPopulationToList(index)
@@ -327,7 +336,6 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'function') {
-          globalStore.resetPositionScroll();
           addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
           let index = markerFnIndex[0];
           globalStore.addMarkerFnToList(index)
@@ -335,22 +343,18 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'house') {
-          globalStore.resetPositionScroll();
           addHouseMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock)
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'welcome-sign') {
-          globalStore.resetPositionScroll();
           addMarkerWelcomeSign(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'inter-route') {
-          globalStore.resetPositionScroll();
           addRoute(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'distance') {
-          globalStore.resetPositionScroll();
           addDistance(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle(''); 
         }
@@ -358,6 +362,7 @@ const Markers = ({ setModal, setModalType }) => {
           // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
+          globalStore.addIconHandle('');
         }
       }
     }

@@ -30,7 +30,8 @@ import RectView from './MapContents/Views/RectView';
 import MoreView from "./MapContents/Views/MoreView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
-import ScrollFeatureView from '../Tools/RearTools/ToolItems/ScrollFeatureView'
+import ScrollFeatureView from '../Modals/ModalContents/ScrollFeatureViewM'
+import ScrollFeatureViewM from "../Modals/ModalContents/ScrollFeatureViewM";
 
 const bounds = new L.LatLngBounds(
   new L.LatLng(85, -180),
@@ -129,7 +130,10 @@ const MapSSR: React.FC = (): JSX.Element => {
         : <></>
       }
       <GridLayer showGrid={globalStore.grid} />
-      {globalStore.positionOfScroll.length > 0 && <ScrollFeatureView position={globalStore.positionOfScroll}/>}
+      {globalStore.positionOfScroll.length > 0 &&
+      <ModalWrap><ScrollFeatureViewM/></ModalWrap>
+      }
+      {globalStore.positionOfScroll.length > 0 && <div>hello</div>}
       <Markers setModal={setModal} setModalType={setModalType}/>
       {modal && modalType && (
         <ModalWrap setToggleModal={setModal}>
