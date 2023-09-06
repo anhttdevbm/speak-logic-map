@@ -10,7 +10,7 @@ const RectView = () => {
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
     const markerRef = useRef(null);
-    const position = [44.96479793033104, -6.416015625000001];
+    const position = [44.96479793033104 - 20, -6.416015625000001];
     const [listCountry, setListCountry] = useState(globalStore.listCountryInRect);
     const [listCountrySelected, setListCountrySelected] = useState([]);
     const countryInStore = countryStore.countries;
@@ -79,10 +79,17 @@ const RectView = () => {
         }
     }
 
+    useEffect(() => {
+        if (markerRef.current) {
+            markerRef.current.openPopup();
+        }
+    }, [markerRef])
+
     if (globalStore.rectangularView !== '') {
+        debugger
         return (
             <Marker position={position} ref={markerRef}>
-                <Popup autoOpen={true}>
+                <Popup>
                     <RectHouse
                         listCountry={listCountrySelected}
                     />

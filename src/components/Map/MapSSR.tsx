@@ -31,6 +31,7 @@ import MoreView from "./MapContents/Views/MoreView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 import ScrollFeatureView from '../Tools/RearTools/ToolItems/ScrollFeatureView'
+import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 
 const bounds = new L.LatLngBounds(
   new L.LatLng(85, -180),
@@ -130,6 +131,7 @@ const MapSSR: React.FC = (): JSX.Element => {
       }
       <GridLayer showGrid={globalStore.grid} />
       {globalStore.positionOfScroll.length > 0 && <ScrollFeatureView position={globalStore.positionOfScroll}/>}
+      {globalStore.positionOfTextPallet.length > 0 && <TextPopupPallet position={globalStore.positionOfTextPallet}/>}
       <Markers setModal={setModal} setModalType={setModalType}/>
       {modal && modalType && (
         <ModalWrap setToggleModal={setModal}>

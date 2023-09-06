@@ -359,6 +359,9 @@ const Markers = ({ setModal, setModalType }) => {
           // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
         }
+        else if (globalStore.palletOption === 'text' && globalStore.addIcon === '') {
+          globalStore.setPositionOfTextPallet(e.latlng.lat, e.latlng.lng);
+        }
       }
     }
   })
