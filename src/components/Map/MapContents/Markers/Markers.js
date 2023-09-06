@@ -133,7 +133,11 @@ const Markers = ({ setModal, setModalType }) => {
         draw: {
           rectangle: true, // Enable drawing rectangles
           marker: true,
-          polyline: false,
+          polyline: {
+            shapeOptions: {
+              color: '#f06eaa', // Line color
+            },
+          },
           circle: false,
           polygon: false,
           circlemarker: false
