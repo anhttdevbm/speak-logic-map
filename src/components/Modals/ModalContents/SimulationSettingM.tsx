@@ -20,7 +20,7 @@ interface SettingListInterface {
   options: SettingOptionInterface[];
 }
 
-const settingOptions: SettingListInterface[] = [
+const settingOptions1: SettingListInterface[] = [
   {
     type: 'General',
     options: [
@@ -83,6 +83,34 @@ const settingOptions: SettingListInterface[] = [
         key: 'stShowSignal',
         title: 'Show Signal on Receiving',
         values: ['yes', 'no'],
+      },
+    ]
+  },
+]
+
+const settingOptions: SettingListInterface[] = [
+  {
+    type: 'General',
+    options: [
+      {
+        key: 'transitionTime',
+        title: 'Time for transition (milliseconds)',
+        values: [1000, 2000, 3000],
+      },
+      {
+        key: 'discardTime',
+        title: 'Time to discard (milliseconds)',
+        values: [1000, 2000, 3000, 4000],
+      },
+      {
+        key: 'boundary',
+        title: 'Show or hide boundary',
+        values: ['Yes', 'No'],
+      },
+      {
+        key: 'effectedFunction',
+        title: 'Show effected function',
+        values: ['Random', 'Neighborhood'],
       },
     ]
   },

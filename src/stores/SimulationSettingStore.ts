@@ -15,6 +15,10 @@ export interface SimulationSettingInterface {
   stTypes: string;
   stTokenTravelTime: number;
   stShowSignal: string;
+  transitionTime: number;
+  discardTime: number;
+  boundary: string;
+  effectedFunction: string;
 }
 
 export class SimulationSettingStore implements SimulationSettingInterface {
@@ -32,6 +36,10 @@ export class SimulationSettingStore implements SimulationSettingInterface {
   stTypes = "Online";
   stTokenTravelTime = 5000;
   stShowSignal = 'Yes';
+  transitionTime = 1000;
+  discardTime = 1000;
+  boundary = 'Yes';
+  effectedFunction = 'Random';
 
   constructor() {
     makeAutoObservable(this);

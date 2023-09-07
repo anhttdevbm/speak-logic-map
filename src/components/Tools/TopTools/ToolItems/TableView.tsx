@@ -2,10 +2,31 @@ import { BookIcon, SettingIcon, ThreeGearIcon } from '@/components/Icons/Icons';
 import React, { memo } from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
+import {useGlobalStore} from "@/providers/RootStoreProvider";
 
 const TableView: React.FC = (): JSX.Element => {
+    const globalStore = useGlobalStore();
+    const toggleTableView = (): void => {
+        if (!globalStore.roomView
+            && !globalStore.floorPlanView
+            && !globalStore.boatView
+            && !globalStore.rectangularView
+            && !globalStore.houseView
+            && !globalStore.mapView
+        ) {
+            if (globalStore.map) {
+                globalStore.toggleTableView('table-world');
+            } else {
+                globalStore.toggleTableView('table-countries');
+            }
+        }
+    }
   return (
-    <button type="button" className={`${styles['left-item-wrap']}`}>
+    <button
+        type="button"
+        className={`${styles['left-item-wrap']} ${globalStore.tableView !== '' ? styles['active'] : null}`}
+        onClick={() => toggleTableView()}
+    >
       <BookIcon />
       <ItemName btnName='Table View'/>
     </button>

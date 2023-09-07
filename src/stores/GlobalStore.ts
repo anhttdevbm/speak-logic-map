@@ -24,7 +24,7 @@ export class GlobalStore {
     boatView: 'boat-world' | 'boat-countries' | '' = '';
     rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
     mapView: 'map-world' | 'map-countries' | '' = '';
-    tableView: '' = '';
+    tableView: 'table-world' | 'table-countries' | '' = '';
     moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
@@ -230,6 +230,14 @@ export class GlobalStore {
             this.mapView = '';
         } else {
             this.mapView = value;
+        }
+    }
+
+    toggleTableView = (value: 'table-world' | 'table-countries' | ''): void => {
+        if (value === this.mapView) {
+            this.tableView = '';
+        } else {
+            this.tableView = value;
         }
     }
 
