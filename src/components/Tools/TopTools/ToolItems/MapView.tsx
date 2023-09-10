@@ -3,6 +3,7 @@ import React, {memo} from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
 import {useGlobalStore} from "@/providers/RootStoreProvider";
+import {observer} from "mobx-react";
 
 const MapView: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
@@ -35,4 +36,4 @@ const MapView: React.FC = (): JSX.Element => {
     )
 }
 
-export default memo(MapView)
+export default observer(MapView)

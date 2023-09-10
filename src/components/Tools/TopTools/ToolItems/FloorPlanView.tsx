@@ -13,7 +13,7 @@ const FloorPlanView: React.FC = (): JSX.Element => {
         && !globalStore.roomView
         && !globalStore.boatView
         && !globalStore.rectangularView
-        && !globalStore.mapView
+        // && !globalStore.mapView
         && !globalStore.tableView) {
       globalStore.toggleFloorPlanView('floorplan-countries');
     }

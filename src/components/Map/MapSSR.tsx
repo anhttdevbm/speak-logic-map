@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { observer } from 'mobx-react-lite';
-import { MapContainer } from "react-leaflet";
+import {MapContainer, Polygon, Tooltip, useMap} from "react-leaflet";
 import { useGlobalStore } from '@/providers/RootStoreProvider';
 import { getLocation } from '@/utils/get_geolocation';
 import { CountryData } from '@/pages/api/countries';
@@ -105,7 +105,7 @@ const MapSSR: React.FC = (): JSX.Element => {
       style={{ backgroundColor: "#AAD3DF", width: "100%", height: "100%" }}
       center={[0, 0]}
       zoom={2}
-      maxZoom={16}
+      maxZoom={20}
       minZoom={2}
       maxBounds={bounds}
       maxBoundsViscosity={1}
@@ -174,9 +174,10 @@ const MapSSR: React.FC = (): JSX.Element => {
           <HouseView selectedData={selectedData} />
           <RoomView selectedData={selectedData} />
           <FloorPlanView />
-          <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />
+          {/*<BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />*/}
+          {globalStore.boatView !== '' && <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />}
+          {globalStore.tableView !== '' && <TableView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />}
           <RectView />
-          <TableView />
           <MoreView />
         </>
       )}

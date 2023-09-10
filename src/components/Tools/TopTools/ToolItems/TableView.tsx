@@ -1,8 +1,9 @@
-import { BookIcon, SettingIcon, ThreeGearIcon } from '@/components/Icons/Icons';
-import React, { memo } from 'react';
+import { BookIcon } from '@/components/Icons/Icons';
+import React from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
 import {useGlobalStore} from "@/providers/RootStoreProvider";
+import {observer} from "mobx-react";
 
 const TableView: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
@@ -12,7 +13,7 @@ const TableView: React.FC = (): JSX.Element => {
             && !globalStore.boatView
             && !globalStore.rectangularView
             && !globalStore.houseView
-            && !globalStore.mapView
+            // && !globalStore.mapView
         ) {
             if (globalStore.map) {
                 globalStore.toggleTableView('table-world');
@@ -33,4 +34,4 @@ const TableView: React.FC = (): JSX.Element => {
   )
 }
 
-export default memo(TableView);
+export default observer(TableView);

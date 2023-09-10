@@ -191,6 +191,9 @@ export const personPopupHTML = (): string => {
         Upload your image
         <input type="file" accept="image/png, image/jpg, image/jpeg" onChange="setProfile(event)" />
       </div>
+      <div onclick="openRenameModal()" class="${styles['row']}">
+        Mobility
+      </div>
       <div 
         onclick="deleteItem()" 
         class="${styles['row']}"

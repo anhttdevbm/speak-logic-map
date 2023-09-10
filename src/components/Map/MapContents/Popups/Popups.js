@@ -415,11 +415,10 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
     };
 
     window.deleteItem = () => {
-        console.log('delete', e.target);
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const globalStore = useGlobalStore();
-
-        globalStore.removeMarkerFnList(e.target.options.target.index)
+        // const globalStore = useGlobalStore();
+        //
+        // globalStore.removeMarkerFnList(e.target.options.target.index)
         map.removeLayer(e.target);
         map.removeLayer(popup);
     }
