@@ -191,8 +191,36 @@ export const personPopupHTML = (): string => {
         Upload your image
         <input type="file" accept="image/png, image/jpg, image/jpeg" onChange="setProfile(event)" />
       </div>
-      <div onclick="openRenameModal()" class="${styles['row']}">
+      <div class="${styles['row']} ${styles['on-hover']}">
         Mobility
+         <div class="${styles['hover-func-block']}">
+          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path
+          </div>
+          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path
+          </div>
+        </div>
+      </div>
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Relationship
+         <div class="${styles['hover-func-block']}">
+          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+            Person and Person
+          </div>
+          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+            Person and Given Set
+          </div>
+          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+           Person and Person Aspect
+          </div>
+          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+            Person and Principle Aspect
+          </div>
+          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+            Map Element
+          </div>
+        </div>
       </div>
       <div 
         onclick="deleteItem()" 

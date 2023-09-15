@@ -19,7 +19,7 @@ import {Marker, Popup} from "react-leaflet";
 import {useRef} from "react";
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType) => {
-  L.marker([lat, lng], {
+  let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
       index: index,
@@ -28,7 +28,7 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
     draggable: !isLocked,
     icon: markerPersonIcon(styles['person'], `Person ${index}`)
   })
-    .on('contextmenu', e => personPopup( map, setModal, setModalType, isLocked, e))
+    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }
