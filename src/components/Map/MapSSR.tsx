@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { observer } from 'mobx-react-lite';
-import { MapContainer } from "react-leaflet";
+import {MapContainer, Popup, Marker} from "react-leaflet";
 import { useGlobalStore } from '@/providers/RootStoreProvider';
 import { getLocation } from '@/utils/get_geolocation';
 import { CountryData } from '@/pages/api/countries';
@@ -32,6 +32,7 @@ import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 import ScrollFeatureView from '../Modals/ModalContents/ScrollFeatureViewM'
 import ScrollFeatureViewM from "../Modals/ModalContents/ScrollFeatureViewM";
+import ScrollFeature from "@/components/Map/MapContents/ScrollFeature/ScrollFeature";
 
 const bounds = new L.LatLngBounds(
   new L.LatLng(85, -180),
@@ -72,7 +73,7 @@ const MapSSR: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     const defaultCoordinates = localStorage.getItem('dfLocationCoordinates');
-    
+
     if (defaultCoordinates) {
       const coordinates: number[] = defaultCoordinates.split(',').map(item => Number(item))
       globalStore.changeDefaultCoordinates(coordinates);
@@ -82,7 +83,7 @@ const MapSSR: React.FC = (): JSX.Element => {
     }
     else {
       getLocation(globalStore.changeCode, globalStore.changeDefaultCoordinates, setGeoLocationResult)
-    }    
+    }
   }, [])
 
   useEffect(() => {
@@ -98,7 +99,8 @@ const MapSSR: React.FC = (): JSX.Element => {
     }
   }, [modal])
 
-  return (
+  // @ts-ignore
+    return (
     <MapContainer
       attributionControl={false}
       style={{ backgroundColor: "#AAD3DF", width: "100%", height: "100%" }}
@@ -111,7 +113,7 @@ const MapSSR: React.FC = (): JSX.Element => {
     >
       <Location setIsLoading={setIsLoading}/>
       {
-        isLoading 
+        isLoading
         ? (
           <Loading />
         )
@@ -120,10 +122,10 @@ const MapSSR: React.FC = (): JSX.Element => {
         ? (
           <WorldMode />
         )
-        : selectedData.length > 0 
+        : selectedData.length > 0
         ? (
-          <CountryMode 
-            setModal={setModal} setModalType={setModalType} 
+          <CountryMode
+            setModal={setModal} setModalType={setModalType}
             setPopulateCountry={setPopulateCountry} selectedData={selectedData}
           />
         )
@@ -131,7 +133,11 @@ const MapSSR: React.FC = (): JSX.Element => {
       }
       <GridLayer showGrid={globalStore.grid} />
       {globalStore.positionOfScroll.length > 0 &&
-      <ModalWrap><ScrollFeatureViewM/></ModalWrap>
+
+      // <ModalWrap><ScrollFeatureViewM/></ModalWrap>
+      <Marker position={[0,0]}>
+        <Popup><ScrollFeature/></Popup>
+      </Marker>
       }
       {globalStore.positionOfScroll.length > 0 && <div>hello</div>}
       <Markers setModal={setModal} setModalType={setModalType}/>
@@ -139,21 +145,21 @@ const MapSSR: React.FC = (): JSX.Element => {
         <ModalWrap setToggleModal={setModal}>
           {modalType === 'populate' && populateCountry
           ? (
-            <PopulatePropertyM 
-              setToggleModal={setModal} 
-              populateCountry={populateCountry} 
+            <PopulatePropertyM
+              setToggleModal={setModal}
+              populateCountry={populateCountry}
               setPopulateCountry={setPopulateCountry}
             />
           )
-          : modalType === 'rename' 
+          : modalType === 'rename'
           ? (
             <RenameM setToggleModal={setModal} />
           )
-          : modalType === 'boundary-problem' 
+          : modalType === 'boundary-problem'
           ? (
             <BoundaryMessageM type='problem' setToggleModal={setModal} />
           )
-          : modalType === 'boundary-natural' 
+          : modalType === 'boundary-natural'
           ? (
             <BoundaryMessageM type='natural' setToggleModal={setModal} />
           )
