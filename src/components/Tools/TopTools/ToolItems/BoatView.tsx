@@ -13,7 +13,7 @@ const BoatView: React.FC = (): JSX.Element => {
         && !globalStore.roomView
         && !globalStore.floorPlanView
         && !globalStore.rectangularView
-        && !globalStore.mapView
+        // && !globalStore.mapView
         && !globalStore.tableView) {
       if (globalStore.map) {
         globalStore.toggleBoatView('boat-world');

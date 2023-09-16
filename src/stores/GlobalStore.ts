@@ -22,8 +22,8 @@ export class GlobalStore {
     floorPlanView: 'floorplan-countries' | '' = '';
     boatView: 'boat-world' | 'boat-countries' | '' = '';
     rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
-    mapView: 'map-world' | 'map-countries' | '' = '';
-    tableView: '' = '';
+    mapView: 'map-world' | 'map-countries' | '' = 'map-world';
+    tableView: 'table-world' | 'table-countries' | '' = '';
     moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
@@ -147,8 +147,10 @@ export class GlobalStore {
     toggleHouseView = (value: 'house-world' | 'house-countries' | ''): void => {
         if (value === this.houseView) {
             this.houseView = '';
+            this.mapView = 'map-world'
         } else {
             this.houseView = value;
+            this.mapView = ''
         }
     }
 
@@ -175,8 +177,10 @@ export class GlobalStore {
     toggleRoomView = (value: 'room-countries' | ''): void => {
         if (value === this.roomView) {
             this.roomView = '';
+            this.mapView = 'map-world'
         } else {
             this.roomView = value;
+            this.mapView = ''
         }
     }
 
@@ -191,8 +195,10 @@ export class GlobalStore {
     toggleFloorPlanView = (value: 'floorplan-countries' | ''): void => {
         if (value === this.floorPlanView) {
             this.floorPlanView = '';
+            this.mapView = 'map-world'
         } else {
             this.floorPlanView = value;
+            this.mapView = ''
         }
     }
 
@@ -203,8 +209,10 @@ export class GlobalStore {
     toggleBoatView = (value: 'boat-world' | 'boat-countries' | ''): void => {
         if (value === this.boatView) {
             this.boatView = '';
+            this.mapView = 'map-world'
         } else {
             this.boatView = value;
+            this.mapView = ''
         }
     }
 
@@ -219,8 +227,10 @@ export class GlobalStore {
     toggleRectangularView = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
         if (value === this.rectangularView) {
             this.rectangularView = '';
+            this.mapView = 'map-world'
         } else {
             this.rectangularView = value;
+            this.mapView = ''
         }
     }
 
@@ -229,6 +239,16 @@ export class GlobalStore {
             this.mapView = '';
         } else {
             this.mapView = value;
+        }
+    }
+
+    toggleTableView = (value: 'table-world' | 'table-countries' | ''): void => {
+        if (value === this.tableView) {
+            this.tableView = '';
+            this.mapView = 'map-world'
+        } else {
+            this.tableView = value;
+            this.mapView = ''
         }
     }
 

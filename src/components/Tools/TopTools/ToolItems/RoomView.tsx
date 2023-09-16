@@ -15,7 +15,7 @@ const RoomView: React.FC = (): JSX.Element => {
         && !globalStore.floorPlanView
         && !globalStore.boatView
         && !globalStore.rectangularView
-        && !globalStore.mapView
+        // && !globalStore.mapView
         && !globalStore.tableView) {
       globalStore.toggleRoomView('room-countries');
     }

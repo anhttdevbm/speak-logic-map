@@ -6,6 +6,7 @@ import {
   MainsetIcon,
   PersonIcon,
   RectangleIcon,
+  RelatedIcon,
   RightArrowIcon,
   ScrollFeatureIcon,
   VectorIcon,
@@ -31,6 +32,9 @@ const ItemList: ItemInterface[] = [
   {value: 'welcome-sign', Icon: WelcomeSignIcon, name: 'Welcome', ability: true},
   // {value: 'horizontal-line', Icon: VectorIcon, name: 'Horizontal Line', ability: true},
   {value: 'scroll-feature', Icon: ScrollFeatureIcon, name: 'Scroll feature', ability: true},
+  {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
+  {value: 'mobility', Icon: VectorIcon, name: 'Mobility', ability: true},
+  {value: 'scroll-feature', Icon: VectorIcon, name: 'Scroll feature', ability: true},
 
 ]
 

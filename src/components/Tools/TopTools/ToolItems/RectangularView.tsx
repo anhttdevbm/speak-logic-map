@@ -12,7 +12,7 @@ const RectangularView: React.FC = (): JSX.Element => {
             && !globalStore.roomView
             && !globalStore.floorPlanView
             && !globalStore.boatView
-            && !globalStore.mapView
+            // && !globalStore.mapView
             && !globalStore.tableView
         ) {
             globalStore.toggleRectangularView('rect-house');

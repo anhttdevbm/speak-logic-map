@@ -56,7 +56,7 @@ const Markers = ({ setModal, setModalType }) => {
     if (globalStore.simulation) {
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
-          const random = Math.round(Math.random() * 10) % 6;
+          const random = Math.round(Math.random() * 10) % 2;
           layer._icon.classList.add(styles[`simulation-animate${random}`]);
         }
       });

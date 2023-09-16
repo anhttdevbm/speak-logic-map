@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { observer } from 'mobx-react-lite';
-import {MapContainer, Popup, Marker} from "react-leaflet";
+import {MapContainer, Popup, Marker, Polygon, Tooltip, useMap} from "react-leaflet";
 import { useGlobalStore } from '@/providers/RootStoreProvider';
 import { getLocation } from '@/utils/get_geolocation';
 import { CountryData } from '@/pages/api/countries';
@@ -27,6 +27,7 @@ import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
 import RectView from './MapContents/Views/RectView';
+import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
@@ -106,7 +107,7 @@ const MapSSR: React.FC = (): JSX.Element => {
       style={{ backgroundColor: "#AAD3DF", width: "100%", height: "100%" }}
       center={[0, 0]}
       zoom={2}
-      maxZoom={16}
+      maxZoom={20}
       minZoom={2}
       maxBounds={bounds}
       maxBoundsViscosity={1}
@@ -181,7 +182,9 @@ const MapSSR: React.FC = (): JSX.Element => {
           <HouseView selectedData={selectedData} />
           <RoomView selectedData={selectedData} />
           <FloorPlanView />
-          <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />
+          {/*<BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />*/}
+          {globalStore.boatView !== '' && <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />}
+          {globalStore.tableView !== '' && <TableView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />}
           <RectView />
           <MoreView />
         </>

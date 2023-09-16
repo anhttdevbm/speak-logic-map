@@ -415,11 +415,10 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
     };
 
     window.deleteItem = () => {
-        console.log('delete', e.target);
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const globalStore = useGlobalStore();
-
-        globalStore.removeMarkerFnList(e.target.options.target.index)
+        // const globalStore = useGlobalStore();
+        //
+        // globalStore.removeMarkerFnList(e.target.options.target.index)
         map.removeLayer(e.target);
         map.removeLayer(popup);
     }
@@ -441,7 +440,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, setModal, setModalType, isLocked, e) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -474,9 +473,33 @@ export const personPopup = (map, setModal, setModalType, isLocked, e) => {
         e.target.setIcon(markerPersonIcon(styles['person'], name, img));
     }
 
+    let path = L.polyline([], {color: 'blue'}).addTo(map);
+    window.showMoveWithPath = () => {
+        map.on('click', function (e) {
+            let clickedLatLng = e.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            let pathLatLngs = [currentLatLng, clickedLatLng];
+            path.setLatLngs(pathLatLngs);
+            marker.setLatLng(clickedLatLng);
+        });
+    }
+
+    window.showMoveWithoutPath = () => {
+        map.on('click', function (e) {
+            let clickedLatLng = e.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            let pathLatLngs = [currentLatLng, clickedLatLng];
+            path.setLatLngs(pathLatLngs);
+            marker.setLatLng(clickedLatLng);
+        });
+    }
+
     window.deleteItem = () => {
         map.removeLayer(e.target);
         map.removeLayer(popup);
+        map.removeLayer(path);
     }
 }
 

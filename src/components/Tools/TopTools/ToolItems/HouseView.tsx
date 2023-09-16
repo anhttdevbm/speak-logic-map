@@ -14,7 +14,7 @@ const HouseView: React.FC = (): JSX.Element => {
             && !globalStore.floorPlanView
             && !globalStore.boatView
             && !globalStore.rectangularView
-            && !globalStore.mapView
+            // && !globalStore.mapView
             && !globalStore.tableView
         ) {
             if (globalStore.map) {
