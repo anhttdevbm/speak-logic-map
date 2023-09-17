@@ -42,8 +42,10 @@ export class GlobalStore {
     showModalInsertCountry: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
+    listMarkerProblem: any[] = [];
     positionOfScroll: any[] = [];
     positionOfTextPallet: any[] = [];
+    mapElementSelected = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -292,7 +294,6 @@ export class GlobalStore {
     }
 
     removeMarkerFnList = (index: number): void => {
-        debugger
         this.listMarkerFunction = this.listMarkerFunction.filter((item: any) => item.key != index)
     }
 
@@ -301,7 +302,14 @@ export class GlobalStore {
     }
 
     removeMarkerPopulationList = (index: number): void => {
-        debugger
         this.listMarkerPopulation = this.listMarkerPopulation.filter((item: any) => item.key != index)
+    }
+
+    addMarkerProblemToList = (index: number): void => {
+        this.listMarkerProblem.push({key: index, value: 'Problem ' + index})
+    }
+
+    setMapElementSelected = (value: any): void => {
+        this.mapElementSelected = value;
     }
 }

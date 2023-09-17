@@ -318,7 +318,8 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         // Add Solution/Problem
         window.handleAddProblem = (name) => {
           addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType);
-          
+          globalStore.addMarkerProblemToList(markerProblemIndex[0]);
+
           markerProblemIndex[0]++;
           map.removeLayer(countryPopup);
         }

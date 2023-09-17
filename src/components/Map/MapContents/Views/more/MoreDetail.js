@@ -1,12 +1,20 @@
 import React, {useState} from 'react';
 import styles from './MoreDetail.module.scss'
+import {Col, Row} from "antd";
+import {RectangularItem} from "@/components/Map/MapContents/Views/rect/RectHouse";
+import {useGlobalStore} from "@/providers/RootStoreProvider";
 
 const MoreDetail = ({listFunction}) => {
+    const globalStore = useGlobalStore();
     return (
         <div className={styles.rectIcon}>
-            <div className={styles.rectangularList}>
-                {listFunction.map(item => <DetailItem key={item.key} fn={item}/>)}
-            </div>
+            <Row>
+                {listFunction.map((item, index) =>
+                    <Col className={styles.rowItem} span={4} key={index}>
+                        <DetailItem key={item.key} fn={item}/>
+                    </Col>)
+                }
+            </Row>
         </div>
     );
 };

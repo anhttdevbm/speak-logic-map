@@ -125,7 +125,7 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
         style="display:${error ? 'auto': 'none'}"
         class="${styles['row']}"
       >
-        ${error === 'solution' ? 'Identify as Solution' : 'Identify as Problem'}
+      Identify as Solution
       </div>
 
       <div class="${styles['row']}" onclick="changeToStopFunction()">

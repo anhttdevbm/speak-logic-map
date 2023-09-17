@@ -169,7 +169,7 @@ export const markerBoatWorldIcon = (className: string, name: string, imgSrc: str
     })
 }
 
-export const markerRectNameIcon = (className: string, name: string): L.DivIcon => {
+export const markerMapElementIcon = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
         iconSize: [200, 100],

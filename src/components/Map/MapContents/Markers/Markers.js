@@ -22,7 +22,7 @@ import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../V
 
 import {
   addMarkerPerson, addMarkerFn, addMarkerWelcomeSign,
-  addHouseMarker, addRoute, addDistance, addMarkerScrollFeature
+  addHouseMarker, addRoute, addDistance, addMarkerScrollFeature, addMarkerMapElement, addMarkerFnEllipse
 } from './AddMarkers'
 
 
@@ -309,17 +309,18 @@ const Markers = ({ setModal, setModalType }) => {
 
   // Handle events on map
   useMapEvents({
+
     // Open right-click menu on map
     contextmenu(e) {
       if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
         worldPopup(map, e, globalStore.map, globalStore.toggleHouseView);
       }
     },
+
     // Add markers to map by click event
     click(e) {
       console.log(`${e.latlng.lat} ${e.latlng.lng}`);
-      // console.log(e);
-      // globalStore.addIconHandle('');
+
       if (globalStore.click) {
         // Add Person Marker
         if (globalStore.addIcon === 'person') {
@@ -332,7 +333,11 @@ const Markers = ({ setModal, setModalType }) => {
         }
         else if (globalStore.addIcon === 'function') {
           globalStore.resetPositionScroll();
-          addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          if (globalStore.tableView !== '') {
+            addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          } else {
+            addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          }
           let index = markerFnIndex[0];
           globalStore.addMarkerFnToList(index)
           markerFnIndex[0]++;
@@ -359,12 +364,14 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle(''); 
         }
         else if (globalStore.addIcon === 'scroll-feature') {
-          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
-          // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
         }
         else if (globalStore.palletOption === 'text' && globalStore.addIcon === '') {
           globalStore.setPositionOfTextPallet(e.latlng.lat, e.latlng.lng);
+        }
+        else if (globalStore.mapElementSelected) {
+          const mapElement = globalStore.mapElementSelected;
+          addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement);
         }
       }
     }

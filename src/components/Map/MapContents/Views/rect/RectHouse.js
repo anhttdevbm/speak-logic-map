@@ -8,21 +8,26 @@ import {getGeoMainLand} from "@/utils/get_geo_mainland";
 import L from "leaflet";
 import * as turf from "@turf/turf";
 import 'leaflet/dist/leaflet.css';
+import {Col, Row} from "antd";
 
 const RectHouse = ({listCountry}) => {
     const globalStore = useGlobalStore()
     return (
         <div className={styles.rectIcon}>
-            <div className={styles.rectangularList}>
-                {listCountry.map(item => <RectangularItem key={item.name.codeName} country={item}/>)}
-                <div className={styles.divPlus}>
+            <Row>
+                {listCountry.map((item, index) =>
+                    <Col className={styles.rowItem} span={4} key={index}>
+                        <RectangularItem key={item.name.codeName} country={item}/>
+                    </Col>)
+                }
+                <Col span={4} className={styles.rowItem}>
                     <button className={styles.plus} onClick={() => {
                         globalStore.toggleModalInsertCountry();
                     }}>
                         +
                     </button>
-                </div>
-            </div>
+                </Col>
+            </Row>
         </div>
     );
 };
