@@ -46,6 +46,7 @@ export class GlobalStore {
     positionOfScroll: any[] = [];
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
+    mapElementRelate = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -311,5 +312,9 @@ export class GlobalStore {
 
     setMapElementSelected = (value: any): void => {
         this.mapElementSelected = value;
+    }
+
+    setMapElementRelate = (value: any): void => {
+        this.mapElementRelate = value;
     }
 }

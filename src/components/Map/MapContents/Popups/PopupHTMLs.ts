@@ -205,20 +205,46 @@ export const personPopupHTML = (): string => {
       <div class="${styles['row']} ${styles['on-hover']}">
         Relationship
          <div class="${styles['hover-func-block']}">
-          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('personAndPerson')" class="${styles['upload-file-wrapper']}">
             Person and Person
           </div>
-          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('personAndGivenSet')" class="${styles['upload-file-wrapper']}">
             Person and Given Set
           </div>
-          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('personAndPersonAspect')" class="${styles['upload-file-wrapper']}">
            Person and Person Aspect
           </div>
-          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('personAndPrincipleAspect')" class="${styles['upload-file-wrapper']}">
             Person and Principle Aspect
           </div>
-          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+          <div class="${styles['row']} ${styles['on-hover']}">
             Map Element
+            <div class="${styles['hover-func-block']}">
+              <div 
+                onclick="addRelatePerson('personalResponsibility')"
+                class="${styles['upload-file-wrapper']}"
+              >Personal Responsibility</div>
+              <div 
+                onclick="addRelatePerson('selfContribution')"
+                class="${styles['upload-file-wrapper']}"
+              >Self - Contribution</div>
+              <div 
+                onclick="addRelatePerson('averaging')"
+                class="${styles['upload-file-wrapper']}"
+              >Averaging</div>
+              <div 
+                onclick="addRelatePerson('feedback')"
+                class="${styles['upload-file-wrapper']}"
+              >Feedback</div>
+              <div 
+                onclick="addRelatePerson('correction')"
+                class="${styles['upload-file-wrapper']}"
+              >Correction</div>
+              <div 
+                onclick="addRelatePerson('functionBoundary')"
+                class="${styles['upload-file-wrapper']}"
+              >Function Boundary</div>
+            </div>
           </div>
         </div>
       </div>
@@ -448,6 +474,35 @@ export const worldPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']} country">
         Show All Countries as House
+      </div>
+      <div class="${styles['row']} ${styles['on-hover']} map-element">
+        Map Element
+        <div class="${styles['hover-func-block']}">
+          <div 
+            onclick="handleSelectMapElement('Personal Responsibility')"
+            class="${styles['upload-file-wrapper']}"
+          >Personal Responsibility</div>
+          <div 
+            onclick="handleSelectMapElement('Self - Contribution')"
+            class="${styles['upload-file-wrapper']}"
+          >Self - Contribution</div>
+          <div 
+            onclick="handleSelectMapElement('Averaging')"
+            class="${styles['upload-file-wrapper']}"
+          >Averaging</div>
+          <div 
+            onclick="handleSelectMapElement('Feedback')"
+            class="${styles['upload-file-wrapper']}"
+          >Feedback</div>
+          <div 
+            onclick="handleSelectMapElement('Correction')"
+            class="${styles['upload-file-wrapper']}"
+          >Correction</div>
+          <div 
+            onclick="handleSelectMapElement('Function Boundary')"
+            class="${styles['upload-file-wrapper']}"
+          >Function Boundary</div>
+        </div>
       </div>
     </div>
   `
@@ -788,4 +843,35 @@ export const videoBoundPopupHTML = (objectUrl: string, width: number = 320, heig
       <source src=${objectUrl} type="video/mp4">
       Your browser does not support the video tag.
     </video>`
+}
+
+export const mapElementPopupHTML = (): string => {
+    return `
+    <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
+      <div 
+        onclick="handleSelectMapRelate('Personal Responsibility')"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Relate with Personal Responsibility</div>
+      <div 
+        onclick="handleSelectMapRelate('Self - Contribution')"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Relate with Self - Contribution</div>
+      <div 
+        onclick="handleSelectMapRelate('Averaging')"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Relate with Averaging</div>
+      <div 
+        onclick="handleSelectMapRelate('Feedback')"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Relate with Feedback</div>
+      <div 
+        onclick="handleSelectMapRelate('Correction')"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Relate with Correction</div>
+      <div 
+        onclick="handleSelectMapRelate('Function Boundary')"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Relate with Function Boundary</div>
+    </div>
+  `;
 }

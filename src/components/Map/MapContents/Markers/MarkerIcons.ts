@@ -6,6 +6,7 @@ import ICON_PERSON from '@/assets/icons/user-icon.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
+import ICON_RELATE from '@/assets/icons/relate-icon.png';
 
 export const markerPersonIcon = (className: string, name: string, image: string): L.DivIcon => {
     return L.divIcon({
@@ -184,5 +185,14 @@ export const markerRectHouseIcon = (className: string, name: string, html: any):
         iconSize: [500, 300],
         iconAnchor: [50, 25],
         html: html
+    })
+}
+
+export const markerRelateIcon = (className: string, name: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [200, 100],
+        iconAnchor: [50, 25],
+        html: `<img src=${ICON_RELATE.src} alt="Group" width="70" height="70"/>`
     })
 }

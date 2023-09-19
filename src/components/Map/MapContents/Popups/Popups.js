@@ -19,7 +19,7 @@ import {
     distancePopupHTML, countryFnPopupHTML,
     stopFnPopupHTML, tempFnPopupHTML, mainsetPopupHTML,
     roomPopupHTML, worldPopupHTML, wrappingPopupHTML,
-    imgBoundPopupHTML, audioBoundPopupHTML, videoBoundPopupHTML
+    imgBoundPopupHTML, audioBoundPopupHTML, videoBoundPopupHTML, mapElementPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -67,7 +67,7 @@ const stopFnRunningFeatures = (e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on world map
-export const worldPopup = (map, e, isMap, toggleHouseView) => {
+export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setMapElementSelected) => {
     clearAllPopups(map);
 
     const popupWorld = L.popup();
@@ -90,6 +90,14 @@ export const worldPopup = (map, e, isMap, toggleHouseView) => {
             toggleHouseView("house-countries");
             map.closePopup();
         }
+    }
+
+    window.handleSelectMapRelate = (value) => {
+        setMapElementRelate(value);
+    }
+
+    window.handleSelectMapElement = (value) => {
+        setMapElementSelected(value);
     }
 }
 
@@ -440,7 +448,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, marker, setModal, setModalType, isLocked, e) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementSelected) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -494,6 +502,10 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e) =>
             path.setLatLngs(pathLatLngs);
             marker.setLatLng(clickedLatLng);
         });
+    }
+
+    window.addRelatePerson = (value) => {
+        setMapElementSelected(value);
     }
 
     window.deleteItem = () => {
@@ -1221,30 +1233,12 @@ export const roomPopup = (map, e) => {
     // }
 }
 
-// Popup shown when right-click on world map
-export const rectPopup = (map, e, isMap, toggleModalInsertCountry) => {
+// Popup shown when right-click element map marker
+export const mapElementPopup = (map, e) => {
     clearAllPopups(map);
-    console.log('testtttttttttt')
-
-    const popupWorld = L.popup();
-    popupWorld.options.type = 'rect_popup';
-
-    if (isMap) {
-        popupWorld
-            .setLatLng([e.latlng.lat, e.latlng.lng])
-            .setContent(renderToString(RectHouse))
-            .addTo(map);
-
-        const rect = document.querySelector('#plus');
-        rect.onclick = () => {
-            toggleModalInsertCountry(true);
-            map.closePopup();
-        }
-
-        const country = document.querySelector('.country');
-        country.onclick = () => {
-            toggleHouseView("house-countries");
-            map.closePopup();
-        }
-    }
+    const popup = L.popup([e.latlng.lat, e.latlng.lng], {
+        content: mapElementPopupHTML(),
+        offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
+    });
+    popup.addTo(map);
 }

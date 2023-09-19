@@ -29,6 +29,7 @@ import BoatView from './MapContents/Views/BoatView';
 import RectView from './MapContents/Views/RectView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
+import RelateView from "./MapContents/Views/RelateView";
 import RectHouse from "./MapContents/Views/rect/RectHouse";
 import RectangularView from "./MapContents/Views/RectangularView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
@@ -105,6 +106,7 @@ const MapSSR: React.FC = (): JSX.Element => {
         <>
             {globalStore.rectangularView !== '' ? <RectView/>
                 : globalStore.moreView !== '' ? <MoreView />
+                : (globalStore.mapElementSelected !== '' && globalStore.mapElementRelate !== '') ? <RelateView />
                 : <MapContainer
                     attributionControl={false}
                     style={{backgroundColor: "#AAD3DF", width: "100%", height: "100%"}}

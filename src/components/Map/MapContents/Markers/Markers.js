@@ -21,8 +21,16 @@ import {worldPopup, wrappingPopup} from '../Popups/Popups'
 import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../Variables/Variables';
 
 import {
-  addMarkerPerson, addMarkerFn, addMarkerWelcomeSign,
-  addHouseMarker, addRoute, addDistance, addMarkerScrollFeature, addMarkerMapElement, addMarkerFnEllipse
+  addMarkerPerson,
+  addMarkerFn,
+  addMarkerWelcomeSign,
+  addHouseMarker,
+  addRoute,
+  addDistance,
+  addMarkerScrollFeature,
+  addMarkerMapElement,
+  addMarkerFnEllipse,
+  addRelateMarker
 } from './AddMarkers'
 
 
@@ -278,7 +286,7 @@ const Markers = ({ setModal, setModalType }) => {
         const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
         if (globalStore.addIcon === 'person') {
-          addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType)
+          addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setMapElementSelected)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
         }
@@ -313,7 +321,7 @@ const Markers = ({ setModal, setModalType }) => {
     // Open right-click menu on map
     contextmenu(e) {
       if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
-        worldPopup(map, e, globalStore.map, globalStore.toggleHouseView);
+        worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setMapElementRelate, globalStore.setMapElementSelected);
       }
     },
 
@@ -325,7 +333,8 @@ const Markers = ({ setModal, setModalType }) => {
         // Add Person Marker
         if (globalStore.addIcon === 'person') {
           globalStore.resetPositionScroll();
-          addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType)
+          addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+              globalStore.setMapElementSelected)
           let index = markerPersonIndex[0];
           globalStore.addMarkerPopulationToList(index)
           markerPersonIndex[0]++;
@@ -362,6 +371,11 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.resetPositionScroll();
           addDistance(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle(''); 
+        }
+        else if (globalStore.addIcon === 'relate') {
+          globalStore.resetPositionScroll();
+          addRelateMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+          globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'scroll-feature') {
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);

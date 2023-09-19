@@ -3,10 +3,21 @@ import { toggleBoundaryFn } from './Markers';
 import { addSelectedItem } from './HandleSelectItem';
 import {
   markerPersonIcon, markerHouseIcon, markerNavigationSignIcon,
-  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon
+  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon, markerRelateIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
-import { groupPopup, functionPopup, routePopup, distancePopup, fnProblemPopup, fnCountryPopup, stopFnPopup, tempFnPopup, personPopup } from '../Popups/Popups';
+import {
+  groupPopup,
+  functionPopup,
+  routePopup,
+  distancePopup,
+  fnProblemPopup,
+  fnCountryPopup,
+  stopFnPopup,
+  tempFnPopup,
+  personPopup,
+  mapElementPopup
+} from '../Popups/Popups';
 import { 
   groupFnLayoutPopupHTML, groupPersonLayoutPopupHTML, wrappingPopupHTML, 
   worldPopupHTML, housePopupHTML, welcomeSignPopupHTML
@@ -18,8 +29,9 @@ import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
 import {Marker, Popup} from "react-leaflet";
 import {useRef} from "react";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
+import {RelatedIcon} from "@/components/Icons/Icons";
 
-export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType) => {
+export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementSelected) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -29,7 +41,7 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
     draggable: !isLocked,
     icon: markerPersonIcon(styles['person'], `Person ${index}`)
   })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e))
+    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setMapElementSelected))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }
@@ -422,7 +434,27 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name) => {
         `${styles['rectangle-fn']} ${styles['map-element']}`,
         `${name}`
     ),
+  }).addTo(map)
+      .on('contextmenu', e => mapElementPopup(map, e))
+      .on('click', e => addSelectedItem(e, map, isLocked))
+}
+
+export const addRelateMarker = (map, lat, lng, isLocked) => {
+  L.marker([lat, lng], {
+    target: { status: 'add' },
+    icon: markerRelateIcon(),
+    draggable: !isLocked,
   })
+      .on('contextmenu', e => {
+        const housePopup = L.popup()
+            .setLatLng([lat, lng])
+            .setContent(housePopupHTML())
+            .addTo(map);
+
+        window.deleteHouse = () => {
+          map.removeLayer(e.target);
+          map.removeLayer(housePopup);
+        }
+      })
       .addTo(map)
-      // .on('contextmenu', e => tempFnPopup(map, e));
 }
