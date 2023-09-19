@@ -343,7 +343,8 @@ const Markers = ({ setModal, setModalType }) => {
         const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
         if (globalStore.addIcon === 'person') {
-          addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setMapElementSelected)
+          addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+              globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
         }
@@ -391,7 +392,7 @@ const Markers = ({ setModal, setModalType }) => {
         if (globalStore.addIcon === 'person') {
           globalStore.resetPositionScroll();
           addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
-              globalStore.setMapElementSelected)
+              globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           let index = markerPersonIndex[0];
           globalStore.addMarkerPopulationToList(index)
           markerPersonIndex[0]++;

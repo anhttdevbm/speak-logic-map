@@ -100,7 +100,9 @@ const MapSSR: React.FC = (): JSX.Element => {
         if (!modal) {
             setModalType('');
         }
-    }, [modal])
+    }, [modal]);
+
+    console.log(globalStore.mapElementSelected, globalStore.mapElementRelate)
 
     return (
         <>

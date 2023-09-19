@@ -31,7 +31,7 @@ import {useRef} from "react";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {RelatedIcon} from "@/components/Icons/Icons";
 
-export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementSelected) => {
+export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementRelate, setMapElementSelected) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -41,7 +41,7 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
     draggable: !isLocked,
     icon: markerPersonIcon(styles['person'], `Person ${index}`)
   })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setMapElementSelected))
+    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }

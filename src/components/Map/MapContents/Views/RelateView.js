@@ -1,24 +1,38 @@
 import React, {useState} from 'react';
-import {Col, Row} from "antd";
+import {Col, Image, Row} from "antd";
 import styles from '../_MapContents.module.scss'
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 import ICON_PERSON from "../../../../assets/icons/user-icon.png";
-import Image from "next/image";
 
 const RelateView = () => {
     const globalStore = useGlobalStore();
     return (
         <div className={styles.relatedArea}>
-            <DetailItem style={{margin: '30px'}} element={globalStore.mapElementSelected}/>
+            {globalStore.mapElementSelected === 'Person'
+                ? <PersonItem style={{margin: '30px'}} element={globalStore.mapElementSelected}/>
+                : <DetailItem style={{margin: '30px'}} element={globalStore.mapElementSelected}/>
+            }
             <div className={styles.horizontalLine}></div>
             <RelateCircle/>
-            <DetailItem style={{margin: '30px'}} element={globalStore.mapElementRelate}/>
+            {globalStore.mapElementSelected === 'Person'
+                ? <PersonItem style={{margin: '30px'}} element={globalStore.mapElementRelate}/>
+                : <DetailItem style={{margin: '30px'}} element={globalStore.mapElementRelate}/>
+            }
             <div className={styles.horizontalLine}></div>
         </div>
     );
 };
 
 export default RelateView;
+
+export const PersonItem = ({element}) => {
+    return (
+        <div className={styles.personItem}>
+            <Image alt='icon-person' className={styles.img} src={ICON_PERSON.src}/>
+            <p className={styles.elementText}>{element}</p>
+        </div>
+    )
+};
 
 export const DetailItem = ({element}) => {
     return (

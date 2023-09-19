@@ -205,43 +205,43 @@ export const personPopupHTML = (): string => {
       <div class="${styles['row']} ${styles['on-hover']}">
         Relationship
          <div class="${styles['hover-func-block']}">
-          <div onclick="addRelatePerson('personAndPerson')" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('Person')" class="${styles['upload-file-wrapper']}">
             Person and Person
           </div>
-          <div onclick="addRelatePerson('personAndGivenSet')" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('Given Set')" class="${styles['upload-file-wrapper']}">
             Person and Given Set
           </div>
-          <div onclick="addRelatePerson('personAndPersonAspect')" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('Person Aspect')" class="${styles['upload-file-wrapper']}">
            Person and Person Aspect
           </div>
-          <div onclick="addRelatePerson('personAndPrincipleAspect')" class="${styles['upload-file-wrapper']}">
+          <div onclick="addRelatePerson('Principle Aspect')" class="${styles['upload-file-wrapper']}">
             Person and Principle Aspect
           </div>
           <div class="${styles['row']} ${styles['on-hover']}">
             Map Element
             <div class="${styles['hover-func-block']}">
               <div 
-                onclick="addRelatePerson('personalResponsibility')"
+                onclick="addRelatePerson('Personal Responsibility')"
                 class="${styles['upload-file-wrapper']}"
               >Personal Responsibility</div>
               <div 
-                onclick="addRelatePerson('selfContribution')"
+                onclick="addRelatePerson('Self - Contribution')"
                 class="${styles['upload-file-wrapper']}"
               >Self - Contribution</div>
               <div 
-                onclick="addRelatePerson('averaging')"
+                onclick="addRelatePerson('Averaging')"
                 class="${styles['upload-file-wrapper']}"
               >Averaging</div>
               <div 
-                onclick="addRelatePerson('feedback')"
+                onclick="addRelatePerson('Feedback')"
                 class="${styles['upload-file-wrapper']}"
               >Feedback</div>
               <div 
-                onclick="addRelatePerson('correction')"
+                onclick="addRelatePerson('Correction')"
                 class="${styles['upload-file-wrapper']}"
               >Correction</div>
               <div 
-                onclick="addRelatePerson('functionBoundary')"
+                onclick="addRelatePerson('Function Boundary')"
                 class="${styles['upload-file-wrapper']}"
               >Function Boundary</div>
             </div>
