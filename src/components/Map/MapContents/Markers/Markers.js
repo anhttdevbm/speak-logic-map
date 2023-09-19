@@ -9,7 +9,7 @@ import "leaflet-textpath";
 import "leaflet-arrowheads";
 import { observer } from "mobx-react-lite";
 import { useMap, useMapEvents } from "react-leaflet";
-import { useGlobalStore } from '@/providers/RootStoreProvider';
+import {useGlobalStore, useSimulationSettingStore} from '@/providers/RootStoreProvider';
 import "@bopen/leaflet-area-selection/dist/index.css";
 import { DrawAreaSelection } from "@bopen/leaflet-area-selection";
 import * as turf from '@turf/turf';
@@ -32,6 +32,7 @@ import {
   addMarkerFnEllipse,
   addRelateMarker
 } from './AddMarkers'
+import simulation from "@/components/Tools/TopTools/ToolItems/Simulation";
 
 
 // Toggle boundary of selected item
@@ -55,6 +56,7 @@ let areaSelection;
 
 const Markers = ({ setModal, setModalType }) => {
   const globalStore = useGlobalStore();
+  const simulationSettingStore = useSimulationSettingStore();
   const map = useMap()
 
   map.doubleClickZoom.disable();
@@ -62,18 +64,50 @@ const Markers = ({ setModal, setModalType }) => {
   // Active Simulation - Flash color of function marker
   useEffect(() => {
     if (globalStore.simulation) {
+      let listLayer = [];
+      let listNameFunction = [];
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
-          const random = Math.round(Math.random() * 10) % 2;
-          layer._icon.classList.add(styles[`simulation-animate${random}`]);
+          if (simulationSettingStore.effectedFunction === 'Random') {
+            if (simulationSettingStore.boundary === 'Yes') {
+              layer._icon.classList.add(styles["boundary"]);
+            } else {
+              layer._icon.classList.remove(styles["boundary"]);
+            }
+            // const random = Math.round(Math.random() * 10) % 2;
+            layer._icon.classList.add(styles[`simulation-animate${0}`]);
+          } else {
+            console.log('layer.options', layer)
+            listNameFunction.push(layer.options?.icon?.options?.html);
+            listLayer.push(layer);
+          }
+        } else {
+          setTimeout(() => {
+            layer._icon?.classList.add(styles[`hidden`]);
+          }, simulationSettingStore.discardTime)
         }
       });
+      let smallFunction = listNameFunction.sort()[0];
+      let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
+      getListLayerSortedDistance(listLayer, smallFunctionLayer)
+      listLayer.forEach(layer => {
+        setTimeout(() => {
+          if (simulationSettingStore.boundary === 'Yes') {
+            layer._icon.classList.add(styles["boundary"]);
+          } else {
+            layer._icon.classList.remove(styles["boundary"]);
+          }
+          // const random = Math.round(Math.random() * 10) % 2;
+          layer._icon.classList.add(styles[`simulation-animate${0}`]);
+        }, simulationSettingStore.transitionTime)
+      })
     }
     else {
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
           for (let i = 0; i < 6; i++) {
             layer._icon.classList.remove(styles[`simulation-animate${i}`]);
+            layer._icon.classList.remove(styles["boundary"]);
           }
         }
       });
@@ -247,6 +281,29 @@ const Markers = ({ setModal, setModalType }) => {
       };
     }
   }, []);
+
+  const calculateDistance = (lat1, lng1, lat2, lng2) => {
+    const earthRadius = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLng = (lng2 - lng1) * (Math.PI / 180);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return earthRadius * c;
+  }
+
+  const getListLayerSortedDistance = (listLayer, smallFunctionLayer) => {
+    const referenceLat = smallFunctionLayer._latlng.lat; // Latitude of "Function 1"
+    const referenceLng = smallFunctionLayer._latlng.lng;
+
+    listLayer.sort((a, b) => {
+      const distanceA = calculateDistance(referenceLat, referenceLng, a._latlng.lat, a._latlng.lng);
+      const distanceB = calculateDistance(referenceLat, referenceLng, b._latlng.lat, b._latlng.lng);
+      return distanceA - distanceB; // Sort in ascending order of distance
+    });
+  }
 
   const refreshLayerAndControlRect = (map, drawnItemsCircle, drawControlCircle) => {
     map.removeLayer(drawnItemsCircle);

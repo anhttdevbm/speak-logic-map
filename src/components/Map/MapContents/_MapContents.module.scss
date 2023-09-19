@@ -944,11 +944,15 @@ $blue: random(255);
   opacity: 0.6;
 }
 
+.hidden {
+  display: none;
+}
+
 .simulation-animate0 {
   animation-name: flashFnMarker0;
-  animation-duration: 2s;
+  animation-duration: 3s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: linear;
   // color: transparent;
   // background-clip: border-box;
   // -webkit-text-fill-color: #000;
@@ -1017,14 +1021,11 @@ $blue: random(255);
 }
 
 @keyframes flashFnMarker0 {
-  0% {
-    background-color: red;
-  }
   50% {
-    background-color: green;
+    background-color: red;
   }
   100% {
-    background-color: red;
+    background-color: green;
   }
 }
 
