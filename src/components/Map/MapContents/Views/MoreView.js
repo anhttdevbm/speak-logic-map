@@ -5,8 +5,11 @@ import {useEffect, useState} from "react";
 import {markerFnIndex, markerProblemIndex} from "@/components/Map/MapContents/Variables/Variables";
 import MoreDetail from "@/components/Map/MapContents/Views/more/MoreDetail";
 import MoreDetailPopulationView from "@/components/Map/MapContents/Views/more/MoreDetailPopulationView";
+import MoreDetailPopulationViewWithCountry
+    from "@/components/Map/MapContents/Views/more/MoreDetailPopulationViewWithCountry";
 
 const MoreView = () => {
+
     const globalStore = useGlobalStore();
     const [listFunction, setListFunction] = useState([]);
     const VALUE_MORE_VIEW = ['world-as-country', 'population-view', 'population-view-with-map', 'world-problem-view']
@@ -20,7 +23,6 @@ const MoreView = () => {
     }, [markerProblemIndex])
 
     if (VALUE_MORE_VIEW.includes(globalStore.moreView)) {
-        console.log('globalStore.moreView', globalStore.moreView)
         return (
             <>
                 {globalStore.moreView === 'world-as-country'
@@ -29,7 +31,7 @@ const MoreView = () => {
                         ? <MoreDetailPopulationView listPopulation={globalStore.listMarkerPopulation}/>
                         : globalStore.moreView === 'world-problem-view'
                             ? <MoreDetail listFunction={globalStore.listMarkerProblem}/>
-                            : <></>
+                            : <MoreDetailPopulationViewWithCountry />
                 }
             </>
         )

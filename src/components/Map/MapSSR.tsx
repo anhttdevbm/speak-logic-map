@@ -102,8 +102,6 @@ const MapSSR: React.FC = (): JSX.Element => {
         }
     }, [modal]);
 
-    console.log(globalStore.mapElementSelected, globalStore.mapElementRelate)
-
     return (
         <>
             {globalStore.rectangularView !== '' ? <RectView/>

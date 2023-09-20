@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, values} from "mobx";
 import L from "leaflet";
 import {CountryName} from "@/pages/api/countries";
 
@@ -8,6 +8,7 @@ export class GlobalStore {
     searchCode: string = '';
     searchMode: 'countries' | 'cities' | 'states' = 'countries';
     map: boolean = true;
+    mapLayer: any[] = [];
     showDistance: boolean = false;
     grid: boolean = true;
     mainLand: boolean = false;
@@ -316,5 +317,9 @@ export class GlobalStore {
 
     setMapElementRelate = (value: any): void => {
         this.mapElementRelate = value;
+    }
+
+    setMapLayer = (lat: any, lng: any, value: any): void => {
+        this.mapLayer.push({lat: lat, lng: lng, name: value})
     }
 }

@@ -116,6 +116,10 @@ const Markers = ({ setModal, setModalType }) => {
     }
   }, [globalStore.simulation])
 
+  useEffect(() => {
+    globalStore.setMapLayer(map);
+  }, [map])
+
   // Toggle Lock - Unlock Markers
   useEffect(() => {
     if (globalStore.lock) {
@@ -396,6 +400,7 @@ const Markers = ({ setModal, setModalType }) => {
           addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
               globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           let index = markerPersonIndex[0];
+          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng,'Person ' + index)
           globalStore.addMarkerPopulationToList(index)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
