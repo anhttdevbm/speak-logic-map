@@ -2,7 +2,7 @@ $counter: 0;
 $red: random(255);
 $green: random(255);
 $blue: random(255);
-
+$time-animation: var(--time-animation);
 
 
 .person {
@@ -963,7 +963,7 @@ $blue: random(255);
 
 .simulation-animate0 {
   animation-name: flashFnMarker0;
-  animation-duration: 3s;
+  animation-duration: $time-animation;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   // color: transparent;

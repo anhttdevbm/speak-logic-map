@@ -23,7 +23,6 @@ import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../V
 import {
   addMarkerPerson,
   addMarkerFn,
-  addMarkerWelcomeSign,
   addHouseMarker,
   addRoute,
   addDistance,
@@ -66,6 +65,9 @@ const Markers = ({ setModal, setModalType }) => {
     if (globalStore.simulation) {
       let listLayer = [];
       let listNameFunction = [];
+      const root = document.documentElement;
+      console.log('simulationSettingStore.transitionTime/1000 + \'s\'', simulationSettingStore.transitionTime/1000 + 's')
+      root?.style.setProperty("--time-animation", simulationSettingStore.transitionTime ? simulationSettingStore.transitionTime/1000 + 's' : '10s')
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
           if (simulationSettingStore.effectedFunction === 'Random') {
@@ -295,12 +297,12 @@ const Markers = ({ setModal, setModalType }) => {
   }
 
   const getListLayerSortedDistance = (listLayer, smallFunctionLayer) => {
-    const referenceLat = smallFunctionLayer._latlng.lat; // Latitude of "Function 1"
-    const referenceLng = smallFunctionLayer._latlng.lng;
+    const referenceLat = smallFunctionLayer?._latlng.lat; // Latitude of "Function 1"
+    const referenceLng = smallFunctionLayer?._latlng.lng;
 
     listLayer.sort((a, b) => {
-      const distanceA = calculateDistance(referenceLat, referenceLng, a._latlng.lat, a._latlng.lng);
-      const distanceB = calculateDistance(referenceLat, referenceLng, b._latlng.lat, b._latlng.lng);
+      const distanceA = calculateDistance(referenceLat, referenceLng, a?._latlng.lat, a?._latlng.lng);
+      const distanceB = calculateDistance(referenceLat, referenceLng, b?._latlng.lat, b?._latlng.lng);
       return distanceA - distanceB; // Sort in ascending order of distance
     });
   }
