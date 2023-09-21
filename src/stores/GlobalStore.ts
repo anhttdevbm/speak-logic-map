@@ -41,11 +41,19 @@ export class GlobalStore {
     showModalInsertCountry: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
-    positionOfScroll: any[] = [];
+    positionOfScroll: any = [];
+    dataScroll: any = null;
     positionOfTextPallet: any[] = [];
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setDataScroll = (value: any) => {
+        this.dataScroll = value;
+    }
+    resetDataScroll = () => {
+        this.dataScroll = null
     }
 
     setPositionOfScroll = (lat: number, lng: number) => {

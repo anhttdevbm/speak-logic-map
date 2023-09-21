@@ -307,6 +307,7 @@ const Markers = ({ setModal, setModalType }) => {
           // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
+          globalStore.resetDataScroll();
           globalStore.addIconHandle('');
         }
       }
@@ -362,6 +363,7 @@ const Markers = ({ setModal, setModalType }) => {
           // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
+          globalStore.resetDataScroll();
           globalStore.addIconHandle('');
         }
       }
