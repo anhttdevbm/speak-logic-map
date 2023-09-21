@@ -6,7 +6,7 @@ import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
 import {allLayer} from "@/components/Map/MapContents/Variables/Variables";
 // import './index.css'
 const RectView = () => {
-    const map = useMap();
+    // const map = useMap();
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
     const markerRef = useRef(null);
@@ -28,14 +28,11 @@ const RectView = () => {
         setListCountrySelected(mappingCountryCodeToInformationCountry(listCountry))
     }, []);
 
-    useEffect(() => {
-        console.log('globalStore.rectangularView', globalStore.rectangularView)
-        if (VALUE_RECT_VIEW.includes(globalStore.rectangularView)) {
-            debugger
-            removeLayoutMap();
-            openPopup();
-        }
-    }, [globalStore.rectangularView])
+    // useEffect(() => {
+    //     if (VALUE_RECT_VIEW.includes(globalStore.rectangularView)) {
+    //         openPopup();
+    //     }
+    // }, [globalStore.rectangularView])
 
     useEffect(() => {
         if (!globalStore.showModalInsertCountry) {
@@ -56,45 +53,12 @@ const RectView = () => {
         return listCountryInfor;
     }
 
-    const removeLayoutMap = () => {
-        // if (globalStore.rectangularView === 'rect-name' || globalStore.rectangularView === 'rect-house') {
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-        map.eachLayer(layer => {
-            if (layer._arrowheads) {
-                layer.remove();
-            }
-            allLayer.push(layer);
-        });
-
-        map.eachLayer(layer => map.removeLayer(layer));
-        // }
-    }
-
-    const openPopup = () => {
-        if (markerRef.current) {
-            markerRef.current.openPopup();
-        }
-    }
-
-    useEffect(() => {
-        if (markerRef.current) {
-            markerRef.current.openPopup();
-        }
-    }, [markerRef])
-
     if (globalStore.rectangularView !== '') {
-        debugger
         return (
-            <Marker position={position} ref={markerRef}>
-                <Popup>
-                    <RectHouse
-                        listCountry={listCountrySelected}
-                    />
-                </Popup>
-            </Marker>)
+            <RectHouse
+                listCountry={listCountrySelected}
+            />
+        )
     }
 
     return null

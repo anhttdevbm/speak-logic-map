@@ -1,4 +1,6 @@
-import {makeAutoObservable} from "mobx";
+
+import {makeAutoObservable, values} from "mobx";
+import L from "leaflet";
 import {CountryName} from "@/pages/api/countries";
 
 export class GlobalStore {
@@ -7,6 +9,7 @@ export class GlobalStore {
     searchCode: string = '';
     searchMode: 'countries' | 'cities' | 'states' = 'countries';
     map: boolean = true;
+    mapLayer: any[] = [];
     showDistance: boolean = false;
     grid: boolean = true;
     mainLand: boolean = false;
@@ -43,7 +46,10 @@ export class GlobalStore {
     listMarkerPopulation: any[] = [];
     positionOfScroll: any = [];
     dataScroll: any = null;
+    listMarkerProblem: any[] = [];
     positionOfTextPallet: any[] = [];
+    mapElementSelected = '';
+    mapElementRelate = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -299,7 +305,6 @@ export class GlobalStore {
     }
 
     removeMarkerFnList = (index: number): void => {
-        debugger
         this.listMarkerFunction = this.listMarkerFunction.filter((item: any) => item.key != index)
     }
 
@@ -308,7 +313,22 @@ export class GlobalStore {
     }
 
     removeMarkerPopulationList = (index: number): void => {
-        debugger
         this.listMarkerPopulation = this.listMarkerPopulation.filter((item: any) => item.key != index)
+    }
+
+    addMarkerProblemToList = (index: number): void => {
+        this.listMarkerProblem.push({key: index, value: 'Problem ' + index})
+    }
+
+    setMapElementSelected = (value: any): void => {
+        this.mapElementSelected = value;
+    }
+
+    setMapElementRelate = (value: any): void => {
+        this.mapElementRelate = value;
+    }
+
+    setMapLayer = (lat: any, lng: any, value: any): void => {
+        this.mapLayer.push({lat: lat, lng: lng, name: value})
     }
 }

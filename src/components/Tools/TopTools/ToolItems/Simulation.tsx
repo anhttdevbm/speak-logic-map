@@ -17,7 +17,7 @@ const Simulation: React.FC = (): JSX.Element => {
           <SimulationSettingM setToggleModal={setToggleSimulationSettingModal}/>
         </ModalWrap>
       )}
-      <button type="button" className={`${styles['left-item-wrap']}`}>
+      <button type="button" className={`${styles['left-item-wrap']} ${globalStore.simulation ? styles['active'] : null}`}>
         <SimulationIcon />
         <ul className={`${styles['sub-menu-list']}`}>
           <li onClick={() => globalStore.toggleSimulation()}>

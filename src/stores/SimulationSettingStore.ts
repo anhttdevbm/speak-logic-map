@@ -58,5 +58,9 @@ export class SimulationSettingStore implements SimulationSettingInterface {
     this.stTypes = setting.stTypes
     this.stTokenTravelTime = setting.stTokenTravelTime
     this.stShowSignal = setting.stShowSignal
+    this.transitionTime = setting.transitionTime
+    this.discardTime = setting.discardTime
+    this.boundary = setting.boundary
+    this.effectedFunction = setting.effectedFunction
   }
 }

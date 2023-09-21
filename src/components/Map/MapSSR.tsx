@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { observer } from 'mobx-react-lite';
@@ -7,7 +7,11 @@ import {MapContainer, Popup, Marker, Polygon, Tooltip, useMap} from "react-leafl
 import { useGlobalStore } from '@/providers/RootStoreProvider';
 import { getLocation } from '@/utils/get_geolocation';
 import { CountryData } from '@/pages/api/countries';
-
+// import {observer} from 'mobx-react-lite';
+// import {MapContainer, Polygon, Tooltip, useMap} from "react-leaflet";
+// import {useGlobalStore} from '@/providers/RootStoreProvider';
+// import {getLocation} from '@/utils/get_geolocation';
+// import {CountryData} from '@/pages/api/countries';
 import GridLayer from './MapContents/Grid/Grid';
 import Location from './MapContents/Location/Location';
 import Markers from './MapContents/Markers/Markers';
@@ -29,77 +33,79 @@ import BoatView from './MapContents/Views/BoatView';
 import RectView from './MapContents/Views/RectView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
+import RelateView from "./MapContents/Views/RelateView";
+import RectHouse from "./MapContents/Views/rect/RectHouse";
+import RectangularView from "./MapContents/Views/RectangularView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
-
-import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
-import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
+import ScrollFeatureViewM from '@/components/Modals/ModalContents/ScrollFeatureViewM';
+import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
+import MoreDetail from "@/components/Map/MapContents/Views/more/MoreDetail";
+import ScrollFeature from "@/components/Map/MapContents/ScrollFeature/ScrollFeature";
 
 const bounds = new L.LatLngBounds(
-  new L.LatLng(85, -180),
-  new L.LatLng(-100, 180)
+    new L.LatLng(85, -180),
+    new L.LatLng(-100, 180)
 );
 
 const getSizeFromModalType = (type: string): number[] => {
-  const cutString = type.split("_");
-  const sizeInfo = cutString[cutString.length - 1];
-  const sizeStringArray = sizeInfo.split(',');
-  const sizeNumberArray = sizeStringArray.map(num => Number(num));
-  return sizeNumberArray;
+    const cutString = type.split("_");
+    const sizeInfo = cutString[cutString.length - 1];
+    const sizeStringArray = sizeInfo.split(',');
+    const sizeNumberArray = sizeStringArray.map(num => Number(num));
+    return sizeNumberArray;
 }
 
 const getNamesFromModalType = (type: string): string[] => {
-  const cutString = type.split("_");
-  const nameInfo = cutString[cutString.length - 1];
-  const namesArray = nameInfo.split(',');
-  return namesArray;
+    const cutString = type.split("_");
+    const nameInfo = cutString[cutString.length - 1];
+    const namesArray = nameInfo.split(',');
+    return namesArray;
 }
 
 const MapSSR: React.FC = (): JSX.Element => {
-  const globalStore = useGlobalStore();
-  const [modal, setModal] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<string>('');
-  const [populateCountry, setPopulateCountry] = useState<string>('');
-  const [selectedData, setSelectedData] = useState<CountryData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [geoLocationResult, setGeoLocationResult] = useState<string>('');
+    const globalStore = useGlobalStore();
+    const [modal, setModal] = useState<boolean>(false);
+    const [modalType, setModalType] = useState<string>('');
+    const [populateCountry, setPopulateCountry] = useState<string>('');
+    const [selectedData, setSelectedData] = useState<CountryData[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [geoLocationResult, setGeoLocationResult] = useState<string>('');
 
-  const fetchData = async(code: string, type: string) => {
-    setIsLoading(true);
-    const response = await fetch(`api/${type}/${code}`);
-    const data = await response.json();
-    setSelectedData(data as CountryData[]);
-    setIsLoading(false);
-  }
-
-  useEffect(() => {
-    const defaultCoordinates = localStorage.getItem('dfLocationCoordinates');
-
-    if (defaultCoordinates) {
-      const coordinates: number[] = defaultCoordinates.split(',').map(item => Number(item))
-      globalStore.changeDefaultCoordinates(coordinates);
-      // if (globalStore.map) {
-      //   globalStore.toggleMap();
-      // }
+    const fetchData = async (code: string, type: string) => {
+        setIsLoading(true);
+        const response = await fetch(`api/${type}/${code}`);
+        const data = await response.json();
+        setSelectedData(data as CountryData[]);
+        setIsLoading(false);
     }
-    else {
-      getLocation(globalStore.changeCode, globalStore.changeDefaultCoordinates, setGeoLocationResult)
-    }
-  }, [])
 
-  useEffect(() => {
-    const selectedCode = globalStore.searchCode ? globalStore.searchCode : globalStore.code;
-    if (selectedCode) {
-      fetchData(selectedCode, globalStore.searchMode);
-    }
-  }, [globalStore.code, globalStore.searchCode, globalStore.searchMode])
+    useEffect(() => {
+        const defaultCoordinates = localStorage.getItem('dfLocationCoordinates');
 
-  useEffect(() => {
-    if (!modal) {
-      setModalType('');
-    }
-  }, [modal])
+        if (defaultCoordinates) {
+            const coordinates: number[] = defaultCoordinates.split(',').map(item => Number(item))
+            globalStore.changeDefaultCoordinates(coordinates);
+            // if (globalStore.map) {
+            //   globalStore.toggleMap();
+            // }
+        } else {
+            getLocation(globalStore.changeCode, globalStore.changeDefaultCoordinates, setGeoLocationResult)
+        }
+    }, [])
 
-  // @ts-ignore
+    useEffect(() => {
+        const selectedCode = globalStore.searchCode ? globalStore.searchCode : globalStore.code;
+        if (selectedCode) {
+            fetchData(selectedCode, globalStore.searchMode);
+        }
+    }, [globalStore.code, globalStore.searchCode, globalStore.searchMode])
+
+    useEffect(() => {
+        if (!modal) {
+            setModalType('');
+        }
+    }, [modal]);
+
     return (
     <MapContainer
       attributionControl={false}
@@ -140,6 +146,8 @@ const MapSSR: React.FC = (): JSX.Element => {
       {
         globalStore.dataScroll && <ScrollFeature/>
       }
+        {globalStore.positionOfTextPallet.length > 0 &&
+            <TextPopupPallet position={globalStore.positionOfTextPallet}/>}
       <Markers setModal={setModal} setModalType={setModalType}/>
       {modal && modalType && (
         <ModalWrap setToggleModal={setModal}>

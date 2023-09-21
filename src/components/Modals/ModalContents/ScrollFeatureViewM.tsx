@@ -1,13 +1,12 @@
 import {observer} from "mobx-react-lite";
 import styles from "./_ModalContents.module.scss";
-import React, {useEffect, useState} from "react";
-import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
+import React, {useState} from "react";
+import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
-import {Button, Col, Form, FormInstance, Input, InputNumber, Radio, Row, Select, Table} from "antd";
+import {Button, Col, Form, Input, Radio, Row, Select, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
-import {Marker, Popup} from "react-leaflet";
-import ScrollFeature from "@/components/Map/MapContents/ScrollFeature/ScrollFeature";
 import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
+import {InputNumber} from "antd/lib";
 
 interface DataType {
     key?: string;
@@ -97,21 +96,8 @@ const ScrollFeatureViewM = () => {
         globalStore.resetPositionScroll();
     }
     const handleCountry = (value: any) => {
-        console.log(value);
+        setCountry(value);
     }
-    const validateDate = () => {
-        if (data.length == 0) return false;
-        data.forEach(value => {
-            value['key'];
-        });
-    }
-
-    // const validateColunms = (value: DataType) => {
-    //     columns.forEach(item => {
-    //         if (value[item?.dataIndex] == null || value[item?.dataIndex] == undefined) return false;
-    //     })
-    //     return true;
-    // }
 
     const handleSave = () => {
         closeModal();
@@ -180,7 +166,6 @@ const ScrollFeatureViewM = () => {
     const onFinish = (value: DataType) => {
         const simulation = value.simulation ?? data[0].simulation;
         const objectColor = convertColor(simulation);
-
         const copyValue: DataType = {
             key: value.country + "-" + data.length,
             startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
@@ -191,7 +176,7 @@ const ScrollFeatureViewM = () => {
         }
         const dataCopy: any = data.map((item: any, index: number) => {
             item = {
-                key: item.country + "-" + index,
+                // key: value.country + "-" + index,
                 startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
                 endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
                 startColor: objectColor.startColor,
@@ -241,6 +226,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="Function name"
                                         name="functionName"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <Input/>
                                     </Form.Item>
@@ -248,8 +234,11 @@ const ScrollFeatureViewM = () => {
                                 <Col span={12}>
                                     <Form.Item<FieldType>
                                         label="Start Date"
-                                        name="startDate">
-                                        <Input type={"number"}/>
+                                        name="startDate"
+                                        rules={[{required: true, message: 'input is required'}]}
+                                    >
+                                       <InputNumber/>
+
                                     </Form.Item>
                                 </Col>
 
@@ -261,17 +250,18 @@ const ScrollFeatureViewM = () => {
                                         label="Select Country"
                                         name="country"
                                     >
-
                                         <Input/>
+                                        {/*<SearchCountry setCountry={handleCountry}/>*/}
                                     </Form.Item>
-                                    {/*<SearchCountry setCountry={handleCountry}/>*/}
                                 </Col>
                                 <Col span={12}>
                                     <Form.Item<FieldType>
                                         label="End Date"
                                         name="endDate"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        <Input type={"number"}/>
+                                        {/*<Input type={"number"}/>*/}
+                                        <InputNumber/>
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -281,16 +271,20 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="Start Performance"
                                         name="startPerformance"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        <Input type={"number"}/>
+                                        {/*<Input type={"number"}/>*/}
+                                        <InputNumber/>
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
                                     <Form.Item<FieldType>
                                         label="End Performance"
                                         name="endPerformance"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        <Input type={"number"}/>
+                                        {/*<Input type={"number"}/>*/}
+                                        <InputNumber/>
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -299,6 +293,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="simulation From"
                                         name="simulation"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <select>
                                             <option value="ggreen">Green to green</option>
@@ -312,8 +307,10 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="Number functon"
                                         name="numberFunction"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        <Input type={"number"} disabled={radioValue == 'automatic'}/>
+                                        {/*<Input type={"number"} disabled={radioValue == 'automatic'}/>*/}
+                                        <InputNumber disabled={radioValue == 'automatic'}/>
                                     </Form.Item>
                                 </Col>
                             </Row>
