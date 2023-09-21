@@ -91,7 +91,7 @@ const MoreDetailPopulationViewWithCountry = () => {
         <div className={styles.rectIcon}>
             {data.length > 0 &&
                 <div className={styles.rowItem}>
-                    {data.map(item => <DetailItemCountryView key={item.key} countryInfo={item}/>)}
+                    {data.map(item => <DetailItemCountryView key={item.country.codeName} countryInfo={item}/>)}
                 </div>
             }
         </div>

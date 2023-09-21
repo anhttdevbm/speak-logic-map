@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import styles from './RectView.module.scss'
 import ICON_HOUSE from "@/assets/icons/house-icon.png";
 import Image from "next/image";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
-import {GeoJSON, MapContainer, Rectangle, TileLayer} from "react-leaflet";
+import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
+import {GeoJSON, MapContainer, Marker, Polygon, Rectangle, TileLayer} from "react-leaflet";
 import {getGeoMainLand} from "@/utils/get_geo_mainland";
 import L from "leaflet";
 import * as turf from "@turf/turf";
@@ -41,8 +41,11 @@ export const RectangularItem = ({country}) => {
         <>
             {type === 'rect-name' ?
                 <div className={styles.rectangularItem}>
-                    <p>x</p>
-                    <p className={styles.markerRectHouseName}>{country.name.fullName}</p>
+                    <button className={styles.closeButton} onClick={() => {
+                        globalStore.removeCountryToRect(country.name.codeName)
+                    }}>x
+                    </button>
+                    <p className={styles.styleText}>{country.name.fullName}</p>
                 </div>
                 : type === 'rect-house' ?
                     <div className={styles.rectangularItem}>
@@ -57,7 +60,7 @@ export const RectangularItem = ({country}) => {
                             <Image src={ICON_HOUSE.src} alt="House" width="50" height="50"/>
                             <p className={styles.markerRectHouseName}>{country.name.fullName}</p>
                         </div>
-                        : <div className={styles.rectangularItem}>
+                        : <div className={styles.rectangularMapItem}>
                             <MapInRect country={country}/>
                             <p className={styles.markerRectHouseName}>{country.name.fullName}</p>
                         </div>
@@ -69,24 +72,36 @@ export const RectangularItem = ({country}) => {
 export const MapInRect = ({country}) => {
 
     const mapRef = useRef(null);
+    let coordinates = country.data[0].features[0].geometry.coordinates;
 
     const geoJsonMainLand = getGeoMainLand(country.data[0]);
     const center = turf.center(turf.points(geoJsonMainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
 
+    console.log('center', center)
+
+    const handleZoomEnd = (e) => {
+        const z = e.target._zoom;
+        console.log('zoom', z);
+    };
+
     return (
         <MapContainer
-            center={[0, 0]} // Initial map center coordinates
-            zoom={1} // Initial zoom level
-            style={{height: '80%', width: '100%'}}
+            center={center} // Initial map center coordinates
+            zoom={0} // Initial zoom level
+            style={{backgroundColor: "white", width: "100%", height: "100%"}}
             zoomControl={false}
             attributionControl={false}
+            onzoomend={handleZoomEnd}
+            scrollWheelZoom={true}
             ref={mapRef}
         >
             {/* Add a TileLayer for the basemap */}
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <GeoJSON data={geoJsonMainLand} style={{fillColor: 'transparent', color: 'blue', weight: 2}}/>
+            {coordinates.map((item, index) => <Polygon key={index} positions={item} color={'black'}/>)}
+            {/*<Marker position={center}></Marker>*/}
+
         </MapContainer>
     );
 }
