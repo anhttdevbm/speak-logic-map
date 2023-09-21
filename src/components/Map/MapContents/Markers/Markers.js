@@ -141,6 +141,7 @@ const Markers = ({ setModal, setModalType }) => {
     if (globalStore.map) {
       const getButton = document.getElementById("pointer-event");
       const textEvent = document.getElementById("text-event");
+      const lineEvent = document.getElementById("line-event");
       const rectEvent = document.getElementById("rectangle-event");
       const ellipseEvent = document.getElementById("ellipse-event");
       let restrictPopup = 0;
@@ -176,16 +177,33 @@ const Markers = ({ setModal, setModalType }) => {
         },
       });
 
-      let drawnItems = new L.FeatureGroup();
-      const drawControl = new L.Control.Draw({
+      let drawnItemsLine = new L.FeatureGroup();
+      const drawControlLine = new L.Control.Draw({
         draw: {
-          rectangle: true, // Enable drawing rectangles
-          marker: true,
           polyline: {
             shapeOptions: {
               color: '#f06eaa', // Line color
             },
           },
+          rectangle: false, // Enable drawing rectangles
+          marker: false,
+          circle: false,
+          polygon: false,
+          circlemarker: false
+        },
+        edit: {
+          featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
+          remove: true,
+          edit: false
+        },
+      });
+
+      let drawnItems = new L.FeatureGroup();
+      const drawControl = new L.Control.Draw({
+        draw: {
+          rectangle: true, // Enable drawing rectangles
+          polyline: false,
+          marker: false,
           circle: false,
           polygon: false,
           circlemarker: false
@@ -232,11 +250,34 @@ const Markers = ({ setModal, setModalType }) => {
       const insertTextToMap = () => {
         refreshLayerAndControlRect(map, drawnItems, drawControl);
         refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        refreshLayerAndControlLine(map, drawnItemsCircle, drawControlCircle)
         globalStore.togglePalletOption('text')
+      }
+
+      const drawLine = () => {
+        refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        refreshLayerAndControlRect(map, drawnItems, drawControl);
+        if (globalStore.palletOption === 'pointer') {
+          areaSelection?.deactivate();
+        }
+        globalStore.togglePalletOption('line');
+
+        if (globalStore.palletOption === 'line') {
+          map.addLayer(drawnItemsLine);
+          map.addControl(drawControlLine);
+
+          map.on(L.Draw.Event.CREATED, (event) => {
+            const layer = event.layer;
+            drawnItemsLine.addLayer(layer);
+          });
+        } else {
+          refreshLayerAndControlLine(map, drawnItems, drawControl);
+        }
       }
 
       const drawRectangle = () => {
         refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+        refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
         if (globalStore.palletOption === 'pointer') {
           areaSelection?.deactivate();
         }
@@ -257,6 +298,7 @@ const Markers = ({ setModal, setModalType }) => {
 
       const drawCircle = () => {
         refreshLayerAndControlRect(map, drawnItems, drawControl);
+        refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
         if (globalStore.palletOption === 'pointer') {
           areaSelection?.deactivate();
         }
@@ -276,12 +318,14 @@ const Markers = ({ setModal, setModalType }) => {
 
       getButton?.addEventListener("click", showScanSelection);
       textEvent?.addEventListener("click", insertTextToMap);
+      lineEvent?.addEventListener("click", drawLine);
       rectEvent?.addEventListener("click", drawRectangle);
       ellipseEvent?.addEventListener("click", drawCircle);
 
       return () => {
         getButton?.removeEventListener("click", showScanSelection);
         textEvent?.removeEventListener("click", insertTextToMap);
+        lineEvent?.removeEventListener("click", drawLine);
         rectEvent?.removeEventListener("click", drawRectangle);
         ellipseEvent?.removeEventListener("click", drawCircle);
       };
@@ -311,9 +355,14 @@ const Markers = ({ setModal, setModalType }) => {
     });
   }
 
-  const refreshLayerAndControlRect = (map, drawnItemsCircle, drawControlCircle) => {
-    map.removeLayer(drawnItemsCircle);
-    map.removeControl(drawControlCircle)
+  const refreshLayerAndControlLine = (map, drawnItems, drawControl) => {
+    map.removeLayer(drawnItems);
+    map.removeControl(drawControl)
+  }
+
+  const refreshLayerAndControlRect = (map, drawnItems, drawControl) => {
+    map.removeLayer(drawnItems);
+    map.removeControl(drawControl)
   }
 
   const refreshLayerAndControlCircle = (map, drawnItems, drawControl) => {
