@@ -9,7 +9,7 @@ import "leaflet-textpath";
 import "leaflet-arrowheads";
 import { observer } from "mobx-react-lite";
 import { useMap, useMapEvents } from "react-leaflet";
-import { useGlobalStore } from '@/providers/RootStoreProvider';
+import {useGlobalStore, useSimulationSettingStore} from '@/providers/RootStoreProvider';
 import "@bopen/leaflet-area-selection/dist/index.css";
 import { DrawAreaSelection } from "@bopen/leaflet-area-selection";
 import * as turf from '@turf/turf';
@@ -21,9 +21,17 @@ import {worldPopup, wrappingPopup} from '../Popups/Popups'
 import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../Variables/Variables';
 
 import {
-  addMarkerPerson, addMarkerFn, addMarkerWelcomeSign,
-  addHouseMarker, addRoute, addDistance, addMarkerScrollFeature
+  addMarkerPerson,
+  addMarkerFn,
+  addHouseMarker,
+  addRoute,
+  addDistance,
+  addMarkerScrollFeature,
+  addMarkerMapElement,
+  addMarkerFnEllipse,
+  addRelateMarker
 } from './AddMarkers'
+import simulation from "@/components/Tools/TopTools/ToolItems/Simulation";
 
 
 // Toggle boundary of selected item
@@ -47,6 +55,7 @@ let areaSelection;
 
 const Markers = ({ setModal, setModalType }) => {
   const globalStore = useGlobalStore();
+  const simulationSettingStore = useSimulationSettingStore();
   const map = useMap()
 
   map.doubleClickZoom.disable();
@@ -54,23 +63,62 @@ const Markers = ({ setModal, setModalType }) => {
   // Active Simulation - Flash color of function marker
   useEffect(() => {
     if (globalStore.simulation) {
+      let listLayer = [];
+      let listNameFunction = [];
+      const root = document.documentElement;
+      console.log('simulationSettingStore.transitionTime/1000 + \'s\'', simulationSettingStore.transitionTime/1000 + 's')
+      root?.style.setProperty("--time-animation", simulationSettingStore.transitionTime ? simulationSettingStore.transitionTime/1000 + 's' : '10s')
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
-          const random = Math.round(Math.random() * 10) % 2;
-          layer._icon.classList.add(styles[`simulation-animate${random}`]);
+          if (simulationSettingStore.effectedFunction === 'Random') {
+            if (simulationSettingStore.boundary === 'Yes') {
+              layer._icon.classList.add(styles["boundary"]);
+            } else {
+              layer._icon.classList.remove(styles["boundary"]);
+            }
+            // const random = Math.round(Math.random() * 10) % 2;
+            layer._icon.classList.add(styles[`simulation-animate${0}`]);
+          } else {
+            console.log('layer.options', layer)
+            listNameFunction.push(layer.options?.icon?.options?.html);
+            listLayer.push(layer);
+          }
+        } else {
+          setTimeout(() => {
+            layer._icon?.classList.add(styles[`hidden`]);
+          }, simulationSettingStore.discardTime)
         }
       });
+      let smallFunction = listNameFunction.sort()[0];
+      let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
+      getListLayerSortedDistance(listLayer, smallFunctionLayer)
+      listLayer.forEach(layer => {
+        setTimeout(() => {
+          if (simulationSettingStore.boundary === 'Yes') {
+            layer._icon.classList.add(styles["boundary"]);
+          } else {
+            layer._icon.classList.remove(styles["boundary"]);
+          }
+          // const random = Math.round(Math.random() * 10) % 2;
+          layer._icon.classList.add(styles[`simulation-animate${0}`]);
+        }, simulationSettingStore.transitionTime)
+      })
     }
     else {
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
           for (let i = 0; i < 6; i++) {
             layer._icon.classList.remove(styles[`simulation-animate${i}`]);
+            layer._icon.classList.remove(styles["boundary"]);
           }
         }
       });
     }
   }, [globalStore.simulation])
+
+  useEffect(() => {
+    globalStore.setMapLayer(map);
+  }, [map])
 
   // Toggle Lock - Unlock Markers
   useEffect(() => {
@@ -240,6 +288,29 @@ const Markers = ({ setModal, setModalType }) => {
     }
   }, []);
 
+  const calculateDistance = (lat1, lng1, lat2, lng2) => {
+    const earthRadius = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLng = (lng2 - lng1) * (Math.PI / 180);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return earthRadius * c;
+  }
+
+  const getListLayerSortedDistance = (listLayer, smallFunctionLayer) => {
+    const referenceLat = smallFunctionLayer?._latlng.lat; // Latitude of "Function 1"
+    const referenceLng = smallFunctionLayer?._latlng.lng;
+
+    listLayer.sort((a, b) => {
+      const distanceA = calculateDistance(referenceLat, referenceLng, a?._latlng.lat, a?._latlng.lng);
+      const distanceB = calculateDistance(referenceLat, referenceLng, b?._latlng.lat, b?._latlng.lng);
+      return distanceA - distanceB; // Sort in ascending order of distance
+    });
+  }
+
   const refreshLayerAndControlRect = (map, drawnItemsCircle, drawControlCircle) => {
     map.removeLayer(drawnItemsCircle);
     map.removeControl(drawControlCircle)
@@ -278,7 +349,8 @@ const Markers = ({ setModal, setModalType }) => {
         const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
         if (globalStore.addIcon === 'person') {
-          addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType)
+          addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+              globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
         }
@@ -316,28 +388,37 @@ const Markers = ({ setModal, setModalType }) => {
 
   // Handle events on map
   useMapEvents({
+
     // Open right-click menu on map
     contextmenu(e) {
       if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
-        worldPopup(map, e, globalStore.map, globalStore.toggleHouseView);
+        worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setMapElementRelate, globalStore.setMapElementSelected);
       }
     },
+
     // Add markers to map by click event
     click(e) {
       console.log(`${e.latlng.lat} ${e.latlng.lng}`);
-      // console.log(e);
-      // globalStore.addIconHandle('');
+
       if (globalStore.click) {
         // Add Person Marker
         if (globalStore.addIcon === 'person') {
-          addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType)
+          globalStore.resetPositionScroll();
+          addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+              globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           let index = markerPersonIndex[0];
+          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng,'Person ' + index)
           globalStore.addMarkerPopulationToList(index)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'function') {
-          addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          globalStore.resetPositionScroll();
+          if (globalStore.tableView !== '') {
+            addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          } else {
+            addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+          }
           let index = markerFnIndex[0];
           globalStore.addMarkerFnToList(index)
           markerFnIndex[0]++;
@@ -359,12 +440,19 @@ const Markers = ({ setModal, setModalType }) => {
           addDistance(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle(''); 
         }
+        else if (globalStore.addIcon === 'relate') {
+          globalStore.resetPositionScroll();
+          addRelateMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+          globalStore.addIconHandle('');
+        }
         else if (globalStore.addIcon === 'scroll-feature') {
-          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
-          // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
           globalStore.resetDataScroll();
           globalStore.addIconHandle('');
+        }
+        else if (globalStore.mapElementSelected) {
+          const mapElement = globalStore.mapElementSelected;
+          addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement);
         }
       }
     }

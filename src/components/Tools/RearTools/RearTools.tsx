@@ -34,8 +34,6 @@ const ItemList: ItemInterface[] = [
   {value: 'scroll-feature', Icon: ScrollFeatureIcon, name: 'Scroll feature', ability: true},
   {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
   {value: 'mobility', Icon: VectorIcon, name: 'Mobility', ability: true},
-  {value: 'scroll-feature', Icon: VectorIcon, name: 'Scroll feature', ability: true},
-
 ]
 
 const RearTools: React.FC = (): JSX.Element => {

@@ -1,5 +1,9 @@
 @import './variables';
 
+:root {
+  --time-animation: 2s;
+}
+
 html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, 

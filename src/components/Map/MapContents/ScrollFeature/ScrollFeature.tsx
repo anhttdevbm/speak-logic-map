@@ -20,7 +20,7 @@ const ScrollFeature = () => {
     const [iNumber, setINumber] = useState<any>(null);
     const [iPercent, setIPercent] = useState<any>(null);
     const [date, setDate] = useState<any>(null);
-    const stepDate =(data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / 2);
+    const stepDate = Math.floor((data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / data.stepPerformance));
     const randomNumberInRange = (min: number, max: number) => {
         // 👇️ get number between min (inclusive) and max (inclusive)
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -42,6 +42,7 @@ const ScrollFeature = () => {
 
             if (i < iNumber) {
                 fill = data.startColor
+
                 y = randomNumberInRange(20, 70) - 5
                 x = randomNumberInRange(18, 38) - 5
             } else {
@@ -73,10 +74,14 @@ const ScrollFeature = () => {
     const handleStep = () => {
         // setIsStart(!isStart)
         let number = iPercent + data.stepPerformance;
-        if (number > data.endPerformance) number = data.endPerformance;
+        let dateStep = Number(date) + Number(stepDate);
+        if (number >= data.endPerformance) {
+            number = data.endPerformance;
+            dateStep = data.endDate;
+        }
         setIPercent(number);
         setINumber(10 - (number / 10));
-        setDate(date + stepDate);
+        setDate(dateStep);
 
     }
 
