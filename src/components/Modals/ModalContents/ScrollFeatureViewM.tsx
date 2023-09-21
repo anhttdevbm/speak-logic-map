@@ -1,7 +1,7 @@
 import {observer} from "mobx-react-lite";
 import styles from "./_ModalContents.module.scss";
-import React, {useState} from "react";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
+import React, {useEffect, useState} from "react";
+import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
 import {Button, Col, Form, Input, Radio, Row, Select, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
@@ -90,13 +90,18 @@ const ScrollFeatureViewM = () => {
     const [data, setData] = useState<DataType[]>([]);
     const [country, setCountry] = useState<any>(null);
     const [radioValue, setRadiovalue] = useState('manual');
+    const [isClickAdd, setIsClickAdd] = useState<boolean>();
     const [form] = Form.useForm();
     const globalStore = useGlobalStore();
+
+    useEffect(() => {
+        setIsClickAdd(false);
+    }, [])
     const closeModal = () => {
         globalStore.resetPositionScroll();
     }
     const handleCountry = (value: any) => {
-        setCountry(value);
+        setCountry(value.fullName)
     }
 
     const handleSave = () => {
@@ -131,6 +136,11 @@ const ScrollFeatureViewM = () => {
         debugger
         console.log(dataScroll);
         globalStore.setDataScroll(dataScroll);
+        setIsClickAdd(false);
+    }
+
+    const clickAddBtn = () => {
+        setIsClickAdd(true);
     }
 
     const convertColor = (value: string | undefined) => {
@@ -164,31 +174,37 @@ const ScrollFeatureViewM = () => {
     }
 
     const onFinish = (value: DataType) => {
-        const simulation = value.simulation ?? data[0].simulation;
-        const objectColor = convertColor(simulation);
-        const copyValue: DataType = {
-            key: value.country + "-" + data.length,
-            startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
-            endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
-            startColor: objectColor.startColor,
-            endColor: objectColor.endColor,
-            ...value
-        }
-        const dataCopy: any = data.map((item: any, index: number) => {
-            item = {
-                // key: value.country + "-" + index,
+        if (isClickAdd) {
+            const simulation = value.simulation ?? data[0].simulation;
+            const objectColor = convertColor(simulation);
+
+            const copyValue: DataType = {
+                ...value,
+                key: country + "-" + data.length,
+                country: country,
                 startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
                 endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
                 startColor: objectColor.startColor,
                 endColor: objectColor.endColor,
-                startDate: value.startDate,
-                endDate: value.endDate,
-                ...item
             }
-            return item;
-        })
-        dataCopy.push(copyValue);
-        setData(dataCopy);
+            const dataCopy: any = data.map((item: any, index: number) => {
+                item = {
+                    ...item,
+                    key: item.country + "-" + index,
+                    startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
+                    endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
+                    startColor: objectColor.startColor,
+                    endColor: objectColor.endColor,
+                    startDate: value.startDate,
+                    endDate: value.endDate,
+                    country: country
+                }
+                return item;
+            })
+            dataCopy.push(copyValue);
+            setData(dataCopy);
+            setIsClickAdd(false);
+        }
         // onReset();
     }
 
@@ -198,7 +214,7 @@ const ScrollFeatureViewM = () => {
     const handleRadio = (value: any) => {
         setRadiovalue(value.target.value);
     }
-    console.log(radioValue);
+
     return (
         <div>
             <div className={`${styles['simulation-setting-wrap']}`} onClick={e => e.stopPropagation()}>
@@ -250,8 +266,9 @@ const ScrollFeatureViewM = () => {
                                         label="Select Country"
                                         name="country"
                                     >
-                                        <Input/>
-                                        {/*<SearchCountry setCountry={handleCountry}/>*/}
+                                        <SearchCountry setCountry={handleCountry}/>
+
+                                        {/*<Input/>*/}
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
@@ -320,7 +337,8 @@ const ScrollFeatureViewM = () => {
                                     <Row justify="space-between">
                                         <Col span={12}>
                                             <Form.Item<FieldType>>
-                                                <Button size="middle" type="primary" htmlType="submit">
+                                                <Button size="middle" type="primary" htmlType="submit"
+                                                        onClick={clickAddBtn}>
                                                     Add
                                                 </Button>
                                             </Form.Item>
@@ -337,12 +355,12 @@ const ScrollFeatureViewM = () => {
                             </Row>
                             <div style={{margin: 10}}/>
                             {
-                                data && data.length == 0 ? null :
-                                    <Row>
-                                        <Table columns={columns}
-                                               dataSource={data}
-                                               pagination={{pageSize: 50}} scroll={{y: 240}}/>
-                                    </Row>
+                                data && data.length >= 0 &&
+                                <Row>
+                                    <Table columns={columns}
+                                           dataSource={data}
+                                           pagination={{pageSize: 50}} scroll={{y: 240}}/>
+                                </Row>
                             }
                         </Form>
                     </div>
