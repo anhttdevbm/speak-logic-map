@@ -149,7 +149,7 @@ export const addMarkerCountryGroupFn = (map, lat, lng, name, countryName, group,
     .openPopup();
 }
 
-export const addMarkerWelcomeSign2 = (map, lat, lng, isLocked) => {
+export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
   L.marker([lat, lng], {
     target: { status: 'add' },
     icon: markerNavigationSignIcon(),
@@ -168,10 +168,6 @@ export const addMarkerWelcomeSign2 = (map, lat, lng, isLocked) => {
     })
     .addTo(map)
 }
-
-export const addMarkerScrollFeature = (map, lat, lng, isLocked) => {
-}
-
 
 export const addHouseMarker = (map, lat, lng, isLocked) => {
   L.marker([lat, lng], {

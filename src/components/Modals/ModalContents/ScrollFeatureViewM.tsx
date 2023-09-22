@@ -1,0 +1,370 @@
+import {observer} from "mobx-react-lite";
+import styles from "./_ModalContents.module.scss";
+import React, {useEffect, useState} from "react";
+import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
+import {CloseIcon} from "@/components/Icons/Icons";
+import {Button, Col, Form, FormInstance, Input, InputNumber, Radio, Row, Select, Table} from "antd";
+import {ColumnsType} from "antd/es/table";
+import {Marker, Popup} from "react-leaflet";
+import ScrollFeature from "@/components/Map/MapContents/ScrollFeature/ScrollFeature";
+import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
+
+interface DataType {
+    key?: string;
+    functionName?: string;
+    startDate?: number | null;
+    endDate?: number | null;
+    country?: any;
+    startPerformance?: number | null;
+    startPerformanceTitle?: string;
+    endPerformance?: number | null;
+    endPerformanceTitle?: string;
+    simulation?: string;
+    numberFunction?: number | null;
+    startColor?: string;
+    endColor?: string;
+}
+
+const columns: ColumnsType<DataType> = [
+    {
+        title: 'Functions',
+        dataIndex: 'functionName',
+        width: 100,
+    },
+    {
+        title: 'Countries',
+        dataIndex: 'country',
+        width: 150,
+    },
+    {
+        title: 'Number of functions',
+        dataIndex: 'numberFunction',
+        width: 150,
+    },
+    {
+        title: 'Start Date',
+        dataIndex: 'startDate',
+        width: 100,
+    },
+    {
+        title: 'End Date',
+        dataIndex: 'endDate',
+        width: 100,
+    },
+    {
+        title: 'Start Performance',
+        dataIndex: 'startPerformanceTitle',
+        width: 150,
+    },
+    {
+        title: 'End Performance',
+        dataIndex: 'endPerformanceTitle',
+        width: 150,
+    },
+];
+
+
+const ScrollFeatureViewM = () => {
+    const {Option} = Select;
+    type FieldType = {
+        functionName?: string;
+        startDate?: number;
+        endDate?: number;
+        country?: string;
+        startPerformance?: string;
+        endPerformance?: string;
+        simulation?: string;
+        numberFunction?: number
+    };
+    const initialValues: DataType = {
+        key: "",
+        functionName: "",
+        startDate: null,
+        endDate: null,
+        country: "",
+        startPerformance: null,
+        endPerformance: null,
+        simulation: "ggreen",
+        numberFunction: null
+    }
+
+    const [data, setData] = useState<DataType[]>([]);
+    const [country, setCountry] = useState<any>(null);
+    const [radioValue, setRadiovalue] = useState('manual');
+    const [form] = Form.useForm();
+    const globalStore = useGlobalStore();
+    const closeModal = () => {
+        globalStore.resetPositionScroll();
+    }
+    const handleCountry = (value: any) => {
+        console.log(value);
+    }
+    const validateDate = () => {
+        if (data.length == 0) return false;
+        data.forEach(value => {
+            value['key'];
+        });
+    }
+
+    // const validateColunms = (value: DataType) => {
+    //     columns.forEach(item => {
+    //         if (value[item?.dataIndex] == null || value[item?.dataIndex] == undefined) return false;
+    //     })
+    //     return true;
+    // }
+
+    const handleSave = () => {
+        closeModal();
+        // @ts-ignore
+        const startPer = data[0].startPerformance == null ? 0 : data[0].startPerformance;
+        // @ts-ignore
+        debugger
+        const endPer = data[0].endPerformance == null ? 0 : data[0].endPerformance;
+        const functions = data.map(value => value.functionName);
+        let countNumbeOfFunction = 0;
+        let numberMax = 0;
+        data.forEach(value => {
+            const numberFunction = Number(value.numberFunction) ? Number(value.numberFunction) : 0;
+            countNumbeOfFunction += numberFunction;
+            numberMax = numberFunction > numberMax ? numberFunction : numberMax;
+        });
+        const numberMin = Math.round(countNumbeOfFunction / data.length);
+        const stepPerformance = Math.round(numberMax / numberMin);
+
+        const dataScroll = {
+            startPerformance: Number(startPer),
+            endPerformance: Number(endPer),
+            stepPerformance: stepPerformance,
+            startColor: data[0].startColor,
+            endColor: data[0].endColor,
+            functions: functions,
+            startDate: data[0].startDate,
+            endDate: data[0].endDate
+
+        }
+        debugger
+        console.log(dataScroll);
+        globalStore.setDataScroll(dataScroll);
+    }
+
+    const convertColor = (value: string | undefined) => {
+        switch (value) {
+            case 'rred':
+                return {
+                    startColor: "red",
+                    endColor: "red"
+                }
+            case 'red':
+                return {
+                    startColor: "red",
+                    endColor: "green"
+                }
+            case 'ggreen':
+                return {
+                    startColor: "green",
+                    endColor: "green"
+                }
+            case 'green':
+                return {
+                    startColor: "green",
+                    endColor: "red"
+                }
+            default:
+                return {
+                    startColor: "",
+                    endColor: ""
+                }
+        }
+    }
+
+    const onFinish = (value: DataType) => {
+        const simulation = value.simulation ?? data[0].simulation;
+        const objectColor = convertColor(simulation);
+
+        const copyValue: DataType = {
+            key: value.country + "-" + data.length,
+            startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
+            endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
+            startColor: objectColor.startColor,
+            endColor: objectColor.endColor,
+            ...value
+        }
+        const dataCopy: any = data.map((item: any, index: number) => {
+            item = {
+                key: item.country + "-" + index,
+                startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
+                endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
+                startColor: objectColor.startColor,
+                endColor: objectColor.endColor,
+                startDate: value.startDate,
+                endDate: value.endDate,
+                ...item
+            }
+            return item;
+        })
+        dataCopy.push(copyValue);
+        setData(dataCopy);
+        // onReset();
+    }
+
+    const onReset = () => {
+        form.resetFields();
+    };
+    const handleRadio = (value: any) => {
+        setRadiovalue(value.target.value);
+    }
+    console.log(radioValue);
+    return (
+        <div>
+            <div className={`${styles['simulation-setting-wrap']}`} onClick={e => e.stopPropagation()}>
+                <div className={`${styles['header']}`}>
+                    <button onClick={closeModal}><CloseIcon/></button>
+                </div>
+                <div className={`${styles['main']}`}>
+                    <div className={`${styles['main-content']}`} style={{padding: 10}}>
+                        <Form
+                            form={form}
+                            name="basic"
+                            labelCol={{span: 11}}
+                            wrapperCol={{span: 13}}
+                            style={{maxWidth: 1000}}
+                            initialValues={initialValues}
+                            onFinish={onFinish}
+                            autoComplete="off"
+                        >
+                            <Radio.Group value={radioValue} onChange={handleRadio}>
+                                <Radio value={'automatic'}>Automatic</Radio>
+                                <Radio value={'manual'}>Manual</Radio>
+                            </Radio.Group>
+                            <Row gutter={[10, 24]}>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="Function name"
+                                        name="functionName"
+                                    >
+                                        <Input/>
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="Start Date"
+                                        name="startDate">
+                                        <Input type={"number"}/>
+                                    </Form.Item>
+                                </Col>
+
+                            </Row>
+                            <div style={{margin: 10}}></div>
+                            <Row gutter={[10, 24]}>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="Select Country"
+                                        name="country"
+                                    >
+
+                                        <Input/>
+                                    </Form.Item>
+                                    {/*<SearchCountry setCountry={handleCountry}/>*/}
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="End Date"
+                                        name="endDate"
+                                    >
+                                        <Input type={"number"}/>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <div style={{margin: 10}}/>
+                            <Row>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="Start Performance"
+                                        name="startPerformance"
+                                    >
+                                        <Input type={"number"}/>
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="End Performance"
+                                        name="endPerformance"
+                                    >
+                                        <Input type={"number"}/>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row gutter={[10, 24]}>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="simulation From"
+                                        name="simulation"
+                                    >
+                                        <select>
+                                            <option value="ggreen">Green to green</option>
+                                            <option value="red">Red to green</option>
+                                            <option value="rred">Red to red</option>
+                                            <option value="green">Green to red</option>
+                                        </select>
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item<FieldType>
+                                        label="Number functon"
+                                        name="numberFunction"
+                                    >
+                                        <Input type={"number"} disabled={radioValue == 'automatic'}/>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={12}/>
+                                <Col span={8}>
+                                    <Row justify="space-between">
+                                        <Col span={12}>
+                                            <Form.Item<FieldType>>
+                                                <Button size="middle" type="primary" htmlType="submit">
+                                                    Add
+                                                </Button>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Form.Item<FieldType>>
+                                                <Button type="default" htmlType="button" onClick={onReset}>
+                                                    Clear
+                                                </Button>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                            <div style={{margin: 10}}/>
+                            {
+                                data && data.length == 0 ? null :
+                                    <Row>
+                                        <Table columns={columns}
+                                               dataSource={data}
+                                               pagination={{pageSize: 50}} scroll={{y: 240}}/>
+                                    </Row>
+                            }
+                        </Form>
+                    </div>
+                </div>
+                <div className={`${styles['footer']}`}>
+                    <small></small>
+                    <div className={`${styles['option-btns']}`}>
+                        <button className='primary-btn' onClick={handleSave}>
+                            OK
+                        </button>
+                        <button className='secondary-btn' onClick={closeModal}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
+export default observer(ScrollFeatureViewM);

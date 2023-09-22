@@ -1,5 +1,4 @@
-import {makeAutoObservable, values} from "mobx";
-import L from "leaflet";
+import {makeAutoObservable} from "mobx";
 import {CountryName} from "@/pages/api/countries";
 
 export class GlobalStore {
@@ -45,12 +44,20 @@ export class GlobalStore {
     listMarkerPopulation: any[] = [];
     listMarkerProblem: any[] = [];
     positionOfScroll: any[] = [];
+    dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
     mapElementRelate = '';
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setDataScroll = (value: any) => {
+        this.dataScroll = value;
+    }
+    resetDataScroll = () => {
+        this.dataScroll = null
     }
 
     setPositionOfScroll = (lat: number, lng: number) => {

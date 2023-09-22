@@ -424,6 +424,13 @@ const Markers = ({ setModal, setModalType }) => {
           addDistance(map, latlng.lat, latlng.lng, globalStore.lock);
           globalStore.addIconHandle(''); 
         }
+        else if (globalStore.addIcon === 'scroll-feature') {
+          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+          // globalStore.addIconHandle('');
+          globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
+          globalStore.resetDataScroll();
+          globalStore.addIconHandle('');
+        }
       }
     }
   }, [globalStore.click, globalStore.addIcon])
@@ -445,7 +452,6 @@ const Markers = ({ setModal, setModalType }) => {
       if (globalStore.click) {
         // Add Person Marker
         if (globalStore.addIcon === 'person') {
-          globalStore.resetPositionScroll();
           addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
               globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           let index = markerPersonIndex[0];
@@ -455,7 +461,6 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'function') {
-          globalStore.resetPositionScroll();
           if (globalStore.tableView !== '') {
             addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
           } else {
@@ -467,22 +472,18 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'house') {
-          globalStore.resetPositionScroll();
           addHouseMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock)
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'welcome-sign') {
-          globalStore.resetPositionScroll();
           addMarkerWelcomeSign(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'inter-route') {
-          globalStore.resetPositionScroll();
           addRoute(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'distance') {
-          globalStore.resetPositionScroll();
           addDistance(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
           globalStore.addIconHandle(''); 
         }
@@ -492,10 +493,11 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'scroll-feature') {
+          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+          // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
-        }
-        else if (globalStore.palletOption === 'text' && globalStore.addIcon === '') {
-          globalStore.setPositionOfTextPallet(e.latlng.lat, e.latlng.lng);
+          globalStore.resetDataScroll();
+          globalStore.addIconHandle('');
         }
         else if (globalStore.mapElementSelected) {
           const mapElement = globalStore.mapElementSelected;

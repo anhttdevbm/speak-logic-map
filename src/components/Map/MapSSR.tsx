@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import {observer} from 'mobx-react-lite';
-import {MapContainer, Polygon, Tooltip, useMap} from "react-leaflet";
+import {MapContainer, Popup, Marker, Polygon, Tooltip, useMap} from "react-leaflet";
 import {useGlobalStore} from '@/providers/RootStoreProvider';
 import {getLocation} from '@/utils/get_geolocation';
 import {CountryData} from '@/pages/api/countries';
@@ -34,7 +34,8 @@ import RectHouse from "./MapContents/Views/rect/RectHouse";
 import RectangularView from "./MapContents/Views/RectangularView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
-import ScrollFeatureView from '../Tools/RearTools/ToolItems/ScrollFeatureView'
+import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
+import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import MoreDetail from "@/components/Map/MapContents/Views/more/MoreDetail";
 
@@ -138,8 +139,14 @@ const MapSSR: React.FC = (): JSX.Element => {
                                     : <></>
                     }
                     <GridLayer showGrid={globalStore.grid}/>
-                    {globalStore.positionOfScroll.length > 0 &&
-                        <ScrollFeatureView position={globalStore.positionOfScroll}/>}
+                    {
+                        globalStore.positionOfScroll.length > 0 &&
+                        <ModalWrap><ScrollFeatureViewM/></ModalWrap>
+                        //     <ScrollFeature data = {[]}/>
+                    }
+                    {
+                        globalStore.dataScroll && <ScrollFeature/>
+                    }
                     {globalStore.positionOfTextPallet.length > 0 &&
                         <TextPopupPallet position={globalStore.positionOfTextPallet}/>}
                     <Markers setModal={setModal} setModalType={setModalType}/>
