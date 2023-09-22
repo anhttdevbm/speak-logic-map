@@ -1,0 +1,97 @@
+.rectangularItem {
+  width: 100px;
+  height: 100px;
+  background-color: #f0f0f0;
+  border: 1px solid #333333;
+  padding: 10px;
+  //margin-right: 20px;
+  position: relative;
+}
+
+.rectangularMapItem {
+  width: 120px;
+  height: 120px;
+  background-color: #f0f0f0;
+  border: 1px solid #333333;
+  //margin-right: 20px;
+  position: relative;
+}
+
+.rowItem {
+  margin-left: 2%;
+  margin-top: 2%;
+}
+
+.divPlus {
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.rectangularList {
+  display: flex;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.rectIcon {
+  margin-top: 10%;
+  margin-left: 15%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 800px !important;
+  height: 300px !important;
+  //transform: translate3d(5%, 20%, 0px) !important;
+  z-index: 1000 !important;
+}
+
+.markerRectHouseName {
+  background-color: transparent;
+  font-weight: 800;
+  font-size: 1rem;
+  word-wrap: break-word;
+  white-space:pre-wrap;
+  margin: 0!important;
+}
+
+.styleText {
+  background-color: transparent;
+  font-weight: 800;
+  font-size: 1rem;
+  margin: 0!important;
+  padding-top: 40%;
+  word-wrap: break-word;
+  white-space:pre-wrap;
+}
+
+.plus {
+  border: 1px solid #333333;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-right: 20px;
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 15px;
+  color: black;
+  width: 20px;
+  height: 20px;
+}
