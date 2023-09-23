@@ -15,7 +15,8 @@ const RectangularView: React.FC = (): JSX.Element => {
             // && !globalStore.mapView
             && !globalStore.tableView
         ) {
-            globalStore.toggleRectangularView('rect-house');
+            globalStore.toggleRectangularView('rect-country');
+            globalStore.toggleRectName('rect-house')
         }
     }
 

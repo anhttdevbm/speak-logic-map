@@ -7,6 +7,7 @@ import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
 import ICON_RELATE from '@/assets/icons/relate-icon.png';
+import ICON_PLUS from '@/assets/icons/plus-icon.png';
 
 export const markerPersonIcon = (className: string, name: string, image: string): L.DivIcon => {
     return L.divIcon({
@@ -179,12 +180,24 @@ export const markerMapElementIcon = (className: string, name: string): L.DivIcon
     })
 }
 
-export const markerRectHouseIcon = (className: string, name: string, html: any): L.DivIcon => {
+export const markerRectHouseIcon = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [500, 300],
+        iconSize: [100, 120],
         iconAnchor: [50, 25],
-        html: html
+        html: `<div>
+                    <img src=${ICON_HOUSE.src} alt="House" width="70" height="70" />
+                    <div class="${styles["marker-house-name-rect"]}">${name}</div>
+               </div>`
+    })
+}
+
+export const markerRectNameIcon = (className: string, name: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [100, 120],
+        iconAnchor: [50, 25],
+        html: name,
     })
 }
 
@@ -194,5 +207,40 @@ export const markerRelateIcon = (className: string, name: string): L.DivIcon => 
         iconSize: [200, 100],
         iconAnchor: [50, 25],
         html: `<img src=${ICON_RELATE.src} alt="Group" width="70" height="70"/>`
+    })
+}
+
+export const markerPlusIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [80, 80],
+        iconAnchor: [50, 25],
+        html: `<img src=${ICON_PLUS.src} alt="Group" width="70" height="70"/>`
+    })
+}
+
+export const markerPopulationCountry = (className: string, name: string, numberPerson: number): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [180, 100],
+        iconAnchor: [20, 30],
+        html: numberPerson == 1 ? (
+            `<div>
+                <div>
+                    <img src="${ICON_PERSON.src}" style="transform: translateX(-50%); left: 20px" alt="Person" width="40" height="40" />
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                </div>
+                <div class="${styles["marker-house-name-rect"]}">${name}</div>
+            </div>`
+        ) :  (
+            `<div>
+                <div style="margin-left: 20px">
+                    <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
+                    <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                </div>
+                <div class="${styles["marker-house-name-rect"]}">${name}</div>
+            </div>`
+        ),
     })
 }

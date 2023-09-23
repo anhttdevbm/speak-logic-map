@@ -23,13 +23,14 @@ export class GlobalStore {
     roomView: 'room-countries' | '' = '';
     floorPlanView: 'floorplan-countries' | '' = '';
     boatView: 'boat-world' | 'boat-countries' | '' = '';
-    rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    rectangularView: 'rect-country' | '' = '';
     mapView: 'map-world' | 'map-countries' | '' = 'map-world';
     tableView: 'table-world' | 'table-countries' | '' = '';
-    moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
+    moreView: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
+    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | '' = '';
@@ -229,7 +230,7 @@ export class GlobalStore {
         this.showBoatWave = !this.showBoatWave;
     }
 
-    toggleRectangularView = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+    toggleRectangularView = (value: 'rect-country' | ''): void => {
         if (value === this.rectangularView) {
             this.rectangularView = '';
             this.mapView = 'map-world'
@@ -237,6 +238,10 @@ export class GlobalStore {
             this.rectangularView = value;
             this.mapView = ''
         }
+    }
+
+    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+        this.rectName = value;
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
@@ -257,7 +262,7 @@ export class GlobalStore {
         }
     }
 
-    toggleMoreView = (value: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | ''): void => {
+    toggleMoreView = (value: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | ''): void => {
         if (value === this.moreView) {
             this.moreView = '';
         } else {
@@ -292,7 +297,15 @@ export class GlobalStore {
     }
 
     addMarkerFnToList = (index: number): void => {
-        this.listMarkerFunction.push({key: index, value: 'Function ' + index})
+        this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
+    }
+
+    setShapeOfMarkerFn = (name: number, shape: string): void => {
+        for (let i = 0; i < this.listMarkerFunction.length; i++) {
+            if (this.listMarkerFunction[i].value === name) {
+                this.listMarkerFunction[i].shape = shape;
+            }
+        }
     }
 
     removeMarkerFnList = (index: number): void => {
@@ -300,7 +313,7 @@ export class GlobalStore {
     }
 
     addMarkerPopulationToList = (index: number): void => {
-        this.listMarkerPopulation.push({key: index, value: 'Function ' + index})
+        this.listMarkerPopulation.push({key: index, value: 'Person  ' + index})
     }
 
     removeMarkerPopulationList = (index: number): void => {

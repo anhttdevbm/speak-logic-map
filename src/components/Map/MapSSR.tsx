@@ -27,6 +27,7 @@ import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
 import RectView from './MapContents/Views/RectView';
+import RView from './MapContents/Views/RView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
 import RelateView from "./MapContents/Views/RelateView";
@@ -36,7 +37,6 @@ import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 import ScrollFeatureView from '../Tools/RearTools/ToolItems/ScrollFeatureView'
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
-import MoreDetail from "@/components/Map/MapContents/Views/more/MoreDetail";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -104,10 +104,9 @@ const MapSSR: React.FC = (): JSX.Element => {
 
     return (
         <>
-            {globalStore.rectangularView !== '' ? <RectView/>
-                : globalStore.moreView !== '' ? <MoreView />
-                : (globalStore.mapElementSelected !== '' && globalStore.mapElementRelate !== '') ? <RelateView />
-                : <MapContainer
+            {(globalStore.mapElementSelected !== '' && globalStore.mapElementRelate !== '') ? <RelateView/>
+                :
+                <MapContainer
                     attributionControl={false}
                     style={{backgroundColor: "#AAD3DF", width: "100%", height: "100%"}}
                     center={[0, 0]}
@@ -188,11 +187,13 @@ const MapSSR: React.FC = (): JSX.Element => {
                             <FloorPlanView/>
                             {/*<BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />*/}
                             {globalStore.boatView !== '' &&
-                                <BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType}/>}
+                                <BoatView selectedData={selectedData} setModal={setModal}
+                                          setModalType={setModalType}/>}
                             {globalStore.tableView !== '' &&
                                 <TableView selectedData={selectedData} setModal={setModal}
                                            setModalType={setModalType}/>}
-                            {/*{globalStore.rectangularView !== '' && <RectangularView selectedData={selectedData} setModal={setModal} setModalType={setModalType}/>}*/}
+                            <RView/>
+                            <MoreView/>
                             {/*<RectView />*/}
                             {/*<MoreView/>*/}
                         </>

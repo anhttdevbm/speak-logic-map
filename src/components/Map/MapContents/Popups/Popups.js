@@ -19,7 +19,7 @@ import {
     distancePopupHTML, countryFnPopupHTML,
     stopFnPopupHTML, tempFnPopupHTML, mainsetPopupHTML,
     roomPopupHTML, worldPopupHTML, wrappingPopupHTML,
-    imgBoundPopupHTML, audioBoundPopupHTML, videoBoundPopupHTML, mapElementPopupHTML
+    imgBoundPopupHTML, audioBoundPopupHTML, videoBoundPopupHTML, mapElementPopupHTML, rectIconPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -103,7 +103,7 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
-export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
+export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn) => {
     clearAllPopups(map);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     // console.log(e.target)
@@ -348,6 +348,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
         let name = e.target.options.icon.options?.html;
 
         if (shape === 'circle') {
+            setShapeOfMarkerFn(name, 'circle');
             e.target.setIcon(
                 markerFnCircleIcon(
                     `${styles['circle-fn']} ${e.target._icon.classList[2]}`,
@@ -355,6 +356,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
                 )
             );
         } else if (shape === 'rectangle') {
+            setShapeOfMarkerFn(name, 'rectangle')
             e.target.setIcon(
                 markerFnIcon(
                     `${styles['rectangle-fn']} ${e.target._icon.classList[2]}`,
@@ -362,6 +364,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
                 )
             );
         } else if (shape === 'ellipse') {
+            setShapeOfMarkerFn(name, 'ellipse')
             e.target.setIcon(
                 markerFnIcon(
                     `${styles['ellipse-fn']} ${e.target._icon.classList[2]}`,
@@ -1242,4 +1245,20 @@ export const mapElementPopup = (map, e) => {
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
+}
+
+
+// Popup shown when right-click icon rect
+export const removeRectIconPopup = (map, e, removeCountryToRect) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        removeCountryToRect(e.target.options.options.type)
+        map.removeLayer(popup);
+    }
 }
