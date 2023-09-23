@@ -242,6 +242,13 @@ const Options: React.FC = (): JSX.Element => {
                 </li>
               </ul>
             </li>
+            <li onClick={() => globalStore.toggleRectName('rect-distance')}>
+              Show distance between country
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectName !== 'rect-distance' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
           </ul>
         </li>
 

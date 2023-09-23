@@ -61,67 +61,92 @@ const RView = ({selectedData}) => {
     }, [globalStore.clear]);
 
     useEffect(() => {
-            let name = '';
-
-            // Check room name option.
-            if (globalStore.fpRoomName === 'room') {
-                name = "Room";
-            } else if (globalStore.fpRoomName === 'r') {
-                name = 'R';
-            }
             let world = {};
             let fpBoundary;
             const countriesLayer = [];
-            if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
-                if (globalStore.rectangularView === 'rect-world') {
-                    map.eachLayer(layer => {
-                        if (layer._arrowheads) {
-                            layer.remove();
-                        }
-                        allLayer.push(layer);
-                    });
+            if (globalStore.rectangularView === 'rect-world') {
+                map.eachLayer(layer => {
+                    if (layer._arrowheads) {
+                        layer.remove();
+                    }
+                    allLayer.push(layer);
+                });
 
-                    map.eachLayer(layer => map.removeLayer(layer));
+                map.eachLayer(layer => map.removeLayer(layer));
 
-                    if (globalStore.map) {
-                        const firstLat = -50;
-                        const firstLng = -120;
-                        const latList = [40.5, -1, -42];
-                        const lngList = [-99, -52, -4, 41, 88]
-                        // Add the floor-plan boundary
-                        let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-                        fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
-                        fpBoundary.addTo(map);
+                if (globalStore.map) {
+                    const firstLat = -50;
+                    const firstLng = -120;
+                    const latList = [40.5, -1, -42];
+                    const lngList = [-99, -52, -4, 41, 88]
+                    // Add the floor-plan boundary
+                    let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                    fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                    fpBoundary.addTo(map);
 
-                        let listCountry = globalStore.listCountryInRect;
-                        let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
-                        if (listCountryIncludedPlus.length === 0) {
-                            listCountry.push({codeName: '', fullName: ''});
-                        }
+                    let listCountry = globalStore.listCountryInRect;
+                    let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
+                    if (listCountryIncludedPlus.length === 0) {
+                        listCountry.push({codeName: '', fullName: ''});
+                    }
 
-                        listCountry.forEach((country, index) => {
-                            const lat = latList[Math.floor(index / lngList.length)];
-                            const lng = lngList[index % lngList.length];
-                            const nameIcon = country.fullName.includes(" ") ? country.codeName : country.fullName;
-                            let countryMarker;
+                    listCountry.forEach((country, index) => {
+                        let countryMarker;
+                        const nameIcon = country.fullName.includes(" ") ? country.codeName : country.fullName;
+
+                        if (globalStore.rectName === 'rect-distance') {
+                            const latListt = [40.5, -1, -42];
+                            const lngListt = [-99, -30, 41, 88];
                             if (country.codeName !== '') {
-                                countryMarker = L.marker([lat, lng], {
+                                countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
                                     options: {
                                         type: country.codeName,
                                     },
-                                    icon: globalStore.rectName === 'rect-house'
-                                        ? markerRectHouseIcon(
-                                            `${styles['rect-house-icon']}`,
-                                            nameIcon.toUpperCase())
-                                        : globalStore.rectName === 'rect-house-no-border'
-                                            ? markerRectHouseIcon(
-                                                `${styles['rect-house-icon-no-border']}`,
-                                                nameIcon.toUpperCase())
-                                            : markerRectNameIcon(`${styles['rect-house-icon']}`,
-                                                nameIcon.toUpperCase()),
+                                    icon: markerRectHouseIcon(
+                                        `${styles['rect-house-icon']}`,
+                                        nameIcon.toUpperCase()),
+                                }).addTo(map)
+                                if (index < listCountry.length - 2) {
+                                    addStaticDistance(map, latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length],
+                                        latListt[Math.floor((index + 1) / lngListt.length)], lngListt[(index + 1) % lngListt.length], true, 'rect-distance')
+                                }
+                            } else {
+                                countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                    options: {
+                                        type: 'room',
+                                    },
+                                    icon: markerPlusIcon(
+                                        `${styles['plus-icon']}`),
                                 })
-                                    .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                    .on('click', e => {
+                                        globalStore.toggleModalInsertCountry();
+                                    })
                                     .addTo(map);
+                            }
+                        } else {
+                            const lat = latList[Math.floor(index / lngList.length)];
+                            const lng = lngList[index % lngList.length];
+                            if (country.codeName !== '') {
+                                if (globalStore.rectName === 'rect-map') {
+                                } else {
+                                    countryMarker = L.marker([lat, lng], {
+                                        options: {
+                                            type: country.codeName,
+                                        },
+                                        icon: globalStore.rectName === 'rect-house'
+                                            ? markerRectHouseIcon(
+                                                `${styles['rect-house-icon']}`,
+                                                nameIcon.toUpperCase())
+                                            : globalStore.rectName === 'rect-house-no-border'
+                                                ? markerRectHouseIcon(
+                                                    `${styles['rect-house-icon-no-border']}`,
+                                                    nameIcon.toUpperCase())
+                                                : markerRectNameIcon(`${styles['rect-house-icon']}`,
+                                                    nameIcon.toUpperCase()),
+                                    })
+                                        .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                        .addTo(map);
+                                }
                             } else {
                                 countryMarker = L.marker([lat, lng], {
                                     options: {
@@ -135,54 +160,53 @@ const RView = ({selectedData}) => {
                                     })
                                     .addTo(map);
                             }
-
-                            countriesLayer.push(countryMarker);
-                        })
-                    }
-                } else if (globalStore.rectangularView === 'rect-country') {
-                    map.eachLayer(layer => {
-                        if (layer._arrowheads) {
-                            layer.remove();
                         }
-                        allLayer.push(layer);
-                    });
-
-                    map.eachLayer(layer => map.removeLayer(layer));
-                    if (!globalStore.map) {
-                        const firstLat = -50;
-                        const firstLng = -120;
-                        const latList = [40.5, -1, -42];
-                        const lngList = [-99, -52, -4, 41, 88]
-                        // Add the floor-plan boundary
-                        let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-                        fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
-                        fpBoundary.addTo(map);
-
-                        let country = selectedData[0].features[0].properties;
-                        console.log('country', country)
-
-                        const lat = latList[0];
-                        const lng = lngList[0];
-                        const nameIcon = country.NAME.includes(" ") ? country.CODE : country.NAME;
-                        let countryMarker = L.marker([lat, lng], {
-                            options: {
-                                type: country.CODE,
-                            },
-                            icon: globalStore.rectName === 'rect-house'
-                                ? markerRectHouseIcon(
-                                    `${styles['rect-house-icon']}`,
-                                    nameIcon.toUpperCase())
-                                : globalStore.rectName === 'rect-house-no-border'
-                                    ? markerRectHouseIcon(
-                                        `${styles['rect-house-icon-no-border']}`,
-                                        nameIcon.toUpperCase())
-                                    : markerRectNameIcon(`${styles['rect-house-icon']}`,
-                                        nameIcon.toUpperCase()),
-                        })
-                            .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
-                            .addTo(map);
                         countriesLayer.push(countryMarker);
+                    })
+                }
+            } else if (globalStore.rectangularView === 'rect-country') {
+                map.eachLayer(layer => {
+                    if (layer._arrowheads) {
+                        layer.remove();
                     }
+                    allLayer.push(layer);
+                });
+
+                map.eachLayer(layer => map.removeLayer(layer));
+                if (!globalStore.map) {
+                    const firstLat = -50;
+                    const firstLng = -120;
+                    const latList = [40.5, -1, -42];
+                    const lngList = [-99, -52, -4, 41, 88]
+                    // Add the floor-plan boundary
+                    let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                    fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                    fpBoundary.addTo(map);
+
+                    let country = selectedData[0].features[0].properties;
+                    console.log('country', country)
+
+                    const lat = latList[0];
+                    const lng = lngList[0];
+                    const nameIcon = country.NAME.includes(" ") ? country.CODE : country.NAME;
+                    let countryMarker = L.marker([lat, lng], {
+                        options: {
+                            type: country.CODE,
+                        },
+                        icon: globalStore.rectName === 'rect-house'
+                            ? markerRectHouseIcon(
+                                `${styles['rect-house-icon']}`,
+                                nameIcon.toUpperCase())
+                            : globalStore.rectName === 'rect-house-no-border'
+                                ? markerRectHouseIcon(
+                                    `${styles['rect-house-icon-no-border']}`,
+                                    nameIcon.toUpperCase())
+                                : markerRectNameIcon(`${styles['rect-house-icon']}`,
+                                    nameIcon.toUpperCase()),
+                    })
+                        .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                        .addTo(map);
+                    countriesLayer.push(countryMarker);
                 }
             } else if (globalStore.rectangularView === '') {
                 let orientation;
@@ -243,7 +267,17 @@ const RView = ({selectedData}) => {
     )
     ;
 
-//
+    const calculationDistaneBetweenCountry = () => {
+        const earthRadius = 6371; // Radius of the Earth in kilometers
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLng = (lng2 - lng1) * (Math.PI / 180);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return earthRadius * c;
+    }
 
     useEffect(() => {
         if (globalStore.showRoomDistance && globalStore.map && globalStore.floorPlanView && !globalStore.roomView) {

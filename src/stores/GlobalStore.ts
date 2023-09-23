@@ -30,7 +30,7 @@ export class GlobalStore {
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
-    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | '' = '';
@@ -240,7 +240,7 @@ export class GlobalStore {
         }
     }
 
-    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | ''): void => {
         this.rectName = value;
     }
 
@@ -249,6 +249,8 @@ export class GlobalStore {
             this.mapView = '';
         } else {
             this.mapView = value;
+            this.mapElementSelected = '';
+            this.mapElementRelate = '';
         }
     }
 
