@@ -26,9 +26,6 @@ import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers
 
 import {resetAllColor} from '../Markers/HandleRouteAndDistance';
 import {addSoluOrProbFn, addStopFn, addTemporaryFn} from '../Markers/AddMarkers';
-import {renderToString} from "react-dom/server";
-import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
 
 // A function that execute whenever user right click on function marker
 // Includes all custom window global functions

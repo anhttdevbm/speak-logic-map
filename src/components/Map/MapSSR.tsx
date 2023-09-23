@@ -27,12 +27,9 @@ import RoomView from './MapContents/Views/RoomView';
 import FloorPlanView from './MapContents/Views/FloorPlanView';
 import BoatView from './MapContents/Views/BoatView';
 import RectView from './MapContents/Views/RectView';
-import RView from './MapContents/Views/RView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
 import RelateView from "./MapContents/Views/RelateView";
-import RectHouse from "./MapContents/Views/rect/RectHouse";
-import RectangularView from "./MapContents/Views/RectangularView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
@@ -199,8 +196,8 @@ const MapSSR: React.FC = (): JSX.Element => {
                             {globalStore.tableView !== '' &&
                                 <TableView selectedData={selectedData} setModal={setModal}
                                            setModalType={setModalType}/>}
-                            <RView selectedData={selectedData}/>
-                            <MoreView selectedData={selectedData}/>
+                            {globalStore.rectangularView !== '' && <RectView selectedData={selectedData}/>}
+                            {globalStore.moreView !== '' && <MoreView selectedData={selectedData}/>}
                             {/*<RectView />*/}
                             {/*<MoreView/>*/}
                         </>
