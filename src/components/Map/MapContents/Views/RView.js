@@ -8,7 +8,7 @@ import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {
     markerDistancePointIcon,
     markerFnIcon,
-    markerHouseIconWithName, markerPlusIcon,
+    markerHouseIconWithName, markerMapCountryIcon, markerPlusIcon,
     markerRectHouseIcon, markerRectNameIcon, markerRelateIcon,
     markerRoomIcon
 } from '../Markers/MarkerIcons';
@@ -22,6 +22,8 @@ import {
 } from '../Markers/AddMarkers';
 import {removeRectIconPopup, tempFnPopup} from "@/components/Map/MapContents/Popups/Popups";
 import {getGeoMainLand} from "@/utils/get_geo_mainland";
+import {renderToString} from "react-dom/server";
+import RectMap from "@/components/Map/MapContents/Views/rect/RectMap";
 
 const RView = ({selectedData}) => {
     const map = useMap();
@@ -89,15 +91,15 @@ const RView = ({selectedData}) => {
                     if (listCountryIncludedPlus.length === 0) {
                         listCountry.push({codeName: '', fullName: ''});
                     }
-
+                    moveToLast(listCountry);
                     listCountry.forEach((country, index) => {
                         let countryMarker;
-                        const nameIcon = country.fullName.includes(" ") ? country.codeName : country.fullName;
 
                         if (globalStore.rectName === 'rect-distance') {
                             const latListt = [40.5, -1, -42];
                             const lngListt = [-99, -30, 41, 88];
                             if (country.codeName !== '') {
+                                const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
                                 countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
                                     options: {
                                         type: country.codeName,
@@ -127,26 +129,29 @@ const RView = ({selectedData}) => {
                             const lat = latList[Math.floor(index / lngList.length)];
                             const lng = lngList[index % lngList.length];
                             if (country.codeName !== '') {
-                                if (globalStore.rectName === 'rect-map') {
-                                } else {
-                                    countryMarker = L.marker([lat, lng], {
-                                        options: {
-                                            type: country.codeName,
-                                        },
-                                        icon: globalStore.rectName === 'rect-house'
+                                const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
+                                countryMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: country.codeName,
+                                    },
+                                    icon: globalStore.rectName === 'rect-house'
+                                        ? markerRectHouseIcon(
+                                            `${styles['rect-house-icon']}`,
+                                            nameIcon.toUpperCase())
+                                        : globalStore.rectName === 'rect-house-no-border'
                                             ? markerRectHouseIcon(
-                                                `${styles['rect-house-icon']}`,
+                                                `${styles['rect-house-icon-no-border']}`,
                                                 nameIcon.toUpperCase())
-                                            : globalStore.rectName === 'rect-house-no-border'
-                                                ? markerRectHouseIcon(
-                                                    `${styles['rect-house-icon-no-border']}`,
-                                                    nameIcon.toUpperCase())
+                                            : globalStore.rectName === 'rect-map'
+                                                ? markerMapCountryIcon(
+                                                    `${styles['rect-house-icon']}`,
+                                                    nameIcon.toUpperCase(), country.codeName.toUpperCase())
                                                 : markerRectNameIcon(`${styles['rect-house-icon']}`,
                                                     nameIcon.toUpperCase()),
-                                    })
-                                        .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
-                                        .addTo(map);
-                                }
+                                })
+                                    .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                    .addTo(map);
+
                             } else {
                                 countryMarker = L.marker([lat, lng], {
                                     options: {
@@ -184,8 +189,6 @@ const RView = ({selectedData}) => {
                     fpBoundary.addTo(map);
 
                     let country = selectedData[0].features[0].properties;
-                    console.log('country', country)
-
                     const lat = latList[0];
                     const lng = lngList[0];
                     const nameIcon = country.NAME.includes(" ") ? country.CODE : country.NAME;
@@ -201,8 +204,12 @@ const RView = ({selectedData}) => {
                                 ? markerRectHouseIcon(
                                     `${styles['rect-house-icon-no-border']}`,
                                     nameIcon.toUpperCase())
-                                : markerRectNameIcon(`${styles['rect-house-icon']}`,
-                                    nameIcon.toUpperCase()),
+                                : globalStore.rectName === 'rect-map'
+                                    ? markerMapCountryIcon(
+                                        `${styles['rect-house-icon']}`,
+                                        nameIcon.toUpperCase(), country.CODE.toUpperCase())
+                                    : markerRectNameIcon(`${styles['rect-house-icon']}`,
+                                        nameIcon.toUpperCase()),
                     })
                         .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
                         .addTo(map);
@@ -263,60 +270,20 @@ const RView = ({selectedData}) => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.rectangularView, globalStore.listCountryInRect, globalStore.rectName, selectedData]
-    )
-    ;
+        }, [globalStore.map, globalStore.listCountryInRect, globalStore.rectangularView, globalStore.rectName,
+                selectedData, globalStore.showModalInsertCountry]
+    );
 
-    const calculationDistaneBetweenCountry = () => {
-        const earthRadius = 6371; // Radius of the Earth in kilometers
-        const dLat = (lat2 - lat1) * (Math.PI / 180);
-        const dLng = (lng2 - lng1) * (Math.PI / 180);
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-            Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return earthRadius * c;
-    }
-
-    useEffect(() => {
-        if (globalStore.showRoomDistance && globalStore.map && globalStore.floorPlanView && !globalStore.roomView) {
-            const roomList = [];
-            map.eachLayer(layer => {
-                // console.log(layer)
-                if (layer.options.options?.type === 'room') {
-                    roomList.push(layer);
-                }
-            })
-
-            if (roomList.length > 1) {
-                for (let i = 0; i < roomList.length - 1; i++) {
-                    for (let j = i + 1; j < roomList.length; j++) {
-                        setTimeout(() => {
-                            addStaticDistance(map, roomList[i]._latlng.lat, roomList[i]._latlng.lng, roomList[j]._latlng.lat, roomList[j]._latlng.lng, true, 'room-distance')
-                        }, 1000)
-                    }
-                }
+    const moveToLast = (arr) => {
+        let element = arr.filter(item => item.codeName === '');
+        if (element.length > 0) {
+            const index = arr.indexOf(element[0]);
+            if (index !== -1) {
+                arr.splice(index, 1);
+                arr.push(element[0]);
             }
-        } else {
-            map.eachLayer(layer => {
-                if (layer.options.options?.type === 'room-distance') {
-                    map.removeLayer(layer.parentLine);
-                    map.removeLayer(layer.parentLine_1);
-                    map.removeLayer(layer.parentArc);
-                    if (layer.parentArcArrow) {
-                        map.removeLayer(layer.parentArcArrow);
-                    }
-                    if (layer.parentArcArrow_1) {
-                        map.removeLayer(layer.parentArcArrow_1);
-                    }
-                    map.removeLayer(layer);
-                }
-            })
         }
-    }, [globalStore.showRoomDistance, globalStore.map, globalStore.floorPlanView])
-
-// Change floor plan text size after zoo
+    }
 
     return null
 }

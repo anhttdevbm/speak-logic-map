@@ -8,6 +8,8 @@ import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
 import ICON_RELATE from '@/assets/icons/relate-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
+import { countryMapList } from '@/utils/country_map_list';
+import {countryFlagList} from "@/utils/country_flag_list";
 
 export const markerPersonIcon = (className: string, name: string, image: string): L.DivIcon => {
     return L.divIcon({
@@ -216,6 +218,32 @@ export const markerPlusIcon = (className: string): L.DivIcon => {
         iconSize: [80, 80],
         iconAnchor: [50, 25],
         html: `<img src=${ICON_PLUS.src} alt="Group" width="70" height="70"/>`
+    })
+}
+
+export const markerMapCountryIcon1 = (className: string, name: string, polygon: string): L.DivIcon => {
+    console.log('polygon', polygon)
+    return L.divIcon({
+        className: className,
+        iconSize: [100, 120],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <div class="marker-content"><svg width="80" height="100"><polygon points="${polygon}" fill="grey" stroke="black" stroke-width="2"/></svg></div>
+                    <div class="${styles["marker-house-name-rect"]}">${name}</div>
+               </div>`
+    })
+}
+
+export const markerMapCountryIcon = (className: string, name: string, code: string): L.DivIcon => {
+    console.log('string', name, code)
+    return L.divIcon({
+        className: className,
+        iconSize: [100, 120],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <img src=${countryMapList[code]} alt="House" style="width: 80px" width="80" height="80" />
+                    <div class="${styles["marker-house-name-rect"]}">${name}</div>
+               </div>`
     })
 }
 

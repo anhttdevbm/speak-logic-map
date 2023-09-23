@@ -241,7 +241,11 @@ export class GlobalStore {
     }
 
     toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | ''): void => {
-        this.rectName = value;
+        if (value === this.rectName) {
+            this.rectName = '';
+        } else {
+            this.rectName = value;
+        }
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
