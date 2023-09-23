@@ -14,7 +14,9 @@ const SwitchOptions: React.FC = (): JSX.Element => {
         <SwitchComp 
           checked={globalStore.map}
           title={{on: 'World', off: 'Country'}}
-          handleOnChange={() => (!globalStore.houseView && !globalStore.roomView && !globalStore.floorPlanView && !globalStore.boatView) && globalStore.toggleMap()}
+          handleOnChange={() => (!globalStore.houseView && !globalStore.roomView && !globalStore.floorPlanView
+              && !globalStore.boatView && !globalStore.tableView && !globalStore.rectangularView && !globalStore.moreView)
+              && globalStore.toggleMap()}
         />
         <span>Mode 1</span>
       </div>

@@ -192,8 +192,8 @@ const MapSSR: React.FC = (): JSX.Element => {
                             {globalStore.tableView !== '' &&
                                 <TableView selectedData={selectedData} setModal={setModal}
                                            setModalType={setModalType}/>}
-                            <RView/>
-                            <MoreView/>
+                            <RView selectedData={selectedData}/>
+                            <MoreView selectedData={selectedData}/>
                             {/*<RectView />*/}
                             {/*<MoreView/>*/}
                         </>

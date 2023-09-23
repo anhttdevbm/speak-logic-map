@@ -21,8 +21,9 @@ import {
     addMarkerCountryFn, addMarkerCountryGroupFn
 } from '../Markers/AddMarkers';
 import {removeRectIconPopup, tempFnPopup} from "@/components/Map/MapContents/Popups/Popups";
+import {getGeoMainLand} from "@/utils/get_geo_mainland";
 
-const RView = () => {
+const RView = ({selectedData}) => {
     const map = useMap();
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
@@ -60,83 +61,128 @@ const RView = () => {
     }, [globalStore.clear]);
 
     useEffect(() => {
-        let name = '';
+            let name = '';
 
-        // Check room name option.
-        if (globalStore.fpRoomName === 'room') {
-            name = "Room";
-        } else if (globalStore.fpRoomName === 'r') {
-            name = 'R';
-        }
-        let world = {};
-        let fpBoundary;
-        const countriesLayer = [];
-        if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
-            if (globalStore.rectangularView === 'rect-country') {
-                map.eachLayer(layer => {
-                    if (layer._arrowheads) {
-                        layer.remove();
-                    }
-                    allLayer.push(layer);
-                });
+            // Check room name option.
+            if (globalStore.fpRoomName === 'room') {
+                name = "Room";
+            } else if (globalStore.fpRoomName === 'r') {
+                name = 'R';
+            }
+            let world = {};
+            let fpBoundary;
+            const countriesLayer = [];
+            if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
+                if (globalStore.rectangularView === 'rect-world') {
+                    map.eachLayer(layer => {
+                        if (layer._arrowheads) {
+                            layer.remove();
+                        }
+                        allLayer.push(layer);
+                    });
 
-                map.eachLayer(layer => map.removeLayer(layer));
+                    map.eachLayer(layer => map.removeLayer(layer));
 
-                if (globalStore.map) {
-                    const firstLat = -50;
-                    const firstLng = -120;
-                    const latList = [40.5, -1, -42];
-                    const lngList = [-99, -52, -4, 41, 88]
-                    // Add the floor-plan boundary
-                    let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-                    fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
-                    fpBoundary.addTo(map);
+                    if (globalStore.map) {
+                        const firstLat = -50;
+                        const firstLng = -120;
+                        const latList = [40.5, -1, -42];
+                        const lngList = [-99, -52, -4, 41, 88]
+                        // Add the floor-plan boundary
+                        let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                        fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                        fpBoundary.addTo(map);
 
-                    let listCountry = globalStore.listCountryInRect;
-                    let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
-                    if (listCountryIncludedPlus.length === 0) {
-                        listCountry.push({codeName: '', fullName: ''});
-                    }
-
-                    listCountry.forEach((country, index) => {
-                        const lat = latList[Math.floor(index / lngList.length)];
-                        const lng = lngList[index % lngList.length];
-                        const nameIcon = country.fullName.includes(" ") ? country.codeName : country.fullName;
-                        let countryMarker;
-                        if (country.codeName !== '') {
-                            countryMarker = L.marker([lat, lng], {
-                                options: {
-                                    type: country.codeName,
-                                },
-                                icon: globalStore.rectName === 'rect-house'
-                                    ? markerRectHouseIcon(
-                                        `${styles['rect-house-icon']}`,
-                                        nameIcon.toUpperCase())
-                                    : globalStore.rectName === 'rect-house-no-border'
-                                        ? markerRectHouseIcon(
-                                            `${styles['rect-house-icon-no-border']}`,
-                                            nameIcon.toUpperCase())
-                                        : markerRectNameIcon(`${styles['rect-house-icon']}`,
-                                            nameIcon.toUpperCase()),
-                            })
-                                .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
-                                .addTo(map);
-                        } else {
-                            countryMarker = L.marker([lat, lng], {
-                                options: {
-                                    type: 'room',
-                                },
-                                icon: markerPlusIcon(
-                                    `${styles['plus-icon']}`),
-                            })
-                                .on('click', e => {
-                                    globalStore.toggleModalInsertCountry();
-                                })
-                                .addTo(map);
+                        let listCountry = globalStore.listCountryInRect;
+                        let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
+                        if (listCountryIncludedPlus.length === 0) {
+                            listCountry.push({codeName: '', fullName: ''});
                         }
 
+                        listCountry.forEach((country, index) => {
+                            const lat = latList[Math.floor(index / lngList.length)];
+                            const lng = lngList[index % lngList.length];
+                            const nameIcon = country.fullName.includes(" ") ? country.codeName : country.fullName;
+                            let countryMarker;
+                            if (country.codeName !== '') {
+                                countryMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: country.codeName,
+                                    },
+                                    icon: globalStore.rectName === 'rect-house'
+                                        ? markerRectHouseIcon(
+                                            `${styles['rect-house-icon']}`,
+                                            nameIcon.toUpperCase())
+                                        : globalStore.rectName === 'rect-house-no-border'
+                                            ? markerRectHouseIcon(
+                                                `${styles['rect-house-icon-no-border']}`,
+                                                nameIcon.toUpperCase())
+                                            : markerRectNameIcon(`${styles['rect-house-icon']}`,
+                                                nameIcon.toUpperCase()),
+                                })
+                                    .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                    .addTo(map);
+                            } else {
+                                countryMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: 'room',
+                                    },
+                                    icon: markerPlusIcon(
+                                        `${styles['plus-icon']}`),
+                                })
+                                    .on('click', e => {
+                                        globalStore.toggleModalInsertCountry();
+                                    })
+                                    .addTo(map);
+                            }
+
+                            countriesLayer.push(countryMarker);
+                        })
+                    }
+                } else if (globalStore.rectangularView === 'rect-country') {
+                    map.eachLayer(layer => {
+                        if (layer._arrowheads) {
+                            layer.remove();
+                        }
+                        allLayer.push(layer);
+                    });
+
+                    map.eachLayer(layer => map.removeLayer(layer));
+                    if (!globalStore.map) {
+                        const firstLat = -50;
+                        const firstLng = -120;
+                        const latList = [40.5, -1, -42];
+                        const lngList = [-99, -52, -4, 41, 88]
+                        // Add the floor-plan boundary
+                        let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                        fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                        fpBoundary.addTo(map);
+
+                        let country = selectedData[0].features[0].properties;
+                        console.log('country', country)
+
+                        const lat = latList[0];
+                        const lng = lngList[0];
+                        const nameIcon = country.NAME.includes(" ") ? country.CODE : country.NAME;
+                        let countryMarker = L.marker([lat, lng], {
+                            options: {
+                                type: country.CODE,
+                            },
+                            icon: globalStore.rectName === 'rect-house'
+                                ? markerRectHouseIcon(
+                                    `${styles['rect-house-icon']}`,
+                                    nameIcon.toUpperCase())
+                                : globalStore.rectName === 'rect-house-no-border'
+                                    ? markerRectHouseIcon(
+                                        `${styles['rect-house-icon-no-border']}`,
+                                        nameIcon.toUpperCase())
+                                    : markerRectNameIcon(`${styles['rect-house-icon']}`,
+                                        nameIcon.toUpperCase()),
+                        })
+                            .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                            .addTo(map);
                         countriesLayer.push(countryMarker);
-                    })
+                    }
                 }
             } else if (globalStore.rectangularView === '') {
                 let orientation;
@@ -183,21 +229,21 @@ const RView = () => {
                 });
                 allLayer.splice(0, allLayer.length);
             }
-        }
 
+            return () => {
+                map.removeLayer(world);
+                if (fpBoundary) {
+                    map.removeLayer(fpBoundary);
+                }
+                countriesLayer.forEach((layer) => {
+                    map.removeLayer(layer);
+                });
+            };
+        }, [globalStore.map, globalStore.rectangularView, globalStore.listCountryInRect, globalStore.rectName, selectedData]
+    )
+    ;
 
-        return () => {
-            map.removeLayer(world);
-            if (fpBoundary) {
-                map.removeLayer(fpBoundary);
-            }
-            countriesLayer.forEach((layer) => {
-                map.removeLayer(layer);
-            });
-        };
-    }, [globalStore.map, globalStore.rectangularView, globalStore.countryQuantity, globalStore.listCountryInRect, globalStore.rectName]);
-
-    //
+//
 
     useEffect(() => {
         if (globalStore.showRoomDistance && globalStore.map && globalStore.floorPlanView && !globalStore.roomView) {
@@ -236,39 +282,7 @@ const RView = () => {
         }
     }, [globalStore.showRoomDistance, globalStore.map, globalStore.floorPlanView])
 
-    // Change floor plan text size after zoom
-    useEffect(() => {
-        let fpBoundaryText;
-        if (globalStore.floorPlanView === 'floorplan-countries' && globalStore.map &&
-            globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
-            let textLatLng = [-83, 0]
-            map.eachLayer(layer => {
-                if (layer.options.target?.type === 'fp-boundary-text') {
-                    map.removeLayer(layer);
-                }
-            });
-
-            fpBoundaryText = L.marker(textLatLng, {
-                target: {
-                    type: 'fp-boundary-text',
-                },
-                draggable: false,
-                icon: L.divIcon({
-                    iconSize: [100, 50],
-                    iconAnchor: [50, 25],
-                    className: styles['fp-boundary-text'],
-                    html: `<p style="font-size: ${Math.round(16 * (zoom >= 2 ? zoom / 2 : 1))}px">Floor plan</p>`
-                })
-            })
-            fpBoundaryText.addTo(map);
-        }
-
-        return () => {
-            if (fpBoundaryText) {
-                map.removeLayer(fpBoundaryText);
-            }
-        }
-    }, [zoom, globalStore.map, globalStore.floorPlanView, globalStore.countryQuantity])
+// Change floor plan text size after zoo
 
     return null
 }

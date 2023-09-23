@@ -200,7 +200,7 @@ const Options: React.FC = (): JSX.Element => {
           </ul>
         </li>
 
-        <li className={`${!globalStore.rectangularView}`}>
+        <li className={`${!globalStore.rectangularView && styles['disable']}`}>
           Rectangular View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>

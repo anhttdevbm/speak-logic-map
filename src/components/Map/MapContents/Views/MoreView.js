@@ -22,12 +22,10 @@ import {
 } from '../Markers/AddMarkers';
 import {removeRectIconPopup, tempFnPopup} from "@/components/Map/MapContents/Popups/Popups";
 
-const MoreView = () => {
+const MoreView = ({selectedData}) => {
     const map = useMap();
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
-
-    const [data, setData] = useState([]);
 
     const countriesToMoveToTop = ["CAN", "USA", "MEX"];
 
@@ -57,162 +55,177 @@ const MoreView = () => {
         let world = {};
         let fpBoundary;
         const functionsLayer = [];
-        if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
-            if (globalStore.moreView !== '') {
-                map.eachLayer(layer => {
-                    if (layer._arrowheads) {
-                        layer.remove();
-                    }
-                    allLayer.push(layer);
-                });
+        // if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
+        if (globalStore.moreView !== '') {
+            map.eachLayer(layer => {
+                if (layer._arrowheads) {
+                    layer.remove();
+                }
+                allLayer.push(layer);
+            });
 
-                map.eachLayer(layer => map.removeLayer(layer));
+            map.eachLayer(layer => map.removeLayer(layer));
 
-                if (globalStore.map) {
-                    const firstLat = -50;
-                    const firstLng = -120;
-                    const latList = [40.5, -1, -42];
-                    const lngList = [-99, -52, -4, 41, 88]
-                    // Add the floor-plan boundary
-                    let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-                    fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
-                    fpBoundary.addTo(map);
+            const firstLat = -50;
+            const firstLng = -120;
+            const latList = [40.5, -1, -42];
+            const lngList = [-99, -52, -4, 41, 88]
+            // Add the floor-plan boundary
+            let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+            fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+            fpBoundary.addTo(map);
 
-                    if (globalStore.moreView === 'world-as-function' && globalStore.listMarkerFunction.length > 0) {
-                        addItemDotDot(globalStore.listMarkerFunction).forEach((fn, index) => {
-                            const lat = latList[Math.floor(index / lngList.length)];
-                            const lng = lngList[index % lngList.length];
-                            let functionMarker;
-                            if (fn.key !== '') {
-                                functionMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: fn.value,
-                                    },
-                                    icon: markerFnIcon(
-                                        fn.shape === 'rectangle'
-                                            ? `${styles['rect-house-icon']}` : fn.shape === 'ellipse'
-                                                ? `${styles['ellipse-fn-icon']}` : `${styles['rect-house-icon']}`,
-                                        fn.value)
-                                })
-                                    .addTo(map);
-                            } else {
-                                addIconDotDot(lat, lng)
-                            }
-
-                            functionsLayer.push(functionMarker);
+            if (globalStore.moreView === 'world-as-function' && globalStore.listMarkerFunction.length > 0) {
+                addItemDotDot(globalStore.listMarkerFunction).forEach((fn, index) => {
+                    const lat = latList[Math.floor(index / lngList.length)];
+                    const lng = lngList[index % lngList.length];
+                    let functionMarker;
+                    if (fn.key !== '') {
+                        functionMarker = L.marker([lat, lng], {
+                            options: {
+                                type: fn.value,
+                            },
+                            icon: markerFnIcon(
+                                fn.shape === 'rectangle'
+                                    ? `${styles['rect-house-icon']}` : fn.shape === 'ellipse'
+                                        ? `${styles['ellipse-fn-icon']}` : `${styles['rect-house-icon']}`,
+                                fn.value)
                         })
-                    } else if (globalStore.moreView === 'world-problem-view' && globalStore.listMarkerProblem.length > 0) {
-                        addItemDotDot(globalStore.listMarkerProblem).forEach((pl, index) => {
-                            const lat = latList[Math.floor(index / lngList.length)];
-                            const lng = lngList[index % lngList.length];
-                            let functionMarker;
-                            if (pl.key !== '') {
-                                functionMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: pl.value,
-                                    },
-                                    icon: markerFnIcon(`${styles['rectangleFn']}`, pl.value)
-                                })
-                                    .addTo(map);
-                            } else {
-                                addIconDotDot(lat, lng)
-                            }
-
-                            functionsLayer.push(functionMarker);
-                        })
-                    } else if (globalStore.moreView === 'population-view' && globalStore.listMarkerPopulation.length > 0) {
-                        addItemDotDot(globalStore.listMarkerPopulation).forEach((person, index) => {
-                            const lat = latList[Math.floor(index / lngList.length)];
-                            const lng = lngList[index % lngList.length];
-                            let functionMarker;
-                            if (person.key !== '') {
-                                functionMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: person.value,
-                                    },
-                                    icon: markerPersonIcon(`${styles['rectangleFn']}`, person.value, null)
-                                })
-                                    .addTo(map);
-                            } else {
-                                addIconDotDot(lat, lng)
-                            }
-                            functionsLayer.push(functionMarker);
-                        })
+                            .addTo(map);
                     } else {
-                        const latListt = [40.5, -1, -42];
-                        const lngListt = [-99, -30, 41, 88]
-                        const numberPersonOfEachCountry = getNumberPopulationOfCountry();
-                        if (numberPersonOfEachCountry.length > 0) {
-                            addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
-                                const lat = latListt[Math.floor(index / latListt.length)];
-                                const lng = lngListt[index % latListt.length];
-                                let functionMarker;
-                                if (country.country.codeName !== '') {
-                                    functionMarker = L.marker([lat, lng], {
-                                        options: {
-                                            type: country.country?.codeName,
-                                        },
-                                        icon: markerPopulationCountry(
-                                            `${styles['population-country-icon']}`,
-                                            country.country.fullName.includes(" ") ? country.country.codeName : country.country.fullName,
-                                            country.numberPerson)
-                                    })
-                                        .addTo(map);
-                                } else {
-                                    addIconDotDot(lat, lng)
-                                }
-                                functionsLayer.push(functionMarker);
-                            })
-                        }
+                        addIconDotDot(lat, lng)
+                    }
+
+                    functionsLayer.push(functionMarker);
+                })
+            } else if (globalStore.moreView === 'world-problem-view' && globalStore.listMarkerProblem.length > 0) {
+                addItemDotDot(globalStore.listMarkerProblem).forEach((pl, index) => {
+                    const lat = latList[Math.floor(index / lngList.length)];
+                    const lng = lngList[index % lngList.length];
+                    let functionMarker;
+                    if (pl.key !== '') {
+                        functionMarker = L.marker([lat, lng], {
+                            options: {
+                                type: pl.value,
+                            },
+                            icon: markerFnIcon(`${styles['rectangleFn']}`, pl.value)
+                        })
+                            .addTo(map);
+                    } else {
+                        addIconDotDot(lat, lng)
+                    }
+
+                    functionsLayer.push(functionMarker);
+                })
+            } else if (globalStore.moreView === 'population-view' && globalStore.listMarkerPopulation.length > 0) {
+                addItemDotDot(globalStore.listMarkerPopulation).forEach((person, index) => {
+                    const lat = latList[Math.floor(index / lngList.length)];
+                    const lng = lngList[index % lngList.length];
+                    let functionMarker;
+                    if (person.key !== '') {
+                        functionMarker = L.marker([lat, lng], {
+                            options: {
+                                type: person.value,
+                            },
+                            icon: markerPersonIcon(`${styles['rectangleFn']}`, person.value, null)
+                        })
+                            .addTo(map);
+                    } else {
+                        addIconDotDot(lat, lng)
+                    }
+                    functionsLayer.push(functionMarker);
+                })
+            } else {
+                const latListt = [40.5, -1, -42];
+                const lngListt = [-99, -30, 41, 88];
+                if (globalStore.map) {
+                    const numberPersonOfEachCountry = getNumberPopulationOfCountry();
+                    if (numberPersonOfEachCountry.length > 0) {
+                        addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
+                            const lat = latListt[Math.floor(index / latListt.length)];
+                            const lng = lngListt[index % latListt.length];
+                            let functionMarker;
+                            if (country.country.codeName !== '') {
+                                functionMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: country.country?.codeName,
+                                    },
+                                    icon: markerPopulationCountry(
+                                        `${styles['population-country-icon']}`,
+                                        country.country.fullName.includes(" ") ? country.country.codeName : country.country.fullName,
+                                        country.numberPerson)
+                                })
+                                    .addTo(map);
+                            } else {
+                                addIconDotDot(lat, lng)
+                            }
+                            functionsLayer.push(functionMarker);
+                        })
+                    }
+                } else {
+                    const lat = latListt[0];
+                    const lng = lngListt[0];
+                    let country = selectedData[0].features[0].properties;
+                    let functionMarker = L.marker([lat, lng], {
+                        options: {
+                            type: country.NAME,
+                        },
+                        icon: markerPopulationCountry(
+                            `${styles['population-country-icon']}`,
+                            country.NAME.includes(" ") ? country.CODE : country.NAME,
+                            country.numberPerson)
+                    })
+                        .addTo(map);
+                    functionsLayer.push(functionMarker);
+                }
+
+            }
+
+        } else if (globalStore.moreView === '') {
+            let orientation;
+            let point1;
+            let point2;
+            let name;
+
+            allLayer.forEach(layer => {
+                if (layer._text) {
+                    delete layer._text;
+                }
+                map.addLayer(layer);
+            });
+
+            map.eachLayer(layer => {
+                if (
+                    layer.setText && layer.options.color !== 'transparent' &&
+                    (layer.options.type === 'arc' || layer.options.type === 'line')
+                ) {
+                    if (layer.options.kind === 'distance') {
+                        name = 'Distance';
+                    } else {
+                        name = (layer.options.type === 'arc') ? 'Arc-route' : 'Inter-route';
+                    }
+
+                    if (layer.options.type === 'line') {
+                        point1 = layer.getLatLngs()[0].lng;
+                        point2 = layer.getLatLngs()[1].lng;
+                    } else {
+                        point1 = layer.getLatLngs()[1][1];
+                        point2 = layer.getLatLngs()[4][1];
+                    }
+
+                    orientation = (point1 < point2) ? 0 : 180;
+
+                    if (!layer._text) {
+                        layer.setText(name, {
+                            center: true,
+                            offset: -3,
+                            orientation: orientation
+                        });
                     }
                 }
-            } else if (globalStore.moreView === '') {
-                let orientation;
-                let point1;
-                let point2;
-                let name;
-
-                allLayer.forEach(layer => {
-                    if (layer._text) {
-                        delete layer._text;
-                    }
-                    map.addLayer(layer);
-                });
-
-                map.eachLayer(layer => {
-                    if (
-                        layer.setText && layer.options.color !== 'transparent' &&
-                        (layer.options.type === 'arc' || layer.options.type === 'line')
-                    ) {
-                        if (layer.options.kind === 'distance') {
-                            name = 'Distance';
-                        } else {
-                            name = (layer.options.type === 'arc') ? 'Arc-route' : 'Inter-route';
-                        }
-
-                        if (layer.options.type === 'line') {
-                            point1 = layer.getLatLngs()[0].lng;
-                            point2 = layer.getLatLngs()[1].lng;
-                        } else {
-                            point1 = layer.getLatLngs()[1][1];
-                            point2 = layer.getLatLngs()[4][1];
-                        }
-
-                        orientation = (point1 < point2) ? 0 : 180;
-
-                        if (!layer._text) {
-                            layer.setText(name, {
-                                center: true,
-                                offset: -3,
-                                orientation: orientation
-                            });
-                        }
-                    }
-                });
-                allLayer.splice(0, allLayer.length);
-            }
+            });
+            allLayer.splice(0, allLayer.length);
         }
-
 
         return () => {
             map.removeLayer(world);
@@ -225,7 +238,7 @@ const MoreView = () => {
                 }
             });
         };
-    }, [globalStore.map, globalStore.moreView, globalStore.countryQuantity]);
+    }, [globalStore.map, globalStore.moreView, selectedData]);
 
     const addItemDotDot = (listCountry) => {
         if (globalStore.moreView === 'population-view-with-country') {
@@ -290,7 +303,6 @@ const MoreView = () => {
             }
 
         }
-        setData(countNumberPersonOfEachCountry(result))
         return countNumberPersonOfEachCountry(result);
     }
 
