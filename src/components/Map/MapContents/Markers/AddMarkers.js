@@ -26,10 +26,6 @@ import {
 import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit, 
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
-import {Marker, Popup} from "react-leaflet";
-import {useRef} from "react";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
-import {RelatedIcon} from "@/components/Icons/Icons";
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementRelate, setMapElementSelected) => {
   let marker = L.marker([lat, lng], {
@@ -47,8 +43,7 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
 }
 
 
-export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass) => {
-  // console.log(lat, lng);
+export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass, setShapeOfMarkerFn) => {
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
@@ -62,7 +57,7 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
     ),
     draggable: !isLocked,
   })
-    .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e))
+    .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn))
     .on('click', e => addSelectedItem(e, container, isLocked))
     // .on('dblclick', e => toggleBoundaryFn(e))
     .addTo(container);
@@ -370,7 +365,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     [[lat2, lng2], [lat1, lng1]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '0', color: 'black', type: 'arrow' })
+    .arrowheads({ size: 0, color: 'black', type: 'arrow' })
     .addTo(map);
   
   let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -380,7 +375,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     
-    .arrowheads({ color: 'black', type: 'arrow', size: '0' })
+    .arrowheads({ color: 'black', type: 'arrow', size: 0 })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )

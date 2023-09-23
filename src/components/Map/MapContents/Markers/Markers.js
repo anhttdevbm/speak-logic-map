@@ -422,7 +422,7 @@ const Markers = ({ setModal, setModalType }) => {
         }
         else if (globalStore.addIcon === 'distance') {
           addDistance(map, latlng.lat, latlng.lng, globalStore.lock);
-          globalStore.addIconHandle(''); 
+          globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'scroll-feature') {
           // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
@@ -464,10 +464,11 @@ const Markers = ({ setModal, setModalType }) => {
           if (globalStore.tableView !== '') {
             addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
           } else {
-            addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+            globalStore.addMarkerFnToList(markerFnIndex[0])
+            addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn);
           }
-          let index = markerFnIndex[0];
-          globalStore.addMarkerFnToList(index)
+          // let index = markerFnIndex[0];
+          // globalStore.addMarkerFnToList(index)
           markerFnIndex[0]++;
           globalStore.addIconHandle('');
         }

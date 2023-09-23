@@ -200,47 +200,54 @@ const Options: React.FC = (): JSX.Element => {
           </ul>
         </li>
 
-        <li className={`${!globalStore.rectangularView}`}>
+        <li className={`${!globalStore.rectangularView && styles['disable']}`}>
           Rectangular View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>
-            <li onClick={() => globalStore.toggleRectangularView('rect-map')}>
+            <li onClick={() => globalStore.toggleRectName('rect-map')}>
               Show country with map
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectangularView !== 'rect-map' ? styles['hide'] : styles['show']}
+                ${globalStore.rectName !== 'rect-map' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => globalStore.toggleRectangularView('rect-name')}>
+            <li onClick={() => globalStore.toggleRectName('rect-name')}>
               Show country only name
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectangularView !== 'rect-name' ? styles['hide'] : styles['show']}
+                ${globalStore.rectName !== 'rect-name' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li className={`${!globalStore.rectangularView}`}>
               Show country with house
               <RightArrowIcon className={`${styles['sub-icon']}`} />
               <ul className={`${styles['minor-list']}`}>
-                <li onClick={() => globalStore.toggleRectangularView('rect-house')}>
+                <li onClick={() => globalStore.toggleRectName('rect-house')}>
                   Show country as house inside rectangle
                   <CheckIcon
                       className={`
                         ${styles['sub-icon']} 
-                        ${globalStore.rectangularView !== 'rect-house' ? styles['hide'] : styles['show']}
+                        ${globalStore.rectName !== 'rect-house' ? styles['hide'] : styles['show']}
                       `}
                   />
                 </li>
-                <li onClick={() => globalStore.toggleRectangularView('rect-house-no-border')}>
+                <li onClick={() => globalStore.toggleRectName('rect-house-no-border')}>
                   Show country as house outside rectangle
                   <CheckIcon
                       className={`
                         ${styles['sub-icon']} 
-                        ${globalStore.rectangularView !== 'rect-house-no-border' ? styles['hide'] : styles['show']}
+                        ${globalStore.rectName !== 'rect-house-no-border' ? styles['hide'] : styles['show']}
                       `}
                   />
                 </li>
               </ul>
+            </li>
+            <li onClick={() => globalStore.toggleRectName('rect-distance')}>
+              Show distance between country
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectName !== 'rect-distance' ? styles['hide'] : styles['show']}
+              `}/>
             </li>
           </ul>
         </li>
@@ -249,11 +256,11 @@ const Options: React.FC = (): JSX.Element => {
           More View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>
-            <li onClick={() => globalStore.toggleMoreView('world-as-country')}>
+            <li onClick={() => globalStore.toggleMoreView('world-as-function')}>
               World as Function
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreView !== 'world-as-country' ? styles['hide'] : styles['show']}
+                ${globalStore.moreView !== 'world-as-function' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li onClick={() => globalStore.toggleMoreView('population-view')}>
@@ -263,11 +270,11 @@ const Options: React.FC = (): JSX.Element => {
                 ${globalStore.moreView !== 'population-view' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => globalStore.toggleMoreView('population-view-with-map')}>
+            <li onClick={() => globalStore.toggleMoreView('population-view-with-country')}>
               Population View With Country
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreView !== 'population-view-with-map' ? styles['hide'] : styles['show']}
+                ${globalStore.moreView !== 'population-view-with-country' ? styles['hide'] : styles['show']}
               `}/>
             </li>
             <li onClick={() => globalStore.toggleMoreView('world-problem-view')}>

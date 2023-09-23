@@ -875,3 +875,18 @@ export const mapElementPopupHTML = (): string => {
     </div>
   `;
 }
+
+export const rectIconPopupHTML = (): string => {
+    return  `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div 
+        onclick="deleteRectIcon()"
+        class="${styles['row']}"
+      >
+        Delete country
+      </div>
+    </div>
+  `
+}
