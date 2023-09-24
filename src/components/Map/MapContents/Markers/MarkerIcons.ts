@@ -221,21 +221,7 @@ export const markerPlusIcon = (className: string): L.DivIcon => {
     })
 }
 
-export const markerMapCountryIcon1 = (className: string, name: string, polygon: string): L.DivIcon => {
-    console.log('polygon', polygon)
-    return L.divIcon({
-        className: className,
-        iconSize: [100, 120],
-        iconAnchor: [50, 25],
-        html: `<div>
-                    <div class="marker-content"><svg width="80" height="100"><polygon points="${polygon}" fill="grey" stroke="black" stroke-width="2"/></svg></div>
-                    <div class="${styles["marker-house-name-rect"]}">${name}</div>
-               </div>`
-    })
-}
-
 export const markerMapCountryIcon = (className: string, name: string, code: string): L.DivIcon => {
-    console.log('string', name, code)
     return L.divIcon({
         className: className,
         iconSize: [100, 120],
