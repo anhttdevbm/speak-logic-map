@@ -6,7 +6,7 @@ import ICON_PERSON from '@/assets/icons/user-icon.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
-import ICON_RELATE from '@/assets/icons/relate-icon.png';
+import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import { countryMapList } from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
@@ -206,9 +206,9 @@ export const markerRectNameIcon = (className: string, name: string): L.DivIcon =
 export const markerRelateIcon = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 100],
+        iconSize: [400, 400],
         iconAnchor: [50, 25],
-        html: `<img src=${ICON_RELATE.src} alt="Group" width="70" height="70"/>`
+        html: `<img src=${ICON_RELATE.src} alt="Group" width="100" height="100"/>`
     })
 }
 
