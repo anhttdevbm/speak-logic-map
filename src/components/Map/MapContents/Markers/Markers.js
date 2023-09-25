@@ -465,7 +465,9 @@ const Markers = ({ setModal, setModalType }) => {
             addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
           } else {
             globalStore.addMarkerFnToList(markerFnIndex[0])
-            addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn);
+            addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType,
+                null, null, null, globalStore.setShapeOfMarkerFn,
+                globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
           }
           // let index = markerFnIndex[0];
           // globalStore.addMarkerFnToList(index)

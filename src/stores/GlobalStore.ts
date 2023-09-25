@@ -25,7 +25,8 @@ export class GlobalStore {
     rectangularView: 'rect-country' | 'rect-world' | '' = '';
     mapView: 'map-world' | 'map-countries' | '' = 'map-world';
     tableView: 'table-world' | 'table-countries' | '' = '';
-    moreView: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | '' = '';
+    moreView: 'more-world' | 'more-countries' | '' = '';
+    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
@@ -275,11 +276,21 @@ export class GlobalStore {
         }
     }
 
-    toggleMoreView = (value: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | ''): void => {
-        if (value === this.moreView) {
+    toggleMoreView = (value: 'more-world' | 'more-countries' | ''): void => {
+        if (value === this.tableView) {
             this.moreView = '';
+            this.mapView = 'map-world'
         } else {
             this.moreView = value;
+            this.mapView = ''
+        }
+    }
+
+    toggleMoreName = (value: any): void => {
+        if (value === this.moreName) {
+            this.moreName = '';
+        } else {
+            this.moreName = value;
         }
     }
 
@@ -320,6 +331,13 @@ export class GlobalStore {
             }
         }
     }
+    setShapeOfMarkerPl = (name: number, shape: string): void => {
+        for (let i = 0; i < this.listMarkerProblem.length; i++) {
+            if (this.listMarkerProblem[i].value === name) {
+                this.listMarkerProblem[i].shape = shape;
+            }
+        }
+    }
 
     removeMarkerFnList = (index: number): void => {
         this.listMarkerFunction = this.listMarkerFunction.filter((item: any) => item.key != index)
@@ -334,7 +352,7 @@ export class GlobalStore {
     }
 
     addMarkerProblemToList = (index: number): void => {
-        this.listMarkerProblem.push({key: index, value: 'Problem ' + index})
+        this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle'})
     }
 
     setMapElementSelected = (value: any): void => {

@@ -11,6 +11,26 @@ const Options: React.FC = (): JSX.Element => {
     !globalStore.houseView && globalStore.toggleClear();
   }
 
+  const toggleMoreView = (name: string): void => {
+    if (!globalStore.roomView
+        && !globalStore.floorPlanView
+        && !globalStore.boatView
+        && !globalStore.rectangularView
+        // && !globalStore.mapView
+        && !globalStore.tableView
+    ) {
+      globalStore.toggleMoreName(name);
+      if (globalStore.moreName === '') {
+        if (globalStore.map) {
+          globalStore.toggleMapView('map-world');
+        } else {
+          globalStore.toggleMapView('map-countries');
+        }
+      }
+    }
+
+  }
+
   return (
     <button type="button" className={`${styles['left-item-wrap']}`}>
       <UserIcon />
@@ -252,36 +272,36 @@ const Options: React.FC = (): JSX.Element => {
           </ul>
         </li>
 
-        <li className={`${!globalStore.moreView}`}>
+        <li className={`${!globalStore.moreName}`}>
           More View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>
-            <li onClick={() => globalStore.toggleMoreView('world-as-function')}>
+            <li onClick={() => toggleMoreView('world-as-function')}>
               World as Function
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreView !== 'world-as-function' ? styles['hide'] : styles['show']}
+                ${globalStore.moreName !== 'world-as-function' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => globalStore.toggleMoreView('population-view')}>
+            <li onClick={() => toggleMoreView('population-view')}>
               Population View
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreView !== 'population-view' ? styles['hide'] : styles['show']}
+                ${globalStore.moreName !== 'population-view' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => globalStore.toggleMoreView('population-view-with-country')}>
+            <li onClick={() => toggleMoreView('population-view-with-country')}>
               Population View With Country
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreView !== 'population-view-with-country' ? styles['hide'] : styles['show']}
+                ${globalStore.moreName !== 'population-view-with-country' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => globalStore.toggleMoreView('world-problem-view')}>
+            <li onClick={() => toggleMoreView('world-problem-view')}>
               World Problem View
               <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreView !== 'world-problem-view' ? styles['hide'] : styles['show']}
+                ${globalStore.moreName !== 'world-problem-view' ? styles['hide'] : styles['show']}
               `}/>
             </li>
           </ul>

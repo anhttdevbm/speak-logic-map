@@ -43,7 +43,7 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
 }
 
 
-export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass, setShapeOfMarkerFn) => {
+export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
@@ -57,7 +57,7 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
     ),
     draggable: !isLocked,
   })
-    .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn))
+    .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
     .on('click', e => addSelectedItem(e, container, isLocked))
     // .on('dblclick', e => toggleBoundaryFn(e))
     .addTo(container);
@@ -184,7 +184,7 @@ export const addHouseMarker = (map, lat, lng, isLocked) => {
     .addTo(map)
 }
 
-export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType) => {
+export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl) => {
   const formattedName = String(name).toLowerCase();
   const first = formattedName[0].toUpperCase();
   const remain = formattedName.slice(1, formattedName.length);
@@ -198,7 +198,7 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
     ),
   })
     .addTo(map)
-    .on('contextmenu', e => fnProblemPopup(map, e, setModal, setModalType))
+    .on('contextmenu', e => fnProblemPopup(map, e, setModal, setModalType, setShapeOfMarkerPl))
     .on('dblclick', e => {
       if (e.target.options.type.title === 'problem') {
         e.target.options.type.title = 'solution';

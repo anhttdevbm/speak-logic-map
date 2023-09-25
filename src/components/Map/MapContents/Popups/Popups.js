@@ -100,7 +100,7 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
-export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn) => {
+export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
     clearAllPopups(map);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     // console.log(e.target)
@@ -416,7 +416,8 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     // Replace problem / solution
     window.handleAddProblem = (name) => {
         stopFnRunningFeatures(e);
-        addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, isLocked, markerProblemIndex[0], name, setModal, setModalType)
+        addMarkerProblemToList(markerProblemIndex[0]);
+        addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, isLocked, markerProblemIndex[0], name, setModal, setModalType, setShapeOfMarkerPl)
         markerProblemIndex[0]++;
         map.removeLayer(e.target);
         map.removeLayer(popup);
@@ -518,7 +519,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on problem/solution marker
-export const fnProblemPopup = (map, e, setModal, setModalType) => {
+export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerPl) => {
     clearAllPopups(map);
 
     let hasBoundary = e.target.options.boundary;
@@ -551,15 +552,19 @@ export const fnProblemPopup = (map, e, setModal, setModalType) => {
     }
 
     window.changeShapeProblem = (shape) => {
+        let name = e.target.options.icon.options?.html;
         if (shape === "circle") {
+            setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.add(styles["circle-fn-1"]);
             e.target._icon.classList.remove(styles["rectangle-fn"]);
             e.target._icon.classList.remove(styles["ellipse-fn"]);
         } else if (shape === "rectangle") {
+            setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.remove(styles["circle-fn-1"]);
             e.target._icon.classList.add(styles["rectangle-fn"]);
             e.target._icon.classList.remove(styles["ellipse-fn"]);
         } else if (shape === "ellipse") {
+            setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.add(styles["ellipse-fn"]);
             e.target._icon.classList.remove(styles["circle-fn-1"]);
             e.target._icon.classList.remove(styles["rectangle-fn"]);

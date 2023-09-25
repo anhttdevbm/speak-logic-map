@@ -14,7 +14,7 @@ const MapView: React.FC = (): JSX.Element => {
             && !globalStore.rectangularView
             && !globalStore.houseView
             && !globalStore.tableView
-            && !globalStore.moreView
+            && !globalStore.moreName
         ) {
             if (globalStore.map) {
                 globalStore.toggleMapView('map-world');
