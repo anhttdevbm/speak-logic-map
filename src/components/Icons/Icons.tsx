@@ -454,11 +454,11 @@ export const ScrollFeatureIcon: React.NamedExoticComponent<IconProps> = memo(fun
   return (
       <svg width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M3.5 22L6.38675 17H0.613249L3.5 22ZM3 10L3 17.5H4V10H3Z" fill="black"/>
-        <line x1="3" y1="9.75" x2="33" y2="9.75" stroke="black" stroke-width="0.5"/>
+        <line x1="3" y1="9.75" x2="33" y2="9.75" stroke="black" strokeWidth="0.5"/>
         <path d="M18.5 22L21.3868 17H15.6132L18.5 22ZM18 10V17.5H19V10H18Z" fill="black"/>
         <path d="M32.5 22L35.3868 17H29.6132L32.5 22ZM32 10V17.5H33V10H32Z" fill="black"/>
         <line x1="18.5" x2="18.5" y2="10" stroke="black"/>
-        <line x1="3" y1="9.75" x2="33" y2="9.75" stroke="black" stroke-width="0.5"/>
+        <line x1="3" y1="9.75" x2="33" y2="9.75" stroke="black" strokeWidth="0.5"/>
         <path d="M18.5 22L21.3868 17H15.6132L18.5 22ZM18 10V17.5H19V10H18Z" fill="black"/>
         <path d="M32.5 22L35.3868 17H29.6132L32.5 22ZM32 10V17.5H33V10H32Z" fill="black"/>
         <line x1="18.5" x2="18.5" y2="10" stroke="black"/>

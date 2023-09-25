@@ -43,7 +43,8 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
 }
 
 
-export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
+export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
+                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
@@ -65,12 +66,13 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
   return fnMarker;
 }
 
-export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass) => {
+export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
+                                   setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
   // console.log(lat, lng);
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
-      shape: 'rectangle',
+      shape: 'ellipse',
       index: index,
       status: 'add',
     },
@@ -80,7 +82,7 @@ export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModa
     ),
     draggable: !isLocked,
   })
-      .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e))
+      .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
       .on('click', e => addSelectedItem(e, container, isLocked))
       // .on('dblclick', e => toggleBoundaryFn(e))
       .addTo(container);

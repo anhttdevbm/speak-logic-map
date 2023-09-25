@@ -432,9 +432,22 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
       }
+    } else {
+      if (globalStore.mapView !== '') {
+        globalStore.mapLayer.forEach(fn => {
+          console.log('hi', fn)
+          if (fn.type === 'function' && fn.name !== "") {
+            addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
+                null, null, null, globalStore.setShapeOfMarkerFn,
+                globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+          } else if (fn.type === 'person' && fn.name !== "") {
+            addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal, setModalType,
+                globalStore.setMapElementRelate, globalStore.setMapElementSelected)
+          }
+        })
+      }
     }
-  }, [globalStore.click, globalStore.addIcon])
-
+  }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView])
   // Handle events on map
   useMapEvents({
 
@@ -455,20 +468,23 @@ const Markers = ({ setModal, setModalType }) => {
           addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
               globalStore.setMapElementRelate, globalStore.setMapElementSelected)
           let index = markerPersonIndex[0];
-          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng,'Person ' + index)
+          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng,'Person ' + index, 'person')
           globalStore.addMarkerPopulationToList(index)
           markerPersonIndex[0]++;
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'function') {
           if (globalStore.tableView !== '') {
-            addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType);
+            addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType,
+                null, null, null, globalStore.setShapeOfMarkerFn,
+                globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
           } else {
             globalStore.addMarkerFnToList(markerFnIndex[0])
             addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType,
                 null, null, null, globalStore.setShapeOfMarkerFn,
                 globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
           }
+          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng,'Function ' + markerFnIndex[0], 'function');
           // let index = markerFnIndex[0];
           // globalStore.addMarkerFnToList(index)
           markerFnIndex[0]++;

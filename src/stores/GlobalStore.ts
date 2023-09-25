@@ -289,6 +289,7 @@ export class GlobalStore {
     toggleMoreName = (value: any): void => {
         if (value === this.moreName) {
             this.moreName = '';
+            this.mapView = 'map-world'
         } else {
             this.moreName = value;
         }
@@ -363,7 +364,7 @@ export class GlobalStore {
         this.mapElementRelate = value;
     }
 
-    setMapLayer = (lat: any, lng: any, value: any): void => {
-        this.mapLayer.push({lat: lat, lng: lng, name: value})
+    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {
+        this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
     }
 }
