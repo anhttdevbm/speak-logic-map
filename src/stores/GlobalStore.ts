@@ -48,13 +48,9 @@ export class GlobalStore {
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
     listMarkerProblem: any[] = [];
-<<<<<<< Updated upstream
-    positionOfScroll: any = [];
-=======
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     numberPersonInHorizontalLine = 0;
->>>>>>> Stashed changes
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
