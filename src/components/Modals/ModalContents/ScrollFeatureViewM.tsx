@@ -266,7 +266,7 @@ const ScrollFeatureViewM = () => {
                                         name="startDate"
                                         rules={[{required: true, message: 'input is required'}]}
                                     >
-                                       <InputNumber/>
+                                        <Input type={"number"}/>
 
                                     </Form.Item>
                                 </Col>
@@ -290,8 +290,7 @@ const ScrollFeatureViewM = () => {
                                         name="endDate"
                                         rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        {/*<Input type={"number"}/>*/}
-                                        <InputNumber/>
+                                        <Input type={"number"}/>
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -303,8 +302,7 @@ const ScrollFeatureViewM = () => {
                                         name="startPerformance"
                                         rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        {/*<Input type={"number"}/>*/}
-                                        <InputNumber/>
+                                        <Input type={"number"}/>
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
@@ -313,8 +311,7 @@ const ScrollFeatureViewM = () => {
                                         name="endPerformance"
                                         rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        {/*<Input type={"number"}/>*/}
-                                        <InputNumber/>
+                                        <Input type={"number"}/>
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -339,8 +336,8 @@ const ScrollFeatureViewM = () => {
                                         name="numberFunction"
                                         rules={[{required: true, message: 'input is required'}]}
                                     >
-                                        {/*<Input type={"number"} disabled={radioValue == 'automatic'}/>*/}
-                                        <InputNumber disabled={radioValue == 'automatic'}/>
+                                        <Input type={"number"} disabled={radioValue == 'automatic'}/>
+                                        {/*<InputNumber disabled={radioValue == 'automatic'}/>*/}
                                     </Form.Item>
                                 </Col>
                             </Row>
