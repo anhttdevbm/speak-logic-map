@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './ScrollFeature.module.scss';
 import {Button, Col, Row} from "antd";
 import {CaretRightOutlined} from '@ant-design/icons';
@@ -9,7 +9,6 @@ import {useGlobalStore} from "@/providers/RootStoreProvider";
 const ScrollFeature = () => {
     const globalStore = useGlobalStore();
     const data = globalStore.dataScroll;
-
     const circleRadius = 40; // Radius of the large circle
     const numSmallCircles = 10; // Number of small circles
     const smallCircleRadius = 5; // Radius of each small circle
@@ -20,7 +19,9 @@ const ScrollFeature = () => {
     const [iNumber, setINumber] = useState<any>(null);
     const [iPercent, setIPercent] = useState<any>(null);
     const [date, setDate] = useState<any>(null);
-    const stepDate =(data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / 2);
+    const stepDate = Math.floor((data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / data.stepPerformance));
+    const [shouldCount, setShouldCount] = useState(0);
+
     const randomNumberInRange = (min: number, max: number) => {
         // 👇️ get number between min (inclusive) and max (inclusive)
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -34,12 +35,10 @@ const ScrollFeature = () => {
     useEffect(() => {
         setSpan(Math.floor((24 - 1) / data.functions.length))
         let newCircles = []
-
         for (let i = 0; i < numSmallCircles; i++) {
             let x = 0;
             let y = 0;
             let fill = '';
-
             if (i < iNumber) {
                 fill = data.startColor
                 y = randomNumberInRange(20, 70) - 5
@@ -50,8 +49,6 @@ const ScrollFeature = () => {
                 y = randomNumberInRange(20, 70) - 5
                 x = randomNumberInRange(45, 70) - 5
             }
-
-
             // Create a small circle element
             const smallCircle = (
                 <circle
@@ -62,7 +59,6 @@ const ScrollFeature = () => {
                     fill={fill} // You can change the color here
                 />
             );
-
             // Add the small circle to the array
             // smallCircles.push(smallCircle);
             newCircles.push(smallCircle);
@@ -70,16 +66,29 @@ const ScrollFeature = () => {
         setSmallCircles(newCircles);
     }, [iNumber])
 
+    useEffect(() => {
+        if (shouldCount > 0) {
+            const interval = setInterval(() => {
+                handleStep();
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [date]);
     const handleStep = () => {
         // setIsStart(!isStart)
         let number = iPercent + data.stepPerformance;
-        if (number > data.endPerformance) number = data.endPerformance;
+        let dateStep = Number(date) + Number(stepDate);
+        if (number >= data.endPerformance) {
+            number = data.endPerformance;
+            dateStep = data.endDate;
+            setShouldCount(0);
+        } else setShouldCount(shouldCount + 1);
         setIPercent(number);
         setINumber(10 - (number / 10));
-        setDate(date + stepDate);
-
+        setDate(dateStep);
     }
 
+    // @ts-ignore
     return (
         <Marker position={[0, 0]}>
             <Popup>

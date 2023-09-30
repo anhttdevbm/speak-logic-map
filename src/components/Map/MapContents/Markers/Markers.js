@@ -512,8 +512,6 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'scroll-feature') {
-          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
-          // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
           globalStore.resetDataScroll();
           globalStore.addIconHandle('');

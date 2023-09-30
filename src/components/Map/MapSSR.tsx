@@ -2,12 +2,17 @@
 import React, {useEffect, useState} from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
-import {observer} from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 import {MapContainer, Popup, Marker, Polygon, Tooltip, useMap} from "react-leaflet";
 import {useGlobalStore} from '@/providers/RootStoreProvider';
 import {getLocation} from '@/utils/get_geolocation';
 import {CountryData} from '@/pages/api/countries';
 
+// import {observer} from 'mobx-react-lite';
+// import {MapContainer, Polygon, Tooltip, useMap} from "react-leaflet";
+// import {useGlobalStore} from '@/providers/RootStoreProvider';
+// import {getLocation} from '@/utils/get_geolocation';
+// import {CountryData} from '@/pages/api/countries';
 import GridLayer from './MapContents/Grid/Grid';
 import Location from './MapContents/Location/Location';
 import Markers from './MapContents/Markers/Markers';

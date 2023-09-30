@@ -3,11 +3,10 @@ import styles from "./_ModalContents.module.scss";
 import React, {useEffect, useState} from "react";
 import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
-import {Button, Col, Form, FormInstance, Input, InputNumber, Radio, Row, Select, Table} from "antd";
+import {Button, Col, Form, Input, Radio, Row, Select, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
-import {Marker, Popup} from "react-leaflet";
-import ScrollFeature from "@/components/Map/MapContents/ScrollFeature/ScrollFeature";
 import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
+import {InputNumber} from "antd/lib";
 
 interface DataType {
     key?: string;
@@ -257,6 +256,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="Function name"
                                         name="functionName"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <Input/>
                                     </Form.Item>
@@ -264,8 +264,11 @@ const ScrollFeatureViewM = () => {
                                 <Col span={12}>
                                     <Form.Item<FieldType>
                                         label="Start Date"
-                                        name="startDate">
+                                        name="startDate"
+                                        rules={[{required: true, message: 'input is required'}]}
+                                    >
                                         <Input type={"number"}/>
+
                                     </Form.Item>
                                 </Col>
 
@@ -286,6 +289,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="End Date"
                                         name="endDate"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <Input type={"number"}/>
                                     </Form.Item>
@@ -297,6 +301,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="Start Performance"
                                         name="startPerformance"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <Input type={"number"}/>
                                     </Form.Item>
@@ -305,6 +310,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="End Performance"
                                         name="endPerformance"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <Input type={"number"}/>
                                     </Form.Item>
@@ -315,6 +321,7 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="simulation From"
                                         name="simulation"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <select>
                                             <option value="ggreen">Green to green</option>
@@ -328,8 +335,10 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="Number functon"
                                         name="numberFunction"
+                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <Input type={"number"} disabled={radioValue == 'automatic'}/>
+                                        {/*<InputNumber disabled={radioValue == 'automatic'}/>*/}
                                     </Form.Item>
                                 </Col>
                             </Row>
