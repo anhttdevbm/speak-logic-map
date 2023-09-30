@@ -4,13 +4,11 @@ import {Button, Col, Row} from "antd";
 import {CaretRightOutlined} from '@ant-design/icons';
 import {Marker, Popup} from "react-leaflet";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
-import {count} from "console";
 
 
 const ScrollFeature = () => {
     const globalStore = useGlobalStore();
     const data = globalStore.dataScroll;
-    const [stop, setStop] = useState(true);
     const circleRadius = 40; // Radius of the large circle
     const numSmallCircles = 10; // Number of small circles
     const smallCircleRadius = 5; // Radius of each small circle
