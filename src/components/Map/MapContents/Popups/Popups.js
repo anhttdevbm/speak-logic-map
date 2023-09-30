@@ -13,13 +13,26 @@ import {
 import {handleName, markerFnIndex, markerProblemIndex, selectedList} from '../Variables/Variables';
 
 import {
-    fnPopupHTML, personPopupHTML,
-    groupPopupHTML, problemPopupHTML,
-    groupFnLayoutPopupHTML, routePopupHTML,
-    distancePopupHTML, countryFnPopupHTML,
-    stopFnPopupHTML, tempFnPopupHTML, mainsetPopupHTML,
-    roomPopupHTML, worldPopupHTML, wrappingPopupHTML,
-    imgBoundPopupHTML, audioBoundPopupHTML, videoBoundPopupHTML, mapElementPopupHTML, rectIconPopupHTML
+    fnPopupHTML,
+    personPopupHTML,
+    groupPopupHTML,
+    problemPopupHTML,
+    groupFnLayoutPopupHTML,
+    routePopupHTML,
+    distancePopupHTML,
+    countryFnPopupHTML,
+    stopFnPopupHTML,
+    tempFnPopupHTML,
+    mainsetPopupHTML,
+    roomPopupHTML,
+    worldPopupHTML,
+    wrappingPopupHTML,
+    imgBoundPopupHTML,
+    audioBoundPopupHTML,
+    videoBoundPopupHTML,
+    mapElementPopupHTML,
+    rectIconPopupHTML,
+    givenSetPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -1247,6 +1260,20 @@ export const mapElementPopup = (map, e) => {
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
+}
+
+export const givenSetPopup = (map, e, toggleModalInsertNumberPerson, setPositionOfHorizontalLine) => {
+    clearAllPopups(map);
+    const popup = L.popup([e.latlng.lat, e.latlng.lng], {
+        content: givenSetPopupHTML(),
+        offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
+    });
+    popup.addTo(map);
+
+    window.addHorizontalLine = () => {
+        toggleModalInsertNumberPerson();
+        setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
+    }
 }
 
 

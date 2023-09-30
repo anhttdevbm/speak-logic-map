@@ -29,9 +29,8 @@ import {
   addMarkerScrollFeature,
   addMarkerMapElement,
   addMarkerFnEllipse,
-  addRelateMarker
+  addRelateMarker, addMarkerGivenSet
 } from './AddMarkers'
-import simulation from "@/components/Tools/TopTools/ToolItems/Simulation";
 
 
 // Toggle boundary of selected item
@@ -70,51 +69,79 @@ const Markers = ({ setModal, setModalType }) => {
       root?.style.setProperty("--time-animation", simulationSettingStore.transitionTime ? simulationSettingStore.transitionTime/1000 + 's' : '10s')
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
-          if (simulationSettingStore.effectedFunction === 'Random') {
+          // if (simulationSettingStore.effectedFunction === 'Random') {
             if (simulationSettingStore.boundary === 'Yes') {
               layer._icon.classList.add(styles["boundary"]);
             } else {
               layer._icon.classList.remove(styles["boundary"]);
             }
             // const random = Math.round(Math.random() * 10) % 2;
-            layer._icon.classList.add(styles[`simulation-animate${0}`]);
-          } else {
-            console.log('layer.options', layer)
+          //   layer._icon.classList.add(styles[`simulation-animate${0}`]);
+          // } else {
             listNameFunction.push(layer.options?.icon?.options?.html);
             listLayer.push(layer);
-          }
+          // }
         } else {
           setTimeout(() => {
             layer._icon?.classList.add(styles[`hidden`]);
           }, simulationSettingStore.discardTime)
         }
       });
-      let smallFunction = listNameFunction.sort()[0];
-      let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
-      getListLayerSortedDistance(listLayer, smallFunctionLayer)
-      listLayer.forEach(layer => {
-        setTimeout(() => {
-          if (simulationSettingStore.boundary === 'Yes') {
-            layer._icon.classList.add(styles["boundary"]);
-          } else {
-            layer._icon.classList.remove(styles["boundary"]);
+      if (simulationSettingStore.effectedFunction === 'Random') {
+        shuffleArray(listLayer);
+        let i = 0;
+        while (globalStore.simulation) {
+          setTimeout(() => {
+              listLayer[i]._icon.classList.add(styles[`simulation-animate${0}`]);
+          }, simulationSettingStore.transitionTime)
+          listLayer[i]._icon.classList.remove(styles[`simulation-animate${0}`]);
+          i++;
+          if (i >= listLayer.length) {
+            i = 0;
           }
-          // const random = Math.round(Math.random() * 10) % 2;
-          layer._icon.classList.add(styles[`simulation-animate${0}`]);
-        }, simulationSettingStore.transitionTime)
-      })
+        }
+        // listLayer.forEach((layer, index) => {
+        //   setTimeout(() => {
+        //     if (index %2 === 0) {
+        //       layer._icon.classList.add(styles[`simulation-animate${0}`]);
+        //     } else {
+        //       layer._icon.classList.add(styles[`simulation-animate0-1`]);
+        //     }
+        //   }, simulationSettingStore.transitionTime * index/100)
+        // })
+      } else {
+        let smallFunction = listNameFunction.sort()[0];
+        let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
+        getListLayerSortedDistance(listLayer, smallFunctionLayer);
+        console.log('list', listLayer)
+        listLayer.forEach((layer, index) => {
+          console.log('index', index)
+          setTimeout(() => {
+            layer._icon.classList.add(styles[`simulation-animate${0}`]);
+          }, simulationSettingStore.transitionTime * index)
+          layer._icon.classList.remove(styles[`simulation-animate${0}`]);
+        })
+      }
     }
     else {
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
-          for (let i = 0; i < 6; i++) {
-            layer._icon.classList.remove(styles[`simulation-animate${i}`]);
+          // for (let i = 0; i < 6; i++) {
+            layer._icon.classList.remove(styles[`simulation-animate${0}`]);
+            layer._icon.classList.remove(styles[`simulation-animate0-1`]);
             layer._icon.classList.remove(styles["boundary"]);
-          }
+          // }
         }
       });
     }
-  }, [globalStore.simulation])
+  }, [globalStore.simulation]);
+
+  const shuffleArray = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
 
   useEffect(() => {
     globalStore.setMapLayer(map);
@@ -435,7 +462,6 @@ const Markers = ({ setModal, setModalType }) => {
     } else {
       if (globalStore.mapView !== '') {
         globalStore.mapLayer.forEach(fn => {
-          console.log('hi', fn)
           if (fn.type === 'function' && fn.name !== "") {
             addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
                 null, null, null, globalStore.setShapeOfMarkerFn,
@@ -515,6 +541,14 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
           globalStore.resetDataScroll();
           globalStore.addIconHandle('');
+        }
+        else if (globalStore.addIcon === 'horizontal-line') {
+          globalStore.toggleModalInsertNumberPerson();
+          globalStore.setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
+          // globalStore.addIconHandle('');
+        }
+        else if (globalStore.addIcon === 'main-set') {
+          addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.toggleModalInsertNumberPerson, globalStore.setPositionOfHorizontalLine)
         }
         else if (globalStore.mapElementSelected) {
           const mapElement = globalStore.mapElementSelected;

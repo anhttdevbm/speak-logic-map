@@ -871,6 +871,17 @@ export const mapElementPopupHTML = (): string => {
   `;
 }
 
+export const givenSetPopupHTML = (): string => {
+    return `
+    <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
+      <div 
+        onclick="addHorizontalLine()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Insert horizontal line</div>
+    </div>
+  `;
+}
+
 export const rectIconPopupHTML = (): string => {
     return  `
     <div 

@@ -6,6 +6,7 @@ import ICON_PERSON from '@/assets/icons/user-icon.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
+import ICON_MAIN_SET from '@/assets/icons/main-set.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import { countryMapList } from '@/utils/country_map_list';
@@ -179,6 +180,17 @@ export const markerMapElementIcon = (className: string, name: string): L.DivIcon
         iconSize: [200, 100],
         iconAnchor: [50, 25],
         html: name,
+    })
+}
+
+export const markerGivenSetIcon = (): L.DivIcon => {
+    return L.divIcon({
+        className: "1",
+        iconSize: [200, 100],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <img src=${ICON_MAIN_SET.src} alt="House" width="100" height="100" />
+               </div>`,
     })
 }
 

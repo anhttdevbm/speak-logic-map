@@ -1039,6 +1039,20 @@ $time-animation: var(--time-animation);
 .simulation-animate0 {
   animation-name: flashFnMarker0;
   animation-duration: $time-animation;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  // color: transparent;
+  // background-clip: border-box;
+  // -webkit-text-fill-color: #000;
+  // background-color: orange;
+  // animation: hue 2s infinite linear;
+}
+
+.simulation-animate0-1 {
+  animation-name: flashFnMarker0-1;
+  animation-duration: $time-animation;
+  animation-delay: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   // color: transparent;
@@ -1114,6 +1128,15 @@ $time-animation: var(--time-animation);
   }
   100% {
     background-color: green;
+  }
+}
+
+@keyframes flashFnMarker0-1 {
+  50% {
+    background-color: green;
+  }
+  100% {
+    background-color: red;
   }
 }
 

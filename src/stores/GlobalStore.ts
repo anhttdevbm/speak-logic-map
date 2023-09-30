@@ -44,10 +44,17 @@ export class GlobalStore {
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
+    showModalInsertNumberPerson: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
     listMarkerProblem: any[] = [];
+<<<<<<< Updated upstream
     positionOfScroll: any = [];
+=======
+    positionOfScroll: any[] = [];
+    positionOfHorizontalLine: any[] = [];
+    numberPersonInHorizontalLine = 0;
+>>>>>>> Stashed changes
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
@@ -66,6 +73,13 @@ export class GlobalStore {
 
     setPositionOfScroll = (lat: number, lng: number) => {
         this.positionOfScroll = [lat, lng];
+    }
+
+    setPositionOfHorizontalLine = (lat: number, lng: number) => {
+        this.positionOfHorizontalLine = [lat, lng];
+    }
+    setNumberPersonInHorizontalLine = (value: number) => {
+        this.numberPersonInHorizontalLine = value;
     }
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
@@ -307,6 +321,9 @@ export class GlobalStore {
 
     toggleModalInsertCountry = (): void => {
         this.showModalInsertCountry = !this.showModalInsertCountry;
+    }
+    toggleModalInsertNumberPerson = (): void => {
+        this.showModalInsertNumberPerson = !this.showModalInsertNumberPerson;
     }
 
     setListCountryInRect = (countries: CountryName[]): void => {

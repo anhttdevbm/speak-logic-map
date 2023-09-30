@@ -3,7 +3,7 @@ import { toggleBoundaryFn } from './Markers';
 import { addSelectedItem } from './HandleSelectItem';
 import {
   markerPersonIcon, markerHouseIcon, markerNavigationSignIcon,
-  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon, markerRelateIcon
+  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon, markerRelateIcon, markerGivenSetIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
@@ -16,7 +16,7 @@ import {
   stopFnPopup,
   tempFnPopup,
   personPopup,
-  mapElementPopup
+  mapElementPopup, givenSetPopup
 } from '../Popups/Popups';
 import { 
   groupFnLayoutPopupHTML, groupPersonLayoutPopupHTML, wrappingPopupHTML, 
@@ -429,6 +429,20 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name) => {
     ),
   }).addTo(map)
       .on('contextmenu', e => mapElementPopup(map, e))
+      .on('click', e => addSelectedItem(e, map, isLocked))
+}
+
+export const addMarkerGivenSet = (map, lat, lng, isLocked, name, toggleModalInsertNumberPerson, setPositionOfHorizontalLine) => {
+  L.marker([lat, lng], {
+    draggable: !isLocked,
+    type: {
+      type: 'function',
+      shape: 'rectangle',
+      status: 'add',
+    },
+    icon: markerGivenSetIcon(),
+  }).addTo(map)
+      .on('contextmenu', e => givenSetPopup(map, e, toggleModalInsertNumberPerson, setPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))
 }
 

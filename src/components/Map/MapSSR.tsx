@@ -35,11 +35,13 @@ import RectView from './MapContents/Views/RectView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
 import RelateView from "./MapContents/Views/RelateView";
+import HorizontalView from "./MapContents/Views/HorizontalView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
 import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
+import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -108,114 +110,120 @@ const MapSSR: React.FC = (): JSX.Element => {
     return (
         <>
             {(globalStore.mapElementSelected !== '' && globalStore.mapElementRelate !== '') ? <RelateView/>
-                :
-                <MapContainer
-                    attributionControl={false}
-                    style={{backgroundColor: "#AAD3DF", width: "100%", height: "100%"}}
-                    center={[0, 0]}
-                    zoom={2}
-                    maxZoom={20}
-                    minZoom={2}
-                    maxBounds={bounds}
-                    maxBoundsViscosity={1}
-                >
-                    <Location setIsLoading={setIsLoading}/>
-                    {
-                        isLoading
-                            ? (
-                                <Loading/>
-                            )
-                            :
-                            globalStore.map
+                : (globalStore.addIcon === 'main-set' || globalStore.addIcon === 'horizontal-line') && globalStore.numberPersonInHorizontalLine > 0 ? <HorizontalView />
+                    :
+                    <MapContainer
+                        attributionControl={false}
+                        style={{backgroundColor: "#AAD3DF", width: "100%", height: "100%"}}
+                        center={[0, 0]}
+                        zoom={2}
+                        maxZoom={20}
+                        minZoom={2}
+                        maxBounds={bounds}
+                        maxBoundsViscosity={1}
+                    >
+                        <Location setIsLoading={setIsLoading}/>
+                        {
+                            isLoading
                                 ? (
-                                    <WorldMode/>
+                                    <Loading/>
                                 )
-                                : selectedData.length > 0
+                                :
+                                globalStore.map
                                     ? (
-                                        <CountryMode
-                                            setModal={setModal} setModalType={setModalType}
-                                            setPopulateCountry={setPopulateCountry} selectedData={selectedData}
+                                        <WorldMode/>
+                                    )
+                                    : selectedData.length > 0
+                                        ? (
+                                            <CountryMode
+                                                setModal={setModal} setModalType={setModalType}
+                                                setPopulateCountry={setPopulateCountry} selectedData={selectedData}
+                                            />
+                                        )
+                                        : <></>
+                        }
+                        <GridLayer showGrid={globalStore.grid}/>
+                        {
+                            globalStore.positionOfScroll.length > 0 &&
+                            <ModalWrap><ScrollFeatureViewM/></ModalWrap>
+                            //     <ScrollFeature data = {[]}/>
+                        }
+                        {
+                            globalStore.dataScroll && <ScrollFeature/>
+                        }
+                        {globalStore.positionOfTextPallet.length > 0 &&
+                            <TextPopupPallet position={globalStore.positionOfTextPallet}/>}
+                        <Markers setModal={setModal} setModalType={setModalType}/>
+                        {modal && modalType && (
+                            <ModalWrap setToggleModal={setModal}>
+                                {modalType === 'populate' && populateCountry
+                                    ? (
+                                        <PopulatePropertyM
+                                            setToggleModal={setModal}
+                                            populateCountry={populateCountry}
+                                            setPopulateCountry={setPopulateCountry}
                                         />
                                     )
-                                    : <></>
-                    }
-                    <GridLayer showGrid={globalStore.grid}/>
-                    {
-                        globalStore.positionOfScroll.length > 0 &&
-                        <ModalWrap><ScrollFeatureViewM/></ModalWrap>
-                        //     <ScrollFeature data = {[]}/>
-                    }
-                    {
-                        globalStore.dataScroll && <ScrollFeature/>
-                    }
-                    {globalStore.positionOfTextPallet.length > 0 &&
-                        <TextPopupPallet position={globalStore.positionOfTextPallet}/>}
-                    <Markers setModal={setModal} setModalType={setModalType}/>
-                    {modal && modalType && (
-                        <ModalWrap setToggleModal={setModal}>
-                            {modalType === 'populate' && populateCountry
-                                ? (
-                                    <PopulatePropertyM
-                                        setToggleModal={setModal}
-                                        populateCountry={populateCountry}
-                                        setPopulateCountry={setPopulateCountry}
-                                    />
-                                )
-                                : modalType === 'rename'
-                                    ? (
-                                        <RenameM setToggleModal={setModal}/>
-                                    )
-                                    : modalType === 'boundary-problem'
+                                    : modalType === 'rename'
                                         ? (
-                                            <BoundaryMessageM type='problem' setToggleModal={setModal}/>
+                                            <RenameM setToggleModal={setModal}/>
                                         )
-                                        : modalType === 'boundary-natural'
+                                        : modalType === 'boundary-problem'
                                             ? (
-                                                <BoundaryMessageM type='natural' setToggleModal={setModal}/>
+                                                <BoundaryMessageM type='problem' setToggleModal={setModal}/>
                                             )
-                                            : modalType.startsWith('change-size-country')
+                                            : modalType === 'boundary-natural'
                                                 ? (
-                                                    <ChangeSizeCountryM setToggleModal={setModal}
-                                                                        size={getSizeFromModalType(modalType)}/>
+                                                    <BoundaryMessageM type='natural' setToggleModal={setModal}/>
                                                 )
-                                                : modalType.startsWith('rename-country-fn')
+                                                : modalType.startsWith('change-size-country')
                                                     ? (
-                                                        <RenameCountryM setToggleModal={setModal}
-                                                                        names={getNamesFromModalType(modalType)}/>
+                                                        <ChangeSizeCountryM setToggleModal={setModal}
+                                                                            size={getSizeFromModalType(modalType)}/>
                                                     )
-                                                    : (
-                                                        <></>
-                                                    )}
-                        </ModalWrap>
-                    )}
-                    {/*<MapWithCustomContent />*/}
-                    {selectedData.length > 0 && (
-                        <>
-                            <HouseView selectedData={selectedData}/>
-                            <RoomView selectedData={selectedData}/>
-                            <FloorPlanView/>
-                            {/*<BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />*/}
-                            {globalStore.boatView !== '' &&
-                                <BoatView selectedData={selectedData} setModal={setModal}
-                                          setModalType={setModalType}/>}
-                            {globalStore.tableView !== '' &&
-                                <TableView selectedData={selectedData} setModal={setModal}
-                                           setModalType={setModalType}/>}
-                            {globalStore.rectangularView !== '' && <RectView selectedData={selectedData}/>}
-                            {globalStore.moreName !== '' && <MoreView selectedData={selectedData}/>}
-                            {/*<RectView />*/}
-                            {/*<MoreView/>*/}
-                        </>
-                    )}
+                                                    : modalType.startsWith('rename-country-fn')
+                                                        ? (
+                                                            <RenameCountryM setToggleModal={setModal}
+                                                                            names={getNamesFromModalType(modalType)}/>
+                                                        )
+                                                        : (
+                                                            <></>
+                                                        )}
+                            </ModalWrap>
+                        )}
+                        {/*<MapWithCustomContent />*/}
+                        {selectedData.length > 0 && (
+                            <>
+                                <HouseView selectedData={selectedData}/>
+                                <RoomView selectedData={selectedData}/>
+                                <FloorPlanView/>
+                                {/*<BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />*/}
+                                {globalStore.boatView !== '' &&
+                                    <BoatView selectedData={selectedData} setModal={setModal}
+                                              setModalType={setModalType}/>}
+                                {globalStore.tableView !== '' &&
+                                    <TableView selectedData={selectedData} setModal={setModal}
+                                               setModalType={setModalType}/>}
+                                {globalStore.rectangularView !== '' && <RectView selectedData={selectedData}/>}
+                                {globalStore.moreName !== '' && <MoreView selectedData={selectedData}/>}
+                                {/*<RectView />*/}
+                                {/*<MoreView/>*/}
+                            </>
+                        )}
 
 
-                </MapContainer>
+                    </MapContainer>
             }
             {globalStore.rectangularView !== '' && globalStore.showModalInsertCountry && (
                 <ModalWrap setToggleModal={setModal}>
                     <InsertCountryM/>
                 </ModalWrap>
             )}
+            {
+                globalStore.positionOfHorizontalLine.length > 0 && globalStore.showModalInsertNumberPerson &&
+                <ModalWrap><InsertPersonM/></ModalWrap>
+                //     <ScrollFeature data = {[]}/>
+            }
         </>
     )
 }
