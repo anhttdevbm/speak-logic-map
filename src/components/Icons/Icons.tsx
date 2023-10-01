@@ -467,9 +467,9 @@ export const HorizontalLineIcon: React.NamedExoticComponent<IconProps> = memo(fu
   );
 });
 
-export const ScrollFeatureIcon: React.NamedExoticComponent<IconProps> = memo(function PersonIC({ className }: IconProps): React.ReactElement {
+export const ScrollFeatureIcon: React.NamedExoticComponent<IconProps> = memo(function PersonIC(): React.ReactElement {
   return (
-      <MergeCellsOutlined style={{ fontSize: '30px'}}/>
+      <MergeCellsOutlined style={{fontSize: '30px'}} rev={undefined} />
   );
 });
 
