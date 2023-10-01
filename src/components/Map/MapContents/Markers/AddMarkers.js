@@ -419,7 +419,7 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name) => {
   L.marker([lat, lng], {
     draggable: !isLocked,
     type: {
-      type: 'function',
+      type: 'map-element',
       shape: 'rectangle',
       status: 'add',
     },

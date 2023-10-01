@@ -356,7 +356,9 @@ export class GlobalStore {
     }
 
     addMarkerFnToList = (index: number): void => {
-        this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
+        if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
+            this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
+        }
     }
 
     setShapeOfMarkerFn = (name: number, shape: string): void => {

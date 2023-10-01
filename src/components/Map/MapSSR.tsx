@@ -8,11 +8,6 @@ import {useGlobalStore} from '@/providers/RootStoreProvider';
 import {getLocation} from '@/utils/get_geolocation';
 import {CountryData} from '@/pages/api/countries';
 
-// import {observer} from 'mobx-react-lite';
-// import {MapContainer, Polygon, Tooltip, useMap} from "react-leaflet";
-// import {useGlobalStore} from '@/providers/RootStoreProvider';
-// import {getLocation} from '@/utils/get_geolocation';
-// import {CountryData} from '@/pages/api/countries';
 import GridLayer from './MapContents/Grid/Grid';
 import Location from './MapContents/Location/Location';
 import Markers from './MapContents/Markers/Markers';
@@ -35,7 +30,6 @@ import RectView from './MapContents/Views/RectView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
 import RelateView from "./MapContents/Views/RelateView";
-import HorizontalView from "./MapContents/Views/HorizontalLineView";
 import HorizontalLineView from "./MapContents/Views/HorizontalLineView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
@@ -43,7 +37,6 @@ import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
 import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
-// import HorizontalLineView from "./MapContents/Views/HorizontalLineView";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
