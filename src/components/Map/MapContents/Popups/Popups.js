@@ -716,21 +716,26 @@ export const groupPopup = (map, e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on mainset marker
-export const mainsetPopup = (map, e) => {
-    clearAllPopups(map);
-
-    const popup = L.popup();
-
-    popup
-        .setLatLng([e.latlng.lat, e.latlng.lng])
-        .setContent(mainsetPopupHTML())
-        .addTo(map);
-
-    window.deleteMainSet = () => {
-        map.removeLayer(e.target);
-        map.removeLayer(popup);
-    }
-}
+// export const mainsetPopup = (map, e, toggleModalInsertNumberPerson, setPositionOfHorizontalLine) => {
+//     clearAllPopups(map);
+//
+//     const popup = L.popup();
+//
+//     popup
+//         .setLatLng([e.latlng.lat, e.latlng.lng])
+//         .setContent(mainsetPopupHTML())
+//         .addTo(map);
+//
+//     window.deleteMainSet = () => {
+//         map.removeLayer(e.target);
+//         map.removeLayer(popup);
+//     }
+//
+//     window.insertHorizontalLine = () => {
+//         toggleModalInsertNumberPerson();
+//         setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
+//     }
+// }
 
 export const routePopup = (map, distancePoint, distancePoint2, e) => {
 
@@ -1262,17 +1267,17 @@ export const mapElementPopup = (map, e) => {
     popup.addTo(map);
 }
 
-export const givenSetPopup = (map, e, toggleModalInsertNumberPerson, setPositionOfHorizontalLine) => {
+export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: givenSetPopupHTML(),
-        offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
 
-    window.addHorizontalLine = () => {
-        toggleModalInsertNumberPerson();
-        setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
+    window.deleteMainSet = () => {
+        resetPositionOfHorizontalLine();
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
     }
 }
 
@@ -1288,6 +1293,34 @@ export const removeRectIconPopup = (map, e, removeCountryToRect) => {
 
     window.deleteRectIcon = () => {
         removeCountryToRect(e.target.options.options.type)
+        map.removeLayer(popup);
+    }
+}
+
+export const removeVerticalPersonIconPopup = (map, e, removeVerticalIcon) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        removeVerticalIcon()
+        map.removeLayer(popup);
+    }
+}
+
+export const removeHorizontalIconPopup = (map, e, removeHorizontalIcon) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        removeHorizontalIcon()
         map.removeLayer(popup);
     }
 }

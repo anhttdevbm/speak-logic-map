@@ -432,17 +432,18 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name) => {
       .on('click', e => addSelectedItem(e, map, isLocked))
 }
 
-export const addMarkerGivenSet = (map, lat, lng, isLocked, name, toggleModalInsertNumberPerson, setPositionOfHorizontalLine) => {
+export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
+  setPositionOfHorizontalLine(lat, lng);
   L.marker([lat, lng], {
-    draggable: !isLocked,
+    draggable: false,
     type: {
-      type: 'function',
+      type: 'the-given-set',
       shape: 'rectangle',
       status: 'add',
     },
-    icon: markerGivenSetIcon(),
+    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
   }).addTo(map)
-      .on('contextmenu', e => givenSetPopup(map, e, toggleModalInsertNumberPerson, setPositionOfHorizontalLine))
+      .on('contextmenu', e => givenSetPopup(map, e, resetPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))
 }
 

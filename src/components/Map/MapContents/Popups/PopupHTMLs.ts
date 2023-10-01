@@ -332,8 +332,15 @@ export const groupPopupHTML = (): string => {
 
 export const mainsetPopupHTML = (): string => {
   return `
-    <div onclick="deleteMainSet()" class="${styles['row']}">
-      Delete
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+        <div onclick="insertHorizontalLine()" class="${styles['row']}">
+          Insert Horizontal Line
+        </div>
+        <div onclick="deleteMainSet()" class="${styles['row']}">
+          Delete Main Set
+        </div>
     </div>
   `
 }
@@ -875,9 +882,9 @@ export const givenSetPopupHTML = (): string => {
     return `
     <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
       <div 
-        onclick="addHorizontalLine()"
+        onclick="deleteMainSet()"
         class="${styles['row']} ${styles['on-hover']}"
-      >Insert horizontal line</div>
+      >Delete Item</div>
     </div>
   `;
 }
@@ -891,7 +898,7 @@ export const rectIconPopupHTML = (): string => {
         onclick="deleteRectIcon()"
         class="${styles['row']}"
       >
-        Delete country
+        Delete Item
       </div>
     </div>
   `

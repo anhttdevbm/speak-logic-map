@@ -6,7 +6,8 @@ import ICON_PERSON from '@/assets/icons/user-icon.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
-import ICON_MAIN_SET from '@/assets/icons/main-set.png';
+import ICON_MAIN_SET from '@/assets/icons/main-set-icon.png';
+import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import { countryMapList } from '@/utils/country_map_list';
@@ -183,13 +184,24 @@ export const markerMapElementIcon = (className: string, name: string): L.DivIcon
     })
 }
 
-export const markerGivenSetIcon = (): L.DivIcon => {
+export const markerGivenSetIcon = (className: string): L.DivIcon => {
     return L.divIcon({
-        className: "1",
+        className: className,
         iconSize: [200, 100],
         iconAnchor: [50, 25],
         html: `<div>
-                    <img src=${ICON_MAIN_SET.src} alt="House" width="100" height="100" />
+                    <img src=${ICON_MAIN_SET.src} alt="House" width="150" height="150" />
+               </div>`,
+    })
+}
+
+export const markerVerticalPersonIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [200, 100],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <img src=${ICON_VERTICAL_PERSON.src} alt="House" width="100" height="100" />
                </div>`,
     })
 }

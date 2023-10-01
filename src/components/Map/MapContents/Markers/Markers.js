@@ -65,62 +65,43 @@ const Markers = ({ setModal, setModalType }) => {
       let listLayer = [];
       let listNameFunction = [];
       const root = document.documentElement;
-      console.log('simulationSettingStore.transitionTime/1000 + \'s\'', simulationSettingStore.transitionTime/1000 + 's')
       root?.style.setProperty("--time-animation", simulationSettingStore.transitionTime ? simulationSettingStore.transitionTime/1000 + 's' : '10s')
       map.eachLayer(layer => {
         if (layer.options.target?.type === 'function') {
-          // if (simulationSettingStore.effectedFunction === 'Random') {
             if (simulationSettingStore.boundary === 'Yes') {
               layer._icon.classList.add(styles["boundary"]);
             } else {
               layer._icon.classList.remove(styles["boundary"]);
             }
-            // const random = Math.round(Math.random() * 10) % 2;
-          //   layer._icon.classList.add(styles[`simulation-animate${0}`]);
-          // } else {
-            listNameFunction.push(layer.options?.icon?.options?.html);
-            listLayer.push(layer);
-          // }
+            if (!listNameFunction.includes(layer.options?.icon?.options?.html)) {
+              listNameFunction.push(layer.options?.icon?.options?.html);
+              listLayer.push(layer);
+            }
         } else {
           setTimeout(() => {
             layer._icon?.classList.add(styles[`hidden`]);
           }, simulationSettingStore.discardTime)
         }
       });
-      if (simulationSettingStore.effectedFunction === 'Random') {
-        shuffleArray(listLayer);
-        let i = 0;
-        while (globalStore.simulation) {
-          setTimeout(() => {
-              listLayer[i]._icon.classList.add(styles[`simulation-animate${0}`]);
-          }, simulationSettingStore.transitionTime)
-          listLayer[i]._icon.classList.remove(styles[`simulation-animate${0}`]);
-          i++;
-          if (i >= listLayer.length) {
-            i = 0;
-          }
+      if (listLayer.length > 0) {
+        if (simulationSettingStore.effectedFunction === 'Random') {
+          console.log('listLayer', listLayer)
+          shuffleArray(listLayer);
+          let currentIndex = 0;
+          console.log('listLayer1', listLayer)
+          iterateList(currentIndex, listLayer);
+          // }
+        } else {
+          let smallFunction = listNameFunction.sort()[0];
+          let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
+          getListLayerSortedDistance(listLayer, smallFunctionLayer);
+          listLayer.forEach((layer, index) => {
+            setTimeout(() => {
+              layer._icon.classList.add(styles[`simulation-animate${0}`]);
+            }, simulationSettingStore.transitionTime * index)
+            layer._icon.classList.remove(styles[`simulation-animate${0}`]);
+          })
         }
-        // listLayer.forEach((layer, index) => {
-        //   setTimeout(() => {
-        //     if (index %2 === 0) {
-        //       layer._icon.classList.add(styles[`simulation-animate${0}`]);
-        //     } else {
-        //       layer._icon.classList.add(styles[`simulation-animate0-1`]);
-        //     }
-        //   }, simulationSettingStore.transitionTime * index/100)
-        // })
-      } else {
-        let smallFunction = listNameFunction.sort()[0];
-        let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
-        getListLayerSortedDistance(listLayer, smallFunctionLayer);
-        console.log('list', listLayer)
-        listLayer.forEach((layer, index) => {
-          console.log('index', index)
-          setTimeout(() => {
-            layer._icon.classList.add(styles[`simulation-animate${0}`]);
-          }, simulationSettingStore.transitionTime * index)
-          layer._icon.classList.remove(styles[`simulation-animate${0}`]);
-        })
       }
     }
     else {
@@ -135,6 +116,21 @@ const Markers = ({ setModal, setModalType }) => {
       });
     }
   }, [globalStore.simulation]);
+
+  function iterateList(currentIndex, listLayer) {
+    if (currentIndex < listLayer.length) {
+      listLayer[currentIndex]._icon.classList.add(styles[`simulation-animate${0}`]);
+      // listLayer.forEach((item, index) => {
+      //   if (index === currentIndex) {
+      //     item._icon.classList.add(styles[`simulation-animate${0}`]);
+      //   } else {
+      //     item._icon.classList.remove(styles[`simulation-animate${0}`]);
+      //   }
+      // })
+      currentIndex++;
+      setTimeout(iterateList, simulationSettingStore.transitionTime); // Call the function again after 1 second
+    }
+  }
 
   const shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -452,8 +448,6 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'scroll-feature') {
-          // addMarkerScrollFeature(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
-          // globalStore.addIconHandle('');
           globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
           globalStore.resetDataScroll();
           globalStore.addIconHandle('');
@@ -472,8 +466,18 @@ const Markers = ({ setModal, setModalType }) => {
           }
         })
       }
+      if (globalStore.addIcon === 'horizontal-line') {
+        if (globalStore.positionOfHorizontalLine.length > 0) {
+          globalStore.toggleModalInsertNumberPerson();
+        }
+      }
+      else if (globalStore.addIcon === 'main-set') {
+        if (globalStore.positionOfHorizontalLine.length > 0) {
+          globalStore.setChooseGivenSet(true)
+        }
+      }
     }
-  }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView])
+  }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView, globalStore.positionOfHorizontalLine])
   // Handle events on map
   useMapEvents({
 
@@ -543,12 +547,15 @@ const Markers = ({ setModal, setModalType }) => {
           globalStore.addIconHandle('');
         }
         else if (globalStore.addIcon === 'horizontal-line') {
-          globalStore.toggleModalInsertNumberPerson();
-          globalStore.setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
-          // globalStore.addIconHandle('');
+          if (globalStore.positionOfHorizontalLine.length === 0) {
+            globalStore.toggleModalInsertNumberPerson();
+            globalStore.setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
+          }
         }
         else if (globalStore.addIcon === 'main-set') {
-          addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.toggleModalInsertNumberPerson, globalStore.setPositionOfHorizontalLine)
+          globalStore.setChooseGivenSet(true);
+          addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+              globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
         }
         else if (globalStore.mapElementSelected) {
           const mapElement = globalStore.mapElementSelected;

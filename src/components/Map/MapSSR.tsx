@@ -35,13 +35,15 @@ import RectView from './MapContents/Views/RectView';
 import TableView from './MapContents/Views/TableView';
 import MoreView from "./MapContents/Views/MoreView";
 import RelateView from "./MapContents/Views/RelateView";
-import HorizontalView from "./MapContents/Views/HorizontalView";
+import HorizontalView from "./MapContents/Views/HorizontalLineView";
+import HorizontalLineView from "./MapContents/Views/HorizontalLineView";
 import InsertCountryM from "@/components/Modals/ModalContents/InsertCountryM";
 
 import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
 import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
+// import HorizontalLineView from "./MapContents/Views/HorizontalLineView";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -110,7 +112,7 @@ const MapSSR: React.FC = (): JSX.Element => {
     return (
         <>
             {(globalStore.mapElementSelected !== '' && globalStore.mapElementRelate !== '') ? <RelateView/>
-                : (globalStore.addIcon === 'main-set' || globalStore.addIcon === 'horizontal-line') && globalStore.numberPersonInHorizontalLine > 0 ? <HorizontalView />
+                // : (globalStore.addIcon === 'main-set' || globalStore.addIcon === 'horizontal-line') && globalStore.numberPersonInHorizontalLine > 0 ? <HorizontalView />
                     :
                     <MapContainer
                         attributionControl={false}
@@ -210,6 +212,10 @@ const MapSSR: React.FC = (): JSX.Element => {
                                 {/*<MoreView/>*/}
                             </>
                         )}
+
+                        {(globalStore.addIcon === 'horizontal-line' || globalStore.addIcon === 'main-set')
+                            && globalStore.numberPersonInHorizontalLine > 0
+                            && <HorizontalLineView />}
 
 
                     </MapContainer>

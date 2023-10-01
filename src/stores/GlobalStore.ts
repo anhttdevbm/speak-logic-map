@@ -51,6 +51,7 @@ export class GlobalStore {
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     numberPersonInHorizontalLine = 0;
+    chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
@@ -73,6 +74,12 @@ export class GlobalStore {
 
     setPositionOfHorizontalLine = (lat: number, lng: number) => {
         this.positionOfHorizontalLine = [lat, lng];
+    }
+
+    resetPositionOfHorizontalLine = () => {
+        this.positionOfHorizontalLine = [];
+        this.numberPersonInHorizontalLine = 0;
+        this.chooseGivenSet = false;
     }
     setNumberPersonInHorizontalLine = (value: number) => {
         this.numberPersonInHorizontalLine = value;
@@ -167,7 +174,6 @@ export class GlobalStore {
 
     toggleView = (value: boolean): void => {
         this.isViewOn = value;
-        console.log(value);
     }
 
     toggleHouseView = (value: 'house-world' | 'house-countries' | ''): void => {
@@ -334,6 +340,19 @@ export class GlobalStore {
 
     removeCountryToRect = (country: any): void => {
         this.listCountryInRect = this.listCountryInRect.filter((item: any) => item.codeName !== country);
+    }
+
+    removeVerticalIcon = (): void => {
+        this.numberPersonInHorizontalLine = this.numberPersonInHorizontalLine - 1;
+    }
+
+    setChooseGivenSet = (value: boolean): void => {
+        this.chooseGivenSet = value;
+    }
+
+    removeHorizontalIcon = (): void => {
+        this.positionOfHorizontalLine = [];
+        this.numberPersonInHorizontalLine = 0;
     }
 
     addMarkerFnToList = (index: number): void => {
