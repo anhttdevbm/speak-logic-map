@@ -279,6 +279,7 @@ const Markers = ({setModal, setModalType}) => {
             const showScanSelection = () => {
                 refreshLayerAndControlRect(map, drawnItems, drawControl);
                 refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+                refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
                 globalStore.togglePalletOption('pointer')
                 if (!globalStore.inAreaSelection && globalStore.palletOption === 'pointer') {
                     globalStore.changeActiveAreaSelection(true);
@@ -294,7 +295,7 @@ const Markers = ({setModal, setModalType}) => {
             const insertTextToMap = () => {
                 refreshLayerAndControlRect(map, drawnItems, drawControl);
                 refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
-                refreshLayerAndControlLine(map, drawnItemsCircle, drawControlCircle)
+                refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
                 globalStore.togglePalletOption('text')
             }
 
@@ -315,7 +316,7 @@ const Markers = ({setModal, setModalType}) => {
                         drawnItemsLine.addLayer(layer);
                     });
                 } else {
-                    refreshLayerAndControlLine(map, drawnItems, drawControl);
+                    refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
                 }
             }
 
@@ -353,7 +354,7 @@ const Markers = ({setModal, setModalType}) => {
 
                     map.on(L.Draw.Event.CREATED, (event) => {
                         const layer = event.layer;
-                        drawnItems.addLayer(layer);
+                        drawnItemsCircle.addLayer(layer);
                     });
                 } else {
                     refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
