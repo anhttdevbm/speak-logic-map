@@ -447,7 +447,6 @@ const Markers = ({setModal, setModalType}) => {
                     markerPersonIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
-                    console.log('cliuckkkk')
                     addMarkerFn(map, latlng.lat, latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType)
                     markerFnIndex[0]++;
                     globalStore.addIconHandle('');
@@ -481,6 +480,7 @@ const Markers = ({setModal, setModalType}) => {
                     }
                 })
             }
+        } else {
             if (globalStore.addIcon === 'horizontal-line') {
                 if (globalStore.positionOfHorizontalLine.length > 0) {
                     globalStore.toggleModalInsertNumberPerson();
