@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './ScrollFeature.module.scss';
 import {Button, Col, Row} from "antd";
-import {CaretRightOutlined} from '@ant-design/icons';
+import {RightCircleOutlined, LeftCircleOutlined} from '@ant-design/icons';
 import {Marker, Popup} from "react-leaflet";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 
@@ -20,7 +20,8 @@ const ScrollFeature = () => {
     const [iPercent, setIPercent] = useState<any>(null);
     const [date, setDate] = useState<any>(null);
     const stepDate = Math.floor((data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / data.stepPerformance));
-    const [shouldCount, setShouldCount] = useState(0);
+    const [priorCount, setPriorCount] = useState(0);
+    const [previousCount, setPreviousCount] = useState(0);
 
     const randomNumberInRange = (min: number, max: number) => {
         // 👇️ get number between min (inclusive) and max (inclusive)
@@ -67,22 +68,45 @@ const ScrollFeature = () => {
     }, [iNumber])
 
     useEffect(() => {
-        if (shouldCount > 0) {
+        if (priorCount > 0) {
             const interval = setInterval(() => {
-                handleStep();
+                handlePrior();
             }, 1000);
             return () => clearInterval(interval);
         }
     }, [date]);
-    const handleStep = () => {
+
+    useEffect(() => {
+        if (previousCount > 0) {
+            const interval = setInterval(() => {
+                handlePrevious();
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [date]);
+
+    const handlePrior = () => {
         // setIsStart(!isStart)
         let number = iPercent + data.stepPerformance;
         let dateStep = Number(date) + Number(stepDate);
         if (number >= data.endPerformance) {
             number = data.endPerformance;
             dateStep = data.endDate;
-            setShouldCount(0);
-        } else setShouldCount(shouldCount + 1);
+            setPriorCount(0);
+        } else setPriorCount(priorCount + 1);
+        setIPercent(number);
+        setINumber(10 - (number / 10));
+        setDate(dateStep);
+    }
+
+    const handlePrevious = () => {
+        let number = iPercent - data.stepPerformance;
+        let dateStep = Number(date) - Number(stepDate);
+        if (number <= data.startPerformance) {
+            number = data.startPerformance;
+            dateStep = data.startDate;
+            setPreviousCount(0);
+        } else setPreviousCount(priorCount + 1);
         setIPercent(number);
         setINumber(10 - (number / 10));
         setDate(dateStep);
@@ -102,6 +126,8 @@ const ScrollFeature = () => {
                     }}>{date}</Row>
                     {/*hình tròn*/}
                     <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                        <Col span={1} style={{display: "flex", paddingLeft:10}}>
+                        </Col>
                         {
                             data.functions.map((value: any) =>
                                 // eslint-disable-next-line react/jsx-key
@@ -117,6 +143,11 @@ const ScrollFeature = () => {
                     <Row
                         className={styles.scroll}
                         gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
+                        <Col span={1} style={{display: "flex", paddingLeft:10}}>
+                            <Button onClick={handlePrevious} type="text" disabled={date < data.endDate}
+                                    icon={<LeftCircleOutlined  rev={undefined}/>}>
+                            </Button>
+                        </Col>
                         {
                             // eslint-disable-next-line react/jsx-key
                             data.functions.map(() => <Col className="gutter-row " span={span}
@@ -125,8 +156,8 @@ const ScrollFeature = () => {
                             </Col>)
                         }
                         <Col span={1} style={{display: "flex", justifyContent: "end"}}>
-                            <Button onClick={handleStep} type="text"
-                                    icon={<CaretRightOutlined rev={undefined}/>}>
+                            <Button onClick={handlePrior} type="text" disabled={date > data.startDate}
+                                    icon={<RightCircleOutlined rev={undefined}/>}>
                             </Button>
                         </Col>
                     </Row>
