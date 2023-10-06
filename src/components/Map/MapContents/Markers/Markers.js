@@ -60,47 +60,6 @@ const Markers = ({setModal, setModalType}) => {
 
     // Active Simulation - Flash color of function marker
     useEffect(() => {
-        // if (globalStore.simulation) {
-        //   let listLayer = [];
-        //   let listNameFunction = [];
-        //   const root = document.documentElement;
-        //   root?.style.setProperty("--time-animation", simulationSettingStore.transitionTime ? simulationSettingStore.transitionTime/1000 + 's' : '10s')
-        //   map.eachLayer(layer => {
-        //     if (layer.options.target?.type === 'function') {
-        //       if (simulationSettingStore.effectedFunction === 'Random') {
-        //         if (simulationSettingStore.boundary === 'Yes') {
-        //           layer._icon.classList.add(styles["boundary"]);
-        //         } else {
-        //           layer._icon.classList.remove(styles["boundary"]);
-        //         }
-        //         // const random = Math.round(Math.random() * 10) % 2;
-        //         layer._icon.classList.add(styles[`simulation-animate${0}`]);
-        //       } else {
-        //         console.log('layer.options', layer)
-        //         listNameFunction.push(layer.options?.icon?.options?.html);
-        //         listLayer.push(layer);
-        //       }
-        //     } else {
-        //       setTimeout(() => {
-        //         layer._icon?.classList.add(styles[`hidden`]);
-        //       }, simulationSettingStore.discardTime)
-        //     }
-        //   });
-        //   let smallFunction = listNameFunction.sort()[0];
-        //   let smallFunctionLayer = listLayer.filter(item => item.options.icon.options.html === smallFunction)[0];
-        //   getListLayerSortedDistance(listLayer, smallFunctionLayer)
-        //   listLayer.forEach((layer, index) => {
-        //     setTimeout(() => {
-        //       if (simulationSettingStore.boundary === 'Yes') {
-        //         layer._icon.classList.add(styles["boundary"]);
-        //       } else {
-        //         layer._icon.classList.remove(styles["boundary"]);
-        //       }
-        //       // const random = Math.round(Math.random() * 10) % 2;
-        //       layer._icon.classList.add(styles[`simulation-animate${0}`]);
-        //     }, simulationSettingStore.transitionTime * index)
-        //   })
-        // }
         if (globalStore.simulation) {
             let listLayer = [];
             let listNameFunction = [];
@@ -133,7 +92,7 @@ const Markers = ({setModal, setModalType}) => {
             map.eachLayer(layer => {
                 if (layer.options.target?.type === 'function') {
                     // for (let i = 0; i < 6; i++) {
-                    layer._icon.classList.remove(styles[`simulation-animate1`]);
+                    layer._icon.classList.remove(styles[`simulation-animate0`]);
                     layer._icon.classList.remove(styles["boundary"]);
                     // }
                 }
@@ -149,7 +108,7 @@ const Markers = ({setModal, setModalType}) => {
                 } else {
                     layer._icon.classList.remove(styles["boundary"]);
                 }
-                layer._icon.classList.add(styles[`simulation-animate1`]);
+                layer._icon.classList.add(styles[`simulation-animate0`]);
             }, simulationSettingStore.transitionTime * index)
         })
     }
