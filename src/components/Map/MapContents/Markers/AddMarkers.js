@@ -367,7 +367,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     [[lat2, lng2], [lat1, lng1]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: 0, color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5px', color: 'black', type: 'arrow' })
     .addTo(map);
   
   let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -377,7 +377,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     
-    .arrowheads({ color: 'black', type: 'arrow', size: 0 })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5px' })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )

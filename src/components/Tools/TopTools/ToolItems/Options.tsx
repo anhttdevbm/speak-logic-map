@@ -272,7 +272,7 @@ const Options: React.FC = (): JSX.Element => {
           </ul>
         </li>
 
-        <li className={`${!globalStore.moreName}`}>
+        <li className={`${!globalStore.moreView && styles['disable']}`}>
           More View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>

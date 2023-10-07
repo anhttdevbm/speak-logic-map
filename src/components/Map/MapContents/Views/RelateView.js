@@ -75,7 +75,7 @@ const RelateView = () => {
                         .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                         .addTo(map);
                     L.polyline([topVerticalLine, downVerticalLine], { status: 'add', weight: 2, color: 'black' })
-                        .arrowheads({ size: '10px', color: 'black', type: 'arrow' })
+                        .arrowheads({ size: '1%', color: 'black', type: 'arrow' })
                         .addTo(map);
 
                     L.marker([latElementSelected - 30, lngElementSelected + 150], {
@@ -95,7 +95,7 @@ const RelateView = () => {
                         .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                         .addTo(map);
                     L.polyline([topVerticalLine2, downVerticalLine2], { status: 'add', weight: 2, color: 'black' })
-                        .arrowheads({ size: '10px', color: 'black', type: 'arrow' })
+                        .arrowheads({ size: '1%', color: 'black', type: 'arrow' })
                         .addTo(map);
 
                     L.marker(leftHorizontalLineBottom, {
