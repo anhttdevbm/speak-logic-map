@@ -1,42 +1,10 @@
-import {useGlobalStore} from '@/providers/RootStoreProvider';
-import {observer} from 'mobx-react-lite';
-import React, {memo} from 'react';
+import { useGlobalStore } from '@/providers/RootStoreProvider';
+import { observer } from 'mobx-react-lite';
+import React, { memo } from 'react';
 import styles from './_InfoOnMap.module.scss';
 
 const InfoOnMap: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
-
-    const MapElements: any[] = [
-        {
-            key: 'personalResponsibility',
-            value: 'Personal Responsibility'
-        },
-        {
-            key: 'selfContribution',
-            value: 'Self - Contribution'
-        },
-        {
-            key: 'averaging',
-            value: 'Averaging'
-        },
-        {
-            key: 'feedback',
-            value: 'Feedback'
-        },
-        {
-            key: 'correction',
-            value: 'Correction'
-        },
-        {
-            key: 'functionBoundary',
-            value: 'Function Boundary'
-        }
-    ]
-
-    const handleClickMapElement = (element: any) => {
-        globalStore.setMapElementSelected(element.value);
-    }
-
     return (
         <div
             className={`
@@ -45,7 +13,16 @@ const InfoOnMap: React.FC = (): JSX.Element => {
         ${(globalStore.position === 'top' || globalStore.position === 'down') ? styles['full-horizontal'] : null}
       `}>
             <ul className={`${styles['info-list']}`}>
-                {MapElements.map(item => <li key={item.key} onClick={() => handleClickMapElement(item)}>{item.value}</li>)}
+                <li>Personal Responsibility</li>
+                <li>Self - Contribution</li>
+            </ul>
+            <ul className={`${styles['info-list']}`}>
+                <li>Averaging</li>
+                <li>Feedback</li>
+            </ul>
+            <ul className={`${styles['info-list']}`}>
+                <li>Correction</li>
+                <li>Function Boundary</li>
             </ul>
         </div>
     )

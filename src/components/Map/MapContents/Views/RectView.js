@@ -63,9 +63,9 @@ const RectView = ({selectedData}) => {
                 map.eachLayer(layer => map.removeLayer(layer));
 
                 if (globalStore.map) {
-                    const firstLat = -50;
+                    const firstLat = -60;
                     const firstLng = -120;
-                    const latList = [40.5, -1, -42];
+                    const latList = [53, 15, -32];
                     const lngList = [-99, -52, -4, 41, 88]
                     // Add the floor-plan boundary
                     let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
