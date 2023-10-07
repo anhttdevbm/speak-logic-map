@@ -276,12 +276,15 @@ export class GlobalStore {
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
+        this.mapElementRelate = '';
+        this.mapElementSelected = '';
+        this.positionOfMapElementSelected = [];
         if (value === this.mapView) {
             this.mapView = '';
         } else {
             this.mapView = value;
-            this.mapElementSelected = '';
-            this.mapElementRelate = '';
+            // this.mapElementSelected = '';
+            // this.mapElementRelate = '';
         }
     }
 

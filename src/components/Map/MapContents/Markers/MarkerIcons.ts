@@ -10,7 +10,7 @@ import ICON_MAIN_SET from '@/assets/icons/main-set-icon.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
-import ICON_RELATE_ELEMENT from '@/assets/icons/icon-relate.png';
+import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
 import { countryMapList } from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
 
