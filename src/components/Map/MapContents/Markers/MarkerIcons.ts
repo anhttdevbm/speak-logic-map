@@ -10,6 +10,7 @@ import ICON_MAIN_SET from '@/assets/icons/main-set-icon.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
+import ICON_RELATE_ELEMENT from '@/assets/icons/icon-relate.png';
 import { countryMapList } from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
 
@@ -227,7 +228,7 @@ export const markerRectNameIcon = (className: string, name: string): L.DivIcon =
     })
 }
 
-export const markerRelateIcon = (className: string, name: string): L.DivIcon => {
+export const markerRelateIcon = (className: string): L.DivIcon => {
     return L.divIcon({
         className: className,
         iconSize: [400, 400],
@@ -242,6 +243,15 @@ export const markerPlusIcon = (className: string): L.DivIcon => {
         iconSize: [80, 80],
         iconAnchor: [50, 25],
         html: `<img src=${ICON_PLUS.src} alt="Group" width="70" height="70"/>`
+    })
+}
+
+export const markerRelateElementIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [80, 80],
+        iconAnchor: [50, 25],
+        html: `<img src=${ICON_RELATE_ELEMENT.src} alt="Group" width="90" height="90"/>`
     })
 }
 

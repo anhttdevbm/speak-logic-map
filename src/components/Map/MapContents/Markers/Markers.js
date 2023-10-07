@@ -470,7 +470,7 @@ const Markers = ({setModal, setModalType}) => {
                 // Add Person Marker
                 if (globalStore.addIcon === 'person') {
                     addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
-                        globalStore.setMapElementRelate, globalStore.setMapElementSelected)
+                        globalStore.setMapElementRelate, globalStore.setMapElementSelected, globalStore.setPositionOfMapElementSelected)
                     let index = markerPersonIndex[0];
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
                     globalStore.addMarkerPopulationToList(index)
@@ -521,9 +521,10 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.setChooseGivenSet(true);
                     addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
                         globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
-                } else if (globalStore.mapElementSelected) {
+                } else if (globalStore.mapElementSelected && globalStore.positionOfMapElementSelected.length === 0) {
                     const mapElement = globalStore.mapElementSelected;
-                    addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement);
+                    addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement, globalStore.setMapElementRelate,
+                        globalStore.setPositionOfMapElementSelected);
                 }
             }
         }

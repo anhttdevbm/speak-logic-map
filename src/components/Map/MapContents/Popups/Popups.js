@@ -102,12 +102,9 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
         }
     }
 
-    window.handleSelectMapRelate = (value) => {
-        setMapElementRelate(value);
-    }
-
     window.handleSelectMapElement = (value) => {
         setMapElementSelected(value);
+        map.removeLayer(popupWorld);
     }
 }
 
@@ -462,7 +459,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -519,8 +516,11 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     }
 
     window.addRelatePerson = (value) => {
+        setPositionOfMapElementSelected(e.latlng.lat, e.latlng.lng)
         setMapElementRelate(value);
         setMapElementSelected('Person');
+        map.removeLayer(popup);
+        console.log('ement')
     }
 
     window.deleteItem = () => {
@@ -1258,13 +1258,18 @@ export const roomPopup = (map, e) => {
 }
 
 // Popup shown when right-click element map marker
-export const mapElementPopup = (map, e) => {
+export const mapElementPopup = (map, e, setMapElementRelate) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: mapElementPopupHTML(),
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
+
+    window.handleSelectMapRelate = (value) => {
+        setMapElementRelate(value);
+        map.removeLayer(popup);
+    }
 }
 
 export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {

@@ -5,6 +5,11 @@ import styles from './_InfoOnMap.module.scss';
 
 const InfoOnMap: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
+
+    const handleClickMapElement = (element: any) => {
+        globalStore.setMapElementSelected(element);
+    }
+
     return (
         <div
             className={`
@@ -13,16 +18,16 @@ const InfoOnMap: React.FC = (): JSX.Element => {
         ${(globalStore.position === 'top' || globalStore.position === 'down') ? styles['full-horizontal'] : null}
       `}>
             <ul className={`${styles['info-list']}`}>
-                <li>Personal Responsibility</li>
-                <li>Self - Contribution</li>
+                <li onClick={() => handleClickMapElement('Personal Responsibility')}>Personal Responsibility</li>
+                <li onClick={() => handleClickMapElement('Self - Contribution')}>Self - Contribution</li>
             </ul>
             <ul className={`${styles['info-list']}`}>
-                <li>Averaging</li>
-                <li>Feedback</li>
+                <li onClick={() => handleClickMapElement('Averaging')}>Averaging</li>
+                <li onClick={() => handleClickMapElement('Feedback')}>Feedback</li>
             </ul>
             <ul className={`${styles['info-list']}`}>
-                <li>Correction</li>
-                <li>Function Boundary</li>
+                <li onClick={() => handleClickMapElement('Correction')}>Correction</li>
+                <li onClick={() => handleClickMapElement('Function Boundary')}>Function Boundary</li>
             </ul>
         </div>
     )
