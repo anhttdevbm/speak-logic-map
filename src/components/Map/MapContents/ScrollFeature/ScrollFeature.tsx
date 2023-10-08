@@ -34,7 +34,7 @@ const ScrollFeature = () => {
     }, []);
 
     useEffect(() => {
-        setSpan(Math.floor((24 - 1) / data.functions.length))
+        setSpan(Math.floor((24 - 3) / data.functions.length))
         let newCircles = []
         for (let i = 0; i < numSmallCircles; i++) {
             let x = 0;

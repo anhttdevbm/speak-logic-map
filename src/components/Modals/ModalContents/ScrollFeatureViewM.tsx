@@ -123,7 +123,6 @@ const ScrollFeatureViewM = () => {
         // @ts-ignore
         const startPer = data[0].startPerformance == null ? 0 : data[0].startPerformance;
         // @ts-ignore
-        debugger
         const endPer = data[0].endPerformance == null ? 0 : data[0].endPerformance;
         const functions = data.map(value => value.functionName);
         let countNumbeOfFunction = 0;
@@ -186,12 +185,16 @@ const ScrollFeatureViewM = () => {
                 }
         }
     }
-
+    const isDuplicate = () => {
+        return data.find(value => value.country == country) == undefined ||
+            data.find(value => value.country == country) == null;
+    }
     const onFinish = (value: DataType) => {
-        if (isClickAdd) {
+        if (!isDuplicate()) {
+            console.log("lỗi")
+        } else if (isClickAdd) {
             const simulation = value.simulation ?? data[0].simulation;
             const objectColor = convertColor(simulation);
-
             const copyValue: DataType = {
                 ...value,
                 key: country + "-" + data.length,
@@ -211,15 +214,15 @@ const ScrollFeatureViewM = () => {
                     endColor: objectColor.endColor,
                     startDate: value.startDate,
                     endDate: value.endDate,
-                    country: country
+                    // country: value.country
                 }
                 return item;
             })
             dataCopy.push(copyValue);
             setData(dataCopy);
             setIsClickAdd(false);
+            onReset();
         }
-        // onReset();
     }
 
     const onReset = () => {
