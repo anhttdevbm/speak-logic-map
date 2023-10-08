@@ -469,11 +469,12 @@ export const addRelateMarker = (map, lat, lng, isLocked) => {
 }
 
 export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
-                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility) => {
+                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility, setMarkerMobility,
+                                    markerMobility) => {
   setNumberPersonMobility();
   if (numberPersonMobility === 0) {
     setPositionOfPreviewPerson(lat, lng);
-    L.marker([lat, lng], {
+    let marker = L.marker([lat, lng], {
       target: {status: 'add', type: 'person-mobility'},
       icon: markerPersonIcon(null, 'Person', null),
       draggable: !isLocked,
@@ -490,7 +491,9 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
           }
         })
         .addTo(map);
+    setMarkerMobility(marker);
   } else {
+    map.removeLayer(markerMobility);
     L.motion.polyline(
         [
           positionOfPreviewPerson,
@@ -501,11 +504,12 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
         },
         {
           auto: true,
-          duration: 5000
+          duration: 3000
         },
         {
           removeOnEnd: false,
           showMarker: true,
+          target: {status: 'add', type: 'person-mobility'},
           icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person', null)
         }
     )

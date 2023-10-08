@@ -498,53 +498,63 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     // let path =
     window.showMoveWithPath = () => {
         map.removeLayer(popup);
+        let i = 0;
         map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
-            let currentLatLng = marker.getLatLng();
+            if (i === 0) {
+                let clickedLatLng = e.latlng;
+                let currentLatLng = marker.getLatLng();
+                map.removeLayer(marker);
 
-            path = L.motion.polyline(
-                [currentLatLng, clickedLatLng],
-                {
-                    color: 'black'
-                },
-                {
-                    auto: true,
-                    duration: 5000
-                },
-                {
-                    removeOnEnd: false,
-                    showMarker: true,
-                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
-                }
-            )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
-                .addTo(map);
+                path = L.motion.polyline(
+                    [currentLatLng, clickedLatLng],
+                    {
+                        color: 'black'
+                    },
+                    {
+                        auto: true,
+                        duration: 3000
+                    },
+                    {
+                        removeOnEnd: false,
+                        showMarker: true,
+                        icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                    }
+                )
+                    .arrowheads({size: '5%', color: 'black', type: 'arrow'})
+                    .addTo(map);
+                i++;
+            }
         });
     }
 
     window.showMoveWithoutPath = () => {
         map.removeLayer(popup);
+        let i = 0;
         map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
-            let currentLatLng = marker.getLatLng();
+            if (i === 0) {
+                let clickedLatLng = e.latlng;
+                let currentLatLng = marker.getLatLng();
+                map.removeLayer(marker);
 
-            path = L.motion.polyline(
-                [currentLatLng, clickedLatLng],
-                {
-                    color: 'transparent'
-                },
-                {
-                    auto: true,
-                    duration: 5000
-                },
-                {
-                    removeOnEnd: false,
-                    showMarker: true,
-                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
-                }
-            )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow' })
-                .addTo(map);
+                path = L.motion.polyline(
+                    [currentLatLng, clickedLatLng],
+                    {
+                        color: 'transparent'
+                    },
+                    {
+                        auto: true,
+                        duration: 3000
+                    },
+                    {
+                        removeOnEnd: false,
+                        showMarker: true,
+                        icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                    }
+                )
+                    .arrowheads({size: '5%', color: 'transparent', type: 'arrow'})
+                    .addTo(map);
+                i++;
+            }
         });
     }
 
@@ -553,7 +563,6 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         setMapElementRelate(value);
         setMapElementSelected('Person');
         map.removeLayer(popup);
-        console.log('ement')
     }
 
     window.deleteItem = () => {

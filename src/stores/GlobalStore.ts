@@ -60,6 +60,7 @@ export class GlobalStore {
     typeMobility: 'path' | 'no-path' | '' = 'path';
     numberPersonMobility: any = 0;
     positionOfPreviewPerson: any = [];
+    markerMobility: any;
 
     constructor() {
         makeAutoObservable(this);
@@ -343,6 +344,10 @@ export class GlobalStore {
 
     resetNumberPersonMobility = (): void => {
         this.numberPersonMobility = 0;
+    }
+
+    setMarkerMobility = (marker: any): void => {
+        this.markerMobility = marker;
     }
 
     setPositionOfPreviewPerson = (lat: number, lng: number) => {
