@@ -93,13 +93,13 @@ const TableView = ({selectedData, setModal, setModalType}) => {
 
         // Create a table's flag
 
-        const flagImgSrc = tableType === 'world' ? IMG_WORLD_FLAG.src : countryFlagList[tableType]
-        const flagTableLatLngs = [[bottomLeftFlagLatLng, topLeftFlagLatLng, topRightFlagLatLng, bottomRightFlagLatLng]];
-        const flagTableImg = L.imageOverlay(flagImgSrc, flagTableLatLngs);
-        flagTableImg.addTo(table).bringToBack();
+        // const flagImgSrc = tableType === 'world' ? IMG_WORLD_FLAG.src : countryFlagList[tableType]
+        // const flagTableLatLngs = [[bottomLeftFlagLatLng, topLeftFlagLatLng, topRightFlagLatLng, bottomRightFlagLatLng]];
+        // const flagTableImg = L.imageOverlay(flagImgSrc, flagTableLatLngs);
+        // flagTableImg.addTo(table).bringToBack();
 
 
-        let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine, flagTableImg]);
+        let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine]);
         map.fitBounds(group.getBounds());
 
         const bodyTableLatLng = [[northTopLatLng, westTopLatLng, southTopLatLng, eastTopLatLng]]
