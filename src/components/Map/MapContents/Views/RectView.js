@@ -53,6 +53,7 @@ const RectView = ({selectedData}) => {
             let fpBoundary;
             const countriesLayer = [];
             if (globalStore.rectangularView === 'rect-world') {
+                map.eachLayer(layer => map.removeLayer(layer));
                 map.eachLayer(layer => {
                     if (layer._arrowheads) {
                         layer.remove();
@@ -60,13 +61,17 @@ const RectView = ({selectedData}) => {
                     allLayer.push(layer);
                 });
 
-                map.eachLayer(layer => map.removeLayer(layer));
 
                 if (globalStore.map) {
-                    const firstLat = -50;
+                    console.log('zoom', zoom)
+                    const firstLat = -60;
                     const firstLng = -120;
-                    const latList = [40.5, -1, -42];
-                    const lngList = [-99, -52, -4, 41, 88]
+                    let latList = [53, 15, -32];
+                    let lngList = [-99, -52, -4, 41, 88];
+                    if (zoom >= 3) {
+                        latList = [53, 20, 0, -20 -40];
+                        lngList = [-99, -75, -52, -28, -4, 20, 44, 68, 94];
+                    }
                     // Add the floor-plan boundary
                     let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
                     fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
@@ -82,8 +87,12 @@ const RectView = ({selectedData}) => {
                         let countryMarker;
 
                         if (globalStore.rectName === 'rect-distance') {
-                            const latListt = [40.5, -1, -42];
-                            const lngListt = [-99, -30, 41, 88];
+                            let latListt = [53, 15, -32];
+                            let lngListt = [-99, -36, 29, 90];
+                            if (zoom >= 3) {
+                                latListt = [53, 20, 0, -20 -40];
+                                lngListt = [-99, -57, -18, 20, 60, 100];
+                            }
                             if (country.codeName !== '') {
                                 const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
                                 countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
@@ -257,7 +266,7 @@ const RectView = ({selectedData}) => {
                 });
             };
         }, [globalStore.map, globalStore.listCountryInRect, globalStore.rectangularView, globalStore.rectName,
-                selectedData, globalStore.showModalInsertCountry]
+                selectedData, globalStore.showModalInsertCountry, zoom]
     );
 
     const moveToLast = (arr) => {

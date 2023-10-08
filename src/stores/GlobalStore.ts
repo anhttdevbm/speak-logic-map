@@ -56,6 +56,7 @@ export class GlobalStore {
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
     mapElementRelate = '';
+    positionOfMapElementSelected: any[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -275,12 +276,15 @@ export class GlobalStore {
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
+        this.mapElementRelate = '';
+        this.mapElementSelected = '';
+        this.positionOfMapElementSelected = [];
         if (value === this.mapView) {
             this.mapView = '';
         } else {
             this.mapView = value;
-            this.mapElementSelected = '';
-            this.mapElementRelate = '';
+            // this.mapElementSelected = '';
+            // this.mapElementRelate = '';
         }
     }
 
@@ -398,6 +402,10 @@ export class GlobalStore {
 
     setMapElementRelate = (value: any): void => {
         this.mapElementRelate = value;
+    }
+
+    setPositionOfMapElementSelected = (lat: number, lng: number) => {
+        this.positionOfMapElementSelected = [lat, lng];
     }
 
     setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {

@@ -58,6 +58,8 @@ const FloorPlanView = () => {
     const countriesLayer = [];
     if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
       if (globalStore.floorPlanView === 'floorplan-countries') {
+        map.eachLayer(layer => map.removeLayer(layer));
+
         map.eachLayer(layer => {
           if (layer._arrowheads) {
             layer.remove();
@@ -65,8 +67,7 @@ const FloorPlanView = () => {
           allLayer.push(layer);
         });
   
-        map.eachLayer(layer => map.removeLayer(layer));
-  
+
         if (globalStore.map) {
           const firstLat = 83;
           const firstLng = -175;

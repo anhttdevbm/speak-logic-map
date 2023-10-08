@@ -46,15 +46,15 @@ const HouseView = ({selectedData}) => {
 
     if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
       if (globalStore.houseView === 'house-world' && globalStore.map) {
+        map.eachLayer(layer => map.removeLayer(layer));
+
         map.eachLayer(layer => {
           if (layer._arrowheads) {
             layer.remove();
           }
           allLayer.push(layer);
         });
-  
-        map.eachLayer(layer => map.removeLayer(layer));
-  
+
         world = L.marker([44.96479793033104, -6.416015625000001], {
           icon: markerHouseWorldIcon("1", "WORLD"),
         }).addTo(map);
