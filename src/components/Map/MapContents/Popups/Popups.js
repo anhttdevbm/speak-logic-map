@@ -102,12 +102,9 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
         }
     }
 
-    window.handleSelectMapRelate = (value) => {
-        setMapElementRelate(value);
-    }
-
     window.handleSelectMapElement = (value) => {
         setMapElementSelected(value);
+        map.removeLayer(popupWorld);
     }
 }
 
@@ -462,7 +459,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -495,32 +492,68 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         e.target.setIcon(markerPersonIcon(styles['person'], name, img));
     }
 
-    let path = L.polyline([], {color: 'blue'}).addTo(map);
+    let path = null;
+    let index = marker.options?.target?.index;
+
+    // let path =
     window.showMoveWithPath = () => {
+        map.removeLayer(popup);
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
 
-            let pathLatLngs = [currentLatLng, clickedLatLng];
-            path.setLatLngs(pathLatLngs);
-            marker.setLatLng(clickedLatLng);
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'black'
+                },
+                {
+                    auto: true,
+                    duration: 5000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+                .addTo(map);
         });
     }
 
     window.showMoveWithoutPath = () => {
+        map.removeLayer(popup);
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
 
-            let pathLatLngs = [currentLatLng, clickedLatLng];
-            path.setLatLngs(pathLatLngs);
-            marker.setLatLng(clickedLatLng);
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'transparent'
+                },
+                {
+                    auto: true,
+                    duration: 5000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow' })
+                .addTo(map);
         });
     }
 
     window.addRelatePerson = (value) => {
+        setPositionOfMapElementSelected(e.latlng.lat, e.latlng.lng)
         setMapElementRelate(value);
         setMapElementSelected('Person');
+        map.removeLayer(popup);
+        console.log('ement')
     }
 
     window.deleteItem = () => {
@@ -1258,13 +1291,18 @@ export const roomPopup = (map, e) => {
 }
 
 // Popup shown when right-click element map marker
-export const mapElementPopup = (map, e) => {
+export const mapElementPopup = (map, e, setMapElementRelate) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: mapElementPopupHTML(),
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
+
+    window.handleSelectMapRelate = (value) => {
+        setMapElementRelate(value);
+        map.removeLayer(popup);
+    }
 }
 
 export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {

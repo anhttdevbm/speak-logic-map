@@ -56,6 +56,10 @@ export class GlobalStore {
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
     mapElementRelate = '';
+    positionOfMapElementSelected: any[] = [];
+    typeMobility: 'path' | 'no-path' | '' = 'path';
+    numberPersonMobility: any = 0;
+    positionOfPreviewPerson: any = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -275,12 +279,16 @@ export class GlobalStore {
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
+        this.mapElementRelate = '';
+        this.mapElementSelected = '';
+        this.positionOfMapElementSelected = [];
+        this.numberPersonMobility = 0;
         if (value === this.mapView) {
             this.mapView = '';
         } else {
             this.mapView = value;
-            this.mapElementSelected = '';
-            this.mapElementRelate = '';
+            // this.mapElementSelected = '';
+            // this.mapElementRelate = '';
         }
     }
 
@@ -319,6 +327,26 @@ export class GlobalStore {
         } else {
             this.palletOption = value;
         }
+    }
+
+    setTypeMobility = (value: 'path' | 'no-path'): void => {
+        if (value === this.typeMobility) {
+            this.typeMobility = '';
+        } else {
+            this.typeMobility = value;
+        }
+    }
+
+    setNumberPersonMobility = (): void => {
+        this.numberPersonMobility = this.numberPersonMobility + 1;
+    }
+
+    resetNumberPersonMobility = (): void => {
+        this.numberPersonMobility = 0;
+    }
+
+    setPositionOfPreviewPerson = (lat: number, lng: number) => {
+        this.positionOfPreviewPerson = [lat, lng];
     }
 
     toggleModalInsertCountry = (): void => {
@@ -398,6 +426,10 @@ export class GlobalStore {
 
     setMapElementRelate = (value: any): void => {
         this.mapElementRelate = value;
+    }
+
+    setPositionOfMapElementSelected = (lat: number, lng: number) => {
+        this.positionOfMapElementSelected = [lat, lng];
     }
 
     setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {

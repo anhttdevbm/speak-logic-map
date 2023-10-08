@@ -1,6 +1,6 @@
 import { IconProps } from '@/utils/util_interfaces';
 import React, { Dispatch, memo, SetStateAction } from 'react'
-import {MergeCellsOutlined} from "@ant-design/icons";
+import {BorderlessTableOutlined, MergeCellsOutlined} from "@ant-design/icons";
 
 export const LogoIcon: React.NamedExoticComponent<IconProps> = memo(function LogoIC({ className }: IconProps): JSX.Element {
   return (
@@ -473,6 +473,11 @@ export const ScrollFeatureIcon: React.NamedExoticComponent<IconProps> = memo(fun
   );
 });
 
+export const MobilityIcon: React.NamedExoticComponent<IconProps> = memo(function PersonIC(): React.ReactElement {
+  return (
+      <BorderlessTableOutlined style={{fontSize: '30px'}} rev={undefined} />
+  );
+});
 export const SearchIcon: React.NamedExoticComponent<IconProps> = memo(function SearchIC({ className }: IconProps): React.ReactElement {
   return (
     <svg

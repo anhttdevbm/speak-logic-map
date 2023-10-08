@@ -52,6 +52,7 @@ const RoomView = ({selectedData}) => {
 
     if (globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
       if (globalStore.roomView === 'room-countries') {
+        map.eachLayer(layer => map.removeLayer(layer));
         map.eachLayer(layer => {
           if (layer._arrowheads) {
             layer.remove();
@@ -59,7 +60,7 @@ const RoomView = ({selectedData}) => {
           allLayer.push(layer);
         });
   
-        map.eachLayer(layer => map.removeLayer(layer));
+        // map.eachLayer(layer => map.removeLayer(layer));
   
         if (globalStore.map) {
           countryStore.countries.forEach((country, index) => {

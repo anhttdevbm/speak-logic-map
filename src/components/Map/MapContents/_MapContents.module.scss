@@ -150,8 +150,12 @@ $time-animation: var(--time-animation);
 }
 
 .map-element {
-  background-color: #cadffe;
+  background-color: white;
+  font-size: 15px;
+  font-weight: bold;
   color: black;
+  border: 1px solid black;
+  top: -20px;
 }
 
 .popup-wrap {
@@ -943,6 +947,10 @@ $time-animation: var(--time-animation);
   margin-top: 30%!important;
 }
 
+.relate-icon {
+  top: -35px;
+}
+
 .relateCircle {
   width: 100px;
   height: 100px;
@@ -954,6 +962,10 @@ $time-animation: var(--time-animation);
   text-align: center;
   margin-bottom: 6%;
   margin-top: 12.5%;
+}
+
+.icon-mobility {
+  left: 20px;
 }
 
 .relatedArea {
