@@ -1,12 +1,14 @@
 import {observer} from "mobx-react-lite";
 import styles from "./_ModalContents.module.scss";
 import React, {useEffect, useState} from "react";
-import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
+import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
-import {Button, Col, Form, Input, Radio, Row, Select, Table} from "antd";
+import {
+    Button, Col, Form, Input, notification, Space,
+    Radio, Row, Select, Table
+} from "antd";
 import {ColumnsType} from "antd/es/table";
 import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
-import {InputNumber} from "antd/lib";
 
 interface DataType {
     key?: string;
@@ -86,7 +88,7 @@ const ScrollFeatureViewM = () => {
         simulation: "ggreen",
         numberFunction: null
     }
-
+    const [api, contextHolder] = notification.useNotification();
     const [data, setData] = useState<DataType[]>([]);
     const [country, setCountry] = useState<any>(null);
     const [radioValue, setRadiovalue] = useState('manual');
@@ -103,20 +105,6 @@ const ScrollFeatureViewM = () => {
     const handleCountry = (value: any) => {
         setCountry(value.fullName)
     }
-
-    const validateDate = () => {
-        if (data.length == 0) return false;
-        data.forEach(value => {
-            value['key'];
-        });
-    }
-
-    // const validateColunms = (value: DataType) => {
-    //     columns.forEach(item => {
-    //         if (value[item?.dataIndex] == null || value[item?.dataIndex] == undefined) return false;
-    //     })
-    //     return true;
-    // }
 
     const handleSave = () => {
         closeModal();
@@ -185,13 +173,25 @@ const ScrollFeatureViewM = () => {
                 }
         }
     }
+    const openNotification = () => {
+        api.open({
+            message: 'Warning',
+            type: 'warning',
+            duration: 3,
+            description:
+                'A country cannot be duplicated.  ' +
+                'It is not possible to identify a duplicate country or a country twice.  ' +
+                'The selected country is already added or in the map and cannot be added to the map or view again.  ' +
+                'Please, select another country.',
+        });
+    };
     const isDuplicate = () => {
         return data.find(value => value.country == country) == undefined ||
             data.find(value => value.country == country) == null;
     }
     const onFinish = (value: DataType) => {
         if (!isDuplicate()) {
-            console.log("lỗi")
+            openNotification();
         } else if (isClickAdd) {
             const simulation = value.simulation ?? data[0].simulation;
             const objectColor = convertColor(simulation);
@@ -234,6 +234,7 @@ const ScrollFeatureViewM = () => {
 
     return (
         <div>
+            {contextHolder}
             <div className={`${styles['simulation-setting-wrap']}`} onClick={e => e.stopPropagation()}>
                 <div className={`${styles['header']}`}>
                     <button onClick={closeModal}><CloseIcon/></button>
