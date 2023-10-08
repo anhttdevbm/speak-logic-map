@@ -4,7 +4,8 @@ import {Button, Col, Row} from "antd";
 import {RightCircleOutlined, LeftCircleOutlined} from '@ant-design/icons';
 import {Marker, Popup} from "react-leaflet";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
-
+import L from 'leaflet';
+import { markerScrollIcon} from '../Markers/MarkerIcons'
 
 const ScrollFeature = () => {
     const globalStore = useGlobalStore();
@@ -114,7 +115,7 @@ const ScrollFeature = () => {
 
     // @ts-ignore
     return (
-        <Marker position={[0, 0]}>
+        <Marker position={[0, 0]} icon={ markerScrollIcon() }>
             <Popup>
                 <div className={styles.scrollFeatureIcon}>
                     {/*starDate, endDate*/}

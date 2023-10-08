@@ -11,6 +11,7 @@ import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
+import SCROLL_ICON from '@/assets/icons/simulate-01.png';
 import { countryMapList } from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
 
@@ -234,6 +235,15 @@ export const markerRelateIcon = (className: string): L.DivIcon => {
         iconSize: [400, 400],
         iconAnchor: [50, 25],
         html: `<img src=${ICON_RELATE.src} alt="Group" width="100" height="100"/>`
+    })
+}
+
+export const markerScrollIcon = (): L.DivIcon => {
+    return L.divIcon({
+        className: '',
+        iconSize: [100, 100],
+        iconAnchor: [50, 25],
+        html: `<img src=${SCROLL_ICON.src} alt="Group" width="50" height="50"/>`
     })
 }
 
