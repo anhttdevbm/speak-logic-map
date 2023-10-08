@@ -57,6 +57,9 @@ export class GlobalStore {
     mapElementSelected = '';
     mapElementRelate = '';
     positionOfMapElementSelected: any[] = [];
+    typeMobility: 'path' | 'no-path' | '' = 'path';
+    numberPersonMobility: any = 0;
+    positionOfPreviewPerson: any = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -279,6 +282,7 @@ export class GlobalStore {
         this.mapElementRelate = '';
         this.mapElementSelected = '';
         this.positionOfMapElementSelected = [];
+        this.numberPersonMobility = 0;
         if (value === this.mapView) {
             this.mapView = '';
         } else {
@@ -323,6 +327,26 @@ export class GlobalStore {
         } else {
             this.palletOption = value;
         }
+    }
+
+    setTypeMobility = (value: 'path' | 'no-path'): void => {
+        if (value === this.typeMobility) {
+            this.typeMobility = '';
+        } else {
+            this.typeMobility = value;
+        }
+    }
+
+    setNumberPersonMobility = (): void => {
+        this.numberPersonMobility = this.numberPersonMobility + 1;
+    }
+
+    resetNumberPersonMobility = (): void => {
+        this.numberPersonMobility = 0;
+    }
+
+    setPositionOfPreviewPerson = (lat: number, lng: number) => {
+        this.positionOfPreviewPerson = [lat, lng];
     }
 
     toggleModalInsertCountry = (): void => {

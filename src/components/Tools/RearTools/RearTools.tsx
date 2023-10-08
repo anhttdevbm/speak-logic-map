@@ -3,7 +3,7 @@ import {
   HomeIcon, HorizontalLineIcon,
   LeftArrowIcon,
   LocationIcon,
-  MainsetIcon,
+  MainsetIcon, MobilityIcon,
   PersonIcon,
   RectangleIcon,
   RelatedIcon,
@@ -33,7 +33,7 @@ const ItemList: ItemInterface[] = [
   {value: 'scroll-feature', Icon: ScrollFeatureIcon, name: 'Scroll feature', ability: true},
   {value: 'horizontal-line', Icon: HorizontalLineIcon, name: 'Horizontal Line', ability: true},
   {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
-  {value: 'mobility', Icon: VectorIcon, name: 'Mobility', ability: true},
+  {value: 'mobility', Icon: MobilityIcon, name: 'Mobility', ability: true},
 
 ]
 

@@ -29,7 +29,7 @@ import {
     addMarkerScrollFeature,
     addMarkerMapElement,
     addMarkerFnEllipse,
-    addRelateMarker, addMarkerGivenSet, addMarkerWelcomeSign
+    addRelateMarker, addMarkerGivenSet, addMarkerWelcomeSign, addPersonInMobility
 } from './AddMarkers'
 
 
@@ -508,6 +508,17 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetPositionScroll();
                     addRelateMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
                     globalStore.addIconHandle('');
+                } else if (globalStore.addIcon === 'mobility') {
+                    globalStore.resetPositionScroll();
+                    if (globalStore.numberPersonMobility < 2) {
+                        globalStore.setTypeMobility('path');
+                        addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility,
+                            globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson,
+                            globalStore.positionOfPreviewPerson, globalStore.typeMobility);
+                    } else {
+                        globalStore.addIconHandle('');
+                        globalStore.resetNumberPersonMobility();
+                    }
                 } else if (globalStore.addIcon === 'scroll-feature') {
                     globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
                     globalStore.resetDataScroll();

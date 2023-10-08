@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { toggleBoundaryFn } from './Markers';
+import "leaflet.motion/dist/leaflet.motion.js";
 import { addSelectedItem } from './HandleSelectItem';
 import {
   markerPersonIcon, markerHouseIcon, markerNavigationSignIcon,
@@ -466,4 +466,50 @@ export const addRelateMarker = (map, lat, lng, isLocked) => {
         }
       })
       .addTo(map)
+}
+
+export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
+                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility) => {
+  setNumberPersonMobility();
+  if (numberPersonMobility === 0) {
+    setPositionOfPreviewPerson(lat, lng);
+    L.marker([lat, lng], {
+      target: {status: 'add', type: 'person-mobility'},
+      icon: markerPersonIcon(null, 'Person', null),
+      draggable: !isLocked,
+    })
+        .on('contextmenu', e => {
+          const housePopup = L.popup()
+              .setLatLng([lat, lng])
+              .setContent(housePopupHTML())
+              .addTo(map);
+
+          window.deleteHouse = () => {
+            map.removeLayer(e.target);
+            map.removeLayer(housePopup);
+          }
+        })
+        .addTo(map);
+  } else {
+    L.motion.polyline(
+        [
+          positionOfPreviewPerson,
+          [lat, lng]
+        ],
+        {
+          color: typeMobility === 'path' ? 'black' : "transparent"
+        },
+        {
+          auto: true,
+          duration: 5000
+        },
+        {
+          removeOnEnd: false,
+          showMarker: true,
+          icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person', null)
+        }
+    )
+        .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow' })
+        .addTo(map)
+  };
 }

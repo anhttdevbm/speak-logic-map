@@ -334,6 +334,26 @@ const Options: React.FC = (): JSX.Element => {
             </li>
           </ul>
         </li>
+        <li className={`${globalStore.addIcon !== 'mobility' && styles['disable']}`}>
+          Mobility
+          <RightArrowIcon className={`${styles['sub-icon']}`} />
+          <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.setTypeMobility('path')}>
+              Show move with path
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${(globalStore.addIcon === 'mobility' && globalStore.typeMobility !== 'path') ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+            <li onClick={() => globalStore.setTypeMobility('no-path')}>
+              Show move without path
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${(globalStore.addIcon === 'mobility' && globalStore.typeMobility) !== 'no-path' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
+          </ul>
+        </li>
         <li onClick={() => clearAll()}>
           Clear All Elements
         </li>

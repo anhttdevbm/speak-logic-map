@@ -492,26 +492,59 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         e.target.setIcon(markerPersonIcon(styles['person'], name, img));
     }
 
-    let path = L.polyline([], {color: 'blue'}).addTo(map);
+    let path = null;
+    let index = marker.options?.target?.index;
+
+    // let path =
     window.showMoveWithPath = () => {
+        map.removeLayer(popup);
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
 
-            let pathLatLngs = [currentLatLng, clickedLatLng];
-            path.setLatLngs(pathLatLngs);
-            marker.setLatLng(clickedLatLng);
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'black'
+                },
+                {
+                    auto: true,
+                    duration: 5000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+                .addTo(map);
         });
     }
 
     window.showMoveWithoutPath = () => {
+        map.removeLayer(popup);
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
 
-            let pathLatLngs = [currentLatLng, clickedLatLng];
-            path.setLatLngs(pathLatLngs);
-            marker.setLatLng(clickedLatLng);
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'transparent'
+                },
+                {
+                    auto: true,
+                    duration: 5000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow' })
+                .addTo(map);
         });
     }
 

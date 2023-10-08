@@ -24,6 +24,7 @@
     "leaflet-draw": "^1.0.4",
     "leaflet-ellipse": "^0.9.1",
     "leaflet-textpath": "^1.2.3",
+    "leaflet.motion": "^0.3.2",
     "leaflet.polylinemeasure": "^3.0.0",
     "mobx": "^6.6.2",
     "mobx-react": "^7.5.3",
