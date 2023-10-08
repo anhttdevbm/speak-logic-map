@@ -257,7 +257,7 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
 
   // Change the map to selected location only
   useEffect(() => {
-    if (!globalStore.boatView && !globalStore.houseView && !globalStore.roomView) {
+    if (!globalStore.boatView && !globalStore.houseView && !globalStore.roomView && !globalStore.tableView && !globalStore.rectangularView && !globalStore.moreName) {
       const makeEvent = (e) => {
         window.openPopulateModal = () => {
           setModal(true);
@@ -317,8 +317,8 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
   
         // Add Solution/Problem
         window.handleAddProblem = (name) => {
-          addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType);
           globalStore.addMarkerProblemToList(markerProblemIndex[0]);
+          addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType, globalStore.setShapeOfMarkerPl);
 
           markerProblemIndex[0]++;
           map.removeLayer(countryPopup);

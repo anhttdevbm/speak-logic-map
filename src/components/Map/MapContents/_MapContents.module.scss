@@ -41,7 +41,7 @@ $time-animation: var(--time-animation);
 
 .marker-house-name-rect {
   position: absolute;
-  top: 70%;
+  top: 80%;
   left: 50%;
   transform: translateX(-50%);
   background-color: transparent;
@@ -714,6 +714,89 @@ $time-animation: var(--time-animation);
   font-weight: 600;
 }
 
+.vertical-person-icon {
+  top: 20px;
+}
+
+.main-set-icon {
+  top: -125px;
+}
+
+.rect-house-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.ellipse-fn-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.plus-icon {
+  display: flex;
+  top: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+}
+
+.dot-icon {
+  display: flex;
+  top: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+}
+
+.dot-population-country-icon {
+  display: flex;
+  top: 40px;
+  left: 50px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+}
+
+.population-country-icon {
+  display: flex;
+  top: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 .polyline-text {
   background-color: #fff;
 }
@@ -738,7 +821,7 @@ $time-animation: var(--time-animation);
   z-index: 1000 !important;
 }
 
-.rect-icon-no-border {
+.rect-house-icon-no-border {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -966,11 +1049,6 @@ $time-animation: var(--time-animation);
   animation-duration: $time-animation;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  // color: transparent;
-  // background-clip: border-box;
-  // -webkit-text-fill-color: #000;
-  // background-color: orange;
-  // animation: hue 2s infinite linear;
 }
 
 .simulation-animate1 {

@@ -103,6 +103,7 @@ const ScrollFeatureViewM = () => {
     const handleCountry = (value: any) => {
         setCountry(value.fullName)
     }
+
     const validateDate = () => {
         if (data.length == 0) return false;
         data.forEach(value => {
@@ -227,7 +228,7 @@ const ScrollFeatureViewM = () => {
     const handleRadio = (value: any) => {
         setRadiovalue(value.target.value);
     }
-    console.log(radioValue);
+
     return (
         <div>
             <div className={`${styles['simulation-setting-wrap']}`} onClick={e => e.stopPropagation()}>

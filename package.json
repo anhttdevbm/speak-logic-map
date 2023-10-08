@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@bopen/leaflet-area-selection": "^0.7.0",
     "@elfalem/leaflet-curve": "^0.9.1",
     "@turf/boolean-point-in-polygon": "^6.5.0",

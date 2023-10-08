@@ -13,22 +13,32 @@ import {
 import {handleName, markerFnIndex, markerProblemIndex, selectedList} from '../Variables/Variables';
 
 import {
-    fnPopupHTML, personPopupHTML,
-    groupPopupHTML, problemPopupHTML,
-    groupFnLayoutPopupHTML, routePopupHTML,
-    distancePopupHTML, countryFnPopupHTML,
-    stopFnPopupHTML, tempFnPopupHTML, mainsetPopupHTML,
-    roomPopupHTML, worldPopupHTML, wrappingPopupHTML,
-    imgBoundPopupHTML, audioBoundPopupHTML, videoBoundPopupHTML, mapElementPopupHTML
+    fnPopupHTML,
+    personPopupHTML,
+    groupPopupHTML,
+    problemPopupHTML,
+    groupFnLayoutPopupHTML,
+    routePopupHTML,
+    distancePopupHTML,
+    countryFnPopupHTML,
+    stopFnPopupHTML,
+    tempFnPopupHTML,
+    mainsetPopupHTML,
+    roomPopupHTML,
+    worldPopupHTML,
+    wrappingPopupHTML,
+    imgBoundPopupHTML,
+    audioBoundPopupHTML,
+    videoBoundPopupHTML,
+    mapElementPopupHTML,
+    rectIconPopupHTML,
+    givenSetPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
 
 import {resetAllColor} from '../Markers/HandleRouteAndDistance';
 import {addSoluOrProbFn, addStopFn, addTemporaryFn} from '../Markers/AddMarkers';
-import {renderToString} from "react-dom/server";
-import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
 
 // A function that execute whenever user right click on function marker
 // Includes all custom window global functions
@@ -103,7 +113,7 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
-export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
+export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
     clearAllPopups(map);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     // console.log(e.target)
@@ -348,6 +358,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
         let name = e.target.options.icon.options?.html;
 
         if (shape === 'circle') {
+            setShapeOfMarkerFn(name, 'circle');
             e.target.setIcon(
                 markerFnCircleIcon(
                     `${styles['circle-fn']} ${e.target._icon.classList[2]}`,
@@ -355,6 +366,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
                 )
             );
         } else if (shape === 'rectangle') {
+            setShapeOfMarkerFn(name, 'rectangle')
             e.target.setIcon(
                 markerFnIcon(
                     `${styles['rectangle-fn']} ${e.target._icon.classList[2]}`,
@@ -362,6 +374,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
                 )
             );
         } else if (shape === 'ellipse') {
+            setShapeOfMarkerFn(name, 'ellipse')
             e.target.setIcon(
                 markerFnIcon(
                     `${styles['ellipse-fn']} ${e.target._icon.classList[2]}`,
@@ -416,7 +429,8 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e) => {
     // Replace problem / solution
     window.handleAddProblem = (name) => {
         stopFnRunningFeatures(e);
-        addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, isLocked, markerProblemIndex[0], name, setModal, setModalType)
+        addMarkerProblemToList(markerProblemIndex[0]);
+        addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, isLocked, markerProblemIndex[0], name, setModal, setModalType, setShapeOfMarkerPl)
         markerProblemIndex[0]++;
         map.removeLayer(e.target);
         map.removeLayer(popup);
@@ -518,7 +532,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on problem/solution marker
-export const fnProblemPopup = (map, e, setModal, setModalType) => {
+export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerPl) => {
     clearAllPopups(map);
 
     let hasBoundary = e.target.options.boundary;
@@ -551,15 +565,19 @@ export const fnProblemPopup = (map, e, setModal, setModalType) => {
     }
 
     window.changeShapeProblem = (shape) => {
+        let name = e.target.options.icon.options?.html;
         if (shape === "circle") {
+            setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.add(styles["circle-fn-1"]);
             e.target._icon.classList.remove(styles["rectangle-fn"]);
             e.target._icon.classList.remove(styles["ellipse-fn"]);
         } else if (shape === "rectangle") {
+            setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.remove(styles["circle-fn-1"]);
             e.target._icon.classList.add(styles["rectangle-fn"]);
             e.target._icon.classList.remove(styles["ellipse-fn"]);
         } else if (shape === "ellipse") {
+            setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.add(styles["ellipse-fn"]);
             e.target._icon.classList.remove(styles["circle-fn-1"]);
             e.target._icon.classList.remove(styles["rectangle-fn"]);
@@ -698,21 +716,26 @@ export const groupPopup = (map, e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on mainset marker
-export const mainsetPopup = (map, e) => {
-    clearAllPopups(map);
-
-    const popup = L.popup();
-
-    popup
-        .setLatLng([e.latlng.lat, e.latlng.lng])
-        .setContent(mainsetPopupHTML())
-        .addTo(map);
-
-    window.deleteMainSet = () => {
-        map.removeLayer(e.target);
-        map.removeLayer(popup);
-    }
-}
+// export const mainsetPopup = (map, e, toggleModalInsertNumberPerson, setPositionOfHorizontalLine) => {
+//     clearAllPopups(map);
+//
+//     const popup = L.popup();
+//
+//     popup
+//         .setLatLng([e.latlng.lat, e.latlng.lng])
+//         .setContent(mainsetPopupHTML())
+//         .addTo(map);
+//
+//     window.deleteMainSet = () => {
+//         map.removeLayer(e.target);
+//         map.removeLayer(popup);
+//     }
+//
+//     window.insertHorizontalLine = () => {
+//         toggleModalInsertNumberPerson();
+//         setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
+//     }
+// }
 
 export const routePopup = (map, distancePoint, distancePoint2, e) => {
 
@@ -1242,4 +1265,62 @@ export const mapElementPopup = (map, e) => {
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
+}
+
+export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
+    clearAllPopups(map);
+    const popup = L.popup([e.latlng.lat, e.latlng.lng], {
+        content: givenSetPopupHTML(),
+    });
+    popup.addTo(map);
+
+    window.deleteMainSet = () => {
+        resetPositionOfHorizontalLine();
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+    }
+}
+
+
+// Popup shown when right-click icon rect
+export const removeRectIconPopup = (map, e, removeCountryToRect) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        removeCountryToRect(e.target.options.options.type)
+        map.removeLayer(popup);
+    }
+}
+
+export const removeVerticalPersonIconPopup = (map, e, removeVerticalIcon) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        removeVerticalIcon()
+        map.removeLayer(popup);
+    }
+}
+
+export const removeHorizontalIconPopup = (map, e, removeHorizontalIcon) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        removeHorizontalIcon()
+        map.removeLayer(popup);
+    }
 }

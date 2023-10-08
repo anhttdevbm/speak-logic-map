@@ -1,6 +1,6 @@
 import {
   CircleIcon,
-  HomeIcon,
+  HomeIcon, HorizontalLineIcon,
   LeftArrowIcon,
   LocationIcon,
   MainsetIcon,
@@ -24,16 +24,17 @@ import styles from './_RearTools.module.scss';
 const ItemList: ItemInterface[] = [
   {value: 'function', Icon: RectangleIcon, name: 'Function', ability: true},
   {value: 'person', Icon: PersonIcon, name: 'Person', ability: true},
-  {value: 'main-set', Icon: MainsetIcon, name: 'The Given Set', ability: false},
+  {value: 'main-set', Icon: MainsetIcon, name: 'The Given Set', ability: true},
   {value: 'house', Icon: HomeIcon, name: 'House', ability: true},
   {value: 'inter-route', Icon: VectorIcon, name: 'Inter-route', ability: true},
   {value: 'distance', Icon: LocationIcon, name: 'Distance', ability: true},
   {value: 'philosophy', Icon: CircleIcon, name: 'Philosophy', ability: false},
   {value: 'welcome-sign', Icon: WelcomeSignIcon, name: 'Welcome', ability: true},
-  // {value: 'horizontal-line', Icon: VectorIcon, name: 'Horizontal Line', ability: true},
   {value: 'scroll-feature', Icon: ScrollFeatureIcon, name: 'Scroll feature', ability: true},
+  {value: 'horizontal-line', Icon: HorizontalLineIcon, name: 'Horizontal Line', ability: true},
   {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
   {value: 'mobility', Icon: VectorIcon, name: 'Mobility', ability: true},
+
 ]
 
 const RearTools: React.FC = (): JSX.Element => {

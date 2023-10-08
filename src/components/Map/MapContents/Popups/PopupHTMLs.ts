@@ -217,35 +217,30 @@ export const personPopupHTML = (): string => {
           <div onclick="addRelatePerson('Principle Aspect')" class="${styles['upload-file-wrapper']}">
             Person and Principle Aspect
           </div>
-          <div class="${styles['row']} ${styles['on-hover']}">
-            Map Element
-            <div class="${styles['hover-func-block']}">
-              <div 
-                onclick="addRelatePerson('Personal Responsibility')"
-                class="${styles['upload-file-wrapper']}"
-              >Personal Responsibility</div>
-              <div 
-                onclick="addRelatePerson('Self - Contribution')"
-                class="${styles['upload-file-wrapper']}"
-              >Self - Contribution</div>
-              <div 
-                onclick="addRelatePerson('Averaging')"
-                class="${styles['upload-file-wrapper']}"
-              >Averaging</div>
-              <div 
-                onclick="addRelatePerson('Feedback')"
-                class="${styles['upload-file-wrapper']}"
-              >Feedback</div>
-              <div 
-                onclick="addRelatePerson('Correction')"
-                class="${styles['upload-file-wrapper']}"
-              >Correction</div>
-              <div 
-                onclick="addRelatePerson('Function Boundary')"
-                class="${styles['upload-file-wrapper']}"
-              >Function Boundary</div>
-            </div>
-          </div>
+          <div 
+            onclick="addRelatePerson('Personal Responsibility')"
+            class="${styles['upload-file-wrapper']}"
+          >Personal Responsibility</div>
+          <div 
+            onclick="addRelatePerson('Self - Contribution')"
+            class="${styles['upload-file-wrapper']}"
+          >Self - Contribution</div>
+          <div 
+            onclick="addRelatePerson('Averaging')"
+            class="${styles['upload-file-wrapper']}"
+          >Averaging</div>
+          <div 
+            onclick="addRelatePerson('Feedback')"
+            class="${styles['upload-file-wrapper']}"
+          >Feedback</div>
+          <div 
+            onclick="addRelatePerson('Correction')"
+            class="${styles['upload-file-wrapper']}"
+          >Correction</div>
+          <div 
+            onclick="addRelatePerson('Function Boundary')"
+            class="${styles['upload-file-wrapper']}"
+          >Function Boundary</div>
         </div>
       </div>
       <div 
@@ -337,8 +332,15 @@ export const groupPopupHTML = (): string => {
 
 export const mainsetPopupHTML = (): string => {
   return `
-    <div onclick="deleteMainSet()" class="${styles['row']}">
-      Delete
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+        <div onclick="insertHorizontalLine()" class="${styles['row']}">
+          Insert Horizontal Line
+        </div>
+        <div onclick="deleteMainSet()" class="${styles['row']}">
+          Delete Main Set
+        </div>
     </div>
   `
 }
@@ -874,4 +876,30 @@ export const mapElementPopupHTML = (): string => {
       >Relate with Function Boundary</div>
     </div>
   `;
+}
+
+export const givenSetPopupHTML = (): string => {
+    return `
+    <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
+      <div 
+        onclick="deleteMainSet()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Delete Item</div>
+    </div>
+  `;
+}
+
+export const rectIconPopupHTML = (): string => {
+    return  `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div 
+        onclick="deleteRectIcon()"
+        class="${styles['row']}"
+      >
+        Delete Item
+      </div>
+    </div>
+  `
 }

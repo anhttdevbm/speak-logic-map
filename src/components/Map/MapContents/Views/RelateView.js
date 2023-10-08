@@ -14,7 +14,7 @@ const RelateView = () => {
             }
             <div className={styles.horizontalLine}></div>
             <RelateCircle/>
-            {globalStore.mapElementSelected === 'Person'
+            {globalStore.mapElementRelate === 'Person'
                 ? <PersonItem style={{margin: '30px'}} element={globalStore.mapElementRelate}/>
                 : <DetailItem style={{margin: '30px'}} element={globalStore.mapElementRelate}/>
             }

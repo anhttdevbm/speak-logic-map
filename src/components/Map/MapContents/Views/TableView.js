@@ -6,7 +6,7 @@ import { useMap } from 'react-leaflet';
 import { allLayer } from '../Variables/Variables';
 import { useEffect, useState } from 'react';
 import { useCountryStore, useGlobalStore } from '@/providers/RootStoreProvider';
-import { addMarkerFn } from '../Markers/AddMarkers';
+import {addMarkerFn, addMarkerFnEllipse} from '../Markers/AddMarkers';
 import { getGeoMainLand } from '@/utils/get_geo_mainland';
 import * as turf from '@turf/turf';
 
@@ -22,7 +22,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
 
     const generateTable = (tableType, centerLatLng, table, tableName) => {
         const isWorldTable = tableType === 'world';
-        const bodyTableWidthPX = isWorldTable ? 200 : 200;
+        const bodyTableWidthPX = isWorldTable ? 300 : 200;
         const bodyTableTopWidthPX = isWorldTable ? bodyTableWidthPX + 200 : bodyTableWidthPX + 100;
         const bodyTableHeightPX = isWorldTable ? 250 : 125;
         const poleTableHeightPX = isWorldTable ? 250 : 200;
@@ -48,7 +48,6 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         const bottomPolePoint = map.latLngToContainerPoint(bottomPoleLatLng);
         const topPolePoint = bottomPolePoint.subtract([0, poleTableHeightPX]);
         const topPoleLatLng = map.containerPointToLatLng(topPolePoint);
-        console.log('pole', bottomPoleLatLng, topPoleLatLng, bottomPolePoint, topPolePoint)
         // Get the latlngs of the table's flag
         const topLeftFlagPoint = topPolePoint;
         const topRightFlagPoint = topLeftFlagPoint.add([flagTableWidthPX, 0]);
@@ -99,12 +98,19 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         const flagTableImg = L.imageOverlay(flagImgSrc, flagTableLatLngs);
         flagTableImg.addTo(table).bringToBack();
 
+
         let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine, flagTableImg]);
         map.fitBounds(group.getBounds());
 
         const bodyTableLatLng = [[northTopLatLng, westTopLatLng, southTopLatLng, eastTopLatLng]]
 
         const polygonForOnClick = L.polygon(bodyTableLatLng, {weight: 5, color: 'black', fillColor: 'transparent', className: 'table-body'});
+
+        globalStore.mapLayer.forEach(marker => {
+            if (marker?.type === 'function') {
+                addMarkerFnEllipse(table, marker.lat, marker.lng, marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType)
+            }
+        })
 
         // handle click on table
         polygonForOnClick.on('click', (e) => {

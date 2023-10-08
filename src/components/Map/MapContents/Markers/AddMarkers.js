@@ -3,7 +3,7 @@ import { toggleBoundaryFn } from './Markers';
 import { addSelectedItem } from './HandleSelectItem';
 import {
   markerPersonIcon, markerHouseIcon, markerNavigationSignIcon,
-  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon, markerRelateIcon
+  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon, markerRelateIcon, markerGivenSetIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
@@ -16,7 +16,7 @@ import {
   stopFnPopup,
   tempFnPopup,
   personPopup,
-  mapElementPopup
+  mapElementPopup, givenSetPopup
 } from '../Popups/Popups';
 import { 
   groupFnLayoutPopupHTML, groupPersonLayoutPopupHTML, wrappingPopupHTML, 
@@ -26,10 +26,6 @@ import {
 import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit, 
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
-import {Marker, Popup} from "react-leaflet";
-import {useRef} from "react";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
-import {RelatedIcon} from "@/components/Icons/Icons";
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementRelate, setMapElementSelected) => {
   let marker = L.marker([lat, lng], {
@@ -47,8 +43,8 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
 }
 
 
-export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass) => {
-  // console.log(lat, lng);
+export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
+                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
@@ -62,7 +58,7 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
     ),
     draggable: !isLocked,
   })
-    .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e))
+    .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
     .on('click', e => addSelectedItem(e, container, isLocked))
     // .on('dblclick', e => toggleBoundaryFn(e))
     .addTo(container);
@@ -70,12 +66,13 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
   return fnMarker;
 }
 
-export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass) => {
+export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
+                                   setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
   // console.log(lat, lng);
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
-      shape: 'rectangle',
+      shape: 'ellipse',
       index: index,
       status: 'add',
     },
@@ -85,7 +82,7 @@ export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModa
     ),
     draggable: !isLocked,
   })
-      .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e))
+      .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
       .on('click', e => addSelectedItem(e, container, isLocked))
       // .on('dblclick', e => toggleBoundaryFn(e))
       .addTo(container);
@@ -189,7 +186,7 @@ export const addHouseMarker = (map, lat, lng, isLocked) => {
     .addTo(map)
 }
 
-export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType) => {
+export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl) => {
   const formattedName = String(name).toLowerCase();
   const first = formattedName[0].toUpperCase();
   const remain = formattedName.slice(1, formattedName.length);
@@ -203,7 +200,7 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
     ),
   })
     .addTo(map)
-    .on('contextmenu', e => fnProblemPopup(map, e, setModal, setModalType))
+    .on('contextmenu', e => fnProblemPopup(map, e, setModal, setModalType, setShapeOfMarkerPl))
     .on('dblclick', e => {
       if (e.target.options.type.title === 'problem') {
         e.target.options.type.title = 'solution';
@@ -370,7 +367,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     [[lat2, lng2], [lat1, lng1]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '0', color: 'black', type: 'arrow' })
+    .arrowheads({ size: 0, color: 'black', type: 'arrow' })
     .addTo(map);
   
   let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -380,7 +377,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     
-    .arrowheads({ color: 'black', type: 'arrow', size: '0' })
+    .arrowheads({ color: 'black', type: 'arrow', size: 0 })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )
@@ -422,7 +419,7 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name) => {
   L.marker([lat, lng], {
     draggable: !isLocked,
     type: {
-      type: 'function',
+      type: 'map-element',
       shape: 'rectangle',
       status: 'add',
     },
@@ -432,6 +429,21 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name) => {
     ),
   }).addTo(map)
       .on('contextmenu', e => mapElementPopup(map, e))
+      .on('click', e => addSelectedItem(e, map, isLocked))
+}
+
+export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
+  setPositionOfHorizontalLine(lat, lng);
+  L.marker([lat, lng], {
+    draggable: false,
+    type: {
+      type: 'the-given-set',
+      shape: 'rectangle',
+      status: 'add',
+    },
+    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+  }).addTo(map)
+      .on('contextmenu', e => givenSetPopup(map, e, resetPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))
 }
 

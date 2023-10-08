@@ -1,6 +1,5 @@
 import {Marker, Popup} from "react-leaflet";
 import {observer} from "mobx-react-lite";
-import RectHouse from "@/components/Map/MapContents/Views/rect/RectHouse";
 
 const TextPopupPallet = ({position}: any) => {
     return(

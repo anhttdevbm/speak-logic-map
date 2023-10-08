@@ -46,8 +46,8 @@ const Pallet: React.FC = (): JSX.Element => {
                     <LineIcon/>
                     <span>Line</span>
                     <div className={`${styles['extend-options']}`}>
-                        <div className={`${styles['pallet-item']}`}>
-                            <LineIcon/>
+                        <div id="line-event" className={`${styles['pallet-item']}`}>
+                            <LineIcon />
                         </div>
                         <div className={`${styles['pallet-item']}`}>
                             <PalletIcon/>

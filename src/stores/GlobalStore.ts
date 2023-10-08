@@ -24,13 +24,15 @@ export class GlobalStore {
     roomView: 'room-countries' | '' = '';
     floorPlanView: 'floorplan-countries' | '' = '';
     boatView: 'boat-world' | 'boat-countries' | '' = '';
-    rectangularView: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    rectangularView: 'rect-country' | 'rect-world' | '' = '';
     mapView: 'map-world' | 'map-countries' | '' = 'map-world';
     tableView: 'table-world' | 'table-countries' | '' = '';
-    moreView: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | '' = '';
+    moreView: 'more-world' | 'more-countries' | '' = '';
+    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
+    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | '' = '';
@@ -42,11 +44,15 @@ export class GlobalStore {
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
+    showModalInsertNumberPerson: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
-    positionOfScroll: any = [];
-    dataScroll: any = null;
     listMarkerProblem: any[] = [];
+    positionOfScroll: any[] = [];
+    positionOfHorizontalLine: any[] = [];
+    numberPersonInHorizontalLine = 0;
+    chooseGivenSet = false;
+    dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
     mapElementRelate = '';
@@ -64,6 +70,19 @@ export class GlobalStore {
 
     setPositionOfScroll = (lat: number, lng: number) => {
         this.positionOfScroll = [lat, lng];
+    }
+
+    setPositionOfHorizontalLine = (lat: number, lng: number) => {
+        this.positionOfHorizontalLine = [lat, lng];
+    }
+
+    resetPositionOfHorizontalLine = () => {
+        this.positionOfHorizontalLine = [];
+        this.numberPersonInHorizontalLine = 0;
+        this.chooseGivenSet = false;
+    }
+    setNumberPersonInHorizontalLine = (value: number) => {
+        this.numberPersonInHorizontalLine = value;
     }
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
@@ -155,7 +174,6 @@ export class GlobalStore {
 
     toggleView = (value: boolean): void => {
         this.isViewOn = value;
-        console.log(value);
     }
 
     toggleHouseView = (value: 'house-world' | 'house-countries' | ''): void => {
@@ -238,7 +256,7 @@ export class GlobalStore {
         this.showBoatWave = !this.showBoatWave;
     }
 
-    toggleRectangularView = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+    toggleRectangularView = (value: 'rect-country' | 'rect-world' | ''): void => {
         if (value === this.rectangularView) {
             this.rectangularView = '';
             this.mapView = 'map-world'
@@ -248,11 +266,21 @@ export class GlobalStore {
         }
     }
 
+    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | ''): void => {
+        if (value === this.rectName) {
+            this.rectName = '';
+        } else {
+            this.rectName = value;
+        }
+    }
+
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
         if (value === this.mapView) {
             this.mapView = '';
         } else {
             this.mapView = value;
+            this.mapElementSelected = '';
+            this.mapElementRelate = '';
         }
     }
 
@@ -266,11 +294,22 @@ export class GlobalStore {
         }
     }
 
-    toggleMoreView = (value: 'world-as-country' | 'population-view' | 'population-view-with-map' | 'world-problem-view' | ''): void => {
-        if (value === this.moreView) {
+    toggleMoreView = (value: 'more-world' | 'more-countries' | ''): void => {
+        if (value === this.tableView) {
             this.moreView = '';
+            this.mapView = 'map-world'
         } else {
             this.moreView = value;
+            this.mapView = ''
+        }
+    }
+
+    toggleMoreName = (value: any): void => {
+        if (value === this.moreName) {
+            this.moreName = '';
+            this.mapView = 'map-world'
+        } else {
+            this.moreName = value;
         }
     }
 
@@ -284,6 +323,9 @@ export class GlobalStore {
 
     toggleModalInsertCountry = (): void => {
         this.showModalInsertCountry = !this.showModalInsertCountry;
+    }
+    toggleModalInsertNumberPerson = (): void => {
+        this.showModalInsertNumberPerson = !this.showModalInsertNumberPerson;
     }
 
     setListCountryInRect = (countries: CountryName[]): void => {
@@ -300,8 +342,38 @@ export class GlobalStore {
         this.listCountryInRect = this.listCountryInRect.filter((item: any) => item.codeName !== country);
     }
 
+    removeVerticalIcon = (): void => {
+        this.numberPersonInHorizontalLine = this.numberPersonInHorizontalLine - 1;
+    }
+
+    setChooseGivenSet = (value: boolean): void => {
+        this.chooseGivenSet = value;
+    }
+
+    removeHorizontalIcon = (): void => {
+        this.positionOfHorizontalLine = [];
+        this.numberPersonInHorizontalLine = 0;
+    }
+
     addMarkerFnToList = (index: number): void => {
-        this.listMarkerFunction.push({key: index, value: 'Function ' + index})
+        if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
+            this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
+        }
+    }
+
+    setShapeOfMarkerFn = (name: number, shape: string): void => {
+        for (let i = 0; i < this.listMarkerFunction.length; i++) {
+            if (this.listMarkerFunction[i].value === name) {
+                this.listMarkerFunction[i].shape = shape;
+            }
+        }
+    }
+    setShapeOfMarkerPl = (name: number, shape: string): void => {
+        for (let i = 0; i < this.listMarkerProblem.length; i++) {
+            if (this.listMarkerProblem[i].value === name) {
+                this.listMarkerProblem[i].shape = shape;
+            }
+        }
     }
 
     removeMarkerFnList = (index: number): void => {
@@ -309,7 +381,7 @@ export class GlobalStore {
     }
 
     addMarkerPopulationToList = (index: number): void => {
-        this.listMarkerPopulation.push({key: index, value: 'Function ' + index})
+        this.listMarkerPopulation.push({key: index, value: 'Person  ' + index})
     }
 
     removeMarkerPopulationList = (index: number): void => {
@@ -317,7 +389,7 @@ export class GlobalStore {
     }
 
     addMarkerProblemToList = (index: number): void => {
-        this.listMarkerProblem.push({key: index, value: 'Problem ' + index})
+        this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle'})
     }
 
     setMapElementSelected = (value: any): void => {
@@ -328,7 +400,7 @@ export class GlobalStore {
         this.mapElementRelate = value;
     }
 
-    setMapLayer = (lat: any, lng: any, value: any): void => {
-        this.mapLayer.push({lat: lat, lng: lng, name: value})
+    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {
+        this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
     }
 }
