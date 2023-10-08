@@ -234,6 +234,7 @@ const ScrollFeatureViewM = () => {
 
     return (
         <div>
+            {contextHolder}
             <div className={`${styles['simulation-setting-wrap']}`} onClick={e => e.stopPropagation()}>
                 <div className={`${styles['header']}`}>
                     <button onClick={closeModal}><CloseIcon/></button>
