@@ -167,7 +167,7 @@ const Markers = ({setModal, setModalType}) => {
                 draw: {
                     polyline: {
                         shapeOptions: {
-                            color: '#f06eaa', // Line color
+                            color: '#151414', // Line color
                         },
                     },
                     rectangle: false, // Enable drawing rectangles
@@ -186,7 +186,11 @@ const Markers = ({setModal, setModalType}) => {
             let drawnItems = new L.FeatureGroup();
             const drawControl = new L.Control.Draw({
                 draw: {
-                    rectangle: true, // Enable drawing rectangles
+                    rectangle: {
+                        shapeOptions: {
+                            color: '#151414', // Line color
+                        },
+                    },
                     polyline: false,
                     marker: false,
                     circle: false,
@@ -206,7 +210,11 @@ const Markers = ({setModal, setModalType}) => {
                     rectangle: false, // Enable drawing rectangles
                     marker: false,
                     polyline: false,
-                    circle: true,
+                    circle: {
+                        shapeOptions: {
+                            color: '#151414', // Line color
+                        },
+                    },
                     polygon: false,
                     circlemarker: false
                 },
