@@ -66,18 +66,18 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
   return fnMarker;
 }
 
-export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
+export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, shape, name, customIndex, customClass,
                                    setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
-  // console.log(lat, lng);
+  let classShape = shape + '-fn';
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
-      shape: 'ellipse',
+      shape: shape,
       index: index,
       status: 'add',
     },
     icon: markerFnIcon(
-        `${styles['ellipse-fn']} ${styles['fn--black']} ${customClass}`,
+        `${styles[classShape]} ${styles['fn--black']} ${customClass}`,
         `${name && customIndex ? `${name} ${customIndex[0]}` : (name ? `${name}` : `Function ${index}`)}`
     ),
     draggable: !isLocked,
@@ -514,6 +514,6 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
         }
     )
         .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow' })
-        .addTo(map)
-  };
+        .addTo(map);
+  }
 }

@@ -356,7 +356,7 @@ const Options: React.FC = (): JSX.Element => {
                             Show move without path
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${(globalStore.addIcon === 'mobility' && globalStore.typeMobility) !== 'no-path' ? styles['hide'] : styles['show']}
+                ${(globalStore.addIcon === 'mobility' && globalStore.typeMobility !== 'no-path') ? styles['hide'] : styles['show']}
               `}/>
                         </li>
                     </ul>

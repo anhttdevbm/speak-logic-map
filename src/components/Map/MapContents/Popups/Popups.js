@@ -352,6 +352,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     }
 
     window.changeShape = (shape) => {
+        // map.removeLayer(e.target)
         let name = e.target.options.icon.options?.html;
 
         if (shape === 'circle') {
@@ -363,7 +364,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
                 )
             );
         } else if (shape === 'rectangle') {
-            setShapeOfMarkerFn(name, 'rectangle')
+            setShapeOfMarkerFn(name, 'rectangle');
             e.target.setIcon(
                 markerFnIcon(
                     `${styles['rectangle-fn']} ${e.target._icon.classList[2]}`,
@@ -371,7 +372,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
                 )
             );
         } else if (shape === 'ellipse') {
-            setShapeOfMarkerFn(name, 'ellipse')
+            setShapeOfMarkerFn(name, 'ellipse');
             e.target.setIcon(
                 markerFnIcon(
                     `${styles['ellipse-fn']} ${e.target._icon.classList[2]}`,
@@ -650,7 +651,6 @@ export const wrappingPopup = (map, lat, lng, isLocked, selectedList, restrictPop
 
     // Add one person and one function to a main set
     window.addToMainSet = (_event) => {
-        console.log('ADD NEW')
         _event.stopPropagation();
         _event.preventDefault();
         setupMainSet(selectedList, map, lat, lng, isLocked);
