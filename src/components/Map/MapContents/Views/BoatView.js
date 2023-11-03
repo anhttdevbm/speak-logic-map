@@ -287,7 +287,6 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
       boatBody.ondragover = (e) => e.preventDefault();
 
       boatBody.ondrop = (e) => {
-        console.log("OK")
         const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
         if (globalStore.addIcon === 'function') {
