@@ -336,7 +336,7 @@ export const mainsetPopupHTML = (): string => {
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
         <div onclick="insertHorizontalLine()" class="${styles['row']}">
-          Insert Horizontal Line
+          Insert Principle Line
         </div>
         <div onclick="deleteMainSet()" class="${styles['row']}">
           Delete Main Set
