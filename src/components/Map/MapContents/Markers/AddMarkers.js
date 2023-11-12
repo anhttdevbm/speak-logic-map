@@ -444,7 +444,7 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElement
 export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
   setPositionOfHorizontalLine(lat, lng);
   L.marker([lat, lng], {
-    draggable: false,
+    draggable: !isLocked,
     type: {
       type: 'the-given-set',
       shape: 'rectangle',
