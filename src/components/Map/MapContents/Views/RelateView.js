@@ -84,7 +84,10 @@ const RelateView = () => {
                         },
                         icon: markerRelateElementIcon(`${styles['relate-icon']}`),
                     }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                        .addTo(map)
+                        .addTo(map);
+                    L.polyline([[latElementSelected - 29.5, lngElementSelected + 150], [latElementSelected - 29.5, lngElementSelected + 170]], { status: 'add', weight: 2, color: 'black' })
+                        .arrowheads({ size: '1%', color: 'black', type: 'arrow' })
+                        .addTo(map);[latElementSelected - 30, lngElementSelected + 150]
 
                     const leftHorizontalLineBottom = [latElementSelected - 60, lngElementSelected];
                     const rightHorizontalLineBottom = [latElementSelected - 60, lngElementSelected + 150];
