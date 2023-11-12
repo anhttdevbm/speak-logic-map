@@ -2,8 +2,16 @@ import L from 'leaflet';
 import "leaflet.motion/dist/leaflet.motion.js";
 import { addSelectedItem } from './HandleSelectItem';
 import {
-  markerPersonIcon, markerHouseIcon, markerNavigationSignIcon,
-  markerFnIcon, markerDistancePointIcon, markerCountryFnIcon, markerMapElementIcon, markerRelateIcon, markerGivenSetIcon
+  markerPersonIcon,
+  markerHouseIcon,
+  markerNavigationSignIcon,
+  markerFnIcon,
+  markerDistancePointIcon,
+  markerCountryFnIcon,
+  markerMapElementIcon,
+  markerRelateIcon,
+  markerGivenSetIcon,
+  markerPersonWaveIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
@@ -475,7 +483,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
     setPositionOfPreviewPerson(lat, lng);
     L.marker([lat, lng], {
       target: {status: 'add', type: 'person-mobility'},
-      icon: markerPersonIcon(null, 'Person', null),
+      icon: markerPersonWaveIcon(null, 'Person', null),
       draggable: !isLocked,
     })
         .on('contextmenu', e => {
@@ -506,7 +514,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
         {
           removeOnEnd: false,
           showMarker: true,
-          icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person', null)
+          icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
         }
     )
         .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow' })

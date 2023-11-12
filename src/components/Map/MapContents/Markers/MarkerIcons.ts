@@ -3,6 +3,7 @@ import L from 'leaflet';
 import styles from '../_MapContents.module.scss';
 
 import ICON_PERSON from '@/assets/icons/user-icon.png';
+import ICON_WAVE from '@/assets/images/wave.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
@@ -23,6 +24,19 @@ export const markerPersonIcon = (className: string, name: string, image: string)
         html: (
             `<img src="${image ? image : ICON_PERSON.src}" style="position: absolute; left: 50%; transform: translateX(-50%);" alt="Person" width="40" height="40" />
       <div class="${styles["marker-person-name"]}">${name}</div>`
+        ),
+    })
+}
+
+export const markerPersonWaveIcon = (className: string, name: string, image: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [40, 40],
+        iconAnchor: [20, 30],
+        html: (
+            `<img src="${image ? image : ICON_PERSON.src}" style="position: absolute; left: 50%; transform: translateX(-50%);" alt="Person" width="40" height="40" />
+             <div class="${styles["marker-person-name"]}">${name}</div>
+            <img src="${ICON_WAVE.src}" style="margin-top: 30px; margin-left: -30px" width="100" height="100" alt="wave"/>`
         ),
     })
 }
