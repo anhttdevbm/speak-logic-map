@@ -144,6 +144,7 @@ const ScrollFeatureViewM = () => {
             endDate: data[0].endDate
 
         }
+        console.log(dataScroll);
         globalStore.setDataScroll(dataScroll);
         setIsClickAdd(false);
     }

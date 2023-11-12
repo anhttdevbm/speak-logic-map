@@ -57,10 +57,9 @@ export class GlobalStore {
     mapElementSelected = '';
     mapElementRelate = '';
     positionOfMapElementSelected: any[] = [];
-    typeMobility: 'path' | 'no-path' = 'path';
+    typeMobility: 'path' | 'no-path' | '' = 'path';
     numberPersonMobility: any = 0;
     positionOfPreviewPerson: any = [];
-    markerMobility: any;
 
     constructor() {
         makeAutoObservable(this);
@@ -331,11 +330,11 @@ export class GlobalStore {
     }
 
     setTypeMobility = (value: 'path' | 'no-path'): void => {
-        // if (value === this.typeMobility) {
-        //     this.typeMobility = '';
-        // } else {
+        if (value === this.typeMobility) {
+            this.typeMobility = '';
+        } else {
             this.typeMobility = value;
-        // }
+        }
     }
 
     setNumberPersonMobility = (): void => {
@@ -344,10 +343,6 @@ export class GlobalStore {
 
     resetNumberPersonMobility = (): void => {
         this.numberPersonMobility = 0;
-    }
-
-    setMarkerMobility = (marker: any): void => {
-        this.markerMobility = marker;
     }
 
     setPositionOfPreviewPerson = (lat: number, lng: number) => {
@@ -438,16 +433,6 @@ export class GlobalStore {
     }
 
     setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {
-        if (this.mapLayer.filter(item => item.name == value).length === 0) {
-            this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
-        }
-    }
-
-    setShapeOfMapLayer = (name: number, shape: string): void => {
-        for (let i = 0; i < this.mapLayer.length; i++) {
-            if (this.mapLayer[i].name === name) {
-                this.mapLayer[i].shape = shape;
-            }
-        }
+        this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
     }
 }

@@ -3,7 +3,7 @@ import L from 'leaflet';
 import "leaflet-ellipse";
 import { observer } from 'mobx-react-lite';
 import { useMap } from 'react-leaflet';
-import {allLayer, markerFnIndex} from '../Variables/Variables';
+import { allLayer } from '../Variables/Variables';
 import { useEffect, useState } from 'react';
 import { useCountryStore, useGlobalStore } from '@/providers/RootStoreProvider';
 import {addMarkerFn, addMarkerFnEllipse} from '../Markers/AddMarkers';
@@ -48,6 +48,15 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         const bottomPolePoint = map.latLngToContainerPoint(bottomPoleLatLng);
         const topPolePoint = bottomPolePoint.subtract([0, poleTableHeightPX]);
         const topPoleLatLng = map.containerPointToLatLng(topPolePoint);
+        // Get the latlngs of the table's flag
+        const topLeftFlagPoint = topPolePoint;
+        const topRightFlagPoint = topLeftFlagPoint.add([flagTableWidthPX, 0]);
+        const bottomLeftFlagPoint = topLeftFlagPoint.add([0, flagTableHeightPX]);
+        const bottomRightFlagPoint = topLeftFlagPoint.add([flagTableWidthPX, flagTableHeightPX]);
+        const topLeftFlagLatLng = map.containerPointToLatLng(topLeftFlagPoint); // Convert top left point to lat lng
+        const topRightFlagLatLng = map.containerPointToLatLng(topRightFlagPoint); // Convert top right point to lat lng
+        const bottomRightFlagLatLng = map.containerPointToLatLng(bottomRightFlagPoint);  // Convert bottom right point to lat lng
+        const bottomLeftFlagLatLng = map.containerPointToLatLng(bottomLeftFlagPoint);; // Convert botom left point to lat lng
 
         // Create a table's body from an array of LatLng points
         const bodyTablePolygon = L.ellipse(centerLatLng, radiiOfEllipse);
@@ -82,7 +91,15 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         leftLegLine.addTo(table);
         centerLegLine.addTo(table)
 
-        let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine]);
+        // Create a table's flag
+
+        const flagImgSrc = tableType === 'world' ? IMG_WORLD_FLAG.src : countryFlagList[tableType]
+        const flagTableLatLngs = [[bottomLeftFlagLatLng, topLeftFlagLatLng, topRightFlagLatLng, bottomRightFlagLatLng]];
+        const flagTableImg = L.imageOverlay(flagImgSrc, flagTableLatLngs);
+        flagTableImg.addTo(table).bringToBack();
+
+
+        let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine, flagTableImg]);
         map.fitBounds(group.getBounds());
 
         const bodyTableLatLng = [[northTopLatLng, westTopLatLng, southTopLatLng, eastTopLatLng]]
@@ -91,17 +108,9 @@ const TableView = ({selectedData, setModal, setModalType}) => {
 
         globalStore.mapLayer.forEach(marker => {
             if (marker?.type === 'function') {
-                const randomCoordinates = generateRandomCoordinatesInEllipse(centerLatLng, 120, 60, 30)
-                let lat = randomCoordinates[0];
-                let lng = randomCoordinates[1];
-                let shape = globalStore.listMarkerFunction.filter(x => x.value === marker.name)[0].shape;
-                globalStore.setShapeOfMapLayer(marker.name, shape);
-                addMarkerFnEllipse(table, lat, lng, marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, shape,
-                    null, null, null, globalStore.setShapeOfMarkerFn,
-                    globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl)
+                addMarkerFnEllipse(table, marker.lat, marker.lng, marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType)
             }
-        });
-
+        })
 
         // handle click on table
         polygonForOnClick.on('click', (e) => {
@@ -114,14 +123,6 @@ const TableView = ({selectedData, setModal, setModalType}) => {
                 }
             }
         });
-    }
-
-    const generateRandomCoordinatesInEllipse = (center, majorAxis, minorAxis, rotationAngle) => {
-        const angle = Math.random() * 360; // Random angle between 0 and 360 degrees
-        const radius = Math.random() * minorAxis; // Random radius within the minor axis
-        const x = center.lat + radius * Math.cos((angle + rotationAngle) * (Math.PI / 180));
-        const y = center.lng + radius * Math.sin((angle + rotationAngle) * (Math.PI / 180));
-        return [x, y];
     }
 
     const handleAddFuncToTable = (latlng, table, bodyTableLatLngs) => {
@@ -300,6 +301,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
             tableBody.ondragover = (e) => e.preventDefault();
 
             tableBody.ondrop = (e) => {
+                console.log("OK")
                 const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
                 if (globalStore.addIcon === 'function') {

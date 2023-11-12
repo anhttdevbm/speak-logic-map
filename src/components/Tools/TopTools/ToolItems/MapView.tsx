@@ -28,7 +28,8 @@ const MapView: React.FC = (): JSX.Element => {
     return (
         <button
             type="button"
-            className={`${styles['left-item-wrap']}`}
+            className={`${styles['left-item-wrap']} ${globalStore.mapView !== '' ? styles['active'] : null}`}
+            onClick={() => toggleMapView()}
         >
             <LayerIcon/>
             <ItemName btnName='Map View'/>

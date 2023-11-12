@@ -66,18 +66,18 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
   return fnMarker;
 }
 
-export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, shape, name, customIndex, customClass,
+export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
                                    setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
-  let classShape = shape + '-fn';
+  // console.log(lat, lng);
   const fnMarker = L.marker([lat, lng], {
     target: {
       type: 'function',
-      shape: shape,
+      shape: 'ellipse',
       index: index,
       status: 'add',
     },
     icon: markerFnIcon(
-        `${styles[classShape]} ${styles['fn--black']} ${customClass}`,
+        `${styles['ellipse-fn']} ${styles['fn--black']} ${customClass}`,
         `${name && customIndex ? `${name} ${customIndex[0]}` : (name ? `${name}` : `Function ${index}`)}`
     ),
     draggable: !isLocked,
@@ -469,12 +469,11 @@ export const addRelateMarker = (map, lat, lng, isLocked) => {
 }
 
 export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
-                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility, setMarkerMobility,
-                                    markerMobility) => {
+                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility) => {
   setNumberPersonMobility();
   if (numberPersonMobility === 0) {
     setPositionOfPreviewPerson(lat, lng);
-    let marker = L.marker([lat, lng], {
+    L.marker([lat, lng], {
       target: {status: 'add', type: 'person-mobility'},
       icon: markerPersonIcon(null, 'Person', null),
       draggable: !isLocked,
@@ -491,9 +490,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
           }
         })
         .addTo(map);
-    setMarkerMobility(marker);
   } else {
-    map.removeLayer(markerMobility);
     L.motion.polyline(
         [
           positionOfPreviewPerson,
@@ -504,16 +501,15 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
         },
         {
           auto: true,
-          duration: 3000
+          duration: 5000
         },
         {
           removeOnEnd: false,
           showMarker: true,
-          target: {status: 'add', type: 'person-mobility'},
           icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person', null)
         }
     )
         .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow' })
-        .addTo(map);
-  }
+        .addTo(map)
+  };
 }

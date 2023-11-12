@@ -80,16 +80,14 @@ const HorizontalLineView = () => {
                         L.marker([latHorizontalLine, lngHorizontalLine], {
                             options: {
                                 type: 'Main set',
-                                status: 'add'
                             },
-                            target: { status: 'add' },
                             icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
                         }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
                             .addTo(map)
                     }
 
                     const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                    const horizontalLine = L.polyline(horizontalLineLatLngs, {status: 'add', weight: 3, color: 'black'})
+                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black'})
                         .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
                     horizontalLine.addTo(map);
 
@@ -101,10 +99,8 @@ const HorizontalLineView = () => {
                         const lng = lngHorizontalLine - 120 + (i + 1) * dental;
                         let countryMarker = L.marker([latHorizontalLine, lng], {
                             options: {
-                                type: 'Vertical',
-                                status: 'add'
+                                type: 'Vertical ' + i,
                             },
-                            target: { status: 'add' },
                             icon: markerVerticalPersonIcon(`${styles['vertical-person-icon']}`),
                         })
                             .on('contextmenu', e => removeVerticalPersonIconPopup(map, e, globalStore.removeVerticalIcon))

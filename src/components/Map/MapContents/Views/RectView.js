@@ -63,6 +63,7 @@ const RectView = ({selectedData}) => {
 
 
                 if (globalStore.map) {
+                    console.log('zoom', zoom)
                     const firstLat = -60;
                     const firstLng = -120;
                     let latList = [53, 15, -32];
