@@ -269,6 +269,13 @@ const Options: React.FC = (): JSX.Element => {
                 ${globalStore.rectName !== 'rect-distance' ? styles['hide'] : styles['show']}
               `}/>
             </li>
+            <li onClick={() => globalStore.toggleRectName('rect-shot-distance')}>
+              Show shot distance between country
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectName !== 'rect-shot-distance' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
           </ul>
         </li>
 

@@ -9,7 +9,7 @@ import { markerMapCountryIcon, markerPlusIcon,
     markerRectHouseIcon, markerRectNameIcon,
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
-import {addStaticDistance} from '../Markers/AddMarkers';
+import {addShotDistance, addStaticDistance} from '../Markers/AddMarkers';
 import {removeRectIconPopup} from "@/components/Map/MapContents/Popups/Popups";
 
 const RectView = ({selectedData}) => {
@@ -105,6 +105,40 @@ const RectView = ({selectedData}) => {
                                 }).addTo(map)
                                 if (index < listCountry.length - 2) {
                                     addStaticDistance(map, latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length],
+                                        latListt[Math.floor((index + 1) / lngListt.length)], lngListt[(index + 1) % lngListt.length], true, 'rect-distance')
+                                }
+                            } else {
+                                countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                    options: {
+                                        type: 'room',
+                                    },
+                                    icon: markerPlusIcon(
+                                        `${styles['plus-icon']}`),
+                                })
+                                    .on('click', e => {
+                                        globalStore.toggleModalInsertCountry();
+                                    })
+                                    .addTo(map);
+                            }
+                        } else if (globalStore.rectName === 'rect-shot-distance') {
+                            let latListt = [53, 15, -32];
+                            let lngListt = [-99, -36, 29, 90];
+                            if (zoom >= 3) {
+                                latListt = [53, 20, 0, -20 -40];
+                                lngListt = [-99, -57, -18, 20, 60, 100];
+                            }
+                            if (country.codeName !== '') {
+                                const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
+                                countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                    options: {
+                                        type: country.codeName,
+                                    },
+                                    icon: markerRectHouseIcon(
+                                        `${styles['rect-house-icon']}`,
+                                        nameIcon.toUpperCase()),
+                                }).addTo(map)
+                                if (index < listCountry.length - 2) {
+                                    addShotDistance(map, latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length],
                                         latListt[Math.floor((index + 1) / lngListt.length)], lngListt[(index + 1) % lngListt.length], true, 'rect-distance')
                                 }
                             } else {

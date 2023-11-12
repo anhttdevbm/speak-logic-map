@@ -422,6 +422,62 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
   distancePoint.on('click', (e) => clickArrow(map, distancePoint));
   distancePoint2.on('click', (e) => clickArrow(map, distancePoint2));
 }
+//Show distance only d
+export const addShotDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) => {
+  const distancePoint = addDistancePoint(map, lat1, lng1, isLocked, type);
+  const distancePoint2 = addDistancePoint(map, lat2, lng2, isLocked, type);
+
+  const polyline_1 = new L.Polyline(
+      [[lat2, lng2], [lat1, lng1]],
+      { color: 'transparent', status: 'add' }
+  )
+      .arrowheads({ size: '5px', color: 'black', type: 'arrow' })
+      .addTo(map);
+
+  let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
+
+  const polyline = new L.Polyline(
+      [[lat1, lng1], [lat2, lng2]],
+      { kind: 'distance', type: 'line', color: 'black', status: 'add' }
+  )
+
+      .arrowheads({ color: 'black', type: 'arrow', size: '5px' })
+      .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
+      .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
+      )
+      .addTo(map);
+
+  const latLng = polyline.getLatLngs();
+  const distance = map.distance(
+      L.latLng(latLng[0].lat, latLng[0].lng),
+      L.latLng(latLng[1].lat, latLng[1].lng)
+  );
+
+  polyline.setText(`d`, { center: true, offset: -3, orientation: orientation, attributes: {fill: 'black'}})
+
+  distancePoint.parentLine = polyline;
+  distancePoint2.parentLine = polyline;
+  distancePoint.parentLine_1 = polyline_1;
+  distancePoint2.parentLine_1 = polyline_1;
+
+  const { latlng1, latlng2, midpointLatLng, pathOptions } = staticArcRouteInit(lat1, lng1, lat2, lng2);
+  pathOptions.kind = 'distance';
+
+  const curvedPath = L.curve(
+      ['M', latlng1, 'Q', midpointLatLng, latlng2],
+      pathOptions
+  )
+      .addTo(map)
+      .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
+      .on('click', (e) => clickArc(map, e, distancePoint, distancePoint2, 'Distance'))
+
+
+  curvedPath.setText = polyline.setText;
+  distancePoint.parentArc = curvedPath;
+  distancePoint2.parentArc = curvedPath;
+  distancePoint.on('click', (e) => clickArrow(map, distancePoint));
+  distancePoint2.on('click', (e) => clickArrow(map, distancePoint2));
+}
 
 export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElementRelate, setPositionOfMapElementSelected) => {
   setPositionOfMapElementSelected(lat, lng);
