@@ -13,7 +13,7 @@ import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
 import SCROLL_ICON from '@/assets/icons/simulate-01.png';
-import { countryMapList } from '@/utils/country_map_list';
+import {countryMapList} from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
 
 export const markerPersonIcon = (className: string, name: string, image: string): L.DivIcon => {
@@ -142,6 +142,18 @@ export const markerHouseIconWithName = (className: string, name: string): L.DivI
     })
 }
 
+export const markerBoatIconWithName = (image: string, className: string, name: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [50, 50],
+        iconAnchor: [20, 30],
+        html: `
+    <img src=${image} alt="House" width="50" height="50" />
+    <div class="${styles["marker-house-name"]}">${name}</div>
+`
+    })
+}
+
 export const markerHouseWorldIcon = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
@@ -234,6 +246,19 @@ export const markerRectHouseIcon = (className: string, name: string): L.DivIcon 
     })
 }
 
+export const markerRectBoatIcon = (className: string, name: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [100, 120],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <img src=${ICON_HOUSE.src} alt="House" width="70" height="70" />
+                    <div class="${styles["marker-house-name-rect"]}">${name}</div>
+               </div>`
+    })
+}
+
+
 export const markerRectNameIcon = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
@@ -304,7 +329,7 @@ export const markerPopulationCountry = (className: string, name: string, numberP
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`
-        ) :  (
+        ) : (
             `<div>
                 <div style="margin-left: 20px">
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />

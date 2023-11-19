@@ -5,7 +5,13 @@ import { useMap } from 'react-leaflet';
 import { allLayer } from '../Variables/Variables';
 import { useEffect, useState } from 'react';
 import { useCountryStore, useGlobalStore } from '@/providers/RootStoreProvider';
-import { markerBoatWorldIcon, markerRoomIcon, markerThreeDotsIcon } from '../Markers/MarkerIcons';
+import {
+  markerBoatIconWithName,
+  markerBoatWorldIcon,
+  markerHouseIconWithName,
+  markerRoomIcon,
+  markerThreeDotsIcon
+} from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import { addMarkerFn, addStaticDistance, createFnMarker } from '../Markers/AddMarkers';
 import { getGeoMainLand } from '@/utils/get_geo_mainland';
@@ -14,6 +20,7 @@ import * as turf from '@turf/turf';
 import IMG_WORLD_FLAG from '@/assets/images/world-flag.png';
 import IMG_WAVE from '@/assets/images/wave.png';
 import { countryFlagList } from '@/utils/country_flag_list';
+import {countryMapList} from "@/utils/country_map_list";
 
 const BoatView = ({selectedData, setModal, setModalType}) => {
   const map = useMap();
@@ -24,13 +31,13 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
 
   const generateBoat = (boatType, centerLatLng, boat, boatName) => {
     const isWorldBoat = boatType === 'world';
-    const bodyBoatWidthPX = isWorldBoat ? 600 : 300;
-    const bodyBoatTopWidthPX = isWorldBoat ? bodyBoatWidthPX + 200 : bodyBoatWidthPX + 100;
-    const bodyBoatHeightPX = isWorldBoat ? 250 : 125; 
-    const poleBoatHeightPX = isWorldBoat ? 300 : 150;
-    const flagBoatWidthPX = isWorldBoat ? 200 : 100;
-    const flagBoatHeightPX = isWorldBoat ? 100 : 50;
-    const boatNamePoint = isWorldBoat ? L.point(80, 0) : L.point(50, 0)
+    const bodyBoatWidthPX = isWorldBoat ? 600 : 75;
+    const bodyBoatTopWidthPX = isWorldBoat ? bodyBoatWidthPX + 200 : bodyBoatWidthPX + 25;
+    const bodyBoatHeightPX = isWorldBoat ? 250 : 30;
+    const poleBoatHeightPX = isWorldBoat ? 300 : 35;
+    const flagBoatWidthPX = isWorldBoat ? 200 : 25;
+    const flagBoatHeightPX = isWorldBoat ? 100 : 13;
+    const boatNamePoint = isWorldBoat ? L.point(80, 0) : L.point(13, 0)
     
     // Get the 4 sides's latlngs of the boat's body
     const centerPoint = map.latLngToContainerPoint(centerLatLng); // Convert center latlng to point
@@ -207,7 +214,39 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
         });
   
         map.eachLayer(layer => map.removeLayer(layer));
-        if (!globalStore.map) {
+        if (globalStore.map) {
+          countryStore.countries.forEach(country => {
+            if (!country.name.codeName.includes('-99')) {
+              const mainLand = getGeoMainLand(country.data[0]);
+              const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
+              center.reverse();
+              const countryCode = country.name.codeName
+              const boatName = countryCode
+              generateBoat(country.name.codeName, center, boat, boatName);
+              boat.addTo(map);
+              boat.options = {
+                type: 'boat'
+              }
+              setBoatFG(boat)
+              // zoom the map to the polygon
+              map.fitBounds(boat.getBounds());
+              // const mainLand = getGeoMainLand(country.data[0]);
+              // const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
+              // const image = countryMapList[country.name.codeName];
+              // const countryMarker = L.marker(center.reverse(), {
+              //   icon: markerBoatIconWithName(image
+              //       ,'1', name ? `${name} ${index}` : country.name.codeName.toUpperCase()),
+              // }).addTo(map);
+              //
+              // countriesLayer.push(countryMarker);
+              //
+              // if (name) {
+              //   index++;
+              // }
+            }
+          })
+        }
+        else if (!globalStore.map) {
           const mainLand = getGeoMainLand(selectedData[0]);
           const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
           center.reverse();

@@ -32,7 +32,7 @@ import {
     videoBoundPopupHTML,
     mapElementPopupHTML,
     rectIconPopupHTML,
-    givenSetPopupHTML
+    givenSetPopupHTML, boatPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -79,7 +79,6 @@ const stopFnRunningFeatures = (e) => {
 // Popup shown when right-click on world map
 export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setMapElementSelected) => {
     clearAllPopups(map);
-
     const popupWorld = L.popup();
     popupWorld.options.type = 'world_popup';
 
@@ -107,6 +106,39 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
         map.removeLayer(popupWorld);
     }
 }
+
+// Popup shown when right-click on boat view
+export const boatPopup = (map, e, isMap, toggleBoatView, setMapElementRelate, setMapElementSelected) => {
+    clearAllPopups(map);
+
+    const popupHouse = L.popup();
+    popupHouse.options.type = 'boat_popup';
+
+    if (isMap) {
+        popupHouse
+            .setLatLng([e.latlng.lat, e.latlng.lng])
+            .setContent(boatPopupHTML())
+            .addTo(map);
+
+        const world = document.querySelector('.world');
+        world.onclick = () => {
+            toggleBoatView('boat-world');
+            map.closePopup();
+        }
+
+        const country = document.querySelector('.country');
+        country.onclick = () => {
+            toggleBoatView("boat-countries");
+            map.closePopup();
+        }
+    }
+
+    window.handleSelectMapElement = (value) => {
+        setMapElementSelected(value);
+        map.removeLayer(popupHouse);
+    }
+}
+
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
