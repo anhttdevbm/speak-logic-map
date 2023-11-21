@@ -33,6 +33,7 @@ const countryFnFontSize = 14;
 const countryFnMaxZoom = 16;
 const alllayer = [];
 const countryPopup = L.popup();
+let isShowBlankMap = false;
 
 const getScaleValue = (zoom) => {
   return Math.round(Math.pow(zoom - 1, 2) / 2.5);
@@ -325,6 +326,26 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         }
   
         // Country Mode Popup
+
+        // Show Blank Map
+        window.showBlankMap = () => {
+          map.eachLayer(function (layer) {
+            map.removeLayer(layer);
+          });
+          L.geoJSON(geoJson, {
+            style: function (feature) {
+              return {
+                fillColor: 'white',
+                weight: 1,
+                fillOpacity: 1
+              };
+            }
+          }).addTo(map);
+          countryPopup
+              .setLatLng([e.latlng.lat, e.latlng.lng])
+              .setContent(countryModePopupHTML())
+              .addTo(map);
+        }
         
   
         setTimeout(() => {

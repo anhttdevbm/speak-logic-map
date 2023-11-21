@@ -662,6 +662,12 @@ export const countryModePopupHTML = (): string => {
       >
         Show Country as Group Function
       </h3>
+      <h3
+        onclick="showBlankMap()" 
+        class=${styles["menu-geojson"]}
+      >
+        Show Blank Map
+      </h3>
     </div>
   `
 }
