@@ -176,7 +176,7 @@ export function dragHandlerLine(map, e) {
 
   let customText = (text === 'Inter-route' || text === 'Arc-route' || text === 'Distance')
     ? text 
-    : `${(distance * 0.001).toFixed()} km`;
+    : `${(distance * 0.001 * 0.6214).toFixed()} yd`;
 
   setText(null);
   setText(customText, {
@@ -207,7 +207,7 @@ export function clickLine(map, e, distancePoint, distancePoint2, name) {
     );
   
     let customText = (e.target._text === name) 
-      ? `${(distance * 0.001).toFixed()} km` 
+      ? `${(distance * 0.001 * 0.6214).toFixed()} yd`
       : name;
     
     let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -236,7 +236,7 @@ export function clickArc(map, e, distancePoint, distancePoint2, name) {
     );
   
     let customText = (distancePoint.parentArc._text === name) 
-      ? `${(distance * 0.001).toFixed()} km` 
+      ? `${(distance * 0.001 * 0.6214).toFixed()} yd` 
       : name;
     
     let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
