@@ -887,7 +887,23 @@ export const mapElementPopupHTML = (): string => {
 export const givenSetPopupHTML = (): string => {
     return `
     <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
-      <div 
+    <div 
+        onclick="deleteMainSet()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Top</div>
+    <div 
+        onclick="deleteMainSet()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Right</div>
+    <div 
+        onclick="deleteMainSet()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Bottom</div>
+    <div 
+        onclick="deleteMainSet()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Left</div>
+    <div 
         onclick="deleteMainSet()"
         class="${styles['row']} ${styles['on-hover']}"
       >Delete Item</div>
