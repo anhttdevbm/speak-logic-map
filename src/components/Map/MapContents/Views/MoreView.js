@@ -80,7 +80,21 @@ const MoreView = ({selectedData}) => {
                     const lat = latList[Math.floor(index / lngList.length)];
                     const lng = lngList[index % lngList.length];
                     let functionMarker;
-                    if (fn.key !== '') {
+                    if (fn.key === 'dot') {
+                        functionMarker = addIconDotDot(lat, lng);
+                    } else if (fn.key === 'plus') {
+                        functionMarker = L.marker([lat, lng], {
+                            options: {
+                                type: fn.value,
+                            },
+                            icon: markerPlusIcon(
+                                `${styles['plus-icon']}`)
+                        })
+                            .on('click', e => {
+                                globalStore.toggleModalNumberFunctionMoreView();
+                            })
+                            .addTo(map);
+                    } else {
                         functionMarker = L.marker([lat, lng], {
                             options: {
                                 type: fn.value,
@@ -92,8 +106,6 @@ const MoreView = ({selectedData}) => {
                                 fn.value)
                         })
                             .addTo(map);
-                    } else {
-                        functionMarker = addIconDotDot(lat, lng)
                     }
 
                     functionsLayer.push(functionMarker);
@@ -242,7 +254,7 @@ const MoreView = ({selectedData}) => {
                 }
             });
         };
-    }, [globalStore.map, globalStore.moreName, selectedData]);
+    }, [globalStore.map, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView]);
 
     const addItemDotDot = (listCountry) => {
         if (globalStore.moreName === 'population-view-with-country') {
@@ -252,9 +264,13 @@ const MoreView = ({selectedData}) => {
             }
             return listCountry;
         }
-        let listCountryIncludedPlus = listCountry.filter(item => item.key === '');
+        let listCountryIncludedDot = listCountry.filter(item => item.key === 'dot');
+        let listCountryIncludedPlus = listCountry.filter(item => item.key === 'plus');
+        if (listCountryIncludedDot.length === 0) {
+            listCountry.push({key: 'dot', value: 'dot'});
+        }
         if (listCountryIncludedPlus.length === 0) {
-            listCountry.push({key: '', value: ''});
+            listCountry.push({key: 'plus', value: 'plus'});
         }
         return listCountry;
     }

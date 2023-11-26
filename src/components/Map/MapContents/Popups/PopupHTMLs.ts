@@ -200,6 +200,12 @@ export const personPopupHTML = (): string => {
           <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
             Show Move Without Path
           </div>
+          <div onclick="showMoveWithPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path With The Given Set
+          </div>
+          <div onclick="showMoveWithoutPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path With The Given Set
+          </div>
         </div>
       </div>
       <div class="${styles['row']} ${styles['on-hover']}">

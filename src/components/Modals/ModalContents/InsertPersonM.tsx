@@ -4,7 +4,9 @@ import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {InputNumber} from "antd";
 
 interface Props {
-    setToggleModal: React.Dispatch<React.SetStateAction<boolean>>;
+    type: string,
+    setToggleModal: any;
+    setAction: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const shortenName = (name: string): string => {
@@ -12,23 +14,31 @@ const shortenName = (name: string): string => {
     return trimName.length > 6 ? `${trimName.slice(0, 6)}...` : trimName;
 }
 
-const InsertPersonM = () => {
+const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props) => {
     const globalStore = useGlobalStore();
     const [numberPerson, setNumberPerson] = useState<any>(0);
 
     const closeModal = (): void => {
-        globalStore.toggleModalInsertNumberPerson();
+        setToggleModal();
     }
 
     const handleSetNumberCountry = () => {
-        globalStore.setNumberPersonInHorizontalLine(numberPerson);
-        globalStore.toggleModalInsertNumberPerson();
+        setAction(numberPerson);
+        setToggleModal();
+        if (type === 'function') {
+            let indexList = globalStore.listMarkerFunction.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
+            console.log('index', indexList)
+            let lastIndex = indexList[indexList.length - 1]
+            for (let i = 1; i <= numberPerson; i++) {
+                globalStore.addMarkerFnToList(lastIndex + i);
+            }
+        }
     }
 
     return (
         <div className={`${styles['rename-wrap']}`} onClick={e => e.stopPropagation()}>
             <div className={`${styles['rename-header']}`}>
-                <h3 style={{marginBottom: '10px'}}>Insert number person</h3>
+                <h3 style={{marginBottom: '10px'}}>Insert number {type}</h3>
             </div>
             <div>
                 <InputNumber style={{width: '100%'}} type='number' value={numberPerson} onChange={(e) => {setNumberPerson(e)}}/>

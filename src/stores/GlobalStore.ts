@@ -44,6 +44,7 @@ export class GlobalStore {
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
+    showModalInsertNumberFunctionMoreView: boolean = false;
     showModalInsertNumberPerson: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
@@ -51,6 +52,7 @@ export class GlobalStore {
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     numberPersonInHorizontalLine = 0;
+    numberFunctionMoreView = 0;
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
@@ -87,6 +89,10 @@ export class GlobalStore {
     }
     setNumberPersonInHorizontalLine = (value: number) => {
         this.numberPersonInHorizontalLine = value;
+    }
+
+    setNumberFunctionMoreView = (value: number) => {
+        this.numberFunctionMoreView = value;
     }
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
@@ -351,6 +357,10 @@ export class GlobalStore {
 
     toggleModalInsertCountry = (): void => {
         this.showModalInsertCountry = !this.showModalInsertCountry;
+    }
+
+    toggleModalNumberFunctionMoreView = (): void => {
+        this.showModalInsertNumberFunctionMoreView = !this.showModalInsertNumberFunctionMoreView;
     }
     toggleModalInsertNumberPerson = (): void => {
         this.showModalInsertNumberPerson = !this.showModalInsertNumberPerson;

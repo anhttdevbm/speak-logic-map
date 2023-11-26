@@ -536,6 +536,7 @@ const Markers = ({setModal, setModalType}) => {
                     const mapElement = globalStore.mapElementSelected;
                     addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement, globalStore.setMapElementRelate,
                         globalStore.setPositionOfMapElementSelected);
+                    console.log('globalStore.mapElementSelected && globalStore.positionOfMapElementSelected', globalStore.mapElementSelected, globalStore.positionOfMapElementSelected)
                 }
             }
         }

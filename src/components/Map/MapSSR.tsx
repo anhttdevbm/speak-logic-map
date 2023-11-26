@@ -217,10 +217,24 @@ const MapSSR: React.FC = (): JSX.Element => {
                     <InsertCountryM/>
                 </ModalWrap>
             )}
+            {globalStore.moreName === 'world-as-function' && globalStore.showModalInsertNumberFunctionMoreView && (
+                <ModalWrap>
+                    <InsertPersonM
+                        type={'function'}
+                        setToggleModal={globalStore.toggleModalNumberFunctionMoreView}
+                        setAction={globalStore.setNumberFunctionMoreView}
+                    />
+                </ModalWrap>
+            )}
             {
                 globalStore.positionOfHorizontalLine.length > 0 && globalStore.showModalInsertNumberPerson &&
-                <ModalWrap><InsertPersonM/></ModalWrap>
-                //     <ScrollFeature data = {[]}/>
+                <ModalWrap>
+                    <InsertPersonM
+                        type={'person'}
+                        setToggleModal={globalStore.toggleModalInsertNumberPerson}
+                        setAction={globalStore.setNumberPersonInHorizontalLine}
+                    />
+                </ModalWrap>
             }
         </>
     )
