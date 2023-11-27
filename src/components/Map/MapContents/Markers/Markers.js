@@ -141,7 +141,7 @@ const Markers = ({setModal, setModalType}) => {
 
     // Get all function by wrapping in area (to add into a group)
     useEffect(() => {
-        if (globalStore.map) {
+        // if (globalStore.map) {
             const getButton = document.getElementById("pointer-event");
             const textEvent = document.getElementById("text-event");
             const lineEvent = document.getElementById("line-event");
@@ -333,8 +333,8 @@ const Markers = ({setModal, setModalType}) => {
                 rectEvent?.removeEventListener("click", drawRectangle);
                 ellipseEvent?.removeEventListener("click", drawCircle);
             };
-        }
-    }, []);
+        // }
+    }, [globalStore.map]);
 
     const calculateDistance = (lat1, lng1, lat2, lng2) => {
         const earthRadius = 6371; // Radius of the Earth in kilometers
