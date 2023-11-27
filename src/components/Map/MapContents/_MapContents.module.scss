@@ -684,6 +684,58 @@ $time-animation: var(--time-animation);
     top: 1px;
     right: 5px;
   }
+
+  .arrow-given-set-right {
+    border: 1px solid black;
+    width: 100px;
+    position: absolute;
+    left: 50% !important;
+    z-index: -1;
+  }
+
+  .arrow-given-set-left {
+    border: 1px solid black;
+    width: 100px;
+    position: absolute;
+    right: 50% !important;
+    z-index: -1;
+  }
+
+  .arrow-given-set-top {
+    border: 1px solid black;
+    height: 70px;
+    position: absolute;
+    bottom: 50% !important;
+    z-index: -1;
+  }
+
+  .arrow-given-set-bottom {
+    border: 1px solid black;
+    height: 70px;
+    position: absolute;
+    top: 50% !important;
+    z-index: -1;
+  }
+
+  .right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+
+  .up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
 }
 
 .circle-fn-1 {

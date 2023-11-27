@@ -506,7 +506,13 @@ export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenS
       shape: 'rectangle',
       status: 'add',
     },
-    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+    icon: markerFnIcon(
+        `${styles['rectangle-fn']} ${styles['fn--black']}`,
+        `
+        ${name}
+        <div class="${styles['arrow-given-set-bottom']}"></div>
+      `
+    ),
   }).addTo(map)
       .on('contextmenu', e => givenSetPopup(map, e, resetPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))

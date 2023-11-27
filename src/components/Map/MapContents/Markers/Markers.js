@@ -532,7 +532,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.setChooseGivenSet(true);
                     addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
                         globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
-                } else if (globalStore.mapElementSelected && globalStore.positionOfMapElementSelected.length === 0) {
+                } else if (globalStore.mapElementSelected) {
                     const mapElement = globalStore.mapElementSelected;
                     addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement, globalStore.setMapElementRelate,
                         globalStore.setPositionOfMapElementSelected);

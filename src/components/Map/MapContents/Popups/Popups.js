@@ -1369,6 +1369,35 @@ export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
         map.removeLayer(popup);
         map.removeLayer(e.target);
     }
+    window.arrowDirectionBottom = () => {
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-right"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-left"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-top"]);
+        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-bottom"]);
+        map.removeLayer(popup);
+    }
+    window.arrowDirectionRight = () => {
+        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-right"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-left"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-top"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-bottom"]);
+        map.removeLayer(popup);
+
+    }
+    window.arrowDirectionLeft = () => {
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-right"]);
+        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-left"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-top"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-bottom"]);
+        map.removeLayer(popup);
+    }
+    window.arrowDirectionTop = () => {
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-right"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-left"]);
+        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-top"]);
+        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-bottom"]);
+        map.removeLayer(popup);
+    }
 }
 
 

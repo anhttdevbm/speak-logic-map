@@ -894,19 +894,19 @@ export const givenSetPopupHTML = (): string => {
     return `
     <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
     <div 
-        onclick="deleteMainSet()"
+        onclick="arrowDirectionTop()"
         class="${styles['row']} ${styles['on-hover']}"
       >Arrow Direction Top</div>
     <div 
-        onclick="deleteMainSet()"
+        onclick="arrowDirectionRight()"
         class="${styles['row']} ${styles['on-hover']}"
       >Arrow Direction Right</div>
     <div 
-        onclick="deleteMainSet()"
+        onclick="arrowDirectionBottom()"
         class="${styles['row']} ${styles['on-hover']}"
       >Arrow Direction Bottom</div>
     <div 
-        onclick="deleteMainSet()"
+        onclick="arrowDirectionLeft()"
         class="${styles['row']} ${styles['on-hover']}"
       >Arrow Direction Left</div>
     <div 
