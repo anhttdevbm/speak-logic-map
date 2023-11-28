@@ -45,6 +45,7 @@ export class GlobalStore {
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
     showModalInsertNumberFunctionMoreView: boolean = false;
+    showModalInsertNumberPersonMoreView: boolean = false;
     showModalInsertNumberPerson: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
@@ -53,6 +54,7 @@ export class GlobalStore {
     positionOfHorizontalLine: any[] = [];
     numberPersonInHorizontalLine = 0;
     numberFunctionMoreView = 0;
+    numberPersonMoreView = 0;
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
@@ -93,6 +95,10 @@ export class GlobalStore {
 
     setNumberFunctionMoreView = (value: number) => {
         this.numberFunctionMoreView = value;
+    }
+
+    setNumberPersonMoreView = (value: number) => {
+        this.numberPersonMoreView = value;
     }
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
@@ -362,6 +368,10 @@ export class GlobalStore {
     toggleModalNumberFunctionMoreView = (): void => {
         this.showModalInsertNumberFunctionMoreView = !this.showModalInsertNumberFunctionMoreView;
     }
+
+    toggleModalNumberPersonMoreView = (): void => {
+        this.showModalInsertNumberPersonMoreView = !this.showModalInsertNumberPersonMoreView;
+    }
     toggleModalInsertNumberPerson = (): void => {
         this.showModalInsertNumberPerson = !this.showModalInsertNumberPerson;
     }
@@ -404,6 +414,14 @@ export class GlobalStore {
             let newElement = {key: index, value: 'Function ' + index, shape: 'rectangle'};
             let positionBeforeEnd = this.listMarkerFunction.length - 2;
             this.listMarkerFunction.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
+    addMarkerPersonToNearLast = (index: number): void => {
+        if (this.listMarkerPopulation.filter(item => item.key == index).length === 0) {
+            let newElement = {key: index, value: 'Person  ' + index};
+            let positionBeforeEnd = this.listMarkerPopulation.length - 2;
+            this.listMarkerPopulation.splice(positionBeforeEnd, 0, newElement);
         }
     }
 

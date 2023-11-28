@@ -28,7 +28,6 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
         setToggleModal();
         if (type === 'function') {
             let indexList = globalStore.listMarkerFunction.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
-            console.log('index', indexList)
             let lastIndex = indexList[indexList.length - 1]
             for (let i = 1; i <= numberPerson; i++) {
                 let key = lastIndex + 1
@@ -43,6 +42,23 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
                 const randomLng = Math.random() * (maxLng - minLng) + minLng;
                 globalStore.setMapLayer(randomLat, randomLng, 'Function ' + key, 'function');
             }
+        } else if (type === 'population-view') {
+            let indexList = globalStore.listMarkerPopulation.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
+            console.log('globalStore.listMarkerPopulation', globalStore.listMarkerPopulation)
+            let lastIndex = indexList[indexList.length - 1]
+            for (let i = 1; i <= numberPerson; i++) {
+                let key = lastIndex + 1;
+                globalStore.addMarkerPersonToNearLast(key);
+                const minLat = -90;
+                const maxLat = 90;
+                const minLng = -180;
+                const maxLng = 180;
+
+// Generate random latitude and longitude
+                const randomLat = Math.random() * (maxLat - minLat) + minLat;
+                const randomLng = Math.random() * (maxLng - minLng) + minLng;
+                globalStore.setMapLayer(randomLat, randomLng, 'Person ' + key, 'person');
+            }
         }
     }
 
@@ -52,7 +68,9 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
                 <h3 style={{marginBottom: '10px'}}>Insert number {type}</h3>
             </div>
             <div>
-                <InputNumber style={{width: '100%'}} type='number' value={numberPerson} onChange={(e) => {setNumberPerson(e)}}/>
+                <InputNumber style={{width: '100%'}} type='number' value={numberPerson} onChange={(e) => {
+                    setNumberPerson(e)
+                }}/>
             </div>
             {/*<div className={`${styles['rename-input']}`}>*/}
             {/*    <Search/>*/}

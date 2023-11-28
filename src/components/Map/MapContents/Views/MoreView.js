@@ -138,7 +138,21 @@ const MoreView = ({selectedData}) => {
                     const lat = latList[Math.floor(index / lngList.length)];
                     const lng = lngList[index % lngList.length];
                     let functionMarker;
-                    if (person.key !== '') {
+                    if (person.key === 'dot') {
+                        functionMarker = addIconDotDot(lat, lng);
+                    } else if (person.key === 'plus') {
+                        functionMarker = L.marker([lat, lng], {
+                            options: {
+                                type: person.value,
+                            },
+                            icon: markerPlusMoreViewIcon(
+                                `${styles['plus-icon-more-view']}`)
+                        })
+                            .on('click', e => {
+                                globalStore.toggleModalNumberPersonMoreView();
+                            })
+                            .addTo(map);
+                    } else {
                         functionMarker = L.marker([lat, lng], {
                             options: {
                                 type: person.value,
@@ -146,8 +160,6 @@ const MoreView = ({selectedData}) => {
                             icon: markerPersonIcon(`${styles['rectangleFn']}`, person.value, null)
                         })
                             .addTo(map);
-                    } else {
-                        functionMarker = addIconDotDot(lat, lng)
                     }
                     functionsLayer.push(functionMarker);
                 })
@@ -254,7 +266,7 @@ const MoreView = ({selectedData}) => {
                 }
             });
         };
-    }, [globalStore.map, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView]);
+    }, [globalStore.map, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView, globalStore.numberPersonMoreView]);
 
     const addItemDotDot = (listCountry) => {
         if (globalStore.moreName === 'population-view-with-country') {

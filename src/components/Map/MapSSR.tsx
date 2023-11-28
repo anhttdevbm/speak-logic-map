@@ -226,6 +226,15 @@ const MapSSR: React.FC = (): JSX.Element => {
                     />
                 </ModalWrap>
             )}
+            {globalStore.moreName === 'population-view' && globalStore.showModalInsertNumberPersonMoreView && (
+                <ModalWrap>
+                    <InsertPersonM
+                        type={'population-view'}
+                        setToggleModal={globalStore.toggleModalNumberPersonMoreView}
+                        setAction={globalStore.setNumberPersonMoreView}
+                    />
+                </ModalWrap>
+            )}
             {
                 globalStore.positionOfHorizontalLine.length > 0 && globalStore.showModalInsertNumberPerson &&
                 <ModalWrap>
