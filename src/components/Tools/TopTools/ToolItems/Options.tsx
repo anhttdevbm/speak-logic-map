@@ -225,6 +225,13 @@ const Options: React.FC = (): JSX.Element => {
           Rectangular View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.toggleRectName('rect-non-linear')}>
+              Rectangle View Non-Linear
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectName !== 'rect-non-linear' ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
             <li onClick={() => globalStore.toggleRectName('rect-map')}>
               Show country with map
               <CheckIcon className={`
