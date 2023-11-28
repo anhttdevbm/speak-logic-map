@@ -29,7 +29,10 @@ import {
     addMarkerScrollFeature,
     addMarkerMapElement,
     addMarkerFnEllipse,
-    addRelateMarker, addMarkerGivenSet, addMarkerWelcomeSign, addPersonInMobility
+    addRelateMarker,
+    addMarkerGivenSet,
+    addMarkerWelcomeSign,
+    addPersonInMobility
 } from './AddMarkers'
 
 
@@ -142,197 +145,174 @@ const Markers = ({setModal, setModalType}) => {
     // Get all function by wrapping in area (to add into a group)
     useEffect(() => {
         // if (globalStore.map) {
-            const getButton = document.getElementById("pointer-event");
-            const textEvent = document.getElementById("text-event");
-            const lineEvent = document.getElementById("line-event");
-            const rectEvent = document.getElementById("rectangle-event");
-            const ellipseEvent = document.getElementById("ellipse-event");
-            let restrictPopup = 0;
-            areaSelection = new DrawAreaSelection({
-                onPolygonReady: (polygon) => {
-                    if (polygon && polygon._latlngs) {
-                        const arr = polygon._latlngs[0].map((e) => Object.values(e));
+        const getButton = document.getElementById("pointer-event");
+        const textEvent = document.getElementById("text-event");
+        const lineEvent = document.getElementById("line-event");
+        const rectEvent = document.getElementById("rectangle-event");
+        const ellipseEvent = document.getElementById("ellipse-event");
+        let restrictPopup = 0;
+        areaSelection = new DrawAreaSelection({
+            onPolygonReady: (polygon) => {
+                if (polygon && polygon._latlngs) {
+                    const arr = polygon._latlngs[0].map((e) => Object.values(e));
 
-                        map.eachLayer(layer => {
-                            if (layer._latlng) {
-                                if (
-                                    turf.booleanPointInPolygon(
-                                        turf.point(Object.values(layer._latlng)),
-                                        turf.polygon([[...arr, arr[0]]])
-                                    )
-                                ) {
-                                    if (layer.options.index || layer.options.target || layer.options.options?.shape || layer.options.group?.type === 'mainset') {
-                                        selectedList.push(layer);
-                                        layer._icon.classList.add('selected-icon');
-                                        if (layer.options.group?.type === 'mainset') {
-                                            restrictPopup = 1;
-                                        }
+                    map.eachLayer(layer => {
+                        if (layer._latlng) {
+                            if (turf.booleanPointInPolygon(turf.point(Object.values(layer._latlng)), turf.polygon([[...arr, arr[0]]]))) {
+                                if (layer.options.index || layer.options.target || layer.options.options?.shape || layer.options.group?.type === 'mainset') {
+                                    selectedList.push(layer);
+                                    layer._icon.classList.add('selected-icon');
+                                    if (layer.options.group?.type === 'mainset') {
+                                        restrictPopup = 1;
                                     }
                                 }
                             }
-                        });
-                        if (selectedList.length > 0) {
-                            wrappingPopup(map, arr[2][0], arr[2][1], globalStore.lock, selectedList, restrictPopup);
                         }
-                        areaSelection.deactivate();
-                        globalStore.changeActiveAreaSelection(false);
+                    });
+                    if (selectedList.length > 0) {
+                        wrappingPopup(map, arr[2][0], arr[2][1], globalStore.lock, selectedList, restrictPopup);
                     }
-                },
-            });
-
-            let drawnItemsLine = new L.FeatureGroup();
-            const drawControlLine = new L.Control.Draw({
-                draw: {
-                    polyline: {
-                        shapeOptions: {
-                            color: '#f06eaa', // Line color
-                        },
-                    },
-                    rectangle: false, // Enable drawing rectangles
-                    marker: false,
-                    circle: false,
-                    polygon: false,
-                    circlemarker: false
-                },
-                edit: {
-                    featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
-                    remove: true,
-                    edit: false
-                },
-            });
-
-            let drawnItems = new L.FeatureGroup();
-            const drawControl = new L.Control.Draw({
-                draw: {
-                    rectangle: true, // Enable drawing rectangles
-                    polyline: false,
-                    marker: false,
-                    circle: false,
-                    polygon: false,
-                    circlemarker: false
-                },
-                edit: {
-                    featureGroup: drawnItems, // Create a feature group to store drawn rectangles
-                    remove: true,
-                    edit: false
-                },
-            });
-
-            let drawnItemsCircle = new L.FeatureGroup();
-            const drawControlCircle = new L.Control.Draw({
-                draw: {
-                    rectangle: false, // Enable drawing rectangles
-                    marker: false,
-                    polyline: false,
-                    circle: true,
-                    polygon: false,
-                    circlemarker: false
-                },
-                edit: {
-                    featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
-                    remove: true,
-                    edit: false
-                },
-            });
-
-            const showScanSelection = () => {
-                refreshLayerAndControlRect(map, drawnItems, drawControl);
-                refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
-                refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
-                globalStore.togglePalletOption('pointer')
-                if (!globalStore.inAreaSelection && globalStore.palletOption === 'pointer') {
-                    globalStore.changeActiveAreaSelection(true);
-                    restrictPopup = 0;
-                    map.addControl(areaSelection);
-                    areaSelection.activate();
-                } else {
-                    areaSelection?.deactivate();
+                    areaSelection.deactivate();
                     globalStore.changeActiveAreaSelection(false);
                 }
+            },
+        });
+
+        let drawnItemsLine = new L.FeatureGroup();
+        const drawControlLine = new L.Control.Draw({
+            draw: {
+                polyline: {
+                    shapeOptions: {
+                        color: '#f06eaa', // Line color
+                    },
+                }, rectangle: false, // Enable drawing rectangles
+                marker: false, circle: false, polygon: false, circlemarker: false
+            }, edit: {
+                featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
+                remove: true, edit: false
+            },
+        });
+
+        let drawnItems = new L.FeatureGroup();
+        const drawControl = new L.Control.Draw({
+            draw: {
+                rectangle: true, // Enable drawing rectangles
+                polyline: false, marker: false, circle: false, polygon: false, circlemarker: false
+            }, edit: {
+                featureGroup: drawnItems, // Create a feature group to store drawn rectangles
+                remove: true, edit: false
+            },
+        });
+
+        let drawnItemsCircle = new L.FeatureGroup();
+        const drawControlCircle = new L.Control.Draw({
+            draw: {
+                rectangle: false, // Enable drawing rectangles
+                marker: false, polyline: false, circle: true, polygon: false, circlemarker: false
+            }, edit: {
+                featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
+                remove: true, edit: false
+            },
+        });
+
+        const showScanSelection = () => {
+            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption('pointer')
+            if (!globalStore.inAreaSelection && globalStore.palletOption === 'pointer') {
+                globalStore.changeActiveAreaSelection(true);
+                restrictPopup = 0;
+                map.addControl(areaSelection);
+                areaSelection.activate();
+            } else {
+                areaSelection?.deactivate();
+                globalStore.changeActiveAreaSelection(false);
             }
+        }
 
-            const insertTextToMap = () => {
-                refreshLayerAndControlRect(map, drawnItems, drawControl);
-                refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
-                refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
-                globalStore.togglePalletOption('text')
+        const insertTextToMap = () => {
+            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption('text')
+        }
+
+        const drawLine = () => {
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            if (globalStore.palletOption === 'pointer') {
+                areaSelection?.deactivate();
             }
+            globalStore.togglePalletOption('line');
 
-            const drawLine = () => {
-                refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
-                refreshLayerAndControlRect(map, drawnItems, drawControl);
-                if (globalStore.palletOption === 'pointer') {
-                    areaSelection?.deactivate();
-                }
-                globalStore.togglePalletOption('line');
+            if (globalStore.palletOption === 'line') {
+                map.addLayer(drawnItemsLine);
+                map.addControl(drawControlLine);
 
-                if (globalStore.palletOption === 'line') {
-                    map.addLayer(drawnItemsLine);
-                    map.addControl(drawControlLine);
-
-                    map.on(L.Draw.Event.CREATED, (event) => {
-                        const layer = event.layer;
-                        drawnItemsLine.addLayer(layer);
-                    });
-                } else {
-                    refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
-                }
-            }
-
-            const drawRectangle = () => {
-                refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+                map.on(L.Draw.Event.CREATED, (event) => {
+                    const layer = event.layer;
+                    drawnItemsLine.addLayer(layer);
+                });
+            } else {
                 refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
-                if (globalStore.palletOption === 'pointer') {
-                    areaSelection?.deactivate();
-                }
-                globalStore.togglePalletOption('rectangle');
-
-                if (globalStore.palletOption === 'rectangle') {
-                    map.addLayer(drawnItems);
-                    map.addControl(drawControl);
-
-                    map.on(L.Draw.Event.CREATED, (event) => {
-                        const layer = event.layer;
-                        drawnItems.addLayer(layer);
-                    });
-                } else {
-                    refreshLayerAndControlRect(map, drawnItems, drawControl);
-                }
             }
+        }
 
-            const drawCircle = () => {
+        const drawRectangle = () => {
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
+            if (globalStore.palletOption === 'pointer') {
+                areaSelection?.deactivate();
+            }
+            globalStore.togglePalletOption('rectangle');
+
+            if (globalStore.palletOption === 'rectangle') {
+                map.addLayer(drawnItems);
+                map.addControl(drawControl);
+
+                map.on(L.Draw.Event.CREATED, (event) => {
+                    const layer = event.layer;
+                    drawnItems.addLayer(layer);
+                });
+            } else {
                 refreshLayerAndControlRect(map, drawnItems, drawControl);
-                refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
-                if (globalStore.palletOption === 'pointer') {
-                    areaSelection?.deactivate();
-                }
-                globalStore.togglePalletOption('circle');
-                if (globalStore.palletOption === 'circle') {
-                    map.addLayer(drawnItemsCircle);
-                    map.addControl(drawControlCircle);
-
-                    map.on(L.Draw.Event.CREATED, (event) => {
-                        const layer = event.layer;
-                        drawnItemsCircle.addLayer(layer);
-                    });
-                } else {
-                    refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
-                }
             }
+        }
 
-            getButton?.addEventListener("click", showScanSelection);
-            textEvent?.addEventListener("click", insertTextToMap);
-            lineEvent?.addEventListener("click", drawLine);
-            rectEvent?.addEventListener("click", drawRectangle);
-            ellipseEvent?.addEventListener("click", drawCircle);
+        const drawCircle = () => {
+            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
+            if (globalStore.palletOption === 'pointer') {
+                areaSelection?.deactivate();
+            }
+            globalStore.togglePalletOption('circle');
+            if (globalStore.palletOption === 'circle') {
+                map.addLayer(drawnItemsCircle);
+                map.addControl(drawControlCircle);
 
-            return () => {
-                getButton?.removeEventListener("click", showScanSelection);
-                textEvent?.removeEventListener("click", insertTextToMap);
-                lineEvent?.removeEventListener("click", drawLine);
-                rectEvent?.removeEventListener("click", drawRectangle);
-                ellipseEvent?.removeEventListener("click", drawCircle);
-            };
+                map.on(L.Draw.Event.CREATED, (event) => {
+                    const layer = event.layer;
+                    drawnItemsCircle.addLayer(layer);
+                });
+            } else {
+                refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            }
+        }
+
+        getButton?.addEventListener("click", showScanSelection);
+        textEvent?.addEventListener("click", insertTextToMap);
+        lineEvent?.addEventListener("click", drawLine);
+        rectEvent?.addEventListener("click", drawRectangle);
+        ellipseEvent?.addEventListener("click", drawCircle);
+
+        return () => {
+            getButton?.removeEventListener("click", showScanSelection);
+            textEvent?.removeEventListener("click", insertTextToMap);
+            lineEvent?.removeEventListener("click", drawLine);
+            rectEvent?.removeEventListener("click", drawRectangle);
+            ellipseEvent?.removeEventListener("click", drawCircle);
+        };
         // }
     }, [globalStore.map]);
 
@@ -340,10 +320,7 @@ const Markers = ({setModal, setModalType}) => {
         const earthRadius = 6371; // Radius of the Earth in kilometers
         const dLat = (lat2 - lat1) * (Math.PI / 180);
         const dLng = (lng2 - lng1) * (Math.PI / 180);
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return earthRadius * c;
     }
@@ -377,10 +354,7 @@ const Markers = ({setModal, setModalType}) => {
     // Remove all temp item when clicking on map
     useEffect(() => {
         const onClick = (event) => {
-            if (
-                window.handleRemoveTempList && (!event.ctrlKey || !event.metaKey) &&
-                event.target.classList && !event.target.classList.contains(styles['rectangle-fn'])
-            ) {
+            if (window.handleRemoveTempList && (!event.ctrlKey || !event.metaKey) && event.target.classList && !event.target.classList.contains(styles['rectangle-fn'])) {
                 window.handleRemoveTempList();
             }
         };
@@ -402,8 +376,7 @@ const Markers = ({setModal, setModalType}) => {
                 const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
                 if (globalStore.addIcon === 'person') {
-                    addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
-                        globalStore.setMapElementRelate, globalStore.setMapElementSelected)
+                    addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setMapElementRelate, globalStore.setMapElementSelected)
                     markerPersonIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
@@ -431,12 +404,9 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
                 globalStore.mapLayer.forEach(fn => {
                     if (fn.type === 'function' && fn.name !== "") {
-                        addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
-                            null, null, null, globalStore.setShapeOfMarkerFn,
-                            globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                        addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else if (fn.type === 'person' && fn.name !== "") {
-                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal, setModalType,
-                            globalStore.setMapElementRelate, globalStore.setMapElementSelected)
+                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal, setModalType, globalStore.setMapElementRelate, globalStore.setMapElementSelected)
                     }
                 })
             }
@@ -449,6 +419,14 @@ const Markers = ({setModal, setModalType}) => {
                 if (globalStore.positionOfHorizontalLine.length > 0) {
                     globalStore.setChooseGivenSet(true)
                 }
+            } else {
+                globalStore.mapLayer.forEach(fn => {
+                    if (fn.type === 'function' && fn.name !== "") {
+                        addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                    } else if (fn.type === 'person' && fn.name !== "") {
+                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal, setModalType, globalStore.setMapElementRelate, globalStore.setMapElementSelected)
+                    }
+                })
             }
         }
     }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView, globalStore.positionOfHorizontalLine])
@@ -469,8 +447,7 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.click) {
                 // Add Person Marker
                 if (globalStore.addIcon === 'person') {
-                    addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
-                        globalStore.setMapElementRelate, globalStore.setMapElementSelected, globalStore.setPositionOfMapElementSelected)
+                    addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setMapElementRelate, globalStore.setMapElementSelected, globalStore.setPositionOfMapElementSelected)
                     let index = markerPersonIndex[0];
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
                     globalStore.addMarkerPopulationToList(index)
@@ -478,13 +455,9 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
                     if (globalStore.tableView !== '') {
-                        addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType,
-                            null, null, null, globalStore.setShapeOfMarkerFn,
-                            globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                        addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else {
-                        addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType,
-                            null, null, null, globalStore.setShapeOfMarkerFn,
-                            globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                        addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                         globalStore.addMarkerFnToList(markerFnIndex[0])
                     }
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function');
@@ -512,9 +485,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetPositionScroll();
                     if (globalStore.numberPersonMobility < 2) {
                         globalStore.setTypeMobility('path');
-                        addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility,
-                            globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson,
-                            globalStore.positionOfPreviewPerson, globalStore.typeMobility);
+                        addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                     } else {
                         globalStore.addIconHandle('');
                         globalStore.resetNumberPersonMobility();
@@ -530,12 +501,10 @@ const Markers = ({setModal, setModalType}) => {
                     }
                 } else if (globalStore.addIcon === 'main-set') {
                     globalStore.setChooseGivenSet(true);
-                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
-                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
+                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet, globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
                 } else if (globalStore.mapElementSelected) {
                     const mapElement = globalStore.mapElementSelected;
-                    addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement, globalStore.setMapElementRelate,
-                        globalStore.setPositionOfMapElementSelected);
+                    addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement, globalStore.setMapElementRelate, globalStore.setPositionOfMapElementSelected);
                     console.log('globalStore.mapElementSelected && globalStore.positionOfMapElementSelected', globalStore.mapElementSelected, globalStore.positionOfMapElementSelected)
                 }
             }

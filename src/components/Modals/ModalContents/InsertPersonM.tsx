@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './_ModalContents.module.scss';
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {InputNumber} from "antd";
+import {markerFnIndex} from "@/components/Map/MapContents/Variables/Variables";
 
 interface Props {
     type: string,
@@ -30,8 +31,17 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
             console.log('index', indexList)
             let lastIndex = indexList[indexList.length - 1]
             for (let i = 1; i <= numberPerson; i++) {
-                globalStore.addMarkerFnToNearLast(lastIndex + i);
-                console.log('globalStore.listMarkerFunction', globalStore.listMarkerFunction)
+                let key = lastIndex + 1
+                globalStore.addMarkerFnToNearLast(key);
+                const minLat = -90;
+                const maxLat = 90;
+                const minLng = -180;
+                const maxLng = 180;
+
+// Generate random latitude and longitude
+                const randomLat = Math.random() * (maxLat - minLat) + minLat;
+                const randomLng = Math.random() * (maxLng - minLng) + minLng;
+                globalStore.setMapLayer(randomLat, randomLng, 'Function ' + key, 'function');
             }
         }
     }

@@ -26,6 +26,7 @@ const Options: React.FC = (): JSX.Element => {
         } else {
           globalStore.toggleMapView('map-countries');
         }
+        console.log('test', globalStore.mapView)
       }
     }
 
