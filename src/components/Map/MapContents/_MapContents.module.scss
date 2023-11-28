@@ -820,6 +820,23 @@ $time-animation: var(--time-animation);
   border-radius: 50px;
 }
 
+.plus-icon-more-view {
+  display: flex;
+  top: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #3d3d3d;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  width: 50px!important;
+  height: 50px!important;
+  margin-top: -30px!important;
+  margin-left: -70px!important;
+}
+
 .dot-icon {
   display: flex;
   top: 20px;

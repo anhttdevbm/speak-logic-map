@@ -270,6 +270,15 @@ export const markerPlusIcon = (className: string): L.DivIcon => {
     })
 }
 
+export const markerPlusMoreViewIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [80, 80],
+        iconAnchor: [50, 25],
+        html: `<img src=${ICON_PLUS.src} alt="Group" width="30" height="30"/>`
+    })
+}
+
 export const markerRelateElementIcon = (className: string): L.DivIcon => {
     return L.divIcon({
         className: className,

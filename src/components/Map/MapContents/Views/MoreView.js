@@ -8,7 +8,7 @@ import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {
     markerDistancePointIcon,
     markerFnIcon,
-    markerHouseIconWithName, markerPersonIcon, markerPlusIcon, markerPopulationCountry,
+    markerHouseIconWithName, markerPersonIcon, markerPlusIcon, markerPlusMoreViewIcon, markerPopulationCountry,
     markerRectHouseIcon, markerRectNameIcon, markerRelateIcon,
     markerRoomIcon, markerThreeDotsIcon
 } from '../Markers/MarkerIcons';
@@ -87,8 +87,8 @@ const MoreView = ({selectedData}) => {
                             options: {
                                 type: fn.value,
                             },
-                            icon: markerPlusIcon(
-                                `${styles['plus-icon']}`)
+                            icon: markerPlusMoreViewIcon(
+                                `${styles['plus-icon-more-view']}`)
                         })
                             .on('click', e => {
                                 globalStore.toggleModalNumberFunctionMoreView();

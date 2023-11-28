@@ -399,6 +399,14 @@ export class GlobalStore {
         }
     }
 
+    addMarkerFnToNearLast = (index: number): void => {
+        if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
+            let newElement = {key: index, value: 'Function ' + index, shape: 'rectangle'};
+            let positionBeforeEnd = this.listMarkerFunction.length - 2;
+            this.listMarkerFunction.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
     setShapeOfMarkerFn = (name: number, shape: string): void => {
         for (let i = 0; i < this.listMarkerFunction.length; i++) {
             if (this.listMarkerFunction[i].value === name) {

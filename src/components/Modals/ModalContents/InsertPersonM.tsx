@@ -30,7 +30,8 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
             console.log('index', indexList)
             let lastIndex = indexList[indexList.length - 1]
             for (let i = 1; i <= numberPerson; i++) {
-                globalStore.addMarkerFnToList(lastIndex + i);
+                globalStore.addMarkerFnToNearLast(lastIndex + i);
+                console.log('globalStore.listMarkerFunction', globalStore.listMarkerFunction)
             }
         }
     }
