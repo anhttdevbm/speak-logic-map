@@ -499,6 +499,7 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElement
 
 export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
   setPositionOfHorizontalLine(lat, lng);
+  name = 'The Given Set'
   L.marker([lat, lng], {
     draggable: !isLocked,
     type: {
@@ -507,7 +508,7 @@ export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenS
       status: 'add',
     },
     icon: markerFnIcon(
-        `${styles['rectangle-fn']} ${styles['fn--black']}`,
+        `${styles['rectangle-fn']} ${styles['given-set-color']}`,
         `
         ${name}
         <div class="${styles['arrow-given-set-bottom']}"></div>

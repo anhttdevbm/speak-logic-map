@@ -124,6 +124,12 @@ $time-animation: var(--time-animation);
   border: 1px solid black;
 }
 
+.given-set-color {
+  background-color: #79cde3;
+  border: 1px solid black;
+  color: black;
+}
+
 .fn--black {
   background-color: Black;
   color: white;
@@ -687,34 +693,34 @@ $time-animation: var(--time-animation);
 
   .arrow-given-set-right {
     border: 1px solid black;
-    width: 100px;
+    width: 50px;
     position: absolute;
-    left: 50% !important;
-    z-index: -1;
+    left: 100% !important;
+    z-index: -1000;
   }
 
   .arrow-given-set-left {
     border: 1px solid black;
-    width: 100px;
+    width: 50px;
     position: absolute;
-    right: 50% !important;
-    z-index: -1;
+    right: 100% !important;
+    z-index: -1000;
   }
 
   .arrow-given-set-top {
     border: 1px solid black;
-    height: 70px;
+    height: 50px;
     position: absolute;
-    bottom: 50% !important;
-    z-index: -1;
+    bottom: 100% !important;
+    z-index: -1000;
   }
 
   .arrow-given-set-bottom {
     border: 1px solid black;
-    height: 70px;
+    height: 50px;
     position: absolute;
-    top: 50% !important;
-    z-index: -1;
+    top: 100% !important;
+    z-index: -1000;
   }
 
   .right {
