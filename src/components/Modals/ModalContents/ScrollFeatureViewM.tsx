@@ -5,10 +5,11 @@ import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
 import {
     Button, Col, Form, Input, notification, Space,
-    Radio, Row, Select, Table
+    Radio, Row, Select, Table, TableProps
 } from "antd";
 import {ColumnsType} from "antd/es/table";
 import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
+import {DeleteOutlined} from "@ant-design/icons";
 
 interface DataType {
     key?: string;
@@ -26,46 +27,55 @@ interface DataType {
     endColor?: string;
 }
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Functions',
-        dataIndex: 'functionName',
-        width: 100,
-    },
-    {
-        title: 'Countries',
-        dataIndex: 'country',
-        width: 150,
-    },
-    {
-        title: 'Number of functions',
-        dataIndex: 'numberFunction',
-        width: 150,
-    },
-    {
-        title: 'Start Date',
-        dataIndex: 'startDate',
-        width: 100,
-    },
-    {
-        title: 'End Date',
-        dataIndex: 'endDate',
-        width: 100,
-    },
-    {
-        title: 'Start Performance',
-        dataIndex: 'startPerformanceTitle',
-        width: 150,
-    },
-    {
-        title: 'End Performance',
-        dataIndex: 'endPerformanceTitle',
-        width: 150,
-    },
-];
-
-
 const ScrollFeatureViewM = () => {
+    const columns: ColumnsType<DataType> = [
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'x',
+            render: (text, row) => (
+                <Button onClick={() => handleDelete(row)}
+                        icon={<DeleteOutlined rev={undefined} />}>
+                </Button>
+            ),
+        },
+        {
+            title: 'Functions',
+            dataIndex: 'functionName',
+            width: 100,
+        },
+        {
+            title: 'Countries',
+            dataIndex: 'country',
+            width: 150,
+        },
+        {
+            title: 'Number of functions',
+            dataIndex: 'numberFunction',
+            width: 150,
+        },
+        {
+            title: 'Start Date',
+            dataIndex: 'startDate',
+            width: 100,
+        },
+        {
+            title: 'End Date',
+            dataIndex: 'endDate',
+            width: 100,
+        },
+        {
+            title: 'Start Performance',
+            dataIndex: 'startPerformanceTitle',
+            width: 150,
+        },
+        {
+            title: 'End Performance',
+            dataIndex: 'endPerformanceTitle',
+            width: 150,
+        },
+    ];
+
     const {Option} = Select;
     type FieldType = {
         functionName?: string;
@@ -220,7 +230,7 @@ const ScrollFeatureViewM = () => {
             dataCopy.push(copyValue);
             setData(dataCopy);
             setIsClickAdd(false);
-            onReset();
+            // onReset();
         }
     }
 
@@ -229,6 +239,12 @@ const ScrollFeatureViewM = () => {
     };
     const handleRadio = (value: any) => {
         setRadiovalue(value.target.value);
+    }
+
+    const handleDelete = (row: DataType) => {
+        console.log(row)
+        const list = data.filter(value => value.key != row.key);
+        setData(list);
     }
 
     return (

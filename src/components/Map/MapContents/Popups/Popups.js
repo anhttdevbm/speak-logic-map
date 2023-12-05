@@ -32,7 +32,7 @@ import {
     videoBoundPopupHTML,
     mapElementPopupHTML,
     rectIconPopupHTML,
-    givenSetPopupHTML
+    givenSetPopupHTML, boatPopupHTML, floorPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -79,7 +79,6 @@ const stopFnRunningFeatures = (e) => {
 // Popup shown when right-click on world map
 export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setMapElementSelected) => {
     clearAllPopups(map);
-
     const popupWorld = L.popup();
     popupWorld.options.type = 'world_popup';
 
@@ -107,6 +106,39 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
         map.removeLayer(popupWorld);
     }
 }
+
+// Popup shown when right-click on boat view
+export const boatPopup = (map, e, isMap, toggleBoatView, setMapElementRelate, setMapElementSelected) => {
+    clearAllPopups(map);
+
+    const popupHouse = L.popup();
+    popupHouse.options.type = 'boat_popup';
+
+    if (isMap) {
+        popupHouse
+            .setLatLng([e.latlng.lat, e.latlng.lng])
+            .setContent(boatPopupHTML())
+            .addTo(map);
+
+        const world = document.querySelector('.world');
+        world.onclick = () => {
+            toggleBoatView('boat-world');
+            map.closePopup();
+        }
+
+        const country = document.querySelector('.country');
+        country.onclick = () => {
+            toggleBoatView("boat-countries");
+            map.closePopup();
+        }
+    }
+
+    window.handleSelectMapElement = (value) => {
+        setMapElementSelected(value);
+        map.removeLayer(popupHouse);
+    }
+}
+
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
@@ -1154,6 +1186,140 @@ export const tempFnPopup = (map, e) => {
         map.removeLayer(e.target);
         map.removeLayer(popup);
     }
+}
+
+export const floorPopup = (map, e, lat, lng) => {
+    clearAllPopups(map);
+    console.log(e)
+    const popup = L.popup();
+
+    popup
+        .setLatLng([lat, lng])
+        .setContent(floorPopupHTML())
+        .addTo(map)
+
+    window.roomAddImg = (event) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+        map.removeLayer(popup);
+
+        e.target.bindPopup(
+            (e) => imgBoundPopupHTML(objectUrl, 'Floor'),
+            {
+                offset: L.point(0, 60),
+                autoClose: false,
+                closeOnClick: false,
+                closeButton: false,
+            }
+        )
+            .openPopup();
+    }
+
+    window.roomAddAudio = (event) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+        map.removeLayer(popup);
+
+        e.target.bindPopup(
+            (e) => audioBoundPopupHTML(objectUrl),
+            {
+                offset: L.point(0, 120),
+                autoClose: false,
+                closeOnClick: false,
+                closeButton: false,
+            }
+        )
+            .openPopup();
+    }
+
+    window.roomAddVideo = (event) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+        map.removeLayer(popup);
+
+        e.target.bindPopup(
+            (e) => videoBoundPopupHTML(objectUrl),
+            {
+                offset: L.point(0, 240),
+                autoClose: false,
+                closeOnClick: false,
+                closeButton: false,
+            }
+        )
+            .openPopup();
+    }
+
+    window.replaceRoomWithImg = (event) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+        e.target.setIcon(
+            markerCustomImgIcon(`${styles['rectangle-fn']} ${styles['hide-text']}`, e.target._icon.outerText, objectUrl)
+        );
+
+        // stopFnRunningFeatures(e);
+
+        map.removeLayer(popup);
+    }
+
+    window.replaceRoomWithAudio = (event) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+        e.target.setIcon(
+            markerCustomAudioIcon(`${styles['rectangle-fn']} ${styles['hide-text']}`, e.target._icon.outerText, objectUrl)
+        );
+
+        // stopFnRunningFeatures(e);
+
+        map.removeLayer(popup);
+    }
+
+    window.replaceRoomWithVideo = (event) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+        // stopFnRunningFeatures(e);
+
+        e.target.setIcon(
+            markerCustomVideoIcon(`${styles['rectangle-fn']} ${styles['hide-text']}`, e.target._icon.outerText, objectUrl)
+        );
+
+        map.removeLayer(popup);
+    }
+
+    // window.defaultRoom = () => {
+    //   if(e.target.options.options?.name) {
+    //     e.target.setIcon(
+    //       markerRoomIcon(
+    //         `${styles['room-icon']}`,
+    //         e.target.options.options.name,
+    //       )
+    //     );
+    //   }
+    //   map.removeLayer(popup);
+    // }
 }
 
 export const roomPopup = (map, e) => {
