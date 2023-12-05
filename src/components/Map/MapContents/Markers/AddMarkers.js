@@ -397,7 +397,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
       L.latLng(latLng[1].lat, latLng[1].lng)
     );
     
-    polyline.setText(`${(distance * 0.001 * 0.6214).toFixed()} yd`, { center: true, offset: -3, orientation: orientation, attributes: {fill: colors[Math.round(Math.random() * 10) % colors.length]}})
+    polyline.setText(`${(distance * 0.001 * 0.6214).toFixed()} mile`, { center: true, offset: -3, orientation: orientation, attributes: {fill: colors[Math.round(Math.random() * 10) % colors.length]}})
 
   distancePoint.parentLine = polyline;
   distancePoint2.parentLine = polyline;
