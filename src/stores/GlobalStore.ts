@@ -1,4 +1,3 @@
-
 import {makeAutoObservable, values} from "mobx";
 import L from "leaflet";
 import {CountryName} from "@/pages/api/countries";
@@ -226,6 +225,13 @@ export class GlobalStore {
 
     toggleRoomDistance = (): void => {
         this.showRoomDistance = !this.showRoomDistance;
+    }
+
+    toggleFloorDistance = () => {
+        this.showFloorPlanDistance = !this.showFloorPlanDistance;
+    }
+    clearFloorDistance = () => {
+        this.showFloorPlanDistance = false;
     }
 
     toggleFloorPlanView = (value: 'floorplan-countries' | ''): void => {
