@@ -16,7 +16,7 @@ import * as turf from '@turf/turf';
 
 import styles from '../_MapContents.module.scss';
 
-import {worldPopup, wrappingPopup} from '../Popups/Popups'
+import {boatPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
 
 import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../Variables/Variables';
 
@@ -437,6 +437,8 @@ const Markers = ({setModal, setModalType}) => {
         contextmenu(e) {
             if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
                 worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setMapElementRelate, globalStore.setMapElementSelected);
+            } else if(globalStore.boatView) {
+                boatPopup(map, e, globalStore.map, globalStore.toggleBoatView, globalStore.setMapElementRelate, globalStore.setMapElementSelected);
             }
         },
 

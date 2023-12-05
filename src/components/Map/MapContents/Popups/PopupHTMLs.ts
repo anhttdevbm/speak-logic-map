@@ -516,6 +516,51 @@ export const worldPopupHTML = (): string => {
   `
 }
 
+export const boatPopupHTML = (): string => {
+    return `
+    <div
+      class="${styles['popup-interact-function']} ${styles['popup-wrap']}"
+    >
+      <div class="${styles['row']} ${styles['on-hover']} world">
+        Show World as Boat
+      </div>
+      <div class="${styles['row']} ${styles['on-hover']} country">
+        Show All Countries as Boat
+      </div>
+      <div class="${styles['row']} ${styles['on-hover']} map-element">
+        Map Element
+        <div class="${styles['hover-func-block']}">
+          <div 
+            onclick="handleSelectMapElement('Personal Responsibility')"
+            class="${styles['upload-file-wrapper']}"
+          >Personal Responsibility</div>
+          <div 
+            onclick="handleSelectMapElement('Self - Contribution')"
+            class="${styles['upload-file-wrapper']}"
+          >Self - Contribution</div>
+          <div 
+            onclick="handleSelectMapElement('Averaging')"
+            class="${styles['upload-file-wrapper']}"
+          >Averaging</div>
+          <div 
+            onclick="handleSelectMapElement('Feedback')"
+            class="${styles['upload-file-wrapper']}"
+          >Feedback</div>
+          <div 
+            onclick="handleSelectMapElement('Correction')"
+            class="${styles['upload-file-wrapper']}"
+          >Correction</div>
+          <div 
+            onclick="handleSelectMapElement('Function Boundary')"
+            class="${styles['upload-file-wrapper']}"
+          >Function Boundary</div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+
 // Right-click on house marker
 export const housePopupHTML = (): string => {
   return `
@@ -779,6 +824,50 @@ export const tempFnPopupHTML = (): string => {
         class="${styles['row']}"
       >
         Delete Item
+      </div>
+    </div>
+  `
+}
+
+export const floorPopupHTML = (): string => {
+    return  `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Add
+        <div class="${styles['hover-func-block']}">
+          <div class="${styles['upload-file-wrapper']}">
+            Image
+            <input type="file" accept="image/png, image/jpg, image/jpeg" onChange="roomAddImg(event)" />
+          </div>
+          <div class="${styles['upload-file-wrapper']}">
+            Audio
+            <input type="file" accept="audio/mpeg" onChange="roomAddAudio(event)" />
+          </div>
+          <div class="${styles['upload-file-wrapper']}">
+            Video
+            <input type="file" accept="video/mp4" onChange="roomAddVideo(event)" />
+          </div>
+        </div>
+      </div>
+
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Replace Room with
+        <div class="${styles['hover-func-block']}">
+          <div class="${styles['upload-file-wrapper']}">
+            Image
+            <input type="file" accept="image/png, image/jpg, image/jpeg" onChange="replaceRoomWithImg(event)" />
+          </div>
+          <div class="${styles['upload-file-wrapper']}">
+            Audio
+            <input type="file" accept="audio/mpeg" onChange="replaceRoomWithAudio(event)" />
+          </div>
+          <div class="${styles['upload-file-wrapper']}">
+            Video
+            <input type="file" accept="video/mp4" onChange="replaceRoomWithVideo(event)" />
+          </div>
+        </div>
       </div>
     </div>
   `

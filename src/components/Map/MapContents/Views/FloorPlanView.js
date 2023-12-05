@@ -10,10 +10,11 @@ import styles from '../_MapContents.module.scss';
 import { addStaticDistance } from '../Markers/AddMarkers';
 import * as turf from '@turf/turf';
 import { addSelectedItem } from '../Markers/HandleSelectItem';
-import { 
-  addMarkerFn, addMarkerPerson, addSoluOrProbFn, 
-  addMarkerCountryFn, addMarkerCountryGroupFn 
+import {
+  addMarkerFn, addMarkerPerson, addSoluOrProbFn,
+  addMarkerCountryFn, addMarkerCountryGroupFn
 } from '../Markers/AddMarkers';
+import {floorPopup, roomPopup} from "@/components/Map/MapContents/Popups/Popups";
 
 const FloorPlanView = () => {
   const map = useMap();
@@ -37,12 +38,13 @@ const FloorPlanView = () => {
           map.removeLayer(layer);
         }
       });
-  
+
       globalStore.toggleClear();
+      globalStore.clearFloorDistance();
     }
   }, [globalStore.clear]);
 
-  useEffect(() => { 
+  useEffect(() => {
     let name = '';
 
     // Check room name option.
@@ -66,7 +68,7 @@ const FloorPlanView = () => {
           }
           allLayer.push(layer);
         });
-  
+
 
         if (globalStore.map) {
           const firstLat = 83;
@@ -82,7 +84,6 @@ const FloorPlanView = () => {
             if (!country.name.codeName.includes('-99')) {
               const lat = latList[index % latList.length];
               const lng = lngList[Math.floor(index / latList.length)];
-              
               // const mainLand = getGeoMainLand(country.data[0]);
               // const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
               const countryMarker = L.marker([lat, lng], {
@@ -90,20 +91,21 @@ const FloorPlanView = () => {
                   type: 'room',
                 },
                 icon: markerRoomIcon(
-                  `${styles['room-icon']}`, 
+                  `${styles['room-icon']}`,
                   name ? `${name} ${index + 1}` : country.name.codeName.toUpperCase()),
               })
                 .on('click', e => {
                   addSelectedItem(e, map, globalStore.lock);
                 })
+                .on('contextmenu', (e) => floorPopup(map, e, lat, lng))
                 .addTo(map);
-      
+
               countriesLayer.push(countryMarker);
             }
           })
         }
 
-        // 
+        //
         // if (globalStore.map) {
         //   const firstLat = 83;
         //   const firstLng = -175;
@@ -130,7 +132,7 @@ const FloorPlanView = () => {
         //     prev[cur[0]].push(cur);
         //     return prev;
         //   }, {});
-      
+
         //   const lengthItem = itemArray.length;
         //   const newResult = Object.values(result);
 
@@ -147,7 +149,7 @@ const FloorPlanView = () => {
         let point1;
         let point2;
         let name;
-  
+
         allLayer.forEach(layer => {
           if (layer._text) {
             delete layer._text;
@@ -157,7 +159,7 @@ const FloorPlanView = () => {
 
         map.eachLayer(layer => {
           if (
-            layer.setText && layer.options.color !== 'transparent' && 
+            layer.setText && layer.options.color !== 'transparent' &&
             (layer.options.type === 'arc' || layer.options.type === 'line')
           ) {
             if (layer.options.kind === 'distance') {
@@ -166,7 +168,7 @@ const FloorPlanView = () => {
             else {
               name = (layer.options.type === 'arc') ? 'Arc-route': 'Inter-route';
             }
-  
+
             if (layer.options.type === 'line') {
               point1 = layer.getLatLngs()[0].lng;
               point2 = layer.getLatLngs()[1].lng;
@@ -175,9 +177,9 @@ const FloorPlanView = () => {
               point1 = layer.getLatLngs()[1][1];
               point2 = layer.getLatLngs()[4][1];
             }
-  
+
             orientation = (point1 < point2) ? 0 : 180;
-  
+
             if (!layer._text) {
               layer.setText(name, {
                 center: true,
@@ -190,7 +192,7 @@ const FloorPlanView = () => {
         allLayer.splice(0, allLayer.length);
       }
     }
-    
+
 
     return () => {
       map.removeLayer(world);
@@ -209,7 +211,9 @@ const FloorPlanView = () => {
   //
 
   useEffect(() => {
-    if (globalStore.showRoomDistance && globalStore.map && globalStore.floorPlanView && !globalStore.roomView) {
+    const latList = [81.5, 79, 75.8, 71.6, 66.4, 59.5, 51, 40.5, 28, 14, -1, -16, -29.7, -42, -52.2, -60.5, -67, -72.3, -76.3, -79.4, -81.8];
+    const lngList = [-156.5, -128, -99, -70, -42, -14, 14, 41, 69.5, 98, 127, 155.5]
+    if (globalStore.showFloorPlanDistance && globalStore.map && globalStore.floorPlanView) {
       const roomList = [];
       map.eachLayer(layer => {
         // console.log(layer)
@@ -217,16 +221,40 @@ const FloorPlanView = () => {
           roomList.push(layer);
         }
       })
-
-      if (roomList.length > 1) {
-        for (let i = 0; i < roomList.length - 1; i++) {
-          for (let j = i + 1; j < roomList.length; j++) {
-            setTimeout(() => {
-              addStaticDistance(map, roomList[i]._latlng.lat, roomList[i]._latlng.lng, roomList[j]._latlng.lat, roomList[j]._latlng.lng, true, 'room-distance')
-            }, 1000)
+      let latI = 0;
+      let lngI = 0;
+      let indexLng = 0;
+      countryStore.countries.forEach((country, index) => {
+        if (!country.name.codeName.includes('-99')) {
+          const lat = latList[index % latList.length];
+          const lng = lngList[Math.floor(index / latList.length)];
+          console.log(country.name.codeName + ' - ' + lat + ' - ' + lng);
+          //distance row
+          if (latI !== 0 && lngI !==0 && lng !== -81.8) {
+            addStaticDistance(map, latI, lngI, lat, lngI, true, 'room-distance');
           }
+          //distance colum
+          if (lng !== -156.5) {
+             indexLng = lngList.indexOf(lng);
+            if (indexLng > 0) {
+                addStaticDistance(map, lat, lng, lat, lngList[indexLng - 1], true, 'room-distance');
+            }
+          }
+          latI = lat;
+          lngI = lng;
         }
-      }
+      })
+
+
+      // if (roomList.length > 1) {
+      //   for (let i = 0; i < roomList.length - 1; i++) {
+      //     for (let j = i + 1; j < roomList.length; j++) {
+      //       setTimeout(() => {
+      //         addStaticDistance(map, roomList[i]._latlng.lat, roomList[i]._latlng.lng, roomList[j]._latlng.lat, roomList[j]._latlng.lng, true, 'room-distance')
+      //       }, 1000)
+      //     }
+      //   }
+      // }
     }
     else {
       map.eachLayer(layer => {
@@ -244,12 +272,12 @@ const FloorPlanView = () => {
         }
       })
     }
-  }, [globalStore.showRoomDistance, globalStore.map, globalStore.floorPlanView])
+  }, [globalStore.showFloorPlanDistance, globalStore.map, globalStore.floorPlanView])
 
   // Change floor plan text size after zoom
   useEffect(() => {
     let fpBoundaryText;
-    if (globalStore.floorPlanView === 'floorplan-countries' && globalStore.map && 
+    if (globalStore.floorPlanView === 'floorplan-countries' && globalStore.map &&
     globalStore.countryQuantity > 0 && countryStore.countries.length === globalStore.countryQuantity) {
       let textLatLng = [-83, 0]
       map.eachLayer(layer => {

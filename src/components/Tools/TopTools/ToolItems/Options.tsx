@@ -163,6 +163,13 @@ const Options: React.FC = (): JSX.Element => {
           Floor Plan View
           <RightArrowIcon className={`${styles['sub-icon']}`} />
           <ul className={`${styles['minor-list']}`}>
+            <li onClick={() => globalStore.toggleFloorDistance()}>
+              Show Distance between Rooms (Very Lag)
+              <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${!globalStore.showRoomDistance ? styles['hide'] : styles['show']}
+              `}/>
+            </li>
             <li onClick={() => globalStore.toggleFPRoomName('room')}>
               Replace Name with &quot;Room + Index&quot;
               <CheckIcon className={`

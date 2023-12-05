@@ -69,7 +69,7 @@ const SearchCountry = ({setCountry}: Props) => {
             if (searchValue && fetchedSearchData.length > 0) {
                 fetchedSearchData.forEach(name => {
                     const fullName = `${name.fullName} (${name.codeName})`;
-                    if (fullName.includes(searchValue)) {
+                    if (fullName.toUpperCase().includes(searchValue.toUpperCase())) {
                         tempSearchList.push(name);
                     }
                 })
