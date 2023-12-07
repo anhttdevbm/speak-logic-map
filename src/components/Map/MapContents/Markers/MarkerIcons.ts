@@ -9,6 +9,7 @@ import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
 import ICON_MAIN_SET from '@/assets/icons/main-set-icon.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
+import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
@@ -230,6 +231,17 @@ export const markerVerticalPersonIcon = (className: string): L.DivIcon => {
         iconAnchor: [50, 25],
         html: `<div>
                     <img src=${ICON_VERTICAL_PERSON.src} alt="House" width="100" height="100" />
+               </div>`,
+    })
+}
+
+export const markerVerticalArrowIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [200, 100],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <img src=${ICON_VERTICAL_ARROW.src} alt="House" width="100" height="100" />
                </div>`,
     })
 }

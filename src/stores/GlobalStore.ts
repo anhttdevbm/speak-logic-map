@@ -27,7 +27,7 @@ export class GlobalStore {
     mapView: 'map-world' | 'map-countries' | '' = 'map-world';
     tableView: 'table-world' | 'table-countries' | '' = '';
     moreView: 'more-world' | 'more-countries' | '' = '';
-    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | '' = '';
+    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | 'population-view-principle-line' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';

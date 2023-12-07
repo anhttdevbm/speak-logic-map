@@ -19,6 +19,7 @@ const Options: React.FC = (): JSX.Element => {
         // && !globalStore.mapView
         && !globalStore.tableView
     ) {
+      console.log('name', name)
       globalStore.toggleMoreName(name);
       if (globalStore.moreName === '') {
         if (globalStore.map) {
@@ -312,12 +313,27 @@ const Options: React.FC = (): JSX.Element => {
                 ${globalStore.moreName !== 'population-view' ? styles['hide'] : styles['show']}
               `}/>
             </li>
-            <li onClick={() => toggleMoreView('population-view-with-country')}>
+            <li>
               Population View With Country
-              <CheckIcon className={`
-                ${styles['sub-icon']} 
-                ${globalStore.moreName !== 'population-view-with-country' ? styles['hide'] : styles['show']}
-              `}/>
+              <RightArrowIcon className={`${styles['sub-icon']}`} />
+              <ul className={`${styles['minor-list']}`}>
+                <li onClick={() => toggleMoreView('population-view-with-country')}>
+                  Show Population View With Country Original
+                  <CheckIcon className={`
+                    ${styles['sub-icon']} 
+                    ${globalStore.moreName !== 'population-view-with-country' ? styles['hide'] : styles['show']}
+                  `}/>
+                </li>
+                <li onClick={() => toggleMoreView('population-view-principle-line')}>
+                  Show Principle Line With Population View
+                  <CheckIcon
+                      className={`
+                        ${styles['sub-icon']} 
+                        ${globalStore.moreName !== 'population-view-principle-line' ? styles['hide'] : styles['show']}
+                      `}
+                  />
+                </li>
+              </ul>
             </li>
             <li onClick={() => toggleMoreView('world-problem-view')}>
               World Problem View

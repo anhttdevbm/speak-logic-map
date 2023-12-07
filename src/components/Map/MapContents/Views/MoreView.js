@@ -7,10 +7,10 @@ import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {
     markerDistancePointIcon,
-    markerFnIcon,
+    markerFnIcon, markerGivenSetIcon,
     markerHouseIconWithName, markerPersonIcon, markerPlusIcon, markerPlusMoreViewIcon, markerPopulationCountry,
     markerRectHouseIcon, markerRectNameIcon, markerRelateIcon,
-    markerRoomIcon, markerThreeDotsIcon
+    markerRoomIcon, markerThreeDotsIcon, markerVerticalArrowIcon, markerVerticalPersonIcon
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {addStaticDistance} from '../Markers/AddMarkers';
@@ -20,7 +20,12 @@ import {
     addMarkerFn, addMarkerPerson, addSoluOrProbFn,
     addMarkerCountryFn, addMarkerCountryGroupFn
 } from '../Markers/AddMarkers';
-import {removeRectIconPopup, tempFnPopup} from "@/components/Map/MapContents/Popups/Popups";
+import {
+    givenSetPopup,
+    removeHorizontalIconPopup,
+    removeRectIconPopup, removeVerticalPersonIconPopup,
+    tempFnPopup
+} from "@/components/Map/MapContents/Popups/Popups";
 
 const MoreView = ({selectedData}) => {
     const map = useMap();
@@ -206,7 +211,75 @@ const MoreView = ({selectedData}) => {
                         .addTo(map);
                     functionsLayer.push(functionMarker);
                 }
+            } else if (globalStore.moreName === 'population-view-principle-line') {
+                console.log('population-view-principle-line')
+                const latListt = [40.5, -1, -42];
+                const lngListt = [-99, -30, 41, 88];
+                if (globalStore.map) {
+                    const numberPersonOfEachCountry = getNumberPopulationOfCountry();
+                    const latHorizontalLine = 60;
+                    const lngHorizontalLine = 0;
+                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
+                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
+                    const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
+                    // Draw icon principle line
+                    let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
+                        options: {
+                            type: 'Main set',
+                        },
+                        icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+                    }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
+                        .addTo(map)
 
+                    //Draw line
+                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black'});
+                    horizontalLine.addTo(map);
+                    functionsLayer.push(iconPrinciple);
+                    functionsLayer.push(horizontalLine);
+
+                    //Draw vertical line
+
+                    //Draw population with country
+                    if (numberPersonOfEachCountry.length > 0) {
+                        addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
+                            const lat = latListt[Math.floor(index / latListt.length)];
+                            const lng = lngListt[index % latListt.length];
+                            let functionMarker;
+                            if (country.country?.codeName !== '') {
+                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat, lng]], {weight: 2, color: 'black'}).addTo(map);
+                                functionMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: country.country?.codeName,
+                                    },
+                                    icon: markerPopulationCountry(
+                                        `${styles['population-country-icon']}`,
+                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
+                                        country.numberPerson)
+                                })
+                                    .addTo(map);
+                                functionsLayer.push(verticalLine);
+                            } else {
+                                functionMarker = addIconDotDot(lat, lng)
+                            }
+                            functionsLayer.push(functionMarker);
+                        })
+                    }
+                } else {
+                    const lat = latListt[0];
+                    const lng = lngListt[0];
+                    let country = selectedData[0].features[0].properties;
+                    let functionMarker = L.marker([lat, lng], {
+                        options: {
+                            type: country.NAME,
+                        },
+                        icon: markerPopulationCountry(
+                            `${styles['population-country-icon']}`,
+                            country.NAME.includes(" ") ? country.CODE : country.NAME,
+                            country.numberPerson)
+                    })
+                        .addTo(map);
+                    functionsLayer.push(functionMarker);
+                }
             }
 
         } else if (globalStore.moreName === '') {
@@ -269,7 +342,7 @@ const MoreView = ({selectedData}) => {
     }, [globalStore.map, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView, globalStore.numberPersonMoreView]);
 
     const addItemDotDot = (listCountry) => {
-        if (globalStore.moreName === 'population-view-with-country') {
+        if (globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
             let listCountryIncludedPlus = listCountry.filter(item => item.country.codeName === '');
             if (listCountryIncludedPlus.length === 0) {
                 listCountry.push({country: {fullName: '', codeName: ''}, numberPerson: 0});
