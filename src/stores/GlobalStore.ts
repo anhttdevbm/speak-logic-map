@@ -58,7 +58,9 @@ export class GlobalStore {
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     mapElementSelected = '';
+    listMapElementSelected: any[] = [];
     mapElementRelate = '';
+    listMapElementRelate: any[] = [];
     positionOfMapElementSelected: any[] = [];
     typeMobility: 'path' | 'no-path' | '' = 'path';
     numberPersonMobility: any = 0;
@@ -466,8 +468,49 @@ export class GlobalStore {
         this.mapElementSelected = value;
     }
 
-    setMapElementRelate = (value: any): void => {
-        this.mapElementRelate = value;
+    setListMapElementSelected = (value: any): void => {
+        let id = this.listMapElementSelected.length;
+        this.listMapElementSelected.push({
+            id: id,
+            name: value,
+            position: [],
+            status: false,
+            related: null,
+            statusRelate: false
+        });
+    }
+
+    changePositionOfMapElementSelected = (lat: any, lng: any, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.position = [lat, lng];
+            }
+        })
+    }
+
+    changeStatusOfMapElementSelected = (status: any, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.status = status;
+            }
+        })
+    }
+
+    changeStatusOfMapElementRelated = (status: any, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.statusRelate = status;
+            }
+        })
+    }
+
+    setMapElementRelate = (value: any, id: any): void => {
+        this.listMapElementRelate.push(value);
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.related = value;
+            }
+        })
     }
 
     setPositionOfMapElementSelected = (lat: number, lng: number) => {

@@ -77,7 +77,7 @@ const stopFnRunningFeatures = (e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on world map
-export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setMapElementSelected) => {
+export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setListMapElementSelected) => {
     clearAllPopups(map);
     const popupWorld = L.popup();
     popupWorld.options.type = 'world_popup';
@@ -102,7 +102,7 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
     }
 
     window.handleSelectMapElement = (value) => {
-        setMapElementSelected(value);
+        setListMapElementSelected(value);
         map.removeLayer(popupWorld);
     }
 }
@@ -1509,7 +1509,7 @@ export const roomPopup = (map, e) => {
 }
 
 // Popup shown when right-click element map marker
-export const mapElementPopup = (map, e, setMapElementRelate) => {
+export const mapElementPopup = (map, e, setMapElementRelate, id) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: mapElementPopupHTML(),
@@ -1518,7 +1518,7 @@ export const mapElementPopup = (map, e, setMapElementRelate) => {
     popup.addTo(map);
 
     window.handleSelectMapRelate = (value) => {
-        setMapElementRelate(value);
+        setMapElementRelate(value, id);
         map.removeLayer(popup);
     }
 }

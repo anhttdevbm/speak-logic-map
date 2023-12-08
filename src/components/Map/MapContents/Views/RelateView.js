@@ -4,8 +4,9 @@ import {observer} from 'mobx-react-lite';
 import {useMap} from 'react-leaflet';
 import {useEffect, useState} from 'react';
 import {useGlobalStore} from '@/providers/RootStoreProvider';
-import {allLayer} from "@/components/Map/MapContents/Variables/Variables";
+import {allLayer, handleName} from "@/components/Map/MapContents/Variables/Variables";
 import {
+    markerFnCircleIcon,
     markerGivenSetIcon, markerMapElementIcon, markerPersonIcon,
     markerRectHouseIcon, markerRelateElementIcon, markerRelateIcon,
     markerVerticalPersonIcon
@@ -59,63 +60,75 @@ const RelateView = () => {
             let world = {};
             let fpBoundary;
             const countriesLayer = [];
+            console.log('huuh', globalStore.listMapElementRelate)
 
-            if (globalStore.mapElementRelate !== '' && globalStore.mapView !== ''
-                && globalStore.mapElementSelected !== '' && globalStore.positionOfMapElementSelected.length > 0) {
-                if (globalStore.map) {
-                    const latElementSelected = globalStore.positionOfMapElementSelected[0];
-                    const lngElementSelected = globalStore.positionOfMapElementSelected[1];
+            for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
+                let mapElementSelected = globalStore.listMapElementSelected[i];
+                let mapElementRelate = mapElementSelected.related;
+                let position = mapElementSelected.position;
+                let id = mapElementSelected.id;
+                if (mapElementRelate && !mapElementSelected.statusRelate && globalStore.mapView !== '' && position.length > 0) {
+                    if (globalStore.map) {
+                        const latElementSelected = position[0];
+                        const lngElementSelected = position[1];
 
-                    const leftHorizontalLineTop = [latElementSelected, lngElementSelected]
-                    const rightHorizontalLineTop = [latElementSelected, lngElementSelected + 150];
-                    const topVerticalLine = [latElementSelected, lngElementSelected + 150]
-                    const downVerticalLine = [latElementSelected - 30, lngElementSelected + 150];
-                    const horizontalLineLatLngsTop = [[leftHorizontalLineTop, rightHorizontalLineTop],]
-                    L.polyline(horizontalLineLatLngsTop, {weight: 2, color: 'black'})
-                        .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
-                        .addTo(map);
-                    L.polyline([topVerticalLine, downVerticalLine], { status: 'add', weight: 2, color: 'black' })
-                        .arrowheads({ size: '1%', color: 'black', type: 'arrow' })
-                        .addTo(map);
+                        const leftHorizontalLineTop = [latElementSelected, lngElementSelected]
+                        const rightHorizontalLineTop = [latElementSelected, lngElementSelected + 150];
+                        const topVerticalLine = [latElementSelected, lngElementSelected + 150]
+                        const downVerticalLine = [latElementSelected - 30, lngElementSelected + 150];
+                        const horizontalLineLatLngsTop = [[leftHorizontalLineTop, rightHorizontalLineTop],]
+                        L.polyline(horizontalLineLatLngsTop, {weight: 2, color: 'black'})
+                            .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
+                            .addTo(map);
+                        L.polyline([topVerticalLine, downVerticalLine], {status: 'add', weight: 2, color: 'black'})
+                            .arrowheads({size: '1%', color: 'black', type: 'arrow'})
+                            .addTo(map);
 
-                    L.marker([latElementSelected - 30, lngElementSelected + 150], {
-                        options: {
-                            type: 'Relationship',
-                        },
-                        icon: markerRelateElementIcon(`${styles['relate-icon']}`),
-                    }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                        .addTo(map);
-                    L.polyline([[latElementSelected - 29.5, lngElementSelected + 150], [latElementSelected - 29.5, lngElementSelected + 170]], { status: 'add', weight: 2, color: 'black' })
-                        .arrowheads({ size: '1%', color: 'black', type: 'arrow' })
-                        .addTo(map);[latElementSelected - 30, lngElementSelected + 150]
+                        L.marker([latElementSelected - 30, lngElementSelected + 150], {
+                            options: {
+                                type: 'Relationship',
+                            },
+                            icon: markerFnCircleIcon(
+                                `${styles['circle-fn']}}`, 'Related'
+                            ),
+                        }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
+                            .addTo(map);
+                        L.polyline([[latElementSelected - 29.5, lngElementSelected + 150], [latElementSelected - 29.5, lngElementSelected + 170]], {
+                            status: 'add',
+                            weight: 2,
+                            color: 'black'
+                        })
+                            .arrowheads({size: '1%', color: 'black', type: 'arrow'})
+                            .addTo(map);
 
-                    const leftHorizontalLineBottom = [latElementSelected - 60, lngElementSelected];
-                    const rightHorizontalLineBottom = [latElementSelected - 60, lngElementSelected + 150];
-                    const topVerticalLine2 = [latElementSelected - 60, lngElementSelected + 150]
-                    const downVerticalLine2 = [latElementSelected - 30, lngElementSelected + 150];
-                    const horizontalLineLatLngsDown = [[leftHorizontalLineBottom, rightHorizontalLineBottom],]
-                    L.polyline(horizontalLineLatLngsDown, {weight: 2, color: 'black'})
-                        .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
-                        .addTo(map);
-                    L.polyline([topVerticalLine2, downVerticalLine2], { status: 'add', weight: 2, color: 'black' })
-                        .arrowheads({ size: '1%', color: 'black', type: 'arrow' })
-                        .addTo(map);
+                        const leftHorizontalLineBottom = [latElementSelected - 60, lngElementSelected];
+                        const rightHorizontalLineBottom = [latElementSelected - 60, lngElementSelected + 150];
+                        const topVerticalLine2 = [latElementSelected - 60, lngElementSelected + 150]
+                        const downVerticalLine2 = [latElementSelected - 30, lngElementSelected + 150];
+                        const horizontalLineLatLngsDown = [[leftHorizontalLineBottom, rightHorizontalLineBottom],]
+                        L.polyline(horizontalLineLatLngsDown, {weight: 2, color: 'black'})
+                            .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
+                            .addTo(map);
+                        L.polyline([topVerticalLine2, downVerticalLine2], {status: 'add', weight: 2, color: 'black'})
+                            .arrowheads({size: '1%', color: 'black', type: 'arrow'})
+                            .addTo(map);
 
-                    L.marker(leftHorizontalLineBottom, {
-                        options: {
-                            type: 'Relationship',
-                        },
-                        icon: globalStore.mapElementRelate === 'Person'
-                            ? markerPersonIcon(``, 'Person', null)
-                            : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, globalStore.mapElementRelate),
-                    }).addTo(map)
+                        L.marker(leftHorizontalLineBottom, {
+                            options: {
+                                type: 'Relationship',
+                            },
+                            icon: globalStore.mapElementRelate === 'Person'
+                                ? markerPersonIcon(``, 'Person', null)
+                                : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
+                        }).addTo(map);
+                        globalStore.changeStatusOfMapElementRelated(true, id)
+                    }
+                } else {
+                    countriesLayer.forEach((layer) => {
+                        map.removeLayer(layer);
+                    });
                 }
-            } else {
-                countriesLayer.forEach((layer) => {
-                    map.removeLayer(layer);
-                });
             }
-
 
             return () => {
                 map.removeLayer(world);
@@ -126,7 +139,7 @@ const RelateView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.mapElementRelate, globalStore.mapElementSelected,
+        }, [globalStore.map, globalStore.listMapElementSelected, globalStore.listMapElementRelate,
             globalStore.positionOfMapElementSelected, globalStore.mapView]
     );
 

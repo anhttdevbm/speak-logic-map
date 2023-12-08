@@ -479,7 +479,7 @@ export const addShotDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) => 
   distancePoint2.on('click', (e) => clickArrow(map, distancePoint2));
 }
 
-export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElementRelate, setPositionOfMapElementSelected) => {
+export const addMarkerMapElement = (map, lat, lng, isLocked, mapElement, setMapElementRelate, setPositionOfMapElementSelected) => {
   setPositionOfMapElementSelected(lat, lng);
   L.marker([lat, lng], {
     draggable: !isLocked,
@@ -490,10 +490,10 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElement
     },
     icon: markerMapElementIcon(
         `${styles['rectangle-fn']} ${styles['map-element']}`,
-        `${name}`
+        `${mapElement.name}`
     ),
   }).addTo(map)
-      .on('contextmenu', e => mapElementPopup(map, e, setMapElementRelate))
+      .on('contextmenu', e => mapElementPopup(map, e, setMapElementRelate, mapElement.id))
       .on('click', e => addSelectedItem(e, map, isLocked))
 }
 

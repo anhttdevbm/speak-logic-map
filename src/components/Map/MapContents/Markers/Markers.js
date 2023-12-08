@@ -436,9 +436,9 @@ const Markers = ({setModal, setModalType}) => {
         // Open right-click menu on map
         contextmenu(e) {
             if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
-                worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setMapElementRelate, globalStore.setMapElementSelected);
-            } else if(globalStore.boatView) {
-                boatPopup(map, e, globalStore.map, globalStore.toggleBoatView, globalStore.setMapElementRelate, globalStore.setMapElementSelected);
+                worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setMapElementRelate, globalStore.setListMapElementSelected);
+            } else if (globalStore.boatView) {
+                boatPopup(map, e, globalStore.map, globalStore.toggleBoatView, globalStore.setMapElementRelate, globalStore.setListMapElementSelected);
             }
         },
 
@@ -504,10 +504,18 @@ const Markers = ({setModal, setModalType}) => {
                 } else if (globalStore.addIcon === 'main-set') {
                     globalStore.setChooseGivenSet(true);
                     addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet, globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
-                } else if (globalStore.mapElementSelected) {
-                    const mapElement = globalStore.mapElementSelected;
-                    addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement, globalStore.setMapElementRelate, globalStore.setPositionOfMapElementSelected);
-                    console.log('globalStore.mapElementSelected && globalStore.positionOfMapElementSelected', globalStore.mapElementSelected, globalStore.positionOfMapElementSelected)
+                } else if (globalStore.listMapElementSelected.length > 0
+                    && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
+                    console.log('globalStore.listMapElementSelected', globalStore.listMapElementSelected);
+                    for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
+                        const mapElement = globalStore.listMapElementSelected[i];
+                        if (!mapElement.status) {
+                            globalStore.changePositionOfMapElementSelected(e.latlng.lat, e.latlng.lng, mapElement.id);
+                            addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement,
+                                globalStore.setMapElementRelate, globalStore.setPositionOfMapElementSelected);
+                            globalStore.changeStatusOfMapElementSelected(true, mapElement.id);
+                        }
+                    }
                 }
             }
         }
