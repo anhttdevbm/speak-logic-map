@@ -60,57 +60,57 @@ const RelateView = () => {
             let world = {};
             let fpBoundary;
             const countriesLayer = [];
-            console.log('huuh', globalStore.listMapElementRelate)
 
             for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
                 let mapElementSelected = globalStore.listMapElementSelected[i];
                 let mapElementRelate = mapElementSelected.related;
                 let position = mapElementSelected.position;
+                console.log('position', position)
                 let id = mapElementSelected.id;
                 if (mapElementRelate && !mapElementSelected.statusRelate && globalStore.mapView !== '' && position.length > 0) {
                     if (globalStore.map) {
                         const latElementSelected = position[0];
                         const lngElementSelected = position[1];
 
-                        const leftHorizontalLineTop = [latElementSelected, lngElementSelected]
-                        const rightHorizontalLineTop = [latElementSelected, lngElementSelected + 150];
-                        const topVerticalLine = [latElementSelected, lngElementSelected + 150]
-                        const downVerticalLine = [latElementSelected - 30, lngElementSelected + 150];
+                        const leftHorizontalLineTop = [latElementSelected, lngElementSelected];
+                        const rightHorizontalLineTop = [latElementSelected, lngElementSelected + 100];
+                        const topVerticalLine = [latElementSelected, lngElementSelected + 100];
+                        const downVerticalLine = [latElementSelected - 10, lngElementSelected + 100];
                         const horizontalLineLatLngsTop = [[leftHorizontalLineTop, rightHorizontalLineTop],]
                         L.polyline(horizontalLineLatLngsTop, {weight: 2, color: 'black'})
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                             .addTo(map);
                         L.polyline([topVerticalLine, downVerticalLine], {status: 'add', weight: 2, color: 'black'})
-                            .arrowheads({size: '1%', color: 'black', type: 'arrow'})
+                            .arrowheads({size: '1%', color: 'black'})
                             .addTo(map);
 
-                        L.marker([latElementSelected - 30, lngElementSelected + 150], {
+                        L.marker([latElementSelected - 10, lngElementSelected + 100], {
                             options: {
                                 type: 'Relationship',
                             },
                             icon: markerFnCircleIcon(
-                                `${styles['circle-fn']}}`, 'Related'
+                                `${styles['circle-relate']}`, 'Related'
                             ),
                         }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
                             .addTo(map);
-                        L.polyline([[latElementSelected - 29.5, lngElementSelected + 150], [latElementSelected - 29.5, lngElementSelected + 170]], {
+                        L.polyline([[latElementSelected - 10, lngElementSelected + 100], [latElementSelected - 10, lngElementSelected + 140]], {
                             status: 'add',
                             weight: 2,
                             color: 'black'
                         })
-                            .arrowheads({size: '1%', color: 'black', type: 'arrow'})
+                            .arrowheads({size: '1%', color: 'black'})
                             .addTo(map);
 
-                        const leftHorizontalLineBottom = [latElementSelected - 60, lngElementSelected];
-                        const rightHorizontalLineBottom = [latElementSelected - 60, lngElementSelected + 150];
-                        const topVerticalLine2 = [latElementSelected - 60, lngElementSelected + 150]
-                        const downVerticalLine2 = [latElementSelected - 30, lngElementSelected + 150];
+                        const leftHorizontalLineBottom = [latElementSelected - 30, lngElementSelected];
+                        const rightHorizontalLineBottom = [latElementSelected - 30, lngElementSelected + 100];
+                        const topVerticalLine2 = [latElementSelected - 10, lngElementSelected + 100]
+                        const downVerticalLine2 = [latElementSelected - 30, lngElementSelected + 100];
                         const horizontalLineLatLngsDown = [[leftHorizontalLineBottom, rightHorizontalLineBottom],]
                         L.polyline(horizontalLineLatLngsDown, {weight: 2, color: 'black'})
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                             .addTo(map);
                         L.polyline([topVerticalLine2, downVerticalLine2], {status: 'add', weight: 2, color: 'black'})
-                            .arrowheads({size: '1%', color: 'black', type: 'arrow'})
+                            .arrowheads({size: '1%', color: 'black'})
                             .addTo(map);
 
                         L.marker(leftHorizontalLineBottom, {
@@ -129,7 +129,6 @@ const RelateView = () => {
                     });
                 }
             }
-
             return () => {
                 map.removeLayer(world);
                 if (fpBoundary) {
@@ -139,8 +138,7 @@ const RelateView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.listMapElementSelected, globalStore.listMapElementRelate,
-            globalStore.positionOfMapElementSelected, globalStore.mapView]
+        }, [globalStore.map, globalStore.listMapElementSelected, globalStore.listMapElementRelate, globalStore.mapView, globalStore, map]
     );
 
     return null
