@@ -584,3 +584,20 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
         .addTo(map)
   };
 }
+
+export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {
+  let divIcon = L.divIcon({
+    html: makeHtml(2),
+    className: 'divIcon',
+    iconSize: [200, 50],
+    iconAnchor: [0, 0]
+  });
+  L.marker([lat, lng], {
+    icon: divIcon
+  }).addTo(map);
+  togglePalletOption('')
+}
+
+function makeHtml(id) {
+  return '<input type="text" value="" id="input_' + id + '" />'
+}

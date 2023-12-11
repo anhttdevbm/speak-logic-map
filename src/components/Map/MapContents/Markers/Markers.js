@@ -32,7 +32,7 @@ import {
     addRelateMarker,
     addMarkerGivenSet,
     addMarkerWelcomeSign,
-    addPersonInMobility
+    addPersonInMobility, addInputTextPallet
 } from './AddMarkers'
 
 
@@ -449,7 +449,7 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.click) {
                 // Add Person Marker
                 if (globalStore.addIcon === 'person') {
-                    addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setMapElementRelate, globalStore.setMapElementSelected, globalStore.setPositionOfMapElementSelected)
+                    addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setMapElementRelate, globalStore.setListMapElementSelected, globalStore.changePositionOfMapElementSelected)
                     let index = markerPersonIndex[0];
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
                     globalStore.addMarkerPopulationToList(index)
@@ -496,6 +496,9 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
                     globalStore.resetDataScroll();
                     globalStore.addIconHandle('');
+                } else if (globalStore.palletOption === 'text') {
+                    // globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
+                    addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     if (globalStore.positionOfHorizontalLine.length === 0) {
                         globalStore.toggleModalInsertNumberPerson();
