@@ -77,11 +77,11 @@ const RelateView = () => {
                         const topVerticalLine = [latElementSelected, lngElementSelected + 100];
                         const downVerticalLine = [latElementSelected - 10, lngElementSelected + 100];
                         const horizontalLineLatLngsTop = [[leftHorizontalLineTop, rightHorizontalLineTop],]
-                        L.polyline(horizontalLineLatLngsTop, {weight: 2, color: 'black'})
+                        L.polyline(horizontalLineLatLngsTop, {weight: 2, color: 'black', status: 'add'})
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                             .addTo(map);
                         L.polyline([topVerticalLine, downVerticalLine], {status: 'add', weight: 2, color: 'black'})
-                            .arrowheads({size: '1%', color: 'black'})
+                            .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                             .addTo(map);
 
                         L.marker([latElementSelected - 10, lngElementSelected + 100], {
@@ -98,7 +98,7 @@ const RelateView = () => {
                             weight: 2,
                             color: 'black'
                         })
-                            .arrowheads({size: '1%', color: 'black'})
+                            .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                             .addTo(map);
 
                         const leftHorizontalLineBottom = [latElementSelected - 30, lngElementSelected];
@@ -106,11 +106,11 @@ const RelateView = () => {
                         const topVerticalLine2 = [latElementSelected - 10, lngElementSelected + 100]
                         const downVerticalLine2 = [latElementSelected - 30, lngElementSelected + 100];
                         const horizontalLineLatLngsDown = [[leftHorizontalLineBottom, rightHorizontalLineBottom],]
-                        L.polyline(horizontalLineLatLngsDown, {weight: 2, color: 'black'})
+                        L.polyline(horizontalLineLatLngsDown, {weight: 2, color: 'black', status: 'add'})
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                             .addTo(map);
                         L.polyline([topVerticalLine2, downVerticalLine2], {status: 'add', weight: 2, color: 'black'})
-                            .arrowheads({size: '1%', color: 'black'})
+                            .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                             .addTo(map);
 
                         L.marker(leftHorizontalLineBottom, {

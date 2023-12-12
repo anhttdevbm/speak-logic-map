@@ -537,7 +537,8 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
                 {
-                    color: 'black'
+                    color: 'black',
+                    status: 'add'
                 },
                 {
                     auto: true,
@@ -549,7 +550,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
         });
     }
@@ -563,7 +564,8 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
                 {
-                    color: 'transparent'
+                    color: 'transparent',
+                    status: 'add'
                 },
                 {
                     auto: true,
@@ -575,7 +577,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow' })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
                 .addTo(map);
         });
     }
@@ -589,7 +591,8 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
                 {
-                    color: 'black'
+                    color: 'black',
+                    status: 'add'
                 },
                 {
                     auto: true,
@@ -601,7 +604,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetIcon(`${styles['main-set-icon']}`)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
         });
     }
@@ -615,7 +618,8 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
                 {
-                    color: 'transparent'
+                    color: 'transparent',
+                    status: 'add'
                 },
                 {
                     auto: true,
@@ -627,7 +631,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetIcon(`${styles['main-set-icon']}`)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow' })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
                 .addTo(map);
         });
     }
@@ -912,11 +916,13 @@ export const routePopup = (map, distancePoint, distancePoint2, e) => {
                 color: 'black',
                 type: 'arrow',
                 size: '5%',
+                status: 'add'
             }).addTo(map);
             distancePoint.parentLine.arrowheads({
                 color: 'black',
                 type: 'arrow',
                 size: '5%',
+                status: 'add'
             }).addTo(map);
 
         } else {
@@ -928,7 +934,7 @@ export const routePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint.getLatLng().lat, distancePoint.getLatLng().lng]
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             const arcArrow_1 = L.polyline(
                 [
@@ -936,7 +942,7 @@ export const routePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint2.getLatLng().lat, distancePoint2.getLatLng().lng]
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             distancePoint.parentArcArrow = arcArrow;
             distancePoint.parentArcArrow_1 = arcArrow_1;
@@ -1045,7 +1051,7 @@ export const distancePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint.getLatLng().lat, distancePoint.getLatLng().lng],
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             const arcArrow_1 = L.polyline(
                 [
@@ -1053,7 +1059,7 @@ export const distancePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint2.getLatLng().lat, distancePoint2.getLatLng().lng],
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             distancePoint.parentArcArrow = arcArrow;
             distancePoint.parentArcArrow_1 = arcArrow_1;

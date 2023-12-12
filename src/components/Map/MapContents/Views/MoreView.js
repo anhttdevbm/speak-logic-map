@@ -232,7 +232,7 @@ const MoreView = ({selectedData}) => {
                         .addTo(map)
 
                     //Draw line
-                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black'});
+                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black', status: 'add'});
                     horizontalLine.addTo(map);
                     functionsLayer.push(iconPrinciple);
                     functionsLayer.push(horizontalLine);
@@ -246,7 +246,7 @@ const MoreView = ({selectedData}) => {
                             const lng = lngListt[index % latListt.length];
                             let functionMarker;
                             if (country.country?.codeName !== '') {
-                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat, lng]], {weight: 2, color: 'black'}).addTo(map);
+                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat, lng]], {weight: 2, color: 'black', status: 'add'}).addTo(map);
                                 functionMarker = L.marker([lat, lng], {
                                     options: {
                                         type: country.country?.codeName,

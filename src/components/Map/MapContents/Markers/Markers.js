@@ -142,6 +142,19 @@ const Markers = ({setModal, setModalType}) => {
         }
     }, [globalStore.lock])
 
+    // Clear all map element
+    useEffect(() => {
+        if (globalStore.clear) {
+            map.eachLayer(layer => {
+                if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
+                    layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
+                    layer.options.type?.status === 'add') {
+                    map.removeLayer(layer);
+                }
+            });
+        }
+    }, [globalStore.clear])
+
     // Get all function by wrapping in area (to add into a group)
     useEffect(() => {
         // if (globalStore.map) {
@@ -306,13 +319,13 @@ const Markers = ({setModal, setModalType}) => {
         rectEvent?.addEventListener("click", drawRectangle);
         ellipseEvent?.addEventListener("click", drawCircle);
 
-        // return () => {
-        //     getButton?.removeEventListener("click", showScanSelection);
-        //     textEvent?.removeEventListener("click", insertTextToMap);
-        //     lineEvent?.removeEventListener("click", drawLine);
-        //     rectEvent?.removeEventListener("click", drawRectangle);
-        //     ellipseEvent?.removeEventListener("click", drawCircle);
-        // };
+        return () => {
+            getButton?.removeEventListener("click", showScanSelection);
+            textEvent?.removeEventListener("click", insertTextToMap);
+            lineEvent?.removeEventListener("click", drawLine);
+            rectEvent?.removeEventListener("click", drawRectangle);
+            ellipseEvent?.removeEventListener("click", drawCircle);
+        };
         // }
     }, [globalStore.map]);
 

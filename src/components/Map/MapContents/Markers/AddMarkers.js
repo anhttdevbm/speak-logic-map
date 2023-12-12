@@ -279,7 +279,7 @@ export const addRoute = (map, lat, lng, isLocked) => {
     [[lat, lng2], [lat, lng]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
     .addTo(map);
 
   const polyline = new L.Polyline(
@@ -287,7 +287,7 @@ export const addRoute = (map, lat, lng, isLocked) => {
     { kind: 'inter-route', type: 'line', color: 'black', status: 'add' }
   )
     .setText("Inter-route", { center: true, offset: -3 })
-    .arrowheads({ color: 'black', type: 'arrow', size: '5%' })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5%', status: 'add' })
     .on('contextmenu', (e) => routePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Inter-route')
     )
@@ -326,7 +326,7 @@ export const addDistance = (map, lat, lng, isLocked) => {
     [[lat, lng2], [lat, lng]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
     .addTo(map);
 
   const polyline = new L.Polyline(
@@ -334,7 +334,7 @@ export const addDistance = (map, lat, lng, isLocked) => {
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     .setText("Distance", { center: true, offset: -3 })
-    .arrowheads({ color: 'black', type: 'arrow', size: '5%' })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5%', status: 'add' })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )
@@ -375,7 +375,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     [[lat2, lng2], [lat1, lng1]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '5px', color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5px', color: 'black', type: 'arrow', status: 'add' })
     .addTo(map);
   
   let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -385,7 +385,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     
-    .arrowheads({ color: 'black', type: 'arrow', size: '5px' })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5px', status: 'add' })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )
@@ -431,7 +431,7 @@ export const addShotDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) => 
       [[lat2, lng2], [lat1, lng1]],
       { color: 'transparent', status: 'add' }
   )
-      .arrowheads({ size: '5px', color: 'black', type: 'arrow' })
+      .arrowheads({ size: '5px', color: 'black', type: 'arrow', status: 'add' })
       .addTo(map);
 
   let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -441,7 +441,7 @@ export const addShotDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) => 
       { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
 
-      .arrowheads({ color: 'black', type: 'arrow', size: '5px' })
+      .arrowheads({ color: 'black', type: 'arrow', size: '5px', status: 'add' })
       .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
       .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
       )
@@ -568,7 +568,8 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
           [lat, lng]
         ],
         {
-          color: typeMobility === 'path' ? 'black' : "transparent"
+          color: typeMobility === 'path' ? 'black' : "transparent",
+          status: 'add'
         },
         {
           auto: true,
@@ -580,7 +581,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
           icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
         }
     )
-        .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow' })
+        .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow', status: 'add' })
         .addTo(map)
   };
 }
