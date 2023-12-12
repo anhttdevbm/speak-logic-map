@@ -207,7 +207,8 @@ const MapSSR: React.FC = (): JSX.Element => {
                     && globalStore.numberPersonInHorizontalLine > 0
                     && <HorizontalLineView/>}
 
-                {(globalStore.listMapElementSelected?.length > 0 && globalStore.listMapElementRelate?.length > 0) && <RelateView/>}
+                {(globalStore.listMapElementSelected?.length > 0 && globalStore.listMapElementRelate?.length > 0)
+                    && <RelateView/>}
 
 
             </MapContainer>

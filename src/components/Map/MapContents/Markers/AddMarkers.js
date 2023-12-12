@@ -35,7 +35,7 @@ import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
 
-export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected) => {
+export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -43,9 +43,9 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
       status: 'add',
     },
     draggable: !isLocked,
-    icon: markerPersonIcon(styles['person'], `Person ${index}`)
+    icon: markerPersonIcon(styles['person'], `Person ${index}`, null)
   })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected))
+    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }

@@ -117,7 +117,7 @@ const RelateView = () => {
                             options: {
                                 type: 'Relationship',
                             },
-                            icon: globalStore.mapElementRelate === 'Person'
+                            icon: mapElementRelate === 'Person'
                                 ? markerPersonIcon(``, 'Person', null)
                                 : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
                         }).addTo(map);
@@ -138,7 +138,7 @@ const RelateView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.listMapElementSelected, globalStore.listMapElementRelate, globalStore.mapView, globalStore, map]
+        }, [globalStore.map, globalStore.listMapElementSelected, globalStore.listMapElementRelate.length, globalStore.mapView, globalStore, map]
     );
 
     return null

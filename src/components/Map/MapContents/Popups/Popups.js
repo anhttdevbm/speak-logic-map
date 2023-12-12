@@ -491,7 +491,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -633,9 +633,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     }
 
     window.addRelatePerson = (value) => {
-        setPositionOfMapElementSelected(e.latlng.lat, e.latlng.lng)
-        setMapElementRelate(value);
-        setMapElementSelected('Person');
+        setPersonToListMapElementSelected('Person', e.latlng.lat, e.latlng.lng, value);
         map.removeLayer(popup);
         console.log('ement')
     }

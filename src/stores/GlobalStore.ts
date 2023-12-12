@@ -480,6 +480,20 @@ export class GlobalStore {
         });
     }
 
+    setPersonToListMapElementSelected = (value: any, lat: any, lng: any, relate: any): void => {
+        let id = this.listMapElementSelected.length;
+        debugger
+        this.listMapElementSelected.push({
+            id: id,
+            name: value,
+            position: [lat, lng],
+            status: true,
+            related: relate,
+            statusRelate: false
+        });
+        this.listMapElementRelate.push(relate);
+    }
+
     changePositionOfMapElementSelected = (lat: any, lng: any, id: any): void => {
         this.listMapElementSelected.map(item => {
             if (item.id === id) {
