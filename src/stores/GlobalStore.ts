@@ -417,6 +417,10 @@ export class GlobalStore {
         }
     }
 
+    resetListMarkerFunction = (): void => {
+        this.listMarkerFunction = [];
+    }
+
     addMarkerFnToNearLast = (index: number): void => {
         if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
             let newElement = {key: index, value: 'Function ' + index, shape: 'rectangle'};
@@ -431,6 +435,10 @@ export class GlobalStore {
             let positionBeforeEnd = this.listMarkerPopulation.length - 2;
             this.listMarkerPopulation.splice(positionBeforeEnd, 0, newElement);
         }
+    }
+
+    resetListMarkerPopulation = (): void => {
+        this.listMarkerPopulation = [];
     }
 
     setShapeOfMarkerFn = (name: number, shape: string): void => {
@@ -533,5 +541,9 @@ export class GlobalStore {
 
     setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {
         this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
+    }
+
+    resetMapLayer = (): void => {
+        this.mapLayer = [];
     }
 }

@@ -150,6 +150,9 @@ const Markers = ({setModal, setModalType}) => {
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
                     layer.options.type?.status === 'add') {
                     map.removeLayer(layer);
+                    globalStore.resetListMarkerFunction();
+                    globalStore.resetListMarkerPopulation();
+                    globalStore.resetMapLayer();
                 }
             });
         }
