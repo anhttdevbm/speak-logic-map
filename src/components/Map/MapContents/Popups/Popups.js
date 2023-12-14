@@ -7,7 +7,7 @@ import 'leaflet-arrowheads';
 import {
     markerFnIcon, markerFnCircleIcon, markerPersonIcon,
     markerCustomImgIcon, markerCustomAudioIcon, markerCustomVideoIcon,
-    markerCountryFnIcon, markerRoomIcon, markerGivenSetIcon
+    markerCountryFnIcon, markerRoomIcon, markerGivenSetIcon, markerPersonWaveIcon
 } from '../Markers/MarkerIcons';
 
 import {handleName, markerFnIndex, markerProblemIndex, selectedList} from '../Variables/Variables';
@@ -547,7 +547,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 {
                     removeOnEnd: false,
                     showMarker: true,
-                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
@@ -574,7 +574,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 {
                     removeOnEnd: false,
                     showMarker: true,
-                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
