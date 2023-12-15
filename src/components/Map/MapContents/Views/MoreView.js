@@ -339,7 +339,8 @@ const MoreView = ({selectedData}) => {
                 }
             });
         };
-    }, [globalStore.map, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView, globalStore.numberPersonMoreView]);
+    }, [globalStore.map, globalStore.mapLayer.length, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView,
+        globalStore.numberPersonMoreView]);
 
     const addItemDotDot = (listCountry) => {
         if (globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {

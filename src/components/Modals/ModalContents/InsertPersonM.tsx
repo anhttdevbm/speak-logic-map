@@ -30,31 +30,28 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
             let indexList = globalStore.listMarkerFunction.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
             let lastIndex = indexList[indexList.length - 1]
             for (let i = 1; i <= numberPerson; i++) {
-                let key = lastIndex + 1
+                let key = lastIndex + i
                 globalStore.addMarkerFnToNearLast(key);
                 const minLat = -90;
                 const maxLat = 90;
                 const minLng = -180;
                 const maxLng = 180;
-
-// Generate random latitude and longitude
                 const randomLat = Math.random() * (maxLat - minLat) + minLat;
                 const randomLng = Math.random() * (maxLng - minLng) + minLng;
                 globalStore.setMapLayer(randomLat, randomLng, 'Function ' + key, 'function');
             }
+            console.log('map layer', globalStore.mapLayer)
         } else if (type === 'population-view') {
             let indexList = globalStore.listMarkerPopulation.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
             console.log('globalStore.listMarkerPopulation', globalStore.listMarkerPopulation)
             let lastIndex = indexList[indexList.length - 1]
             for (let i = 1; i <= numberPerson; i++) {
-                let key = lastIndex + 1;
+                let key = lastIndex + i;
                 globalStore.addMarkerPersonToNearLast(key);
                 const minLat = -90;
                 const maxLat = 90;
                 const minLng = -180;
                 const maxLng = 180;
-
-// Generate random latitude and longitude
                 const randomLat = Math.random() * (maxLat - minLat) + minLat;
                 const randomLng = Math.random() * (maxLng - minLng) + minLng;
                 globalStore.setMapLayer(randomLat, randomLng, 'Person ' + key, 'person');
