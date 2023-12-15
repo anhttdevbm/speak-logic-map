@@ -19,15 +19,16 @@ const Options: React.FC = (): JSX.Element => {
             // && !globalStore.mapView
             && !globalStore.tableView
         ) {
-            console.log('name', name)
-            globalStore.toggleMoreName(name);
-            if (globalStore.moreName === '') {
+            if (globalStore.moreName === name) {
+                globalStore.toggleMoreName('');
                 if (globalStore.map) {
                     globalStore.toggleMapView('map-world');
                 } else {
                     globalStore.toggleMapView('map-countries');
                 }
-                console.log('test', globalStore.mapView)
+            } else {
+                globalStore.toggleMoreName(name);
+                globalStore.toggleMapView('')
             }
         }
 
