@@ -482,7 +482,6 @@ export class GlobalStore {
 
     setPersonToListMapElementSelected = (value: any, lat: any, lng: any, relate: any): void => {
         let id = this.listMapElementSelected.length;
-        debugger
         this.listMapElementSelected.push({
             id: id,
             name: value,
@@ -531,7 +530,21 @@ export class GlobalStore {
         this.positionOfMapElementSelected = [lat, lng];
     }
 
-    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {
-        this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
+    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function') => {
+        let id = this.mapLayer.length + 1;
+        this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})
+    }
+
+    resetMapLayer = () => {
+        this.mapLayer = [];
+    }
+
+    updateMapLayerById = (lat: any, lng: any, type: 'person' | 'function', name: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].type === type && this.mapLayer[i].name === name) {
+                this.mapLayer[i].lat = lat;
+                this.mapLayer[i].lng = lng;
+            }
+        }
     }
 }

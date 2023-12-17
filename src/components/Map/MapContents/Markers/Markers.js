@@ -150,6 +150,7 @@ const Markers = ({setModal, setModalType}) => {
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
                     layer.options.type?.status === 'add') {
                     map.removeLayer(layer);
+                    globalStore.resetMapLayer();
                 }
             });
         }
@@ -389,7 +390,9 @@ const Markers = ({setModal, setModalType}) => {
                 const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
                 if (globalStore.addIcon === 'person') {
-                    addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType, globalStore.setPersonToListMapElementSelected)
+                    addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+                        globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                        globalStore.updateMapLayerById)
                     markerPersonIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
@@ -419,7 +422,9 @@ const Markers = ({setModal, setModalType}) => {
                     if (fn.type === 'function' && fn.name !== "") {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else if (fn.type === 'person' && fn.name !== "") {
-                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal, setModalType, globalStore.setPersonToListMapElementSelected)
+                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal,
+                            setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                            globalStore.updateMapLayerById)
                     }
                 })
             }
@@ -437,12 +442,15 @@ const Markers = ({setModal, setModalType}) => {
                     if (fn.type === 'function' && fn.name !== "") {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else if (fn.type === 'person' && fn.name !== "") {
-                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal, setModalType, globalStore.setPersonToListMapElementSelected)
+                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal,
+                            setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                            globalStore.updateMapLayerById)
                     }
                 })
             }
         }
-    }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView, globalStore.positionOfHorizontalLine])
+    }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView,
+        globalStore.positionOfHorizontalLine, globalStore.mapLayer])
     // Handle events on map
     useMapEvents({
 
@@ -462,8 +470,10 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.click) {
                 // Add Person Marker
                 if (globalStore.addIcon === 'person') {
+                    console.log('mapLayer', globalStore.mapLayer)
                     addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal,
-                        setModalType, globalStore.setPersonToListMapElementSelected)
+                        setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                        globalStore.updateMapLayerById)
                     let index = markerPersonIndex[0];
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
                     globalStore.addMarkerPopulationToList(index)
@@ -499,7 +509,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'mobility') {
                     globalStore.resetPositionScroll();
-                    if (globalStore.numberPersonMobility < 2) {
+                    if (globalStore.numberPersonMobility === 1) {
                         globalStore.setTypeMobility('path');
                         addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                     } else {
