@@ -32,7 +32,7 @@ import {
     addRelateMarker,
     addMarkerGivenSet,
     addMarkerWelcomeSign,
-    addPersonInMobility, addInputTextPallet
+    addPersonInMobility, addInputTextPallet, addInputImagePallet
 } from './AddMarkers'
 
 
@@ -166,6 +166,7 @@ const Markers = ({setModal, setModalType}) => {
         const lineEvent = document.getElementById("line-event");
         const rectEvent = document.getElementById("rectangle-event");
         const ellipseEvent = document.getElementById("ellipse-event");
+        const imageEvent = document.getElementById("image-event");
         let restrictPopup = 0;
         areaSelection = new DrawAreaSelection({
             onPolygonReady: (polygon) => {
@@ -254,6 +255,13 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.togglePalletOption('text')
         }
 
+        const insertImageToMap = () => {
+            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption('image')
+        }
+
         const drawLine = () => {
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
             refreshLayerAndControlRect(map, drawnItems, drawControl);
@@ -321,6 +329,7 @@ const Markers = ({setModal, setModalType}) => {
         lineEvent?.addEventListener("click", drawLine);
         rectEvent?.addEventListener("click", drawRectangle);
         ellipseEvent?.addEventListener("click", drawCircle);
+        imageEvent?.addEventListener("click", insertImageToMap);
 
         return () => {
             getButton?.removeEventListener("click", showScanSelection);
@@ -328,6 +337,7 @@ const Markers = ({setModal, setModalType}) => {
             lineEvent?.removeEventListener("click", drawLine);
             rectEvent?.removeEventListener("click", drawRectangle);
             ellipseEvent?.removeEventListener("click", drawCircle);
+            imageEvent?.removeEventListener("click", insertImageToMap);
         };
         // }
     }, [globalStore.map]);
@@ -445,7 +455,21 @@ const Markers = ({setModal, setModalType}) => {
                 })
             }
         }
-    }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView, globalStore.positionOfHorizontalLine])
+    }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView, globalStore.positionOfHorizontalLine]);
+
+    useEffect(() => {
+        console.log('document.getElementById(\'input_image_html\')', document.getElementById('input_image_html')?.files, document.getElementById('input_image_html')?.value)
+        if (globalStore.positionOfImagePallet.length > 0 && document.getElementById('input_image_html')) {
+            let image = document.getElementById('input_image_html');
+            debugger
+            let value = image.value;
+
+            let imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Sydney_Opera_House_-_Dec_2008.jpg/1024px-Sydney_Opera_House_-_Dec_2008.jpg';
+            let imageBounds = [globalStore.positionOfImagePallet, [-30.8650, 144.2094]];
+
+            L.imageOverlay(imageUrl, imageBounds).addTo(map);
+        }
+    }, [document.getElementById('input_image_html')?.value])
     // Handle events on map
     useMapEvents({
 
@@ -514,8 +538,10 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetDataScroll();
                     globalStore.addIconHandle('');
                 } else if (globalStore.palletOption === 'text') {
-                    // globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
                     addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
+                } else if (globalStore.palletOption === 'image') {
+                    globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
+                    addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     if (globalStore.positionOfHorizontalLine.length === 0) {
                         globalStore.toggleModalInsertNumberPerson();
@@ -523,7 +549,8 @@ const Markers = ({setModal, setModalType}) => {
                     }
                 } else if (globalStore.addIcon === 'main-set') {
                     globalStore.setChooseGivenSet(true);
-                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet, globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
+                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
                 } else if (globalStore.listMapElementSelected.length > 0
                     && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
                     console.log('globalStore.listMapElementSelected', globalStore.listMapElementSelected);

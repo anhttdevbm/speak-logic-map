@@ -34,7 +34,7 @@ export class GlobalStore {
     rectName: 'rect-non-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
-    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | '' = '';
+    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
     clear: boolean = false;
     inAreaSelection: boolean = false;
     showRoomDistance: boolean = false;
@@ -57,6 +57,8 @@ export class GlobalStore {
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
+    positionOfImagePallet: any[] = [];
+    valueOfImage: string = '';
     mapElementSelected = '';
     listMapElementSelected: any[] = [];
     mapElementRelate = '';
@@ -104,6 +106,13 @@ export class GlobalStore {
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
         this.positionOfTextPallet = [lat, lng];
+    }
+
+    setPositionOfImagePallet = (lat: number, lng: number) => {
+        this.positionOfImagePallet = [lat, lng];
+    }
+    setValueOfImage = (value: string) => {
+        this.valueOfImage = value;
     }
 
     resetPositionScroll = () => {
@@ -341,7 +350,7 @@ export class GlobalStore {
         }
     }
 
-    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | ''): void => {
+    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | ''): void => {
         if (value === this.palletOption) {
             this.palletOption = '';
         } else {

@@ -602,3 +602,20 @@ export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) 
 function makeHtml(id) {
   return '<input type="text" value="" id="input_' + id + '" />'
 }
+
+export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption) => {
+  let divIcon = L.divIcon({
+    html: inputImageHtml(''),
+    className: 'divIcon',
+    iconSize: [200, 50],
+    iconAnchor: [0, 0]
+  });
+  let marker = L.marker([lat, lng], {
+    icon: divIcon
+  }).addTo(map);
+  togglePalletOption('');
+}
+
+function inputImageHtml(id) {
+  return '<input type="file" value="" id="input_image_html" />'
+}
