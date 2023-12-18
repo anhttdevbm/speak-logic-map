@@ -491,14 +491,14 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected,
+                            resetNumberPersonMobility, updateMapLayerById) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
-
 
     window.openRenameModal = () => {
         setModal(true);
@@ -533,6 +533,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
+            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -542,7 +543,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 },
                 {
                     auto: true,
-                    duration: 5000
+                    duration: 3000
                 },
                 {
                     removeOnEnd: false,
@@ -552,6 +553,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             )
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
+            map.off('click');
         });
     }
 
@@ -560,6 +562,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
+            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -569,7 +572,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 },
                 {
                     auto: true,
-                    duration: 5000
+                    duration: 3000
                 },
                 {
                     removeOnEnd: false,
@@ -579,6 +582,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             )
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
                 .addTo(map);
+            // map.off('click');
         });
     }
 
@@ -596,7 +600,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 },
                 {
                     auto: true,
-                    duration: 5000
+                    duration: 3000
                 },
                 {
                     removeOnEnd: false,
@@ -606,6 +610,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             )
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
+            map.off('click');
         });
     }
 
@@ -623,7 +628,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 },
                 {
                     auto: true,
-                    duration: 5000
+                    duration: 3000
                 },
                 {
                     removeOnEnd: false,
@@ -633,6 +638,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             )
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
                 .addTo(map);
+            map.off('click');
         });
     }
 
@@ -1540,32 +1546,48 @@ export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
         map.removeLayer(e.target);
     }
     window.arrowDirectionBottom = () => {
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-right"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-left"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-top"]);
-        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-bottom"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-down"]);
         map.removeLayer(popup);
     }
     window.arrowDirectionRight = () => {
-        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-right"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-left"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-top"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
 
     }
     window.arrowDirectionLeft = () => {
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-right"]);
-        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-left"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-top"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
     }
     window.arrowDirectionTop = () => {
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-right"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-left"]);
-        e.target._icon.lastElementChild.classList.add(styles["arrow-given-set-top"]);
-        e.target._icon.lastElementChild.classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
     }
 }
