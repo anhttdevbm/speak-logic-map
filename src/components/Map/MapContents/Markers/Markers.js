@@ -32,7 +32,7 @@ import {
     addRelateMarker,
     addMarkerGivenSet,
     addMarkerWelcomeSign,
-    addPersonInMobility, addInputTextPallet
+    addPersonInMobility, addInputTextPallet, addMarkerPrincipleLine
 } from './AddMarkers'
 
 
@@ -416,6 +416,9 @@ const Markers = ({setModal, setModalType}) => {
                 } else if (globalStore.addIcon === 'scroll-feature') {
                     globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
                     globalStore.resetDataScroll();
+                    globalStore.addIconHandle('');
+                } else if (globalStore.addIcon === 'horizontal-line') {
+                    addMarkerPrincipleLine(map, latlng.lat, latlng.lng, globalStore.lock);
                     globalStore.addIconHandle('');
                 }
             }

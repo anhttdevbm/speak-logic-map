@@ -11,7 +11,7 @@ import {
   markerMapElementIcon,
   markerRelateIcon,
   markerGivenSetIcon,
-  markerPersonWaveIcon
+  markerPersonWaveIcon, markerPrincipleLineIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
@@ -519,6 +519,26 @@ export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenS
   }).addTo(map)
       .on('contextmenu', e => givenSetPopup(map, e, resetPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))
+}
+
+export const addMarkerPrincipleLine = (map, lat, lng, isLocked) => {
+  L.marker([lat, lng], {
+    target: { status: 'add' },
+    icon: markerPrincipleLineIcon(),
+    draggable: !isLocked,
+  })
+      .on('contextmenu', e => {
+        const welcomePopup = L.popup()
+            .setLatLng([lat, lng])
+            .setContent(welcomeSignPopupHTML())
+            .addTo(map);
+
+        window.deleteWelcome = () => {
+          map.removeLayer(e.target);
+          map.removeLayer(welcomePopup);
+        }
+      })
+      .addTo(map)
 }
 
 export const addRelateMarker = (map, lat, lng, isLocked) => {
