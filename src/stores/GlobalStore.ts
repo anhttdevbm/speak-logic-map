@@ -13,7 +13,7 @@ export class GlobalStore {
     grid: boolean = true;
     mainLand: boolean = false;
     simulation: boolean = false;
-    position: 'top' | 'down' | 'left' | 'right' = 'right';
+    position: 'top' | 'down' | 'left' | 'right' = 'left';
     sunMoon: 'sun' | 'moon' | '' = '';
     addIcon: string = "";
     click: boolean = true;

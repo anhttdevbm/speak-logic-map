@@ -625,7 +625,7 @@ function makeHtml(id) {
   return '<input type="text" value="" id="input_' + id + '" />'
 }
 
-export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption) => {
+export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
   let divIcon = L.divIcon({
     html: inputImageHtml(''),
     className: 'divIcon',
@@ -636,8 +636,14 @@ export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption)
     icon: divIcon
   }).addTo(map);
   togglePalletOption('');
+  window.changeFileImage = (input) => {
+    console.log(input)
+    debugger
+    setValueOfImage(input);
+    map.removeLayer(marker);
+  }
 }
 
 function inputImageHtml(id) {
-  return '<input type="file" value="" id="input_image_html" />'
+  return '<input type="file" onchange="changeFileImage(this.value)" value="" id="input_image_html" />'
 }

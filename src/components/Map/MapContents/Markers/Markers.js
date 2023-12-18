@@ -468,18 +468,20 @@ const Markers = ({setModal, setModalType}) => {
         globalStore.positionOfHorizontalLine, globalStore.mapLayer]);
 
     useEffect(() => {
-        console.log('document.getElementById(\'input_image_html\')', document.getElementById('input_image_html')?.files, document.getElementById('input_image_html')?.value)
-        if (globalStore.positionOfImagePallet.length > 0 && document.getElementById('input_image_html')) {
-            let image = document.getElementById('input_image_html');
-            debugger
-            let value = image.value;
+        console.log('document.getElementById(\'input_image_html\')',
+            document.getElementById('input_image_html')?.files,
+            document.getElementById('input_image_html')?.value)
+        // debugger
+        if (globalStore.positionOfImagePallet.length > 0 && globalStore.valueOfImage && globalStore.valueOfImage !== '') {
+            // debugger
+            let value = globalStore.valueOfImage;
 
-            let imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Sydney_Opera_House_-_Dec_2008.jpg/1024px-Sydney_Opera_House_-_Dec_2008.jpg';
-            let imageBounds = [globalStore.positionOfImagePallet, [-30.8650, 144.2094]];
+            // let imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Sydney_Opera_House_-_Dec_2008.jpg/1024px-Sydney_Opera_House_-_Dec_2008.jpg';
+            let imageBounds = [globalStore.positionOfImagePallet, [-25.8650, 110.2094]];
 
-            L.imageOverlay(imageUrl, imageBounds).addTo(map);
+            L.imageOverlay(value, imageBounds).addTo(map);
         }
-    }, [document.getElementById('input_image_html')?.value])
+    }, [globalStore.valueOfImage])
     // Handle events on map
     useMapEvents({
 
@@ -552,7 +554,8 @@ const Markers = ({setModal, setModalType}) => {
                     addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
                 } else if (globalStore.palletOption === 'image') {
                     globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
-                    addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
+                    addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
+                        globalStore.setValueOfImage)
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     if (globalStore.positionOfHorizontalLine.length === 0) {
                         globalStore.toggleModalInsertNumberPerson();
