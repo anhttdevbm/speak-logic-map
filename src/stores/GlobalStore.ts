@@ -555,8 +555,4 @@ export class GlobalStore {
             }
         }
     }
-
-    resetMapLayer = (): void => {
-        this.mapLayer = [];
-    }
 }
