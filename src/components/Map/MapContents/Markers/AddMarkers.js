@@ -11,7 +11,7 @@ import {
   markerMapElementIcon,
   markerRelateIcon,
   markerGivenSetIcon,
-  markerPersonWaveIcon
+  markerPersonWaveIcon, markerPrincipleLineIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
@@ -35,7 +35,8 @@ import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
 
-export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected) => {
+export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected,
+                                resetNumberPersonMobility, updateMapLayerById) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -43,9 +44,10 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
       status: 'add',
     },
     draggable: !isLocked,
-    icon: markerPersonIcon(styles['person'], `Person ${index}`, null)
+    icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
   })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected))
+    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
+        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }
@@ -511,12 +513,32 @@ export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenS
         `${styles['rectangle-fn']} ${styles['given-set-color']}`,
         `
         ${name}
-        <div class="${styles['arrow-given-set-bottom']}"></div>
+        <div id="line-given-set" class="${styles['arrow-given-set-bottom']}"></div><div id="arrow-given-set" class="${styles['arrow-down']}"></div>
       `
     ),
   }).addTo(map)
       .on('contextmenu', e => givenSetPopup(map, e, resetPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))
+}
+
+export const addMarkerPrincipleLine = (map, lat, lng, isLocked) => {
+  L.marker([lat, lng], {
+    target: { status: 'add' },
+    icon: markerPrincipleLineIcon(),
+    draggable: !isLocked,
+  })
+      .on('contextmenu', e => {
+        const welcomePopup = L.popup()
+            .setLatLng([lat, lng])
+            .setContent(welcomeSignPopupHTML())
+            .addTo(map);
+
+        window.deleteWelcome = () => {
+          map.removeLayer(e.target);
+          map.removeLayer(welcomePopup);
+        }
+      })
+      .addTo(map)
 }
 
 export const addRelateMarker = (map, lat, lng, isLocked) => {

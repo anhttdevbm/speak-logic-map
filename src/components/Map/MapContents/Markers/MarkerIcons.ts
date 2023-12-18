@@ -14,6 +14,7 @@ import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
 import SCROLL_ICON from '@/assets/icons/simulate-01.png';
+import PRINCIPLE_LINE_ICON from '@/assets/icons/icon-priciple-line.png';
 import {countryMapList} from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
 
@@ -48,6 +49,15 @@ export const markerNavigationSignIcon = (className: string): L.DivIcon => {
         iconSize: [80, 80],
         iconAnchor: [20, 30],
         html: `<img src=${ICON_NAVI_SIGN.src} alt="Naviagtion Sign" width="80" height="80" />`,
+    });
+}
+
+export const markerPrincipleLineIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [120, 120],
+        iconAnchor: [20, 30],
+        html: `<img src=${PRINCIPLE_LINE_ICON.src} alt="Principle line" width="120" height="120" />`,
     });
 }
 
