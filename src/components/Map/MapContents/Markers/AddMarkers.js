@@ -513,7 +513,7 @@ export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenS
         `${styles['rectangle-fn']} ${styles['given-set-color']}`,
         `
         ${name}
-        <div class="${styles['arrow-given-set-bottom']}"></div>
+        <div id="line-given-set" class="${styles['arrow-given-set-bottom']}"></div><div id="arrow-given-set" class="${styles['arrow-down']}"></div>
       `
     ),
   }).addTo(map)
