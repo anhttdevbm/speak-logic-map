@@ -627,7 +627,7 @@ function makeHtml(id) {
 
 export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
   let divIcon = L.divIcon({
-    html: inputImageHtml(''),
+    html: inputImageHtml(),
     className: 'divIcon',
     iconSize: [200, 50],
     iconAnchor: [0, 0]
@@ -636,14 +636,18 @@ export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption,
     icon: divIcon
   }).addTo(map);
   togglePalletOption('');
-  window.changeFileImage = (input) => {
-    console.log(input)
-    debugger
-    setValueOfImage(input);
+  window.changeFileImage = (event) => {
+    if (!event.target.files || event.target.files.length === 0) {
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+    setValueOfImage(objectUrl);
     map.removeLayer(marker);
   }
 }
 
-function inputImageHtml(id) {
-  return '<input type="file" onchange="changeFileImage(this.value)" value="" id="input_image_html" />'
+function inputImageHtml() {
+  return '<input id="input_image_html" type="file" accept="image/png, image/jpg, image/jpeg" onChange="changeFileImage(event)" />'
 }

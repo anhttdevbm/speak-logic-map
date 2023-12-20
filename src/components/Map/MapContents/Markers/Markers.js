@@ -468,21 +468,23 @@ const Markers = ({setModal, setModalType}) => {
         globalStore.positionOfHorizontalLine, globalStore.mapLayer]);
 
     useEffect(() => {
-        console.log('document.getElementById(\'input_image_html\')',
-            document.getElementById('input_image_html')?.files,
-            document.getElementById('input_image_html')?.value)
-        // debugger
         if (globalStore.positionOfImagePallet.length > 0 && globalStore.valueOfImage && globalStore.valueOfImage !== '') {
-            // debugger
             let value = globalStore.valueOfImage;
 
-            // let imageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Sydney_Opera_House_-_Dec_2008.jpg/1024px-Sydney_Opera_House_-_Dec_2008.jpg';
-            let imageBounds = [globalStore.positionOfImagePallet, [-25.8650, 110.2094]];
-
+            let imageBounds = [globalStore.positionOfImagePallet, [globalStore.positionOfImagePallet[0] - 20, globalStore.positionOfImagePallet[1] + 50]];
             L.imageOverlay(value, imageBounds).addTo(map);
+
+            // map.whenReady(function() {
+            //     let imageOverlay = L.distortableImageOverlay(value, {
+            //         actions: [L.OpacityAction, L.DeleteAction, L.RestoreAction],
+            //     }).addTo(map);
+            // })
+
+
+            // map.fitBounds(imageBounds);
         }
     }, [globalStore.valueOfImage])
-    // Handle events on map
+
     useMapEvents({
 
         // Open right-click menu on map
