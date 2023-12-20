@@ -1270,7 +1270,7 @@ export const floorPopup = (map, e, lat, lng) => {
         map.removeLayer(popup);
 
         e.target.bindPopup(
-            (e) => imgBoundPopupHTML(objectUrl, 'Floor'),
+            (e) => imgBoundPopupHTML(objectUrl,  undefined,'Floor'),
             {
                 offset: L.point(0, 60),
                 autoClose: false,

@@ -472,7 +472,7 @@ const Markers = ({setModal, setModalType}) => {
             let value = globalStore.valueOfImage;
 
             let imageBounds = [globalStore.positionOfImagePallet, [globalStore.positionOfImagePallet[0] - 20, globalStore.positionOfImagePallet[1] + 50]];
-            L.imageOverlay(value, imageBounds).addTo(map);
+            L.imageOverlay(value, imageBounds, {status: 'add'}).addTo(map);
 
             // map.whenReady(function() {
             //     let imageOverlay = L.distortableImageOverlay(value, {
