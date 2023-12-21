@@ -463,6 +463,7 @@ const Markers = ({setModal, setModalType}) => {
                 }
             } else {
                 globalStore.mapLayer.forEach(fn => {
+                    console.log('2')
                     if (fn.type === 'function' && fn.name !== "") {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else if (fn.type === 'person' && fn.name !== "") {
@@ -524,6 +525,7 @@ const Markers = ({setModal, setModalType}) => {
                     if (globalStore.tableView !== '') {
                         addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else {
+                        console.log('1')
                         addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                         globalStore.addMarkerFnToList(markerFnIndex[0])
                     }
