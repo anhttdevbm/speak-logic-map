@@ -319,6 +319,7 @@ export class GlobalStore {
             // this.mapElementSelected = '';
             // this.mapElementRelate = '';
         }
+        this.togglePalletOption('');
     }
 
     toggleTableView = (value: 'table-world' | 'table-countries' | ''): void => {

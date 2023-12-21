@@ -142,10 +142,56 @@ const Markers = ({setModal, setModalType}) => {
         }
     }, [globalStore.lock])
 
+    let drawnItemsLine = new L.FeatureGroup();
+    const drawControlLine = new L.Control.Draw({
+        draw: {
+            polyline: {
+                shapeOptions: {
+                    color: '#f06eaa', // Line color
+                },
+            }, rectangle: false, // Enable drawing rectangles
+            marker: false, circle: false, polygon: false, circlemarker: false
+        }, edit: {
+            featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
+            remove: true, edit: false
+        },
+    });
+
+    let drawnItemsRect = new L.FeatureGroup();
+    const drawControlRect = new L.Control.Draw({
+        draw: {
+            rectangle: true, // Enable drawing rectangles
+            polyline: false, marker: false, circle: false, polygon: false, circlemarker: false
+        }, edit: {
+            featureGroup: drawnItemsRect, // Create a feature group to store drawn rectangles
+            remove: true, edit: false
+        },
+    });
+
+    let drawnItemsCircle = new L.FeatureGroup();
+    const drawControlCircle = new L.Control.Draw({
+        draw: {
+            rectangle: false, // Enable drawing rectangles
+            marker: false, polyline: false, circle: true, polygon: false, circlemarker: false
+        }, edit: {
+            featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
+            remove: true, edit: false
+        },
+    });
+
     // Clear all map element
     useEffect(() => {
         if (globalStore.clear) {
+            map.removeLayer(drawnItemsRect);
+            map.removeControl(drawControlRect);
+            map.removeLayer(drawnItemsCircle);
+            map.removeControl(drawControlCircle);
+            map.removeLayer(drawnItemsLine);
+            map.removeControl(drawControlLine);
+
             map.eachLayer(layer => {
+                console.log(layer)
+
                 if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
                     layer.options.type?.status === 'add') {
@@ -156,7 +202,7 @@ const Markers = ({setModal, setModalType}) => {
                 }
             });
         }
-    }, [globalStore.clear])
+    }, [globalStore.clear]);
 
     // Get all function by wrapping in area (to add into a group)
     useEffect(() => {
@@ -195,45 +241,8 @@ const Markers = ({setModal, setModalType}) => {
             },
         });
 
-        let drawnItemsLine = new L.FeatureGroup();
-        const drawControlLine = new L.Control.Draw({
-            draw: {
-                polyline: {
-                    shapeOptions: {
-                        color: '#f06eaa', // Line color
-                    },
-                }, rectangle: false, // Enable drawing rectangles
-                marker: false, circle: false, polygon: false, circlemarker: false
-            }, edit: {
-                featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
-                remove: true, edit: false
-            },
-        });
-
-        let drawnItems = new L.FeatureGroup();
-        const drawControl = new L.Control.Draw({
-            draw: {
-                rectangle: true, // Enable drawing rectangles
-                polyline: false, marker: false, circle: false, polygon: false, circlemarker: false
-            }, edit: {
-                featureGroup: drawnItems, // Create a feature group to store drawn rectangles
-                remove: true, edit: false
-            },
-        });
-
-        let drawnItemsCircle = new L.FeatureGroup();
-        const drawControlCircle = new L.Control.Draw({
-            draw: {
-                rectangle: false, // Enable drawing rectangles
-                marker: false, polyline: false, circle: true, polygon: false, circlemarker: false
-            }, edit: {
-                featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
-                remove: true, edit: false
-            },
-        });
-
         const showScanSelection = () => {
-            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
             refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
             globalStore.togglePalletOption('pointer')
@@ -249,14 +258,14 @@ const Markers = ({setModal, setModalType}) => {
         }
 
         const insertTextToMap = () => {
-            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
             refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
             globalStore.togglePalletOption('text')
         }
 
         const insertImageToMap = () => {
-            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
             refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
             globalStore.togglePalletOption('image')
@@ -264,7 +273,7 @@ const Markers = ({setModal, setModalType}) => {
 
         const drawLine = () => {
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
-            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             if (globalStore.palletOption === 'pointer') {
                 areaSelection?.deactivate();
             }
@@ -292,20 +301,20 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.togglePalletOption('rectangle');
 
             if (globalStore.palletOption === 'rectangle') {
-                map.addLayer(drawnItems);
-                map.addControl(drawControl);
+                map.addLayer(drawnItemsRect);
+                map.addControl(drawControlRect);
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
-                    drawnItems.addLayer(layer);
+                    drawnItemsRect.addLayer(layer);
                 });
             } else {
-                refreshLayerAndControlRect(map, drawnItems, drawControl);
+                refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             }
         }
 
         const drawCircle = () => {
-            refreshLayerAndControlRect(map, drawnItems, drawControl);
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
             if (globalStore.palletOption === 'pointer') {
                 areaSelection?.deactivate();
@@ -363,17 +372,17 @@ const Markers = ({setModal, setModalType}) => {
     }
 
     const refreshLayerAndControlLine = (map, drawnItems, drawControl) => {
-        map.removeLayer(drawnItems);
+        // map.removeLayer(drawnItemsRect);
         map.removeControl(drawControl)
     }
 
     const refreshLayerAndControlRect = (map, drawnItems, drawControl) => {
-        map.removeLayer(drawnItems);
+        // map.removeLayer(drawnItemsRect);
         map.removeControl(drawControl)
     }
 
     const refreshLayerAndControlCircle = (map, drawnItems, drawControl) => {
-        map.removeLayer(drawnItems);
+        // map.removeLayer(drawnItemsRect);
         map.removeControl(drawControl)
     }
 
