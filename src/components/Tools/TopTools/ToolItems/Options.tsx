@@ -11,6 +11,10 @@ const Options: React.FC = (): JSX.Element => {
         !globalStore.houseView && globalStore.toggleClear();
     }
 
+    const turnOnAllLayer = () => {
+        globalStore.toggleBlankMap();
+    }
+
     const toggleMoreView = (name: string): void => {
         if (!globalStore.roomView
             && !globalStore.floorPlanView
@@ -71,6 +75,13 @@ const Options: React.FC = (): JSX.Element => {
               `}/>
                         </li>
                     </ul>
+                </li>
+                <li
+                    onClick={() => turnOnAllLayer()}>
+                    Turn On All Layer
+                    <CheckIcon
+                        className={`${styles['sub-icon']} ${globalStore.blankMap ? styles['hide'] : styles['show']}`}
+                    />
                 </li>
                 <li className={`${globalStore.map && styles['disable']}`}>
                     Country Mode

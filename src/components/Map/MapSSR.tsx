@@ -3,10 +3,11 @@ import React, {useEffect, useState} from 'react';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import {observer} from 'mobx-react-lite';
-import {MapContainer, Popup, Marker, Polygon, Tooltip, useMap} from "react-leaflet";
+import {GeoJSON, MapContainer} from "react-leaflet";
 import {useGlobalStore} from '@/providers/RootStoreProvider';
 import {getLocation} from '@/utils/get_geolocation';
 import {CountryData} from '@/pages/api/countries';
+import stateContents from '@/data/countries.json';
 
 import GridLayer from './MapContents/Grid/Grid';
 import Location from './MapContents/Location/Location';
@@ -37,6 +38,7 @@ import ScrollFeature from "../Map/MapContents/ScrollFeature/ScrollFeature";
 import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
+import {FeatureCollection} from "geojson";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -47,15 +49,13 @@ const getSizeFromModalType = (type: string): number[] => {
     const cutString = type.split("_");
     const sizeInfo = cutString[cutString.length - 1];
     const sizeStringArray = sizeInfo.split(',');
-    const sizeNumberArray = sizeStringArray.map(num => Number(num));
-    return sizeNumberArray;
+    return sizeStringArray.map(num => Number(num));
 }
 
 const getNamesFromModalType = (type: string): string[] => {
     const cutString = type.split("_");
     const nameInfo = cutString[cutString.length - 1];
-    const namesArray = nameInfo.split(',');
-    return namesArray;
+    return nameInfo.split(',');
 }
 
 const MapSSR: React.FC = (): JSX.Element => {
@@ -102,6 +102,8 @@ const MapSSR: React.FC = (): JSX.Element => {
         }
     }, [modal]);
 
+    const stateData = stateContents as FeatureCollection;
+
     return (
         <>
             <MapContainer
@@ -123,7 +125,7 @@ const MapSSR: React.FC = (): JSX.Element => {
                         :
                         globalStore.map
                             ? (
-                                <WorldMode/>
+                                <WorldMode stateData={stateData}/>
                             )
                             : selectedData.length > 0
                                 ? (

@@ -36,6 +36,7 @@ export class GlobalStore {
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
     clear: boolean = false;
+    blankMap: boolean = false;
     inAreaSelection: boolean = false;
     showRoomDistance: boolean = false;
     showFloorPlanDistance: boolean = false;
@@ -226,6 +227,10 @@ export class GlobalStore {
 
     toggleClear = (): void => {
         this.clear = !this.clear;
+    }
+
+    toggleBlankMap = (): void => {
+        this.blankMap = !this.blankMap;
     }
 
     setSunMoon = (value: 'sun' | 'moon' | ''): void => {

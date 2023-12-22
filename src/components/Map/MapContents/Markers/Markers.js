@@ -34,6 +34,7 @@ import {
     addMarkerWelcomeSign,
     addPersonInMobility, addInputTextPallet, addMarkerPrincipleLine, addInputImagePallet
 } from './AddMarkers'
+import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
 
 
 // Toggle boundary of selected item

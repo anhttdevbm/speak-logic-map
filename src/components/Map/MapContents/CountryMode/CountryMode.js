@@ -385,7 +385,9 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
       );
   
       countryGeo.addTo(map);
-      countryLand.addTo(map);
+      if (!globalStore.blankMap) {
+        countryLand.addTo(map);
+      }
       
       map.fitBounds(countryGeo.getBounds(), map.getZoom());
   
@@ -394,7 +396,7 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         countryLand && map.removeLayer(countryLand);
       }
     }
-  }, [globalStore.code, globalStore.searchCode, globalStore.mainLand, globalStore.lock]);
+  }, [globalStore.code, globalStore.searchCode, globalStore.mainLand, globalStore.lock, globalStore.blankMap]);
 
   // Update the country function's size.
   // useEffect(() => {
