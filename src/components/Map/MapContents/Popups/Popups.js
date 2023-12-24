@@ -530,10 +530,21 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     // let path =
     window.showMoveWithPath = () => {
         map.removeLayer(popup);
-        map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
             let currentLatLng = marker.getLatLng();
-            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
+
+            map.removeLayer(e.target);
+
+            // map.eachLayer(layer => {
+            //     if (layer.options.target?.status === 'add'
+            //         && layer.options.target?.type === 'person'
+            //         && layer.options.target?.index === index) {
+            //         debugger
+            //         map.removeLayer(layer);
+            //         debugger
+            //     }
+            // })
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -554,6 +565,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
         });
     }
 
