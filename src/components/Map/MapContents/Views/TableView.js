@@ -93,13 +93,13 @@ const TableView = ({selectedData, setModal, setModalType}) => {
 
         // Create a table's flag
 
-        const flagImgSrc = tableType === 'world' ? IMG_WORLD_FLAG.src : countryFlagList[tableType]
-        const flagTableLatLngs = [[bottomLeftFlagLatLng, topLeftFlagLatLng, topRightFlagLatLng, bottomRightFlagLatLng]];
-        const flagTableImg = L.imageOverlay(flagImgSrc, flagTableLatLngs);
-        flagTableImg.addTo(table).bringToBack();
+        // const flagImgSrc = tableType === 'world' ? IMG_WORLD_FLAG.src : countryFlagList[tableType]
+        // const flagTableLatLngs = [[bottomLeftFlagLatLng, topLeftFlagLatLng, topRightFlagLatLng, bottomRightFlagLatLng]];
+        // const flagTableImg = L.imageOverlay(flagImgSrc, flagTableLatLngs);
+        // flagTableImg.addTo(table).bringToBack();
 
 
-        let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine, flagTableImg]);
+        let group = new L.FeatureGroup([bodyTablePolygon, rightLegLine, leftLegLine, centerLegLine]);
         map.fitBounds(group.getBounds());
 
         const bodyTableLatLng = [[northTopLatLng, westTopLatLng, southTopLatLng, eastTopLatLng]]
@@ -108,7 +108,8 @@ const TableView = ({selectedData, setModal, setModalType}) => {
 
         globalStore.mapLayer.forEach(marker => {
             if (marker?.type === 'function') {
-                addMarkerFnEllipse(table, marker.lat, marker.lng, marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType)
+                let latLng = getRandomLatLngInBound(ellipseBounds)
+                addMarkerFnEllipse(table, latLng[0], latLng[1], marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType)
             }
         })
 
@@ -123,6 +124,16 @@ const TableView = ({selectedData, setModal, setModalType}) => {
                 }
             }
         });
+    }
+
+    const getRandomLatLngInBound = (bound) => {
+        console.log('getSouthWest', bound.getSouthWest());
+        console.log('getNorthEast', bound.getNorthEast());
+        console.log('getNorthWest', bound.getNorthWest());
+        console.log('getSouthEast', bound.getSouthEast());
+        let randomLat = Math.random() * (bound.getNorthEast().lat - bound.getSouthWest().lat) + bound.getSouthWest().lat;
+        let randomLng = Math.random() * (bound.getNorthEast().lng - bound.getNorthWest().lng) + bound.getNorthWest().lng;
+        return [randomLat, randomLng]
     }
 
     const handleAddFuncToTable = (latlng, table, bodyTableLatLngs) => {

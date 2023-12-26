@@ -33,6 +33,7 @@ const countryFnFontSize = 14;
 const countryFnMaxZoom = 16;
 const alllayer = [];
 const countryPopup = L.popup();
+let isShowBlankMap = false;
 
 const getScaleValue = (zoom) => {
   return Math.round(Math.pow(zoom - 1, 2) / 2.5);
@@ -325,6 +326,26 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         }
   
         // Country Mode Popup
+
+        // Show Blank Map
+        window.showBlankMap = () => {
+          map.eachLayer(function (layer) {
+            map.removeLayer(layer);
+          });
+          L.geoJSON(geoJson, {
+            style: function (feature) {
+              return {
+                fillColor: 'white',
+                weight: 1,
+                fillOpacity: 1
+              };
+            }
+          }).addTo(map);
+          countryPopup
+              .setLatLng([e.latlng.lat, e.latlng.lng])
+              .setContent(countryModePopupHTML())
+              .addTo(map);
+        }
         
   
         setTimeout(() => {
@@ -364,7 +385,9 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
       );
   
       countryGeo.addTo(map);
-      countryLand.addTo(map);
+      if (!globalStore.blankMap) {
+        countryLand.addTo(map);
+      }
       
       map.fitBounds(countryGeo.getBounds(), map.getZoom());
   
@@ -373,7 +396,7 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         countryLand && map.removeLayer(countryLand);
       }
     }
-  }, [globalStore.code, globalStore.searchCode, globalStore.mainLand, globalStore.lock]);
+  }, [globalStore.code, globalStore.searchCode, globalStore.mainLand, globalStore.lock, globalStore.blankMap]);
 
   // Update the country function's size.
   // useEffect(() => {

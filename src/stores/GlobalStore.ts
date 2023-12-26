@@ -13,7 +13,7 @@ export class GlobalStore {
     grid: boolean = true;
     mainLand: boolean = false;
     simulation: boolean = false;
-    position: 'top' | 'down' | 'left' | 'right' = 'right';
+    position: 'top' | 'down' | 'left' | 'right' = 'left';
     sunMoon: 'sun' | 'moon' | '' = '';
     addIcon: string = "";
     click: boolean = true;
@@ -27,15 +27,16 @@ export class GlobalStore {
     mapView: 'map-world' | 'map-countries' | '' = 'map-world';
     tableView: 'table-world' | 'table-countries' | '' = '';
     moreView: 'more-world' | 'more-countries' | '' = '';
-    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | '' = '';
+    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | 'population-view-principle-line' | '' = '';
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
-    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | '' = '';
+    rectName: 'rect-non-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
-    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | '' = '';
+    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
     clear: boolean = false;
+    blankMap: boolean = false;
     inAreaSelection: boolean = false;
     showRoomDistance: boolean = false;
     showFloorPlanDistance: boolean = false;
@@ -43,6 +44,8 @@ export class GlobalStore {
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
+    showModalInsertNumberFunctionMoreView: boolean = false;
+    showModalInsertNumberPersonMoreView: boolean = false;
     showModalInsertNumberPerson: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
@@ -50,11 +53,17 @@ export class GlobalStore {
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     numberPersonInHorizontalLine = 0;
+    numberFunctionMoreView = 0;
+    numberPersonMoreView = 0;
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
+    positionOfImagePallet: any[] = [];
+    valueOfImage: string = '';
     mapElementSelected = '';
+    listMapElementSelected: any[] = [];
     mapElementRelate = '';
+    listMapElementRelate: any[] = [];
     positionOfMapElementSelected: any[] = [];
     typeMobility: 'path' | 'no-path' | '' = 'path';
     numberPersonMobility: any = 0;
@@ -88,8 +97,23 @@ export class GlobalStore {
         this.numberPersonInHorizontalLine = value;
     }
 
+    setNumberFunctionMoreView = (value: number) => {
+        this.numberFunctionMoreView = value;
+    }
+
+    setNumberPersonMoreView = (value: number) => {
+        this.numberPersonMoreView = value;
+    }
+
     setPositionOfTextPallet = (lat: number, lng: number) => {
         this.positionOfTextPallet = [lat, lng];
+    }
+
+    setPositionOfImagePallet = (lat: number, lng: number) => {
+        this.positionOfImagePallet = [lat, lng];
+    }
+    setValueOfImage = (value: string) => {
+        this.valueOfImage = value;
     }
 
     resetPositionScroll = () => {
@@ -205,6 +229,10 @@ export class GlobalStore {
         this.clear = !this.clear;
     }
 
+    toggleBlankMap = (): void => {
+        this.blankMap = !this.blankMap;
+    }
+
     setSunMoon = (value: 'sun' | 'moon' | ''): void => {
         this.sunMoon = value;
     }
@@ -276,7 +304,7 @@ export class GlobalStore {
         }
     }
 
-    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | ''): void => {
+    toggleRectName = (value: 'rect-non-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | ''): void => {
         if (value === this.rectName) {
             this.rectName = '';
         } else {
@@ -296,6 +324,7 @@ export class GlobalStore {
             // this.mapElementSelected = '';
             // this.mapElementRelate = '';
         }
+        this.togglePalletOption('');
     }
 
     toggleTableView = (value: 'table-world' | 'table-countries' | ''): void => {
@@ -327,7 +356,7 @@ export class GlobalStore {
         }
     }
 
-    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | ''): void => {
+    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | ''): void => {
         if (value === this.palletOption) {
             this.palletOption = '';
         } else {
@@ -357,6 +386,14 @@ export class GlobalStore {
 
     toggleModalInsertCountry = (): void => {
         this.showModalInsertCountry = !this.showModalInsertCountry;
+    }
+
+    toggleModalNumberFunctionMoreView = (): void => {
+        this.showModalInsertNumberFunctionMoreView = !this.showModalInsertNumberFunctionMoreView;
+    }
+
+    toggleModalNumberPersonMoreView = (): void => {
+        this.showModalInsertNumberPersonMoreView = !this.showModalInsertNumberPersonMoreView;
     }
     toggleModalInsertNumberPerson = (): void => {
         this.showModalInsertNumberPerson = !this.showModalInsertNumberPerson;
@@ -395,6 +432,30 @@ export class GlobalStore {
         }
     }
 
+    resetListMarkerFunction = (): void => {
+        this.listMarkerFunction = [];
+    }
+
+    addMarkerFnToNearLast = (index: number): void => {
+        if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
+            let newElement = {key: index, value: 'Function ' + index, shape: 'rectangle'};
+            let positionBeforeEnd = this.listMarkerFunction.length - 2;
+            this.listMarkerFunction.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
+    addMarkerPersonToNearLast = (index: number): void => {
+        if (this.listMarkerPopulation.filter(item => item.key == index).length === 0) {
+            let newElement = {key: index, value: 'Person  ' + index};
+            let positionBeforeEnd = this.listMarkerPopulation.length - 2;
+            this.listMarkerPopulation.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
+    resetListMarkerPopulation = (): void => {
+        this.listMarkerPopulation = [];
+    }
+
     setShapeOfMarkerFn = (name: number, shape: string): void => {
         for (let i = 0; i < this.listMarkerFunction.length; i++) {
             if (this.listMarkerFunction[i].value === name) {
@@ -430,15 +491,83 @@ export class GlobalStore {
         this.mapElementSelected = value;
     }
 
-    setMapElementRelate = (value: any): void => {
-        this.mapElementRelate = value;
+    setListMapElementSelected = (value: any): void => {
+        let id = this.listMapElementSelected.length;
+        this.listMapElementSelected.push({
+            id: id,
+            name: value,
+            position: [],
+            status: false,
+            related: null,
+            statusRelate: false
+        });
+    }
+
+    setPersonToListMapElementSelected = (value: any, lat: any, lng: any, relate: any): void => {
+        let id = this.listMapElementSelected.length;
+        this.listMapElementSelected.push({
+            id: id,
+            name: value,
+            position: [lat, lng],
+            status: true,
+            related: relate,
+            statusRelate: false
+        });
+        this.listMapElementRelate.push(relate);
+    }
+
+    changePositionOfMapElementSelected = (lat: any, lng: any, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.position = [lat, lng];
+            }
+        })
+    }
+
+    changeStatusOfMapElementSelected = (status: any, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.status = status;
+            }
+        })
+    }
+
+    changeStatusOfMapElementRelated = (status: any, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.statusRelate = status;
+            }
+        })
+    }
+
+    setMapElementRelate = (value: any, id: any): void => {
+        this.listMapElementRelate.push(value);
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.related = value;
+            }
+        })
     }
 
     setPositionOfMapElementSelected = (lat: number, lng: number) => {
         this.positionOfMapElementSelected = [lat, lng];
     }
 
-    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function'): void => {
-        this.mapLayer.push({lat: lat, lng: lng, name: value, type: type})
+    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function') => {
+        let id = this.mapLayer.length + 1;
+        this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})
+    }
+
+    resetMapLayer = () => {
+        this.mapLayer = [];
+    }
+
+    updateMapLayerById = (lat: any, lng: any, type: 'person' | 'function', name: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].type === type && this.mapLayer[i].name === name) {
+                this.mapLayer[i].lat = lat;
+                this.mapLayer[i].lng = lng;
+            }
+        }
     }
 }

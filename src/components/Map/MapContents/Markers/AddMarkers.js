@@ -11,7 +11,7 @@ import {
   markerMapElementIcon,
   markerRelateIcon,
   markerGivenSetIcon,
-  markerPersonWaveIcon
+  markerPersonWaveIcon, markerPrincipleLineIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
@@ -35,7 +35,8 @@ import { dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
   clickLine, clickArc, clickArrow, staticArcRouteInit 
 } from './HandleRouteAndDistance';
 
-export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected) => {
+export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected,
+                                resetNumberPersonMobility, updateMapLayerById) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -43,9 +44,10 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
       status: 'add',
     },
     draggable: !isLocked,
-    icon: markerPersonIcon(styles['person'], `Person ${index}`)
+    icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
   })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected))
+    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
+        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }
@@ -279,7 +281,7 @@ export const addRoute = (map, lat, lng, isLocked) => {
     [[lat, lng2], [lat, lng]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
     .addTo(map);
 
   const polyline = new L.Polyline(
@@ -287,7 +289,7 @@ export const addRoute = (map, lat, lng, isLocked) => {
     { kind: 'inter-route', type: 'line', color: 'black', status: 'add' }
   )
     .setText("Inter-route", { center: true, offset: -3 })
-    .arrowheads({ color: 'black', type: 'arrow', size: '5%' })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5%', status: 'add' })
     .on('contextmenu', (e) => routePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Inter-route')
     )
@@ -326,7 +328,7 @@ export const addDistance = (map, lat, lng, isLocked) => {
     [[lat, lng2], [lat, lng]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
     .addTo(map);
 
   const polyline = new L.Polyline(
@@ -334,7 +336,7 @@ export const addDistance = (map, lat, lng, isLocked) => {
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     .setText("Distance", { center: true, offset: -3 })
-    .arrowheads({ color: 'black', type: 'arrow', size: '5%' })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5%', status: 'add' })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )
@@ -375,7 +377,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     [[lat2, lng2], [lat1, lng1]],
     { color: 'transparent', status: 'add' }
   )
-    .arrowheads({ size: '5px', color: 'black', type: 'arrow' })
+    .arrowheads({ size: '5px', color: 'black', type: 'arrow', status: 'add' })
     .addTo(map);
   
   let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -385,7 +387,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
     { kind: 'distance', type: 'line', color: 'black', status: 'add' }
   )
     
-    .arrowheads({ color: 'black', type: 'arrow', size: '5px' })
+    .arrowheads({ color: 'black', type: 'arrow', size: '5px', status: 'add' })
     .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
     .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
     )
@@ -422,8 +424,64 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
   distancePoint.on('click', (e) => clickArrow(map, distancePoint));
   distancePoint2.on('click', (e) => clickArrow(map, distancePoint2));
 }
+//Show distance only d
+export const addShotDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) => {
+  const distancePoint = addDistancePoint(map, lat1, lng1, isLocked, type);
+  const distancePoint2 = addDistancePoint(map, lat2, lng2, isLocked, type);
 
-export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElementRelate, setPositionOfMapElementSelected) => {
+  const polyline_1 = new L.Polyline(
+      [[lat2, lng2], [lat1, lng1]],
+      { color: 'transparent', status: 'add' }
+  )
+      .arrowheads({ size: '5px', color: 'black', type: 'arrow', status: 'add' })
+      .addTo(map);
+
+  let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
+
+  const polyline = new L.Polyline(
+      [[lat1, lng1], [lat2, lng2]],
+      { kind: 'distance', type: 'line', color: 'black', status: 'add' }
+  )
+
+      .arrowheads({ color: 'black', type: 'arrow', size: '5px', status: 'add' })
+      .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
+      .on('click', (e) => clickLine(map, e, distancePoint, distancePoint2, 'Distance')
+      )
+      .addTo(map);
+
+  const latLng = polyline.getLatLngs();
+  const distance = map.distance(
+      L.latLng(latLng[0].lat, latLng[0].lng),
+      L.latLng(latLng[1].lat, latLng[1].lng)
+  );
+
+  polyline.setText(`d`, { center: true, offset: -3, orientation: orientation, attributes: {fill: 'black'}})
+
+  distancePoint.parentLine = polyline;
+  distancePoint2.parentLine = polyline;
+  distancePoint.parentLine_1 = polyline_1;
+  distancePoint2.parentLine_1 = polyline_1;
+
+  const { latlng1, latlng2, midpointLatLng, pathOptions } = staticArcRouteInit(lat1, lng1, lat2, lng2);
+  pathOptions.kind = 'distance';
+
+  const curvedPath = L.curve(
+      ['M', latlng1, 'Q', midpointLatLng, latlng2],
+      pathOptions
+  )
+      .addTo(map)
+      .on('contextmenu', (e) => distancePopup(map, distancePoint, distancePoint2, e))
+      .on('click', (e) => clickArc(map, e, distancePoint, distancePoint2, 'Distance'))
+
+
+  curvedPath.setText = polyline.setText;
+  distancePoint.parentArc = curvedPath;
+  distancePoint2.parentArc = curvedPath;
+  distancePoint.on('click', (e) => clickArrow(map, distancePoint));
+  distancePoint2.on('click', (e) => clickArrow(map, distancePoint2));
+}
+
+export const addMarkerMapElement = (map, lat, lng, isLocked, mapElement, setMapElementRelate, setPositionOfMapElementSelected) => {
   setPositionOfMapElementSelected(lat, lng);
   L.marker([lat, lng], {
     draggable: !isLocked,
@@ -434,26 +492,53 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, name, setMapElement
     },
     icon: markerMapElementIcon(
         `${styles['rectangle-fn']} ${styles['map-element']}`,
-        `${name}`
+        `${mapElement.name}`
     ),
   }).addTo(map)
-      .on('contextmenu', e => mapElementPopup(map, e, setMapElementRelate))
+      .on('contextmenu', e => mapElementPopup(map, e, setMapElementRelate, mapElement.id))
       .on('click', e => addSelectedItem(e, map, isLocked))
 }
 
 export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
   setPositionOfHorizontalLine(lat, lng);
+  name = 'The Given Set'
   L.marker([lat, lng], {
-    draggable: false,
+    draggable: !isLocked,
     type: {
       type: 'the-given-set',
       shape: 'rectangle',
       status: 'add',
     },
-    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+    icon: markerFnIcon(
+        `${styles['rectangle-fn']} ${styles['given-set-color']}`,
+        `
+        ${name}
+        <div id="line-given-set" class="${styles['arrow-given-set-bottom']}"></div><div id="arrow-given-set" class="${styles['arrow-down']}"></div>
+      `
+    ),
   }).addTo(map)
       .on('contextmenu', e => givenSetPopup(map, e, resetPositionOfHorizontalLine))
       .on('click', e => addSelectedItem(e, map, isLocked))
+}
+
+export const addMarkerPrincipleLine = (map, lat, lng, isLocked) => {
+  L.marker([lat, lng], {
+    target: { status: 'add' },
+    icon: markerPrincipleLineIcon(),
+    draggable: !isLocked,
+  })
+      .on('contextmenu', e => {
+        const welcomePopup = L.popup()
+            .setLatLng([lat, lng])
+            .setContent(welcomeSignPopupHTML())
+            .addTo(map);
+
+        window.deleteWelcome = () => {
+          map.removeLayer(e.target);
+          map.removeLayer(welcomePopup);
+        }
+      })
+      .addTo(map)
 }
 
 export const addRelateMarker = (map, lat, lng, isLocked) => {
@@ -505,7 +590,8 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
           [lat, lng]
         ],
         {
-          color: typeMobility === 'path' ? 'black' : "transparent"
+          color: typeMobility === 'path' ? 'black' : "transparent",
+          status: 'add'
         },
         {
           auto: true,
@@ -517,7 +603,51 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
           icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
         }
     )
-        .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow' })
+        .arrowheads({ size: '5%', color: typeMobility === 'path' ? 'black' : "transparent", type: 'arrow', status: 'add' })
         .addTo(map)
   };
+}
+
+export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {
+  let divIcon = L.divIcon({
+    html: makeHtml(2),
+    className: 'divIcon',
+    iconSize: [200, 50],
+    iconAnchor: [0, 0]
+  });
+  L.marker([lat, lng], {
+    icon: divIcon
+  }).addTo(map);
+  togglePalletOption('')
+}
+
+function makeHtml(id) {
+  return '<input type="text" value="" id="input_' + id + '" />'
+}
+
+export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
+  let divIcon = L.divIcon({
+    html: inputImageHtml(),
+    className: 'divIcon',
+    iconSize: [200, 50],
+    iconAnchor: [0, 0]
+  });
+  let marker = L.marker([lat, lng], {
+    icon: divIcon
+  }).addTo(map);
+  togglePalletOption('');
+  window.changeFileImage = (event) => {
+    if (!event.target.files || event.target.files.length === 0) {
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(event.target.files[0]);
+
+    setValueOfImage(objectUrl);
+    map.removeLayer(marker);
+  }
+}
+
+function inputImageHtml() {
+  return '<input id="input_image_html" type="file" accept="image/png, image/jpg, image/jpeg" onChange="changeFileImage(event)" />'
 }

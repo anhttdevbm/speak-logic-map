@@ -5,11 +5,12 @@ import {useMap} from 'react-leaflet';
 import {allLayer} from '../Variables/Variables';
 import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
-import { markerMapCountryIcon, markerPlusIcon,
+import {
+    markerMapCountryIcon, markerPlusIcon,
     markerRectHouseIcon, markerRectNameIcon,
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
-import {addStaticDistance} from '../Markers/AddMarkers';
+import {addShotDistance, addStaticDistance} from '../Markers/AddMarkers';
 import {removeRectIconPopup} from "@/components/Map/MapContents/Popups/Popups";
 
 const RectView = ({selectedData}) => {
@@ -61,88 +62,42 @@ const RectView = ({selectedData}) => {
                     allLayer.push(layer);
                 });
 
-
                 if (globalStore.map) {
-                    console.log('zoom', zoom)
-                    const firstLat = -60;
-                    const firstLng = -120;
-                    let latList = [53, 15, -32];
-                    let lngList = [-99, -52, -4, 41, 88];
-                    if (zoom >= 3) {
-                        latList = [53, 20, 0, -20 -40];
-                        lngList = [-99, -75, -52, -28, -4, 20, 44, 68, 94];
-                    }
-                    // Add the floor-plan boundary
-                    let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-                    fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
-                    fpBoundary.addTo(map);
+                    // Rectangle View Non-linear
+                    if (globalStore.rectName === 'rect-non-linear') {
+                        const firstLat = -25;
+                        const firstLng = -180;
+                        let latList = [12.5, 15];
+                        let lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
+                        let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                        fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                        fpBoundary.addTo(map);
 
-                    let listCountry = globalStore.listCountryInRect;
-                    let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
-                    if (listCountryIncludedPlus.length === 0) {
-                        listCountry.push({codeName: '', fullName: ''});
-                    }
-                    moveToLast(listCountry);
-                    listCountry.forEach((country, index) => {
-                        let countryMarker;
-
-                        if (globalStore.rectName === 'rect-distance') {
-                            let latListt = [53, 15, -32];
-                            let lngListt = [-99, -36, 29, 90];
-                            if (zoom >= 3) {
-                                latListt = [53, 20, 0, -20 -40];
-                                lngListt = [-99, -57, -18, 20, 60, 100];
-                            }
-                            if (country.codeName !== '') {
-                                const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
-                                countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
-                                    options: {
-                                        type: country.codeName,
-                                    },
-                                    icon: markerRectHouseIcon(
-                                        `${styles['rect-house-icon']}`,
-                                        nameIcon.toUpperCase()),
-                                }).addTo(map)
-                                if (index < listCountry.length - 2) {
-                                    addStaticDistance(map, latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length],
-                                        latListt[Math.floor((index + 1) / lngListt.length)], lngListt[(index + 1) % lngListt.length], true, 'rect-distance')
-                                }
-                            } else {
-                                countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
-                                    options: {
-                                        type: 'room',
-                                    },
-                                    icon: markerPlusIcon(
-                                        `${styles['plus-icon']}`),
-                                })
-                                    .on('click', e => {
-                                        globalStore.toggleModalInsertCountry();
-                                    })
-                                    .addTo(map);
-                            }
-                        } else {
-                            const lat = latList[Math.floor(index / lngList.length)];
-                            const lng = lngList[index % lngList.length];
+                        let listCountry = globalStore.listCountryInRect;
+                        let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
+                        if (listCountryIncludedPlus.length === 0) {
+                            listCountry.push({codeName: '', fullName: ''});
+                        }
+                        moveToLast(listCountry);
+                        let numberCountry = listCountry.length;
+                        listCountry.forEach((country, index) => {
+                            let countryMarker;
+                            const lat = latList[Math.floor(index / numberCountry)];
+                            let lng = numberCountry <= 8
+                                ? lngList[index % lngList.length]
+                                : index === numberCountry - 1
+                                    ? 155
+                                    : -155 + (310 / numberCountry) * index;
                             if (country.codeName !== '') {
                                 const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
                                 countryMarker = L.marker([lat, lng], {
                                     options: {
                                         type: country.codeName,
                                     },
-                                    icon: globalStore.rectName === 'rect-house'
-                                        ? markerRectHouseIcon(
-                                            `${styles['rect-house-icon']}`,
-                                            nameIcon.toUpperCase())
-                                        : globalStore.rectName === 'rect-house-no-border'
-                                            ? markerRectHouseIcon(
-                                                `${styles['rect-house-icon-no-border']}`,
-                                                nameIcon.toUpperCase())
-                                            : globalStore.rectName === 'rect-map'
-                                                ? markerMapCountryIcon(
-                                                    `${styles['rect-house-icon']}`,
-                                                    nameIcon.toUpperCase(), country.codeName.toUpperCase())
-                                                : markerRectNameIcon(`${styles['rect-house-icon']}`,
-                                                    nameIcon.toUpperCase()),
+                                    icon: markerRectHouseIcon(
+                                        `${styles['rect-house-icon']}`,
+                                        nameIcon.toUpperCase())
+                                    ,
                                 })
                                     .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
                                     .addTo(map);
@@ -160,10 +115,146 @@ const RectView = ({selectedData}) => {
                                     })
                                     .addTo(map);
                             }
+
+                            countriesLayer.push(countryMarker);
+                        })
+                    } else {
+                        const firstLat = -60;
+                        const firstLng = -120;
+                        let latList = [53, 15, -32];
+                        let lngList = [-99, -52, -4, 41, 88];
+                        if (zoom >= 3) {
+                            latList = [53, 20, 0, -20 - 40];
+                            lngList = [-99, -75, -52, -28, -4, 20, 44, 68, 94];
                         }
-                        countriesLayer.push(countryMarker);
-                    })
+                        // Add the floor-plan boundary
+                        let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                        fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                        fpBoundary.addTo(map);
+
+                        let listCountry = globalStore.listCountryInRect;
+                        let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
+                        if (listCountryIncludedPlus.length === 0) {
+                            listCountry.push({codeName: '', fullName: ''});
+                        }
+                        moveToLast(listCountry);
+                        listCountry.forEach((country, index) => {
+                            let countryMarker;
+
+                            if (globalStore.rectName === 'rect-distance') {
+                                let latListt = [53, 15, -32];
+                                let lngListt = [-99, -36, 29, 90];
+                                if (zoom >= 3) {
+                                    latListt = [53, 20, 0, -20 - 40];
+                                    lngListt = [-99, -57, -18, 20, 60, 100];
+                                }
+                                if (country.codeName !== '') {
+                                    const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
+                                    countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                        options: {
+                                            type: country.codeName,
+                                        },
+                                        icon: markerRectHouseIcon(
+                                            `${styles['rect-house-icon']}`,
+                                            nameIcon.toUpperCase()),
+                                    }).addTo(map)
+                                    if (index < listCountry.length - 2) {
+                                        addStaticDistance(map, latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length],
+                                            latListt[Math.floor((index + 1) / lngListt.length)], lngListt[(index + 1) % lngListt.length], true, 'rect-distance')
+                                    }
+                                } else {
+                                    countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                        options: {
+                                            type: 'room',
+                                        },
+                                        icon: markerPlusIcon(
+                                            `${styles['plus-icon']}`),
+                                    })
+                                        .on('click', e => {
+                                            globalStore.toggleModalInsertCountry();
+                                        })
+                                        .addTo(map);
+                                }
+                            } else if (globalStore.rectName === 'rect-shot-distance') {
+                                let latListt = [53, 15, -32];
+                                let lngListt = [-99, -36, 29, 90];
+                                if (zoom >= 3) {
+                                    latListt = [53, 20, 0, -20 - 40];
+                                    lngListt = [-99, -57, -18, 20, 60, 100];
+                                }
+                                if (country.codeName !== '') {
+                                    const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
+                                    countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                        options: {
+                                            type: country.codeName,
+                                        },
+                                        icon: markerRectHouseIcon(
+                                            `${styles['rect-house-icon']}`,
+                                            nameIcon.toUpperCase()),
+                                    }).addTo(map)
+                                    if (index < listCountry.length - 2) {
+                                        addShotDistance(map, latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length],
+                                            latListt[Math.floor((index + 1) / lngListt.length)], lngListt[(index + 1) % lngListt.length], true, 'rect-distance')
+                                    }
+                                } else {
+                                    countryMarker = L.marker([latListt[Math.floor(index / lngListt.length)], lngListt[index % lngListt.length]], {
+                                        options: {
+                                            type: 'room',
+                                        },
+                                        icon: markerPlusIcon(
+                                            `${styles['plus-icon']}`),
+                                    })
+                                        .on('click', e => {
+                                            globalStore.toggleModalInsertCountry();
+                                        })
+                                        .addTo(map);
+                                }
+                            } else {
+                                const lat = latList[Math.floor(index / lngList.length)];
+                                const lng = lngList[index % lngList.length];
+                                if (country.codeName !== '') {
+                                    const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
+                                    countryMarker = L.marker([lat, lng], {
+                                        options: {
+                                            type: country.codeName,
+                                        },
+                                        icon: globalStore.rectName === 'rect-house'
+                                            ? markerRectHouseIcon(
+                                                `${styles['rect-house-icon']}`,
+                                                nameIcon.toUpperCase())
+                                            : globalStore.rectName === 'rect-house-no-border'
+                                                ? markerRectHouseIcon(
+                                                    `${styles['rect-house-icon-no-border']}`,
+                                                    nameIcon.toUpperCase())
+                                                : globalStore.rectName === 'rect-map'
+                                                    ? markerMapCountryIcon(
+                                                        `${styles['rect-house-icon']}`,
+                                                        nameIcon.toUpperCase(), country.codeName.toUpperCase())
+                                                    : markerRectNameIcon(`${styles['rect-house-icon']}`,
+                                                        nameIcon.toUpperCase()),
+                                    })
+                                        .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                        .addTo(map);
+
+                                } else {
+                                    countryMarker = L.marker([lat, lng], {
+                                        options: {
+                                            type: 'room',
+                                        },
+                                        icon: markerPlusIcon(
+                                            `${styles['plus-icon']}`),
+                                    })
+                                        .on('click', e => {
+                                            globalStore.toggleModalInsertCountry();
+                                        })
+                                        .addTo(map);
+                                }
+                            }
+                            countriesLayer.push(countryMarker);
+                        })
+                    }
                 }
+
             } else if (globalStore.rectangularView === 'rect-country') {
                 map.eachLayer(layer => {
                     if (layer._arrowheads) {
@@ -266,7 +357,7 @@ const RectView = ({selectedData}) => {
                 });
             };
         }, [globalStore.map, globalStore.listCountryInRect, globalStore.rectangularView, globalStore.rectName,
-                selectedData, globalStore.showModalInsertCountry, zoom]
+            selectedData, globalStore.showModalInsertCountry, zoom]
     );
 
     const moveToLast = (arr) => {

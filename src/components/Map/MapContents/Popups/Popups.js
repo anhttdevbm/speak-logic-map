@@ -7,7 +7,7 @@ import 'leaflet-arrowheads';
 import {
     markerFnIcon, markerFnCircleIcon, markerPersonIcon,
     markerCustomImgIcon, markerCustomAudioIcon, markerCustomVideoIcon,
-    markerCountryFnIcon, markerRoomIcon
+    markerCountryFnIcon, markerRoomIcon, markerGivenSetIcon, markerPersonWaveIcon
 } from '../Markers/MarkerIcons';
 
 import {handleName, markerFnIndex, markerProblemIndex, selectedList} from '../Variables/Variables';
@@ -77,7 +77,7 @@ const stopFnRunningFeatures = (e) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on world map
-export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setMapElementSelected) => {
+export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, setListMapElementSelected) => {
     clearAllPopups(map);
     const popupWorld = L.popup();
     popupWorld.options.type = 'world_popup';
@@ -102,7 +102,7 @@ export const worldPopup = (map, e, isMap, toggleHouseView, setMapElementRelate, 
     }
 
     window.handleSelectMapElement = (value) => {
-        setMapElementSelected(value);
+        setListMapElementSelected(value);
         map.removeLayer(popupWorld);
     }
 }
@@ -491,14 +491,14 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
-export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setMapElementRelate, setMapElementSelected, setPositionOfMapElementSelected) => {
+export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected,
+                            resetNumberPersonMobility, updateMapLayerById) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
         offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
-
 
     window.openRenameModal = () => {
         setModal(true);
@@ -533,24 +533,27 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
+            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
                 {
-                    color: 'black'
+                    color: 'black',
+                    status: 'add'
                 },
                 {
                     auto: true,
-                    duration: 5000
+                    duration: 3000
                 },
                 {
                     removeOnEnd: false,
                     showMarker: true,
-                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
+            map.off('click');
         });
     }
 
@@ -559,31 +562,88 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         map.on('click', function (e) {
             let clickedLatLng = e.latlng;
             let currentLatLng = marker.getLatLng();
+            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
                 {
-                    color: 'transparent'
+                    color: 'transparent',
+                    status: 'add'
                 },
                 {
                     auto: true,
-                    duration: 5000
+                    duration: 3000
                 },
                 {
                     removeOnEnd: false,
                     showMarker: true,
-                    icon: markerPersonIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow' })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
                 .addTo(map);
+            // map.off('click');
+        });
+    }
+
+    window.showMoveWithPathGivenSet = () => {
+        map.removeLayer(popup);
+        map.on('click', function (e) {
+            let clickedLatLng = e.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'black',
+                    status: 'add'
+                },
+                {
+                    auto: true,
+                    duration: 3000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
+                .addTo(map);
+            map.off('click');
+        });
+    }
+
+    window.showMoveWithoutPathGivenSet = () => {
+        map.removeLayer(popup);
+        map.on('click', function (e) {
+            let clickedLatLng = e.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'transparent',
+                    status: 'add'
+                },
+                {
+                    auto: true,
+                    duration: 3000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
+                .addTo(map);
+            map.off('click');
         });
     }
 
     window.addRelatePerson = (value) => {
-        setPositionOfMapElementSelected(e.latlng.lat, e.latlng.lng)
-        setMapElementRelate(value);
-        setMapElementSelected('Person');
+        setPersonToListMapElementSelected('Person', e.latlng.lat, e.latlng.lng, value);
         map.removeLayer(popup);
         console.log('ement')
     }
@@ -862,11 +922,13 @@ export const routePopup = (map, distancePoint, distancePoint2, e) => {
                 color: 'black',
                 type: 'arrow',
                 size: '5%',
+                status: 'add'
             }).addTo(map);
             distancePoint.parentLine.arrowheads({
                 color: 'black',
                 type: 'arrow',
                 size: '5%',
+                status: 'add'
             }).addTo(map);
 
         } else {
@@ -878,7 +940,7 @@ export const routePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint.getLatLng().lat, distancePoint.getLatLng().lng]
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             const arcArrow_1 = L.polyline(
                 [
@@ -886,7 +948,7 @@ export const routePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint2.getLatLng().lat, distancePoint2.getLatLng().lng]
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             distancePoint.parentArcArrow = arcArrow;
             distancePoint.parentArcArrow_1 = arcArrow_1;
@@ -995,7 +1057,7 @@ export const distancePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint.getLatLng().lat, distancePoint.getLatLng().lng],
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             const arcArrow_1 = L.polyline(
                 [
@@ -1003,7 +1065,7 @@ export const distancePopup = (map, distancePoint, distancePoint2, e) => {
                     [distancePoint2.getLatLng().lat, distancePoint2.getLatLng().lng],
                 ],
                 {color: 'transparent'}
-            ).arrowheads({color: 'black'}).addTo(map);
+            ).arrowheads({color: 'black', status: 'add', type: 'arrow'}).addTo(map);
 
             distancePoint.parentArcArrow = arcArrow;
             distancePoint.parentArcArrow_1 = arcArrow_1;
@@ -1208,7 +1270,7 @@ export const floorPopup = (map, e, lat, lng) => {
         map.removeLayer(popup);
 
         e.target.bindPopup(
-            (e) => imgBoundPopupHTML(objectUrl, 'Floor'),
+            (e) => imgBoundPopupHTML(objectUrl,  undefined,'Floor'),
             {
                 offset: L.point(0, 60),
                 autoClose: false,
@@ -1457,7 +1519,7 @@ export const roomPopup = (map, e) => {
 }
 
 // Popup shown when right-click element map marker
-export const mapElementPopup = (map, e, setMapElementRelate) => {
+export const mapElementPopup = (map, e, setMapElementRelate, id) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: mapElementPopupHTML(),
@@ -1466,7 +1528,7 @@ export const mapElementPopup = (map, e, setMapElementRelate) => {
     popup.addTo(map);
 
     window.handleSelectMapRelate = (value) => {
-        setMapElementRelate(value);
+        setMapElementRelate(value, id);
         map.removeLayer(popup);
     }
 }
@@ -1482,6 +1544,51 @@ export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
         resetPositionOfHorizontalLine();
         map.removeLayer(popup);
         map.removeLayer(e.target);
+    }
+    window.arrowDirectionBottom = () => {
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-down"]);
+        map.removeLayer(popup);
+    }
+    window.arrowDirectionRight = () => {
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        map.removeLayer(popup);
+
+    }
+    window.arrowDirectionLeft = () => {
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        map.removeLayer(popup);
+    }
+    window.arrowDirectionTop = () => {
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set').classList.add(styles["arrow-up"]);
+        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        map.removeLayer(popup);
     }
 }
 

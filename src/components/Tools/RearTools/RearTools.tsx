@@ -31,7 +31,7 @@ const ItemList: ItemInterface[] = [
   {value: 'philosophy', Icon: CircleIcon, name: 'Philosophy', ability: false},
   {value: 'welcome-sign', Icon: WelcomeSignIcon, name: 'Welcome', ability: true},
   {value: 'scroll-feature', Icon: ScrollFeatureIcon, name: 'Scroll feature', ability: true},
-  {value: 'horizontal-line', Icon: HorizontalLineIcon, name: 'Horizontal Line', ability: true},
+  {value: 'horizontal-line', Icon: HorizontalLineIcon, name: 'Principle Line', ability: true},
   {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
   {value: 'mobility', Icon: MobilityIcon, name: 'Mobility', ability: true},
 

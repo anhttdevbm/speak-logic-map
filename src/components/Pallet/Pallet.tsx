@@ -14,6 +14,7 @@ import {
     RectanglePallet
 } from '../Icons/Icons';
 import styles from './_Pallet.module.scss';
+import {FileImageOutlined} from "@ant-design/icons";
 
 const Pallet: React.FC = (): JSX.Element => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -72,6 +73,11 @@ const Pallet: React.FC = (): JSX.Element => {
                      className={`${styles['pallet-item']} ${globalStore.palletOption === 'circle' ? styles['active'] : null}`}>
                     <CircleIcon/>
                     <span>Circle</span>
+                </div>
+                <div id="image-event"
+                     className={`${styles['pallet-item']} ${globalStore.palletOption === 'image' ? styles['active'] : null}`}>
+                    <FileImageOutlined rev={undefined} />
+                    <span>Image</span>
                 </div>
             </div>
         </div>

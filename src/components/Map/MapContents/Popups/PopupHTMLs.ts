@@ -200,6 +200,12 @@ export const personPopupHTML = (): string => {
           <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
             Show Move Without Path
           </div>
+          <div onclick="showMoveWithPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path With The Given Set
+          </div>
+          <div onclick="showMoveWithoutPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path With The Given Set
+          </div>
         </div>
       </div>
       <div class="${styles['row']} ${styles['on-hover']}">
@@ -336,7 +342,7 @@ export const mainsetPopupHTML = (): string => {
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
         <div onclick="insertHorizontalLine()" class="${styles['row']}">
-          Insert Horizontal Line
+          Insert Principle Line
         </div>
         <div onclick="deleteMainSet()" class="${styles['row']}">
           Delete Main Set
@@ -970,7 +976,23 @@ export const mapElementPopupHTML = (): string => {
 export const givenSetPopupHTML = (): string => {
     return `
     <div class="${styles['popup-interact-function']} ${styles['popup-wrap']}">
-      <div 
+    <div 
+        onclick="arrowDirectionTop()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Top</div>
+    <div 
+        onclick="arrowDirectionRight()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Right</div>
+    <div 
+        onclick="arrowDirectionBottom()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Bottom</div>
+    <div 
+        onclick="arrowDirectionLeft()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Arrow Direction Left</div>
+    <div 
         onclick="deleteMainSet()"
         class="${styles['row']} ${styles['on-hover']}"
       >Delete Item</div>

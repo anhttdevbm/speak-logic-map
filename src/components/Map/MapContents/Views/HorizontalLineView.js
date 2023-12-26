@@ -87,7 +87,7 @@ const HorizontalLineView = () => {
                     }
 
                     const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black'})
+                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black', status: 'add'})
                         .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
                     horizontalLine.addTo(map);
 

@@ -31,13 +31,13 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
 
   const generateBoat = (boatType, centerLatLng, boat, boatName) => {
     const isWorldBoat = boatType === 'world';
-    const bodyBoatWidthPX = isWorldBoat ? 600 : 75;
-    const bodyBoatTopWidthPX = isWorldBoat ? bodyBoatWidthPX + 200 : bodyBoatWidthPX + 25;
-    const bodyBoatHeightPX = isWorldBoat ? 250 : 30;
-    const poleBoatHeightPX = isWorldBoat ? 300 : 35;
-    const flagBoatWidthPX = isWorldBoat ? 200 : 25;
-    const flagBoatHeightPX = isWorldBoat ? 100 : 13;
-    const boatNamePoint = isWorldBoat ? L.point(80, 0) : L.point(13, 0)
+    const bodyBoatWidthPX = isWorldBoat ? 600 : 30;
+    const bodyBoatTopWidthPX = isWorldBoat ? bodyBoatWidthPX + 200 : bodyBoatWidthPX + 15;
+    const bodyBoatHeightPX = isWorldBoat ? 250 : 10;
+    const poleBoatHeightPX = isWorldBoat ? 300 : 15;
+    const flagBoatWidthPX = isWorldBoat ? 200 : 15;
+    const flagBoatHeightPX = isWorldBoat ? 100 : 10;
+    const boatNamePoint = isWorldBoat ? L.point(80, 0) : L.point(10, 0)
     
     // Get the 4 sides's latlngs of the boat's body
     const centerPoint = map.latLngToContainerPoint(centerLatLng); // Convert center latlng to point
@@ -48,7 +48,7 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
     const topLeftLatLng = map.containerPointToLatLng(topLeftPoint); // Convert top left point to lat lng
     const topRightLatLng = map.containerPointToLatLng(topRightPoint); // Convert top right point to lat lng
     const bottomRightLatLng = map.containerPointToLatLng(bottomRightPoint);  // Convert bottom right point to lat lng
-    const bottomLeftLatLng = map.containerPointToLatLng(bottomLeftPoint);; // Convert botom left point to lat lng
+    const bottomLeftLatLng = map.containerPointToLatLng(bottomLeftPoint); // Convert botom left point to lat lng
     
     // Get the latlngs of the boat's pole
     const topBounds = L.latLngBounds(topLeftLatLng, topRightLatLng);
@@ -73,11 +73,11 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
     const topRightWavePoint = centerWavePoint.subtract([(-bodyBoatTopWidthPX) / 2, bodyBoatHeightPX ])
     const bottomRightWavePoint = centerWavePoint.add([bodyBoatTopWidthPX / 2, bodyBoatHeightPX ]); // Calculate the bottom right Wavepoint
     const bottomLeftWavePoint = centerWavePoint.add([-bodyBoatTopWidthPX / 2, bodyBoatHeightPX ]);
-    console.log(centerWavePoint, topLeftWavePoint, topRightWavePoint, bottomRightWavePoint, bottomLeftWavePoint)
+    // console.log(centerWavePoint, topLeftWavePoint, topRightWavePoint, bottomRightWavePoint, bottomLeftWavePoint)
     const topLeftWaveLatLng = map.containerPointToLatLng(topLeftWavePoint); // Convert top left point to lat lng
     const topRightWaveLatLng = map.containerPointToLatLng(topRightWavePoint); // Convert top right point to lat lng
     const bottomRightWaveLatLng = map.containerPointToLatLng(bottomRightWavePoint);  // Convert bottom right point to lat lng
-    const bottomLeftWaveLatLng = map.containerPointToLatLng(bottomLeftWavePoint);; // Convert botom left point to lat lng
+    const bottomLeftWaveLatLng = map.containerPointToLatLng(bottomLeftWavePoint); // Convert botom left point to lat lng
     // Create a boat's body from an array of LatLng points
     const bodyBoatLatLngs = [[bottomLeftLatLng, topLeftLatLng, topRightLatLng, bottomRightLatLng]];
     const bodyBoatPolygon = L.polygon(bodyBoatLatLngs, {weight: 5, color: 'black', fillColor: 'transparent', className: 'boat-body'});
@@ -86,7 +86,7 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
 
     // Create a boat's pole 
     const poleBoatLatLngs = [[bottomPoleLatLng, topPoleLatLng],]
-    const poleBoatLine = L.polyline(poleBoatLatLngs, {weight: 7, color: 'black'})
+    const poleBoatLine = L.polyline(poleBoatLatLngs, {weight: 5, color: 'black'})
     poleBoatLine.addTo(boat);
 
     // Create a boat's flag
@@ -326,7 +326,6 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
       boatBody.ondragover = (e) => e.preventDefault();
 
       boatBody.ondrop = (e) => {
-        console.log("OK")
         const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
         if (globalStore.addIcon === 'function') {

@@ -9,10 +9,12 @@ import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
 import ICON_MAIN_SET from '@/assets/icons/main-set-icon.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
+import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
 import SCROLL_ICON from '@/assets/icons/simulate-01.png';
+import PRINCIPLE_LINE_ICON from '@/assets/icons/icon-priciple-line.png';
 import {countryMapList} from '@/utils/country_map_list';
 import {countryFlagList} from "@/utils/country_flag_list";
 
@@ -47,6 +49,15 @@ export const markerNavigationSignIcon = (className: string): L.DivIcon => {
         iconSize: [80, 80],
         iconAnchor: [20, 30],
         html: `<img src=${ICON_NAVI_SIGN.src} alt="Naviagtion Sign" width="80" height="80" />`,
+    });
+}
+
+export const markerPrincipleLineIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [120, 120],
+        iconAnchor: [20, 30],
+        html: `<img src=${PRINCIPLE_LINE_ICON.src} alt="Principle line" width="120" height="120" />`,
     });
 }
 
@@ -206,7 +217,7 @@ export const markerBoatWorldIcon = (className: string, name: string, imgSrc: str
 export const markerMapElementIcon = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 100],
+        iconSize: [190, 70],
         iconAnchor: [50, 25],
         html: name,
     })
@@ -230,6 +241,17 @@ export const markerVerticalPersonIcon = (className: string): L.DivIcon => {
         iconAnchor: [50, 25],
         html: `<div>
                     <img src=${ICON_VERTICAL_PERSON.src} alt="House" width="100" height="100" />
+               </div>`,
+    })
+}
+
+export const markerVerticalArrowIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [200, 100],
+        iconAnchor: [50, 25],
+        html: `<div>
+                    <img src=${ICON_VERTICAL_ARROW.src} alt="House" width="100" height="100" />
                </div>`,
     })
 }
@@ -292,6 +314,15 @@ export const markerPlusIcon = (className: string): L.DivIcon => {
         iconSize: [80, 80],
         iconAnchor: [50, 25],
         html: `<img src=${ICON_PLUS.src} alt="Group" width="70" height="70"/>`
+    })
+}
+
+export const markerPlusMoreViewIcon = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [80, 80],
+        iconAnchor: [50, 25],
+        html: `<img src=${ICON_PLUS.src} alt="Group" width="30" height="30"/>`
     })
 }
 
