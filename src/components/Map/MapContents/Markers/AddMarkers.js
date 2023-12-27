@@ -48,7 +48,7 @@ export const checkMarkerExist = (map, index, type) => {
         }
     });
 
-    // console.log('existArr', existArr)
+    console.log('existArr', existArr, existArr.includes(true))
     return existArr.includes(true);
 }
 

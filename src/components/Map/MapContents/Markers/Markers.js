@@ -4,6 +4,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
+// import 'leaflet-distortableimage/dist/leaflet.distortableimage';
+// import 'leaflet-distortableimage/dist/leaflet.distortableimage.css';
 import "@elfalem/leaflet-curve";
 import "leaflet-textpath";
 import "leaflet-arrowheads";
@@ -416,7 +418,7 @@ const Markers = ({setModal, setModalType}) => {
                     //     globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
                     //     globalStore.updateMapLayerById)
                     let index = markerPersonIndex[0];
-                    globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
+                    globalStore.setMapLayer(latlng.lat, latlng.lng, 'Person ' + index, 'person')
                     globalStore.addMarkerPopulationToList(index)
                     markerPersonIndex[0]++;
                     globalStore.addIconHandle('');
@@ -453,9 +455,12 @@ const Markers = ({setModal, setModalType}) => {
                     if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')) {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else if (fn.type === 'person' && fn.name !== "") {
-                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal,
-                            setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                            globalStore.updateMapLayerById)
+                        let index = fn.name.replace("Person ", "");
+                        if (!checkMarkerExist(map, index, 'person')) {
+                            addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
+                                setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                                globalStore.updateMapLayerById);
+                        }
                     }
                 })
             }
@@ -478,9 +483,11 @@ const Markers = ({setModal, setModalType}) => {
                         }
                     } else if (fn.type === 'person' && fn.name !== "") {
                         let index = fn.name.replace("Person ", "");
-                        addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
-                            setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                            globalStore.updateMapLayerById);
+                        if (!checkMarkerExist(map, index, 'person')) {
+                            addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
+                                setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                                globalStore.updateMapLayerById);
+                        }
                     }
                 })
             }
@@ -494,6 +501,10 @@ const Markers = ({setModal, setModalType}) => {
 
             let imageBounds = [globalStore.positionOfImagePallet, [globalStore.positionOfImagePallet[0] - 20, globalStore.positionOfImagePallet[1] + 50]];
             L.imageOverlay(value, imageBounds, {status: 'add'}).addTo(map);
+
+            // let imageOverlay = L.distortableImageOverlay(value, {
+            //     actions: [L.OpacityAction, L.DeleteAction, L.RestoreAction],
+            // }).addTo(map);
 
             // map.whenReady(function() {
             //     let imageOverlay = L.distortableImageOverlay(value, {
