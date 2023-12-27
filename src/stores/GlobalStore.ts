@@ -430,6 +430,7 @@ export class GlobalStore {
         if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
             this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
         }
+        this.listMarkerFunction = this.listMarkerFunction.sort(this.customSort);
     }
 
     resetListMarkerFunction = (): void => {
@@ -476,8 +477,30 @@ export class GlobalStore {
     }
 
     addMarkerPopulationToList = (index: number): void => {
-        this.listMarkerPopulation.push({key: index, value: 'Person  ' + index})
+        if (this.listMarkerPopulation.filter(item => item.key == index).length === 0) {
+            this.listMarkerPopulation.push({key: index, value: 'Person  ' + index});
+        }
+        this.listMarkerPopulation = this.listMarkerPopulation.sort(this.customSort);
     }
+    customSort = (a: any, b: any) => {
+        const keyA = a.key;
+        const keyB = b.key;
+
+        // Check if the keys are numbers
+        const isANumber = typeof keyA === 'number';
+        const isBNumber = typeof keyB === 'number';
+
+        if (isANumber && isBNumber) {
+            return keyA - keyB; // Compare as numbers
+        } else if (isANumber) {
+            return -1; // 'a' is a number, comes first
+        } else if (isBNumber) {
+            return 1; // 'b' is a number, comes first
+        } else {
+            // Both are non-numeric strings, compare them
+            return keyA.localeCompare(keyB);
+        }
+    };
 
     removeMarkerPopulationList = (index: number): void => {
         this.listMarkerPopulation = this.listMarkerPopulation.filter((item: any) => item.key != index)
@@ -555,7 +578,9 @@ export class GlobalStore {
 
     setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function') => {
         let id = this.mapLayer.length + 1;
-        this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})
+        if (this.mapLayer.filter(item => item.value === value && item.type === type).length === 0) {
+            this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})
+        }
     }
 
     resetMapLayer = () => {

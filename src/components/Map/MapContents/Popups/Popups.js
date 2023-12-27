@@ -7,7 +7,7 @@ import 'leaflet-arrowheads';
 import {
     markerFnIcon, markerFnCircleIcon, markerPersonIcon,
     markerCustomImgIcon, markerCustomAudioIcon, markerCustomVideoIcon,
-    markerCountryFnIcon, markerRoomIcon, markerGivenSetIcon, markerPersonWaveIcon
+    markerCountryFnIcon, markerRoomIcon, markerGivenSetIcon, markerPersonWaveIcon, markerGivenSetPersonWaveIcon
 } from '../Markers/MarkerIcons';
 
 import {handleName, markerFnIndex, markerProblemIndex, selectedList} from '../Variables/Variables';
@@ -530,10 +530,11 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     // let path =
     window.showMoveWithPath = () => {
         map.removeLayer(popup);
-        map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
             let currentLatLng = marker.getLatLng();
-            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
+
+            map.removeLayer(e.target);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -554,15 +555,17 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
         });
     }
 
     window.showMoveWithoutPath = () => {
         map.removeLayer(popup);
-        map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
             let currentLatLng = marker.getLatLng();
-            updateMapLayerById(e.latlng.lat, e.latlng.lng, 'person', 'Person '+ index);
+
+            map.removeLayer(e.target);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -582,15 +585,18 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             )
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
                 .addTo(map);
-            // map.off('click');
+            map.off('click');
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
         });
     }
 
     window.showMoveWithPathGivenSet = () => {
         map.removeLayer(popup);
-        map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
             let currentLatLng = marker.getLatLng();
+
+            map.removeLayer(e.target);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -605,20 +611,23 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 {
                     removeOnEnd: false,
                     showMarker: true,
-                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`)
+                    icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
         });
     }
 
     window.showMoveWithoutPathGivenSet = () => {
         map.removeLayer(popup);
-        map.on('click', function (e) {
-            let clickedLatLng = e.latlng;
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
             let currentLatLng = marker.getLatLng();
+
+            map.removeLayer(e.target);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -633,19 +642,19 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 {
                     removeOnEnd: false,
                     showMarker: true,
-                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`)
+                    icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
         });
     }
 
     window.addRelatePerson = (value) => {
         setPersonToListMapElementSelected('Person', e.latlng.lat, e.latlng.lng, value);
         map.removeLayer(popup);
-        console.log('ement')
     }
 
     window.deleteItem = () => {

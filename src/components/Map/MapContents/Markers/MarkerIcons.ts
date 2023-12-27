@@ -7,7 +7,7 @@ import ICON_WAVE from '@/assets/images/wave.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
-import ICON_MAIN_SET from '@/assets/icons/main-set-icon.png';
+import ICON_MAIN_SET from '@/assets/icons/icon-given-set-2.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
 import ICON_RELATE from '@/assets/icons/related-icon.png';
@@ -231,6 +231,22 @@ export const markerGivenSetIcon = (className: string): L.DivIcon => {
         html: `<div>
                     <img src=${ICON_MAIN_SET.src} alt="House" width="150" height="150" />
                </div>`,
+    })
+}
+
+export const markerGivenSetPersonWaveIcon = (className: string, name: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [40, 40],
+        iconAnchor: [20, 30],
+        html: (
+            `<div>
+                <img src=${ICON_MAIN_SET.src} style="margin-top: -130px; margin-left: -54px" alt="House" width="150" height="150" />
+                <img src="${ICON_PERSON.src}" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%);" alt="Person" width="40" height="40" />
+                <div class="${styles["marker-person-name"]}">${name}</div>
+                <img src="${ICON_WAVE.src}" style="margin-top: 10px; margin-left: -30px" width="100" height="100" alt="wave"/>
+            </div>`
+        ),
     })
 }
 

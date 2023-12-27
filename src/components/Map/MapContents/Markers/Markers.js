@@ -4,6 +4,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
+// import 'leaflet-distortableimage/dist/leaflet.distortableimage';
+// import 'leaflet-distortableimage/dist/leaflet.distortableimage.css';
 import "@elfalem/leaflet-curve";
 import "leaflet-textpath";
 import "leaflet-arrowheads";
@@ -32,7 +34,7 @@ import {
     addRelateMarker,
     addMarkerGivenSet,
     addMarkerWelcomeSign,
-    addPersonInMobility, addInputTextPallet, addMarkerPrincipleLine, addInputImagePallet
+    addPersonInMobility, addInputTextPallet, addMarkerPrincipleLine, addInputImagePallet, checkMarkerExist
 } from './AddMarkers'
 import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
 
@@ -412,13 +414,19 @@ const Markers = ({setModal, setModalType}) => {
                 const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
                 if (globalStore.addIcon === 'person') {
-                    addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
-                        globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                        globalStore.updateMapLayerById)
+                    // addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+                    //     globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                    //     globalStore.updateMapLayerById)
+                    let index = markerPersonIndex[0];
+                    globalStore.setMapLayer(latlng.lat, latlng.lng, 'Person ' + index, 'person')
+                    globalStore.addMarkerPopulationToList(index)
                     markerPersonIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
-                    addMarkerFn(map, latlng.lat, latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType)
+                    // addMarkerFn(map, latlng.lat, latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType)
+                    let index = markerFnIndex[0];
+                    globalStore.addMarkerFnToList(index)
+                    globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function');
                     markerFnIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'house') {
@@ -459,12 +467,15 @@ const Markers = ({setModal, setModalType}) => {
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
                 globalStore.mapLayer.forEach(fn => {
-                    if (fn.type === 'function' && fn.name !== "") {
+                    if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')) {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                     } else if (fn.type === 'person' && fn.name !== "") {
-                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal,
-                            setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                            globalStore.updateMapLayerById)
+                        let index = fn.name.replace("Person ", "");
+                        if (!checkMarkerExist(map, index, 'person')) {
+                            addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
+                                setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                                globalStore.updateMapLayerById);
+                        }
                     }
                 })
             }
@@ -479,13 +490,19 @@ const Markers = ({setModal, setModalType}) => {
                 }
             } else {
                 globalStore.mapLayer.forEach(fn => {
-                    console.log('2')
-                    if (fn.type === 'function' && fn.name !== "") {
-                        addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                    if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')) {
+                        if (globalStore.tableView !== '') {
+                            addMarkerFnEllipse(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                        } else {
+                            addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                        }
                     } else if (fn.type === 'person' && fn.name !== "") {
-                        addMarkerPerson(map, fn.lat, fn.lng, fn.name.replace("Person ", ""), globalStore.lock, setModal,
-                            setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                            globalStore.updateMapLayerById)
+                        let index = fn.name.replace("Person ", "");
+                        if (!checkMarkerExist(map, index, 'person')) {
+                            addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
+                                setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                                globalStore.updateMapLayerById);
+                        }
                     }
                 })
             }
@@ -499,6 +516,10 @@ const Markers = ({setModal, setModalType}) => {
 
             let imageBounds = [globalStore.positionOfImagePallet, [globalStore.positionOfImagePallet[0] - 20, globalStore.positionOfImagePallet[1] + 50]];
             L.imageOverlay(value, imageBounds, {status: 'add'}).addTo(map);
+
+            // let imageOverlay = L.distortableImageOverlay(value, {
+            //     actions: [L.OpacityAction, L.DeleteAction, L.RestoreAction],
+            // }).addTo(map);
 
             // map.whenReady(function() {
             //     let imageOverlay = L.distortableImageOverlay(value, {
@@ -529,22 +550,22 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.click) {
                 // Add Person Marker
                 if (globalStore.addIcon === 'person') {
-                    addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal,
-                        setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                        globalStore.updateMapLayerById)
+                    // addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal,
+                    //     setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                    //     globalStore.updateMapLayerById);
                     let index = markerPersonIndex[0];
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
                     globalStore.addMarkerPopulationToList(index)
                     markerPersonIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
-                    if (globalStore.tableView !== '') {
-                        addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
-                    } else {
-                        console.log('1')
-                        addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
-                        globalStore.addMarkerFnToList(markerFnIndex[0])
-                    }
+                    // if (globalStore.tableView !== '') {
+                    //     globalStore.addMarkerFnToList(markerFnIndex[0])
+                    //     // addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                    // } else {
+                    //     // addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                    // }
+                    globalStore.addMarkerFnToList(markerFnIndex[0])
                     globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function');
                     // let index = markerFnIndex[0];
                     // globalStore.addMarkerFnToList(index)

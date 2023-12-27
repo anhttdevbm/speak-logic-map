@@ -21,6 +21,7 @@
     "leaflet-area-select": "^1.0.5",
     "leaflet-arrowheads": "^1.4.0",
     "leaflet-boundary-canvas": "^1.0.0",
+    "leaflet-distortableimage": "^0.21.9",
     "leaflet-draw": "^1.0.4",
     "leaflet-ellipse": "^0.9.1",
     "leaflet-textpath": "^1.2.3",

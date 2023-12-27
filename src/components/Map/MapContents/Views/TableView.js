@@ -3,7 +3,7 @@ import L from 'leaflet';
 import "leaflet-ellipse";
 import { observer } from 'mobx-react-lite';
 import { useMap } from 'react-leaflet';
-import { allLayer } from '../Variables/Variables';
+import {allLayer, markerFnIndex} from '../Variables/Variables';
 import { useEffect, useState } from 'react';
 import { useCountryStore, useGlobalStore } from '@/providers/RootStoreProvider';
 import {addMarkerFn, addMarkerFnEllipse} from '../Markers/AddMarkers';
@@ -67,7 +67,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         //Create 4 legs of table
 
         let ellipseBounds = bodyTablePolygon.getBounds();
-        setBodyTableLatLngState(ellipseBounds);
+        // setBodyTableLatLngState(ellipseBounds);
         let northTopLatLng = L.latLng(ellipseBounds.getNorth(), ellipseBounds.getCenter().lng);
         let westTopLatLng = L.latLng(ellipseBounds.getCenter().lat, ellipseBounds.getWest());
         const westTopPoint = map.latLngToContainerPoint(westTopLatLng);
@@ -103,6 +103,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         map.fitBounds(group.getBounds());
 
         const bodyTableLatLng = [[northTopLatLng, westTopLatLng, southTopLatLng, eastTopLatLng]]
+        setBodyTableLatLngState(bodyTableLatLng);
 
         const polygonForOnClick = L.polygon(bodyTableLatLng, {weight: 5, color: 'black', fillColor: 'transparent', className: 'table-body'});
 
@@ -127,10 +128,6 @@ const TableView = ({selectedData, setModal, setModalType}) => {
     }
 
     const getRandomLatLngInBound = (bound) => {
-        console.log('getSouthWest', bound.getSouthWest());
-        console.log('getNorthEast', bound.getNorthEast());
-        console.log('getNorthWest', bound.getNorthWest());
-        console.log('getSouthEast', bound.getSouthEast());
         let randomLat = Math.random() * (bound.getNorthEast().lat - bound.getSouthWest().lat) + bound.getSouthWest().lat;
         let randomLng = Math.random() * (bound.getNorthEast().lng - bound.getNorthWest().lng) + bound.getNorthWest().lng;
         return [randomLat, randomLng]
@@ -144,7 +141,12 @@ const TableView = ({selectedData, setModal, setModalType}) => {
             }
         });
 
-        const markerFn = addMarkerFn(table, latlng.lat, latlng.lng, count + 1, globalStore.lock, setModal, setModalType)
+        let index = markerFnIndex[0];
+        globalStore.addMarkerFnToList(index)
+        globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function');
+
+        const markerFn = addMarkerFnEllipse(table, latlng.lat, latlng.lng, count + 1, globalStore.lock, setModal, setModalType)
+        markerFnIndex[0]++;
         globalStore.addIconHandle('');
 
         const turfPol = []; // Create a turf polygon coordinates array
