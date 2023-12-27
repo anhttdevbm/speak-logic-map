@@ -3,10 +3,7 @@ import styles from "./_ModalContents.module.scss";
 import React, {useEffect, useState} from "react";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
-import {
-    Button, Col, Form, Input, notification, Space,
-    Radio, Row, Select, Table, TableProps
-} from "antd";
+import {Button, Col, Form, Input, notification, Radio, Row, Select, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
 import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
 import {DeleteOutlined} from "@ant-design/icons";
@@ -27,6 +24,20 @@ interface DataType {
     endColor?: string;
 }
 
+enum notificationDes {
+    country = 'A country cannot be duplicated.  ' +
+        'It is not possible to identify a duplicate country or a country twice.  ' +
+        'The selected country is already added or in the map and cannot be added to the map or view again.  ' +
+        'Please, select another country.',
+    function = 'A function cannot be duplicated.  ' +
+        'It is not possible to identify a duplicate function or a function twice.  ' +
+        'The selected function is already added or in the map and cannot be added to the map or view again.  ' +
+        'Please, select another function.',
+    date = 'The start date must be less than the end date',
+    Performance = 'The start performance must be less than the end performance'
+
+}
+
 const ScrollFeatureViewM = () => {
     const columns: ColumnsType<DataType> = [
         {
@@ -35,7 +46,7 @@ const ScrollFeatureViewM = () => {
             key: 'x',
             render: (text, row) => (
                 <Button onClick={() => handleDelete(row)}
-                        icon={<DeleteOutlined rev={undefined} />}>
+                        icon={<DeleteOutlined rev={undefined}/>}>
                 </Button>
             ),
         },
@@ -118,19 +129,17 @@ const ScrollFeatureViewM = () => {
 
     const handleSave = () => {
         closeModal();
-        // @ts-ignore
         const startPer = data[0].startPerformance == null ? 0 : data[0].startPerformance;
-        // @ts-ignore
         const endPer = data[0].endPerformance == null ? 0 : data[0].endPerformance;
         const functions = data.map(value => value.functionName);
-        let countNumbeOfFunction = 0;
+        let countNumberOfFunction = 0;
         let numberMax = 0;
         data.forEach(value => {
             const numberFunction = Number(value.numberFunction) ? Number(value.numberFunction) : 0;
-            countNumbeOfFunction += numberFunction;
+            countNumberOfFunction += numberFunction;
             numberMax = numberFunction > numberMax ? numberFunction : numberMax;
         });
-        const numberMin = Math.round(countNumbeOfFunction / data.length);
+        const numberMin = Math.round(countNumberOfFunction / data.length);
         const stepPerformance = Math.round(numberMax / numberMin);
 
         const dataScroll = {
@@ -144,7 +153,6 @@ const ScrollFeatureViewM = () => {
             endDate: data[0].endDate
 
         }
-        console.log(dataScroll);
         globalStore.setDataScroll(dataScroll);
         setIsClickAdd(false);
     }
@@ -182,26 +190,38 @@ const ScrollFeatureViewM = () => {
                 }
         }
     }
-    const openNotification = () => {
+    const openNotification = (description: string) => {
         api.open({
             message: 'Warning',
             type: 'warning',
             duration: 3,
-            description:
-                'A country cannot be duplicated.  ' +
-                'It is not possible to identify a duplicate country or a country twice.  ' +
-                'The selected country is already added or in the map and cannot be added to the map or view again.  ' +
-                'Please, select another country.',
+            description: description,
         });
     };
-    const isDuplicate = () => {
+    const isDuplicateContry = () => {
         return data.find(value => value.country == country) == undefined ||
             data.find(value => value.country == country) == null;
     }
+
+    const isDuplicateFunction = (value: DataType) => {
+        return data.find(e => e.functionName == value.functionName) == undefined ||
+            data.find(e => e.functionName == value.functionName) == null;
+    }
+
+    const validate = (value: DataType) => {
+        let flag = true;
+        if (!isDuplicateContry()) {
+            flag = false;
+            openNotification(notificationDes.country);
+        } else if (!isDuplicateFunction(value)) {
+            flag = false;
+            openNotification(notificationDes.function);
+        }
+        return flag;
+    }
+
     const onFinish = (value: DataType) => {
-        if (!isDuplicate()) {
-            openNotification();
-        } else if (isClickAdd) {
+        if (validate(value) && isClickAdd) {
             const simulation = value.simulation ?? data[0].simulation;
             const objectColor = convertColor(simulation);
             const copyValue: DataType = {
@@ -242,7 +262,6 @@ const ScrollFeatureViewM = () => {
     }
 
     const handleDelete = (row: DataType) => {
-        console.log(row)
         const list = data.filter(value => value.key != row.key);
         setData(list);
     }
@@ -308,7 +327,16 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="End Date"
                                         name="endDate"
-                                        rules={[{required: true, message: 'input is required'}]}
+                                        rules={[{required: true, message: 'input is required'},
+                                            ({ getFieldValue }) => ({
+                                                validator(_, value) {
+                                                    if (!value || Number(getFieldValue('startDate')) < Number(value)) {
+                                                        return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(new Error('The start date must be less than the end date'));
+                                                },
+                                            }),
+                                        ]}
                                     >
                                         <Input type={"number"}/>
                                     </Form.Item>
@@ -352,7 +380,7 @@ const ScrollFeatureViewM = () => {
                                 </Col>
                                 <Col span={12}>
                                     <Form.Item<FieldType>
-                                        label="Number functon"
+                                        label="Number function"
                                         name="numberFunction"
                                         rules={[{required: true, message: 'input is required'}]}
                                     >
