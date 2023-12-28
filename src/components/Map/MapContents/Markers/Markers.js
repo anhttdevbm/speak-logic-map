@@ -208,6 +208,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetListMarkerFunction();
                     globalStore.resetListMarkerPopulation();
                     globalStore.resetMapLayer();
+                    globalStore.resetPositionOfHorizontalLine();
                     markerFnIndex[0] = 1;
                     markerPersonIndex[0] = 1;
                     markerProblemIndex[0] = 1;
@@ -619,7 +620,7 @@ const Markers = ({setModal, setModalType}) => {
                         globalStore.setValueOfImage)
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     if (globalStore.positionOfHorizontalLine.length === 0) {
-                        globalStore.toggleModalInsertNumberPerson();
+                        // globalStore.toggleModalInsertNumberPerson();
                         globalStore.setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
                     }
                 } else if (globalStore.addIcon === 'main-set') {
