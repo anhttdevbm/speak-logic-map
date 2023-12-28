@@ -56,7 +56,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         const topLeftFlagLatLng = map.containerPointToLatLng(topLeftFlagPoint); // Convert top left point to lat lng
         const topRightFlagLatLng = map.containerPointToLatLng(topRightFlagPoint); // Convert top right point to lat lng
         const bottomRightFlagLatLng = map.containerPointToLatLng(bottomRightFlagPoint);  // Convert bottom right point to lat lng
-        const bottomLeftFlagLatLng = map.containerPointToLatLng(bottomLeftFlagPoint);; // Convert botom left point to lat lng
+        const bottomLeftFlagLatLng = map.containerPointToLatLng(bottomLeftFlagPoint); // Convert botom left point to lat lng
 
         // Create a table's body from an array of LatLng points
         const bodyTablePolygon = L.ellipse(centerLatLng, radiiOfEllipse);
@@ -128,8 +128,14 @@ const TableView = ({selectedData, setModal, setModalType}) => {
     }
 
     const getRandomLatLngInBound = (bound) => {
-        let randomLat = Math.random() * (bound.getNorthEast().lat - bound.getSouthWest().lat) + bound.getSouthWest().lat;
-        let randomLng = Math.random() * (bound.getNorthEast().lng - bound.getNorthWest().lng) + bound.getNorthWest().lng;
+        let minLat = bound.getSouthWest().lat;
+        let maxLat = bound.getNorthEast().lat;
+        let minLng = bound.getSouthWest().lng;
+        let maxLng = bound.getNorthEast().lng;
+        let randomLat = Math.random() * (maxLat - minLat) + minLat;
+        let randomLng = Math.random() * (maxLng - minLng) + minLng;
+        randomLat = (randomLat > maxLat - 30) ? randomLat - 30 : (randomLat < minLat + 30) ? randomLat + 30 : randomLat;
+        randomLng = (randomLng > maxLng - 20) ? randomLng - 20 : (randomLng < minLng + 20) ? randomLng + 20 : randomLng;
         return [randomLat, randomLng]
     }
 
