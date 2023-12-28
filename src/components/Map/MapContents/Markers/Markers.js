@@ -20,7 +20,13 @@ import styles from '../_MapContents.module.scss';
 
 import {boatPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
 
-import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../Variables/Variables';
+import {
+    markerPersonIndex,
+    selectedList,
+    markerProblemIndex,
+    markerHouseIndex, markerCountryFnIndex,
+    markerFnIndex
+} from '../Variables/Variables';
 
 import {
     addMarkerPerson,
@@ -202,6 +208,11 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetListMarkerFunction();
                     globalStore.resetListMarkerPopulation();
                     globalStore.resetMapLayer();
+                    markerFnIndex[0] = 1;
+                    markerPersonIndex[0] = 1;
+                    markerProblemIndex[0] = 1;
+                    markerHouseIndex[0] = 1;
+                    markerCountryFnIndex[0] = 1;
                 }
             });
         }
