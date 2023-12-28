@@ -4,8 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
-// import 'leaflet-distortableimage/dist/leaflet.distortableimage';
-// import 'leaflet-distortableimage/dist/leaflet.distortableimage.css';
+import "leaflet-image-transform/dist/L.ImageOverlay.Transform.min";
 import "@elfalem/leaflet-curve";
 import "leaflet-textpath";
 import "leaflet-arrowheads";
@@ -197,11 +196,12 @@ const Markers = ({setModal, setModalType}) => {
 
                 if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
-                    layer.options.type?.status === 'add') {
+                    layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform') {
                     map.removeLayer(layer);
                     globalStore.resetListMarkerFunction();
                     globalStore.resetListMarkerPopulation();
                     globalStore.resetMapLayer();
+                    globalStore.valueOfImage = '';
                 }
             });
         }
@@ -500,20 +500,23 @@ const Markers = ({setModal, setModalType}) => {
             let value = globalStore.valueOfImage;
 
             let imageBounds = [globalStore.positionOfImagePallet, [globalStore.positionOfImagePallet[0] - 20, globalStore.positionOfImagePallet[1] + 50]];
-            L.imageOverlay(value, imageBounds, {status: 'add'}).addTo(map);
+            let bounds = L.latLngBounds(imageBounds);
 
-            // let imageOverlay = L.distortableImageOverlay(value, {
-            //     actions: [L.OpacityAction, L.DeleteAction, L.RestoreAction],
-            // }).addTo(map);
-
-            // map.whenReady(function() {
-            //     let imageOverlay = L.distortableImageOverlay(value, {
-            //         actions: [L.OpacityAction, L.DeleteAction, L.RestoreAction],
-            //     }).addTo(map);
-            // })
-
-
-            // map.fitBounds(imageBounds);
+            let latLngs = [
+                bounds.getSouthWest(),
+                bounds.getNorthWest(),
+                bounds.getNorthEast(),
+                bounds.getSouthEast()
+            ];
+            let imageTransform = L.imageOverlay.transform(value, latLngs, {
+                draggable: true,
+                scalable: true,
+                rotatable: false,
+                keepRatio: false,
+                fit: true,
+                attribution: 'imageTransform'
+            });
+            imageTransform.addTo(map);
         }
     }, [globalStore.valueOfImage])
 
