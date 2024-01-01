@@ -160,9 +160,9 @@ export const markerBoatIconWithName = (className: string, name: string): L.DivIc
         iconSize: [30, 30],
         iconAnchor: [20, 30],
         html: `
-    <img src=${ICON_BOAT.src} alt="House" width="50" height="50" />
+    <img src=${ICON_BOAT.src} alt="House" width="40" height="40" />
     <div class="${styles["marker-boat-name"]}">${name}</div>
-    <img src=${countryFlagList[name]} class="${styles["marker-boat-flag"]}" alt="flat" width="15" height="15" />
+    <img src=${countryFlagList[name]} class="${styles["marker-boat-flag"]}" alt="flat" width="10" height="10" />
 `
     })
 }

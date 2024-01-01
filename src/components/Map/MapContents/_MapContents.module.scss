@@ -42,18 +42,18 @@ $time-animation: var(--time-animation);
 .marker-boat-name {
   position: absolute;
   top: 15%;
-  left: 25%;
+  left: 20%;
   transform: translateX(-50%);
   background-color: transparent;
-  font-weight: 800;
-  font-size: 1rem;
+  font-weight: 400;
+  font-size: 0.8rem;
   white-space: nowrap;
 }
 
 .marker-boat-flag {
   position: absolute;
   top: 10%;
-  left: 175%;
+  left: 150%;
   transform: translateX(-50%);
   background-color: transparent;
 }
