@@ -1,4 +1,4 @@
-import { SettingIcon, ThreeGearIcon, TwoGearIcon } from '@/components/Icons/Icons';
+import {BoatViewIcon} from '@/components/Icons/Icons';
 import React, { memo } from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
@@ -29,7 +29,7 @@ const BoatView: React.FC = (): JSX.Element => {
       className={`${styles['left-item-wrap']} ${globalStore.boatView !== '' ? styles['active'] : null}`}
       onClick={() => toggleBoatView()}
     >
-      <TwoGearIcon />
+      <BoatViewIcon />
       <ItemName btnName='Boat View'/>
     </button>
   )

@@ -1,4 +1,4 @@
-import {MessageIcon} from '@/components/Icons/Icons';
+import {RectangleViewIcon} from '@/components/Icons/Icons';
 import React, {memo} from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
@@ -30,7 +30,7 @@ const RectangularView: React.FC = (): JSX.Element => {
             className={`${styles['left-item-wrap']} ${globalStore.rectangularView !== '' ? styles['active'] : null}`}
             onClick={() => toggleRectangularView()}
         >
-            <MessageIcon/>
+            <RectangleViewIcon/>
             <ItemName btnName='Rectangular View'/>
         </button>
     )

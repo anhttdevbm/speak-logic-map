@@ -1,4 +1,4 @@
-import {LayerIcon, SettingIcon, ThreeGearIcon} from '@/components/Icons/Icons';
+import {MapViewIcon} from '@/components/Icons/Icons';
 import React, {memo} from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
@@ -31,7 +31,7 @@ const MapView: React.FC = (): JSX.Element => {
             className={`${styles['left-item-wrap']} ${globalStore.mapView !== '' ? styles['active'] : null}`}
             onClick={() => toggleMapView()}
         >
-            <LayerIcon/>
+            <MapViewIcon/>
             <ItemName btnName='Map View'/>
         </button>
     )

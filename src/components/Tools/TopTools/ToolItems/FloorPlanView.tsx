@@ -1,4 +1,4 @@
-import { PeopleIcon, SettingIcon, ThreeGearIcon } from '@/components/Icons/Icons';
+import {FloorPlanViewIcon} from '@/components/Icons/Icons';
 import { useGlobalStore } from '@/providers/RootStoreProvider';
 import { observer } from 'mobx-react-lite';
 import React, { memo } from 'react';
@@ -25,7 +25,7 @@ const FloorPlanView: React.FC = (): JSX.Element => {
       className={`${styles['left-item-wrap']} ${globalStore.floorPlanView !== '' ? styles['active'] : null}`}
       onClick={() => toggleFPView()}
     >
-      <PeopleIcon />
+      <FloorPlanViewIcon />
       <ItemName btnName='Floor Plan View'/>
     </button>
   )

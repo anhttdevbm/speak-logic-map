@@ -2,21 +2,20 @@ import React from 'react';
 import L from 'leaflet';
 import styles from '../_MapContents.module.scss';
 
-import ICON_PERSON from '@/assets/icons/user-icon.png';
+import ICON_PERSON from '@/assets/icons/Black_Icon/64X64/Person-02.png';
 import ICON_WAVE from '@/assets/images/wave.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
-import ICON_HOUSE from '@/assets/icons/house-icon.png';
+import ICON_HOUSE from '@/assets/icons/Black_Icon/64X64/House.png';
 import ICON_MAIN_SET from '@/assets/icons/icon-given-set-2.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
-import ICON_RELATE from '@/assets/icons/related-icon.png';
+import ICON_RELATE from '@/assets/icons/Black_Icon/64X64/Relate.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
 import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
 import SCROLL_ICON from '@/assets/icons/simulate-01.png';
-import PRINCIPLE_LINE_ICON from '@/assets/icons/icon-priciple-line.png';
+import PRINCIPLE_LINE_ICON from '@/assets/icons/Black_Icon/64X64/Principle_Line.png';
 import {countryMapList} from '@/utils/country_map_list';
-import {countryFlagList} from "@/utils/country_flag_list";
 
 export const markerPersonIcon = (className: string, name: string, image: string): L.DivIcon => {
     return L.divIcon({
