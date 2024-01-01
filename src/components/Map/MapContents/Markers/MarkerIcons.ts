@@ -6,7 +6,12 @@ import ICON_PERSON from '@/assets/icons/user-icon.png';
 import ICON_WAVE from '@/assets/images/wave.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
+<<<<<<< Updated upstream
 import ICON_HOUSE from '@/assets/icons/house-icon.png';
+=======
+import ICON_HOUSE from '@/assets/icons/Black_Icon/64X64/House.png';
+import ICON_BOAT from '@/assets/icons/Black_Icon/64X64/Boat_View.png';
+>>>>>>> Stashed changes
 import ICON_MAIN_SET from '@/assets/icons/icon-given-set-2.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
@@ -16,7 +21,11 @@ import ICON_RELATE_ELEMENT from '@/assets/icons/img.png';
 import SCROLL_ICON from '@/assets/icons/simulate-01.png';
 import PRINCIPLE_LINE_ICON from '@/assets/icons/icon-priciple-line.png';
 import {countryMapList} from '@/utils/country_map_list';
+<<<<<<< Updated upstream
 import {countryFlagList} from "@/utils/country_flag_list";
+=======
+import { countryFlagList } from '@/utils/country_flag_list';
+>>>>>>> Stashed changes
 
 export const markerPersonIcon = (className: string, name: string, image: string): L.DivIcon => {
     return L.divIcon({
@@ -153,14 +162,15 @@ export const markerHouseIconWithName = (className: string, name: string): L.DivI
     })
 }
 
-export const markerBoatIconWithName = (image: string, className: string, name: string): L.DivIcon => {
+export const markerBoatIconWithName = (className: string, name: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [50, 50],
+        iconSize: [30, 30],
         iconAnchor: [20, 30],
         html: `
-    <img src=${image} alt="House" width="50" height="50" />
-    <div class="${styles["marker-house-name"]}">${name}</div>
+    <img src=${ICON_BOAT.src} alt="House" width="50" height="50" />
+    <div class="${styles["marker-boat-name"]}">${name}</div>
+    <img src=${countryFlagList[name]} class="${styles["marker-boat-flag"]}" alt="flat" width="15" height="15" />
 `
     })
 }

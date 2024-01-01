@@ -219,33 +219,50 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
             if (!country.name.codeName.includes('-99')) {
               const mainLand = getGeoMainLand(country.data[0]);
               const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
-              center.reverse();
-              const countryCode = country.name.codeName
-              const boatName = countryCode
-              generateBoat(country.name.codeName, center, boat, boatName);
-              boat.addTo(map);
-              boat.options = {
-                type: 'boat'
+              const countryMarker = L.marker(center.reverse(), {
+                icon: markerBoatIconWithName('1', name ? `${name} ${index}` : country.name.codeName.toUpperCase()),
+              }).addTo(map);
+
+              countriesLayer.push(countryMarker);
+
+              if (name) {
+                index++;
               }
-              setBoatFG(boat)
-              // zoom the map to the polygon
-              map.fitBounds(boat.getBounds());
-              // const mainLand = getGeoMainLand(country.data[0]);
-              // const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
-              // const image = countryMapList[country.name.codeName];
-              // const countryMarker = L.marker(center.reverse(), {
-              //   icon: markerBoatIconWithName(image
-              //       ,'1', name ? `${name} ${index}` : country.name.codeName.toUpperCase()),
-              // }).addTo(map);
-              //
-              // countriesLayer.push(countryMarker);
-              //
-              // if (name) {
-              //   index++;
-              // }
             }
           })
         }
+        // if (globalStore.map) {
+        //   countryStore.countries.forEach(country => {
+        //     if (!country.name.codeName.includes('-99')) {
+        //       const mainLand = getGeoMainLand(country.data[0]);
+        //       const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
+        //       center.reverse();
+        //       const countryCode = country.name.codeName
+        //       const boatName = countryCode
+        //       generateBoat(country.name.codeName, center, boat, boatName);
+        //       boat.addTo(map);
+        //       boat.options = {
+        //         type: 'boat'
+        //       }
+        //       setBoatFG(boat)
+        //       // zoom the map to the polygon
+        //       map.fitBounds(boat.getBounds());
+        //       // const mainLand = getGeoMainLand(country.data[0]);
+        //       // const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
+        //       // const image = countryMapList[country.name.codeName];
+        //       // const countryMarker = L.marker(center.reverse(), {
+        //       //   icon: markerBoatIconWithName(image
+        //       //       ,'1', name ? `${name} ${index}` : country.name.codeName.toUpperCase()),
+        //       // }).addTo(map);
+        //       //
+        //       // countriesLayer.push(countryMarker);
+        //       //
+        //       // if (name) {
+        //       //   index++;
+        //       // }
+        //     }
+        //   })
+        // }
         else if (!globalStore.map) {
           const mainLand = getGeoMainLand(selectedData[0]);
           const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;

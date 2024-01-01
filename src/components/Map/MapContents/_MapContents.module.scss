@@ -39,6 +39,25 @@ $time-animation: var(--time-animation);
   white-space: nowrap;
 }
 
+.marker-boat-name {
+  position: absolute;
+  top: 15%;
+  left: 25%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  font-weight: 800;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.marker-boat-flag {
+  position: absolute;
+  top: 10%;
+  left: 175%;
+  transform: translateX(-50%);
+  background-color: transparent;
+}
+
 .marker-house-name-rect {
   position: absolute;
   top: 80%;
