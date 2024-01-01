@@ -227,6 +227,7 @@ export class GlobalStore {
 
     toggleClear = (): void => {
         this.clear = !this.clear;
+        this.resetDataScroll();
     }
 
     toggleBlankMap = (): void => {

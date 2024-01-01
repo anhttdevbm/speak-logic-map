@@ -1,4 +1,4 @@
-import { BookIcon } from '@/components/Icons/Icons';
+import {TableViewIcon} from '@/components/Icons/Icons';
 import React from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
@@ -28,7 +28,7 @@ const TableView: React.FC = (): JSX.Element => {
         className={`${styles['left-item-wrap']} ${globalStore.tableView !== '' ? styles['active'] : null}`}
         onClick={() => toggleTableView()}
     >
-      <BookIcon />
+      <TableViewIcon />
       <ItemName btnName='Table View'/>
     </button>
   )

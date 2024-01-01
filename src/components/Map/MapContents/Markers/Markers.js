@@ -19,7 +19,13 @@ import styles from '../_MapContents.module.scss';
 
 import {boatPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
 
-import {markerPersonIndex, markerFnIndex, selectedList, listMarkerFn} from '../Variables/Variables';
+import {
+    markerPersonIndex,
+    selectedList,
+    markerProblemIndex,
+    markerHouseIndex, markerCountryFnIndex,
+    markerFnIndex
+} from '../Variables/Variables';
 
 import {
     addMarkerPerson,
@@ -201,6 +207,11 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetListMarkerFunction();
                     globalStore.resetListMarkerPopulation();
                     globalStore.resetMapLayer();
+                    markerFnIndex[0] = 1;
+                    markerPersonIndex[0] = 1;
+                    markerProblemIndex[0] = 1;
+                    markerHouseIndex[0] = 1;
+                    markerCountryFnIndex[0] = 1;
                     globalStore.valueOfImage = '';
                 }
             });
@@ -448,6 +459,21 @@ const Markers = ({setModal, setModalType}) => {
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     addMarkerPrincipleLine(map, latlng.lat, latlng.lng, globalStore.lock);
                     globalStore.addIconHandle('');
+                } else if (globalStore.addIcon === 'relate') {
+                    addRelateMarker(map, latlng.lat, latlng.lng, globalStore.lock);
+                    globalStore.addIconHandle('');
+                } else if (globalStore.addIcon === 'main-set') {
+                    globalStore.setChooseGivenSet(true);
+                    addMarkerGivenSet(map, latlng.lat, latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
+                } else if (globalStore.addIcon === 'mobility') {
+                    if (globalStore.numberPersonMobility < 2) {
+                        globalStore.setTypeMobility('path');
+                        addPersonInMobility(map, latlng.lat, latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
+                    } else {
+                        globalStore.addIconHandle('');
+                        globalStore.resetNumberPersonMobility();
+                    }
                 }
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
@@ -577,7 +603,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'mobility') {
                     globalStore.resetPositionScroll();
-                    if (globalStore.numberPersonMobility === 1) {
+                    if (globalStore.numberPersonMobility < 2) {
                         globalStore.setTypeMobility('path');
                         addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                     } else {
@@ -596,7 +622,7 @@ const Markers = ({setModal, setModalType}) => {
                         globalStore.setValueOfImage)
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     if (globalStore.positionOfHorizontalLine.length === 0) {
-                        globalStore.toggleModalInsertNumberPerson();
+                        // globalStore.toggleModalInsertNumberPerson();
                         globalStore.setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
                     }
                 } else if (globalStore.addIcon === 'main-set') {

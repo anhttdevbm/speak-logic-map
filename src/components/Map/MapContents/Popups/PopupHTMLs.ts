@@ -1,6 +1,6 @@
 import { defaultFunction, defaultFunctionPerson, defaultPerson, markerFnIndex } from '../Variables/Variables';
 import styles from '../_MapContents.module.scss';
-import ICON_USER from '@/assets/icons/user-icon.png';
+import ICON_USER from '@/assets/icons/Black_Icon/64X64/Person-01.png';
 
 // Right-click menu on Function Marker
 export const fnPopupHTML = (name: string, type: boolean, error: string, hasBoundary: boolean, isFlashing: boolean): string => {

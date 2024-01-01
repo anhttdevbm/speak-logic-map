@@ -35,6 +35,13 @@ import {
     dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
     clickLine, clickArc, clickArrow, staticArcRouteInit
 } from './HandleRouteAndDistance';
+import {
+    markerCountryFnIndex,
+    markerFnIndex,
+    markerHouseIndex,
+    markerPersonIndex,
+    markerProblemIndex
+} from "@/components/Map/MapContents/Variables/Variables";
 
 export const checkMarkerExist = (map, index, type) => {
     let existArr = [];
@@ -605,6 +612,11 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
             })
             .addTo(map);
     } else {
+        map.eachLayer(layer => {
+            if (layer.options.target?.type === 'person-mobility') {
+                map.removeLayer(layer);
+            }
+        });
         L.motion.polyline(
             [
                 positionOfPreviewPerson,
@@ -616,7 +628,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
             },
             {
                 auto: true,
-                duration: 5000
+                duration: 3000
             },
             {
                 removeOnEnd: false,

@@ -1,9 +1,9 @@
-import {SettingIcon} from '@/components/Icons/Icons';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {observer} from 'mobx-react-lite';
 import React, {memo} from 'react';
 import ItemName from './TopItemName';
 import styles from './_ToolItem.module.scss';
+import {HouseIcon} from "@/components/Icons/Icons";
 
 const HouseView: React.FC = (): JSX.Element => {
     const globalStore = useGlobalStore();
@@ -32,7 +32,7 @@ const HouseView: React.FC = (): JSX.Element => {
             className={`${styles['left-item-wrap']} ${globalStore.houseView !== '' ? styles['active'] : null}`}
             onClick={() => toggleHouseView()}
         >
-            <SettingIcon/>
+            <HouseIcon />
             <ItemName btnName='House View'/>
         </button>
     )

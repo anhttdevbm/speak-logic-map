@@ -5,7 +5,7 @@ import {RightCircleOutlined, LeftCircleOutlined} from '@ant-design/icons';
 import {Marker, Popup} from "react-leaflet";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 import L from 'leaflet';
-import { markerScrollIcon} from '../Markers/MarkerIcons'
+import {markerScrollIcon} from '../Markers/MarkerIcons'
 
 const ScrollFeature = () => {
     const globalStore = useGlobalStore();
@@ -20,7 +20,8 @@ const ScrollFeature = () => {
     const [iNumber, setINumber] = useState<any>(null);
     const [iPercent, setIPercent] = useState<any>(null);
     const [date, setDate] = useState<any>(null);
-    const stepDate = Math.floor((data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / data.stepPerformance));
+    const stepDate = Math.floor((data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / data.stepPerformance)) == 0 ? 1
+        : Math.floor((data.endDate - data.startDate) / ((data.endPerformance - data.startPerformance - 1) / data.stepPerformance));
     const [priorCount, setPriorCount] = useState(0);
     const [previousCount, setPreviousCount] = useState(0);
 
@@ -75,7 +76,7 @@ const ScrollFeature = () => {
             }, 1000);
             return () => clearInterval(interval);
         }
-    }, [date]);
+    }, [date, iPercent]);
 
     useEffect(() => {
         if (previousCount > 0) {
@@ -87,9 +88,11 @@ const ScrollFeature = () => {
     }, [date]);
 
     const handlePrior = () => {
-        // setIsStart(!isStart)
         let number = iPercent + data.stepPerformance;
         let dateStep = Number(date) + Number(stepDate);
+        if (dateStep >= data.endDate) {
+            dateStep = data.endDate;
+        }
         if (number >= data.endPerformance) {
             number = data.endPerformance;
             dateStep = data.endDate;
@@ -113,9 +116,8 @@ const ScrollFeature = () => {
         setDate(dateStep);
     }
 
-    // @ts-ignore
     return (
-        <Marker position={[0, 0]} icon={ markerScrollIcon() }>
+        <Marker position={[0, 0]} icon={markerScrollIcon()}>
             <Popup>
                 <div className={styles.scrollFeatureIcon}>
                     {/*starDate, endDate*/}
@@ -127,7 +129,7 @@ const ScrollFeature = () => {
                     }}>{date}</Row>
                     {/*hình tròn*/}
                     <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                        <Col span={1} style={{display: "flex", paddingLeft:10}}>
+                        <Col span={1} style={{display: "flex", paddingLeft: 10}}>
                         </Col>
                         {
                             data.functions.map((value: any) =>
@@ -144,9 +146,9 @@ const ScrollFeature = () => {
                     <Row
                         className={styles.scroll}
                         gutter={{xs: 8, sm: 16, md: 24, lg: 32}}>
-                        <Col span={1} style={{display: "flex", paddingLeft:10}}>
-                            <Button onClick={handlePrevious} type="text" disabled={date < data.endDate}
-                                    icon={<LeftCircleOutlined  rev={undefined}/>}>
+                        <Col span={1} style={{display: "flex", paddingLeft: 10}}>
+                            <Button onClick={handlePrevious} type="text" disabled={date < data.endDate || iPercent != data.endPerformance}
+                                    icon={<LeftCircleOutlined rev={undefined}/>}>
                             </Button>
                         </Col>
                         {
@@ -157,7 +159,7 @@ const ScrollFeature = () => {
                             </Col>)
                         }
                         <Col span={1} style={{display: "flex", justifyContent: "end"}}>
-                            <Button onClick={handlePrior} type="text" disabled={date > data.startDate}
+                            <Button onClick={handlePrior} type="text" disabled={date > data.startDate || iPercent != data.startPerformance}
                                     icon={<RightCircleOutlined rev={undefined}/>}>
                             </Button>
                         </Col>

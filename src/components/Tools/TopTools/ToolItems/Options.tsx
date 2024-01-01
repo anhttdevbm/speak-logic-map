@@ -1,4 +1,4 @@
-import {CheckIcon, MenuIcon, RightArrowIcon, SimulationIcon, UserIcon} from '@/components/Icons/Icons';
+import {CheckIcon, RightArrowIcon, SettingIcon} from '@/components/Icons/Icons';
 import {useGlobalStore} from '@/providers/RootStoreProvider';
 import {observer} from 'mobx-react-lite';
 import React, {memo, useState} from 'react';
@@ -40,7 +40,7 @@ const Options: React.FC = (): JSX.Element => {
 
     return (
         <button type="button" className={`${styles['left-item-wrap']}`}>
-            <UserIcon/>
+            <SettingIcon/>
             <ul className={`${styles['sub-menu-list']}`}>
                 <li>
                     Show Map Element
