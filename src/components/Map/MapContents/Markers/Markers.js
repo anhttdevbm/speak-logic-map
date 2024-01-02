@@ -508,7 +508,7 @@ const Markers = ({setModal, setModalType}) => {
                         } else {
                             addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                         }
-                    } else if (fn.type === 'person' && fn.name !== "") {
+                    } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility) {
                         let index = fn.name.replace("Person ", "");
                         if (!checkMarkerExist(map, index, 'person')) {
                             addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,

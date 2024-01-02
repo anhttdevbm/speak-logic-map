@@ -588,11 +588,12 @@ export class GlobalStore {
         this.mapLayer = [];
     }
 
-    updateMapLayerById = (lat: any, lng: any, type: 'person' | 'function', name: any) => {
+    updateMapLayerById = (lat: any, lng: any, type: 'person' | 'function', name: any, mobility: boolean) => {
         for (let i = 0; i < this.mapLayer.length; i++) {
             if (this.mapLayer[i].type === type && this.mapLayer[i].name === name) {
                 this.mapLayer[i].lat = lat;
                 this.mapLayer[i].lng = lng;
+                this.mapLayer[i].mobility = mobility;
             }
         }
     }

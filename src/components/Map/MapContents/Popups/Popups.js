@@ -555,7 +555,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
         });
     }
 
@@ -586,7 +586,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
         });
     }
 
@@ -617,7 +617,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
         });
     }
 
@@ -648,7 +648,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
         });
     }
 
