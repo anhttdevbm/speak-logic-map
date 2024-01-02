@@ -592,7 +592,7 @@ export const addRelateMarker = (map, lat, lng, isLocked) => {
 export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
                                     setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility) => {
     setNumberPersonMobility();
-    if (numberPersonMobility === 0) {
+    if (numberPersonMobility % 2 === 0) {
         setPositionOfPreviewPerson(lat, lng);
         L.marker([lat, lng], {
             target: {status: 'add', type: 'person-mobility'},

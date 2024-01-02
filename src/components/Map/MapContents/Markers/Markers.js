@@ -467,13 +467,14 @@ const Markers = ({setModal, setModalType}) => {
                     addMarkerGivenSet(map, latlng.lat, latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
                         globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
                 } else if (globalStore.addIcon === 'mobility') {
-                    if (globalStore.numberPersonMobility < 2) {
+                    // if (globalStore.numberPersonMobility < 2 || globalStore.numberPersonMobility % 2 === 0) {
                         globalStore.setTypeMobility('path');
                         addPersonInMobility(map, latlng.lat, latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
-                    } else {
                         globalStore.addIconHandle('');
-                        globalStore.resetNumberPersonMobility();
-                    }
+                    // } else {
+                    //     globalStore.addIconHandle('');
+                    //     globalStore.resetNumberPersonMobility();
+                    // }
                 }
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
