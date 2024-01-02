@@ -78,10 +78,7 @@ const Options: React.FC = (): JSX.Element => {
                 </li>
                 <li
                     onClick={() => turnOnAllLayer()}>
-                    Turn On All Layer
-                    <CheckIcon
-                        className={`${styles['sub-icon']} ${globalStore.blankMap ? styles['hide'] : styles['show']}`}
-                    />
+                    {globalStore.blankMap ? 'Turn On All Layer' : 'Turn Off All Layer'}
                 </li>
                 <li className={`${globalStore.map && styles['disable']}`}>
                     Country Mode
