@@ -365,9 +365,12 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         },
         style: () => {
           return {
+            radius: 8,
+            fillColor: "#fff",
+            color: "#000",
             weight: 1,
-            fillColor: '#fff',
-            color: 'black',
+            opacity: 1,
+            fillOpacity: 0.8
           };
         },
       });
