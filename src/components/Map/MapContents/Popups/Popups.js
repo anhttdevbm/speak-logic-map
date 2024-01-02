@@ -655,6 +655,11 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     window.addRelatePerson = (value) => {
         setPersonToListMapElementSelected('Person', e.latlng.lat, e.latlng.lng, value);
         map.removeLayer(popup);
+        map.eachLayer((layer) => {
+            if (layer.options.target?.type === "person" && layer.options.target?.index === index) {
+                layer?.dragging.disable();
+            }
+        });
     }
 
     window.deleteItem = () => {
