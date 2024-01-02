@@ -64,7 +64,7 @@ const RectView = ({selectedData}) => {
 
                 if (globalStore.map) {
                     // Rectangle View Non-linear
-                    if (globalStore.rectName === 'rect-non-linear') {
+                    if (globalStore.rectName === 'rect-linear') {
                         const firstLat = -25;
                         const firstLng = -180;
                         let latList = [12.5, 15];

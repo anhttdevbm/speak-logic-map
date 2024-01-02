@@ -31,7 +31,7 @@ export class GlobalStore {
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
-    rectName: 'rect-non-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | '' = '';
+    rectName: 'rect-non-linear' | 'rect-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
@@ -305,7 +305,7 @@ export class GlobalStore {
         }
     }
 
-    toggleRectName = (value: 'rect-non-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | ''): void => {
+    toggleRectName = (value: 'rect-non-linear' | 'rect-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | ''): void => {
         if (value === this.rectName) {
             this.rectName = '';
         } else {
