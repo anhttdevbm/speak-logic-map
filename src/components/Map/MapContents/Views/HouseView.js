@@ -66,7 +66,7 @@ const HouseView = ({selectedData}) => {
           if (layer._arrowheads) {
             layer.remove();
           }
-          allLayer.push(layer);
+          // allLayer.push(layer);
         });
   
         map.eachLayer(layer => map.removeLayer(layer));
