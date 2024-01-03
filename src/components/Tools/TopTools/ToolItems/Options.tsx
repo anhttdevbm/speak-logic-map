@@ -15,6 +15,10 @@ const Options: React.FC = (): JSX.Element => {
         globalStore.toggleBlankMap();
     }
 
+    const changeDistanceUnit = () => {
+        globalStore.toggleShowDialogSettingDistance();
+    }
+
     const toggleMoreView = (name: string): void => {
         if (!globalStore.roomView
             && !globalStore.floorPlanView
@@ -79,6 +83,10 @@ const Options: React.FC = (): JSX.Element => {
                 <li
                     onClick={() => turnOnAllLayer()}>
                     {globalStore.blankMap ? 'Turn On All Layer' : 'Turn Off All Layer'}
+                </li>
+                <li
+                    onClick={() => changeDistanceUnit()}>
+                    Distance Setting
                 </li>
                 <li className={`${globalStore.map && styles['disable']}`}>
                     Country Mode

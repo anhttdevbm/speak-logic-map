@@ -1,3 +1,5 @@
+import {unitDistance} from "@/components/Map/MapContents/Variables/Variables";
+
 export const arcRouteInit = (lat, lng) => {
   const thetaOffset = Math.PI / 9;
   const latlng1 = [lat, lng];
@@ -176,7 +178,7 @@ export function dragHandlerLine(map, e) {
 
   let customText = (text === 'Inter-route' || text === 'Arc-route' || text === 'Distance')
     ? text 
-    : `${(distance * 0.001 * 0.6214).toFixed()} mile`;
+    : (unitDistance[0] === 'mile' ? `${(distance * 0.001 * 0.6214).toFixed()} ${unitDistance[0]}` : `${(distance * 0.001).toFixed()} ${unitDistance[0]}`);
 
   setText(null);
   setText(customText, {
@@ -205,9 +207,9 @@ export function clickLine(map, e, distancePoint, distancePoint2, name) {
       L.latLng(latLng[0].lat, latLng[0].lng),
       L.latLng(latLng[1].lat, latLng[1].lng)
     );
-  
-    let customText = (e.target._text === name) 
-      ? `${(distance * 0.001 * 0.6214).toFixed()} mile`
+
+    let customText = (e.target._text === name)
+      ? (unitDistance[0] === 'mile' ? `${(distance * 0.001 * 0.6214).toFixed()} ${unitDistance[0]}` : `${(distance * 0.001).toFixed()} ${unitDistance[0]}`)
       : name;
     
     let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;
@@ -234,9 +236,9 @@ export function clickArc(map, e, distancePoint, distancePoint2, name) {
       L.latLng(latLng[0].lat, latLng[0].lng),
       L.latLng(latLng[1].lat, latLng[1].lng)
     );
-  
-    let customText = (distancePoint.parentArc._text === name) 
-      ? `${(distance * 0.001 * 0.6214).toFixed()} mile`
+
+    let customText = (distancePoint.parentArc._text === name)
+      ? (unitDistance[0] === 'mile' ? `${(distance * 0.001 * 0.6214).toFixed()} ${unitDistance[0]}` : `${(distance * 0.001).toFixed()} ${unitDistance[0]}`)
       : name;
     
     let orientation = (distancePoint.getLatLng().lng < distancePoint2.getLatLng().lng) ? 0 : 180;

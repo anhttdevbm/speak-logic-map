@@ -37,6 +37,7 @@ export class GlobalStore {
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
     clear: boolean = false;
     blankMap: boolean = false;
+    showDialogSettingDistance: boolean = false;
     inAreaSelection: boolean = false;
     showRoomDistance: boolean = false;
     showFloorPlanDistance: boolean = false;
@@ -232,6 +233,10 @@ export class GlobalStore {
 
     toggleBlankMap = (): void => {
         this.blankMap = !this.blankMap;
+    }
+
+    toggleShowDialogSettingDistance = (): void => {
+        this.showDialogSettingDistance = !this.showDialogSettingDistance;
     }
 
     setSunMoon = (value: 'sun' | 'moon' | ''): void => {

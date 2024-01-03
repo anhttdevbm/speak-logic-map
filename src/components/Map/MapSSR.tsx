@@ -39,6 +39,7 @@ import ScrollFeatureViewM from '../Modals/ModalContents/ScrollFeatureViewM';
 import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 import {FeatureCollection} from "geojson";
+import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -245,6 +246,14 @@ const MapSSR: React.FC = (): JSX.Element => {
                         type={'person'}
                         setToggleModal={globalStore.toggleModalInsertNumberPerson}
                         setAction={globalStore.setNumberPersonInHorizontalLine}
+                    />
+                </ModalWrap>
+            }
+            {
+                globalStore.showDialogSettingDistance &&
+                <ModalWrap>
+                    <ChangeUnitDistanceM
+                        setToggleModal={globalStore.toggleShowDialogSettingDistance}
                     />
                 </ModalWrap>
             }

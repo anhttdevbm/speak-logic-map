@@ -1,6 +1,7 @@
 export const markerFnIndex = [1];
 export const markerPersonIndex = [1];
 export const markerProblemIndex = [1];
+export const unitDistance = ['mile'];
 export const markerHouseIndex = [1];
 export const markerCountryFnIndex = [1];
 export const groupCountryFnIndex = [1];

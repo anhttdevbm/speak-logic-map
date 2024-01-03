@@ -10,12 +10,10 @@ import {
     markerCountryFnIcon,
     markerMapElementIcon,
     markerRelateIcon,
-    markerGivenSetIcon,
     markerPersonWaveIcon, markerPrincipleLineIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
-    groupPopup,
     functionPopup,
     routePopup,
     distancePopup,
@@ -27,8 +25,7 @@ import {
     mapElementPopup, givenSetPopup
 } from '../Popups/Popups';
 import {
-    groupFnLayoutPopupHTML, groupPersonLayoutPopupHTML, wrappingPopupHTML,
-    worldPopupHTML, housePopupHTML, welcomeSignPopupHTML
+    groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML
 } from '../Popups/PopupHTMLs'
 
 import {
@@ -36,11 +33,7 @@ import {
     clickLine, clickArc, clickArrow, staticArcRouteInit
 } from './HandleRouteAndDistance';
 import {
-    markerCountryFnIndex,
-    markerFnIndex,
-    markerHouseIndex,
-    markerPersonIndex,
-    markerProblemIndex
+    unitDistance
 } from "@/components/Map/MapContents/Variables/Variables";
 
 export const checkMarkerExist = (map, index, type) => {
@@ -422,7 +415,7 @@ export const addStaticDistance = (map, lat1, lng1, lat2, lng2, isLocked, type) =
         L.latLng(latLng[1].lat, latLng[1].lng)
     );
 
-    polyline.setText(`${(distance * 0.001 * 0.6214).toFixed()} mile`, {
+    polyline.setText((unitDistance[0] === 'mile' ? `${(distance * 0.001 * 0.6214).toFixed()} ${unitDistance[0]}` : `${(distance * 0.001).toFixed()} ${unitDistance[0]}`), {
         center: true,
         offset: -3,
         orientation: orientation,
