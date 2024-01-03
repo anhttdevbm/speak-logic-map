@@ -660,6 +660,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                 layer?.dragging.disable();
             }
         });
+        map.off('click');
     }
 
     window.deleteItem = () => {
