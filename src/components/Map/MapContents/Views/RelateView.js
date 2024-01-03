@@ -4,7 +4,7 @@ import {observer} from 'mobx-react-lite';
 import {useMap} from 'react-leaflet';
 import {useEffect, useState} from 'react';
 import {useGlobalStore} from '@/providers/RootStoreProvider';
-import {allLayer, handleName} from "@/components/Map/MapContents/Variables/Variables";
+import {allLayer, handleName, markerPersonIndex} from "@/components/Map/MapContents/Variables/Variables";
 import {
     markerFnCircleIcon,
     markerGivenSetIcon, markerMapElementIcon, markerPersonIcon,
@@ -113,12 +113,15 @@ const RelateView = () => {
                             .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                             .addTo(map);
 
+                        let index = markerPersonIndex[0];
+                        markerPersonIndex[0] ++;
+
                         L.marker(leftHorizontalLineBottom, {
                             options: {
                                 type: 'Relationship',
                             },
                             icon: mapElementRelate === 'Person'
-                                ? markerPersonIcon(``, 'Person', null)
+                                ? markerPersonIcon(``, `Person ${index}`, null)
                                 : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
                         }).addTo(map);
                         globalStore.changeStatusOfMapElementRelated(true, id)
