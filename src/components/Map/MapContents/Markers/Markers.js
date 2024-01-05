@@ -457,7 +457,11 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetDataScroll();
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'horizontal-line') {
-                    addMarkerPrincipleLine(map, latlng.lat, latlng.lng, globalStore.lock);
+                    // addMarkerPrincipleLine(map, latlng.lat, latlng.lng, globalStore.lock);
+                    // globalStore.addIconHandle('');
+                    if (globalStore.positionOfHorizontalLine.length === 0) {
+                        globalStore.setPositionOfHorizontalLine(latlng.lat, latlng.lng);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'relate') {
                     addRelateMarker(map, latlng.lat, latlng.lng, globalStore.lock);

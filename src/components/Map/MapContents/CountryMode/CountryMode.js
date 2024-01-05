@@ -328,24 +328,24 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         // Country Mode Popup
 
         // Show Blank Map
-        window.showBlankMap = () => {
-          map.eachLayer(function (layer) {
-            map.removeLayer(layer);
-          });
-          L.geoJSON(geoJson, {
-            style: function (feature) {
-              return {
-                fillColor: 'white',
-                weight: 1,
-                fillOpacity: 1
-              };
-            }
-          }).addTo(map);
-          countryPopup
-              .setLatLng([e.latlng.lat, e.latlng.lng])
-              .setContent(countryModePopupHTML())
-              .addTo(map);
-        }
+        // window.showBlankMap = () => {
+        //   map.eachLayer(function (layer) {
+        //     map.removeLayer(layer);
+        //   });
+        //   L.geoJSON(geoJson, {
+        //     style: function (feature) {
+        //       return {
+        //         fillColor: 'white',
+        //         weight: 1,
+        //         fillOpacity: 1
+        //       };
+        //     }
+        //   }).addTo(map);
+        //   countryPopup
+        //       .setLatLng([e.latlng.lat, e.latlng.lng])
+        //       .setContent(countryModePopupHTML())
+        //       .addTo(map);
+        // }
         
   
         setTimeout(() => {
@@ -387,9 +387,10 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         }
       );
   
-      countryGeo.addTo(map);
       if (!globalStore.blankMap) {
         countryLand.addTo(map);
+      } else {
+        countryGeo.addTo(map);
       }
       
       map.fitBounds(countryGeo.getBounds(), map.getZoom());
