@@ -28,7 +28,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         const poleTableHeightPX = isWorldTable ? 250 : 200;
         const flagTableWidthPX = isWorldTable ? 200 : 100;
         const flagTableHeightPX = isWorldTable ? 100 : 50;
-        const radiiOfEllipse = isWorldTable ? [12000000, 6000000] : [6000000, 3000000];
+        const radiiOfEllipse = isWorldTable ? [12000000, 6000000] : [9000000, 4500000];
         const boatNamePoint = isWorldTable ? L.point(80, 0) : L.point(50, 0)
 
         // Get the 4 sides's latlngs of the table's body
@@ -109,7 +109,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
 
         globalStore.mapLayer.forEach(marker => {
             if (marker?.type === 'function') {
-                let latLng = getRandomLatLngInBound(ellipseBounds)
+                let latLng = getRandomLatLngInBound(ellipseBounds, isWorldTable)
                 addMarkerFnEllipse(table, latLng[0], latLng[1], marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType)
             }
         })
@@ -127,15 +127,17 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         });
     }
 
-    const getRandomLatLngInBound = (bound) => {
+    const getRandomLatLngInBound = (bound, isWorldTable) => {
         let minLat = bound.getSouthWest().lat;
         let maxLat = bound.getNorthEast().lat;
         let minLng = bound.getSouthWest().lng;
         let maxLng = bound.getNorthEast().lng;
         let randomLat = Math.random() * (maxLat - minLat) + minLat;
         let randomLng = Math.random() * (maxLng - minLng) + minLng;
-        randomLat = (randomLat > maxLat - 30) ? randomLat - 30 : (randomLat < minLat + 30) ? randomLat + 30 : randomLat;
-        randomLng = (randomLng > maxLng - 20) ? randomLng - 20 : (randomLng < minLng + 20) ? randomLng + 20 : randomLng;
+        let deltaLat = isWorldTable ? 30 : 24;
+        let deltaLng = isWorldTable ? 20 : 16;
+        randomLat = (randomLat > maxLat - deltaLat) ? randomLat - deltaLat : (randomLat < minLat + deltaLat) ? randomLat + deltaLat : randomLat;
+        randomLng = (randomLng > maxLng - deltaLng) ? randomLng - deltaLng : (randomLng < minLng + deltaLng) ? randomLng + deltaLng : randomLng;
         return [randomLat, randomLng]
     }
 
