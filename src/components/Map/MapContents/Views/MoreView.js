@@ -6,25 +6,12 @@ import {allLayer, markerPersonIndex} from '../Variables/Variables';
 import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {
-    markerDistancePointIcon,
-    markerFnIcon, markerGivenSetIcon,
-    markerHouseIconWithName, markerPersonIcon, markerPlusIcon, markerPlusMoreViewIcon, markerPopulationCountry,
-    markerRectHouseIcon, markerRectNameIcon, markerRelateIcon,
-    markerRoomIcon, markerThreeDotsIcon, markerVerticalArrowIcon, markerVerticalPersonIcon
+    markerFnIcon, markerGivenSetIcon, markerPersonIcon, markerPlusMoreViewIcon, markerPopulationCountry,markerThreeDotsIcon
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
-import {addStaticDistance} from '../Markers/AddMarkers';
 import * as turf from '@turf/turf';
-import {addSelectedItem} from '../Markers/HandleSelectItem';
-import {
-    addMarkerFn, addMarkerPerson, addSoluOrProbFn,
-    addMarkerCountryFn, addMarkerCountryGroupFn
-} from '../Markers/AddMarkers';
 import {
     givenSetPopup,
-    removeHorizontalIconPopup,
-    removeRectIconPopup, removeVerticalPersonIconPopup,
-    tempFnPopup
 } from "@/components/Map/MapContents/Popups/Popups";
 
 const MoreView = ({selectedData}) => {

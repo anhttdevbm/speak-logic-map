@@ -197,16 +197,15 @@ const Markers = ({setModal, setModalType}) => {
             map.removeLayer(drawnItemsLine);
             map.removeControl(drawControlLine);
 
-            map.eachLayer(layer => {
-                console.log(layer)
+            globalStore.resetListMarkerFunction();
+            globalStore.resetListMarkerPopulation();
+            globalStore.resetMapLayer();
 
+            map.eachLayer(layer => {
                 if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
                     layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform') {
                     map.removeLayer(layer);
-                    globalStore.resetListMarkerFunction();
-                    globalStore.resetListMarkerPopulation();
-                    globalStore.resetMapLayer();
                     markerFnIndex[0] = 1;
                     markerPersonIndex[0] = 1;
                     markerProblemIndex[0] = 1;
