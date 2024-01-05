@@ -1,12 +1,13 @@
 import {observer} from "mobx-react-lite";
 import styles from "./_ModalContents.module.scss";
 import React, {useEffect, useState} from "react";
-import {useGlobalStore} from "@/providers/RootStoreProvider";
+import {useCountryStore, useGlobalStore} from "@/providers/RootStoreProvider";
 import {CloseIcon} from "@/components/Icons/Icons";
 import {Button, Col, Form, Input, notification, Radio, Row, Select, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
 import SearchCountry from "@/components/Tools/TopTools/ToolItems/SearchCountry";
 import {DeleteOutlined} from "@ant-design/icons";
+import * as turf from "@turf/turf";
 
 interface DataType {
     key?: string;
@@ -19,7 +20,7 @@ interface DataType {
     endPerformance?: number | null;
     endPerformanceTitle?: string;
     simulation?: string;
-    numberFunction?: number | null;
+    numberFunction?: number | null | undefined;
     startColor?: string;
     endColor?: string;
 }
@@ -116,15 +117,19 @@ const ScrollFeatureViewM = () => {
     const [isClickAdd, setIsClickAdd] = useState<boolean>();
     const [form] = Form.useForm();
     const globalStore = useGlobalStore();
-
+    const countryStore = useCountryStore();
     useEffect(() => {
         setIsClickAdd(false);
     }, [])
+    useEffect(() => {
+        if (country != null && radioValue == 'automatic') countFunctionOfEachCountry();
+    }, [country]);
+    
     const closeModal = () => {
         globalStore.resetPositionScroll();
     }
     const handleCountry = (value: any) => {
-        setCountry(value.fullName)
+        setCountry(value)
     }
 
     const handleSave = () => {
@@ -190,6 +195,39 @@ const ScrollFeatureViewM = () => {
                 }
         }
     }
+
+    const countFunctionOfEachCountry = () => {
+        const countryStoreData = countryStore.countries.find(value => value.name.codeName == country.codeName);
+        let count = 0;
+        if (globalStore.mapLayer.length > 0 && countryStoreData != null) {
+            for (let i = 0; i < globalStore.mapLayer.length; i++) {
+                let functionName = globalStore.mapLayer[i].type
+                if (functionName != null && functionName === 'function') {
+                    let lat = globalStore.mapLayer[i].lat;
+                    let lng = globalStore.mapLayer[i].lng;
+                    debugger
+                    const point = turf.point([Number(lng), Number(lat)]);
+                    if (countryStoreData.data[0].features[0].geometry.type === "MultiPolygon") {
+                        countryStoreData.data[0].features[0].geometry.coordinates.forEach((coordinate: any) => {
+                            const polygon = turf.polygon(coordinate)
+                            if (turf.booleanPointInPolygon(point, polygon)) {
+                                count ++;
+                            }
+                        })
+                    } else {
+                        // @ts-ignore
+                        const polygon = turf.polygon(countryStoreData.data[0]?.features[0]?.geometry.coordinates);
+                        if (turf.booleanPointInPolygon(point, polygon)) {
+                            count ++;
+                        }
+                    }
+                }
+            }
+        }
+        console.log("function of country:", count);
+        form.setFieldValue("numberFunction", count);
+    }
+
     const openNotification = (description: string) => {
         api.open({
             message: 'Warning',
@@ -199,8 +237,8 @@ const ScrollFeatureViewM = () => {
         });
     };
     const isDuplicateContry = () => {
-        return data.find(value => value.country == country) == undefined ||
-            data.find(value => value.country == country) == null;
+        return data.find(value => value.country == country.fullName) == undefined ||
+            data.find(value => value.country == country.fullName) == null;
     }
 
     const isDuplicateFunction = (value: DataType) => {
@@ -227,7 +265,7 @@ const ScrollFeatureViewM = () => {
             const copyValue: DataType = {
                 ...value,
                 key: country + "-" + data.length,
-                country: country,
+                country: country.fullName,
                 startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
                 endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
                 startColor: objectColor.startColor,
@@ -236,14 +274,13 @@ const ScrollFeatureViewM = () => {
             const dataCopy: any = data.map((item: any, index: number) => {
                 item = {
                     ...item,
-                    key: item.country + "-" + index,
+                    key: country + "-" + index,
                     startPerformanceTitle: `${value.startPerformance}% ${objectColor.startColor}`,
                     endPerformanceTitle: `${value.endPerformance}% ${objectColor.endColor}`,
                     startColor: objectColor.startColor,
                     endColor: objectColor.endColor,
                     startDate: value.startDate,
                     endDate: value.endDate,
-                    // country: value.country
                 }
                 return item;
             })
@@ -256,6 +293,7 @@ const ScrollFeatureViewM = () => {
 
     const onReset = () => {
         form.resetFields();
+        setCountry(null);
     };
     const handleRadio = (value: any) => {
         setRadiovalue(value.target.value);
@@ -319,16 +357,17 @@ const ScrollFeatureViewM = () => {
                                         name="country"
                                     >
                                         <SearchCountry setCountry={handleCountry}/>
-
+                                        {/*{country != null ? <span style={{color:'red'}}>input is required</span> : null}*/}
                                         {/*<Input/>*/}
                                     </Form.Item>
+
                                 </Col>
                                 <Col span={12}>
                                     <Form.Item<FieldType>
                                         label="End Date"
                                         name="endDate"
                                         rules={[{required: true, message: 'input is required'},
-                                            ({ getFieldValue }) => ({
+                                            ({getFieldValue}) => ({
                                                 validator(_, value) {
                                                     if (!value || Number(getFieldValue('startDate')) < Number(value)) {
                                                         return Promise.resolve();
@@ -357,7 +396,16 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="End Performance"
                                         name="endPerformance"
-                                        rules={[{required: true, message: 'input is required'}]}
+                                        rules={[{required: true, message: 'input is required'},
+                                            ({getFieldValue}) => ({
+                                                validator(_, value) {
+                                                    if (!value || Number(getFieldValue('startPerformance')) < Number(value)) {
+                                                        return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(new Error('The start performance must be less than the end performance'));
+                                                },
+                                            }),
+                                        ]}
                                     >
                                         <Input type={"number"}/>
                                     </Form.Item>
