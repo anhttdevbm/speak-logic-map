@@ -104,45 +104,6 @@ const FloorPlanView = () => {
             }
           })
         }
-
-        //
-        // if (globalStore.map) {
-        //   const firstLat = 83;
-        //   const firstLng = -175;
-        //   // Add the floor-plan boundary
-        //   let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
-        //   fpBoundary = L.rectangle(bounds, {weight: 1, opacity: 1, fillOpacity: 0});
-        //   fpBoundary.addTo(map);
-
-        //   const extend = [-81.5, -156.5, 81.5, 156.5]
-        //   const cellSide = 600;
-
-        //   const grid = turf.pointGrid(extend, cellSide);
-        //   grid.features.reverse();
-
-        //   console.log("GRID: ", grid);
-
-        //   let itemArray = [];
-        //   grid.features.forEach(item => {
-        //     itemArray.push(item.geometry.coordinates);
-        //   });
-
-        //   let result = itemArray.reduce(function(prev, cur) {
-        //     prev[cur[0]] = prev[cur[0]] || [];
-        //     prev[cur[0]].push(cur);
-        //     return prev;
-        //   }, {});
-
-        //   const lengthItem = itemArray.length;
-        //   const newResult = Object.values(result);
-
-        //   for (let i in result) {
-        //     result[i].reverse();
-        //     result[i].forEach(item => {
-        //       addMarkerFn(map, item[0], item[1], i, globalStore.lock);
-        //     })
-        //   }
-        // }
       }
       else if (globalStore.floorPlanView === '') {
         let orientation;
@@ -272,7 +233,7 @@ const FloorPlanView = () => {
         }
       })
     }
-  }, [globalStore.showFloorPlanDistance, globalStore.map, globalStore.floorPlanView])
+  }, [globalStore.showFloorPlanDistance, globalStore.map, globalStore.floorPlanView, map, countryStore.countries, globalStore.fpRoomName])
 
   // Change floor plan text size after zoom
   useEffect(() => {
@@ -306,7 +267,7 @@ const FloorPlanView = () => {
         map.removeLayer(fpBoundaryText);
       }
     }
-  }, [zoom, globalStore.map, globalStore.floorPlanView, globalStore.countryQuantity])
+  }, [zoom, globalStore.map, globalStore.floorPlanView, globalStore.countryQuantity, countryStore.countries.length, map])
 
   return null
 }
