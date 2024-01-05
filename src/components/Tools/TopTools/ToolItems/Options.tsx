@@ -182,7 +182,7 @@ const Options: React.FC = (): JSX.Element => {
                     <RightArrowIcon className={`${styles['sub-icon']}`}/>
                     <ul className={`${styles['minor-list']}`}>
                         <li onClick={() => globalStore.toggleFloorDistance()}>
-                            Show Distance between Rooms (Very Lag)
+                            Show Distance between Floors (Very Lag)
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
                 ${!globalStore.showRoomDistance ? styles['hide'] : styles['show']}
