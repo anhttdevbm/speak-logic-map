@@ -60,7 +60,7 @@ const MoreView = ({selectedData}) => {
 
             const firstLat = -50;
             const firstLng = -120;
-            const latList = [40.5, -1, -42];
+            const latList = [40.5, 3, -35];
             const lngList = [-99, -52, -4, 41, 88]
             // Add the floor-plan boundary
             let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
@@ -69,8 +69,16 @@ const MoreView = ({selectedData}) => {
 
             if (globalStore.moreName === 'world-as-function' && globalStore.listMarkerFunction.length > 0) {
                 addItemDotDot(globalStore.listMarkerFunction).forEach((fn, index) => {
-                    const lat = latList[Math.floor(index / lngList.length)];
-                    const lng = lngList[index % lngList.length];
+                    let lat = 0;
+                    let lng = 0;
+                    if (globalStore.listMarkerFunction.length < 16) {
+                        lat = latList[Math.floor(index / lngList.length)];
+                        lng = lngList[index % lngList.length];
+                    } else {
+                        let numberPersonPerRow = Math.floor(globalStore.listMarkerFunction.length / 3) + 1;
+                        lat = latList[Math.floor(index / numberPersonPerRow)];
+                        lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
+                    }
                     let functionMarker;
                     if (fn.key === 'dot') {
                         functionMarker = addIconDotDot(lat, lng);
@@ -104,8 +112,16 @@ const MoreView = ({selectedData}) => {
                 })
             } else if (globalStore.moreName === 'world-problem-view' && globalStore.listMarkerProblem.length > 0) {
                 addItemDotDot(globalStore.listMarkerProblem).forEach((pl, index) => {
-                    const lat = latList[Math.floor(index / lngList.length)];
-                    const lng = lngList[index % lngList.length];
+                    let lat = 0;
+                    let lng = 0;
+                    if (globalStore.listMarkerProblem.length < 16) {
+                        lat = latList[Math.floor(index / lngList.length)];
+                        lng = lngList[index % lngList.length];
+                    } else {
+                        let numberPersonPerRow = Math.floor(globalStore.listMarkerProblem.length / 3) + 1;
+                        lat = latList[Math.floor(index / numberPersonPerRow)];
+                        lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
+                    }
                     let functionMarker;
                     if (pl.key !== '') {
                         functionMarker = L.marker([lat, lng], {
@@ -127,8 +143,16 @@ const MoreView = ({selectedData}) => {
                 })
             } else if (globalStore.moreName === 'population-view' && globalStore.listMarkerPopulation.length > 0) {
                 addItemDotDot(globalStore.listMarkerPopulation).forEach((person, index) => {
-                    const lat = latList[Math.floor(index / lngList.length)];
-                    const lng = lngList[index % lngList.length];
+                    let lat = 0;
+                    let lng = 0;
+                    if (globalStore.listMarkerPopulation.length < 16) {
+                        lat = latList[Math.floor(index / lngList.length)];
+                        lng = lngList[index % lngList.length];
+                    } else {
+                        let numberPersonPerRow = Math.floor(globalStore.listMarkerPopulation.length / 3) + 1;
+                        lat = latList[Math.floor(index / numberPersonPerRow)];
+                        lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
+                    }
                     let functionMarker;
                     if (person.key === 'dot') {
                         functionMarker = addIconDotDot(lat, lng);
@@ -156,7 +180,7 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 })
             } else if (globalStore.moreName === 'population-view-with-country') {
-                const latListt = [40.5, -1, -42];
+                const latListt = [40.5, 2, -35];
                 const lngListt = [-99, -30, 41, 88];
                 if (globalStore.map) {
                     const numberPersonOfEachCountry = getNumberPopulationOfCountry();
@@ -199,7 +223,6 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 }
             } else if (globalStore.moreName === 'population-view-principle-line') {
-                console.log('population-view-principle-line')
                 const latListt = [40.5, -1, -42];
                 const lngListt = [-99, -30, 41, 88];
                 if (globalStore.map) {
