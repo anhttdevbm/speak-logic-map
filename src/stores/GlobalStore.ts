@@ -53,6 +53,7 @@ export class GlobalStore {
     listMarkerProblem: any[] = [];
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
+    listPrincipleLine: any[] = [];
     numberPersonInHorizontalLine = 0;
     numberFunctionMoreView = 0;
     numberPersonMoreView = 0;
@@ -601,5 +602,26 @@ export class GlobalStore {
                 this.mapLayer[i].mobility = mobility;
             }
         }
+    }
+
+    setListPrincipleLine = (position: any[], numberPerson: number) => {
+        let id = this.listPrincipleLine.length + 1;
+        this.listPrincipleLine.push({
+            id: id,
+            position: position,
+            numberPerson: numberPerson
+        });
+    }
+
+    setNumberPersonForPrincipleLine = (id: number, numberPerson: number) => {
+        for (let i = 0; i < this.listPrincipleLine.length; i++) {
+            if (this.listPrincipleLine[i].id === id) {
+                this.listPrincipleLine[i].numberPerson = numberPerson
+            }
+        }
+    }
+
+    resetListPrincipleLine = () => {
+        this.listPrincipleLine = [];
     }
 }

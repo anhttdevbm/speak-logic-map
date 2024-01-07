@@ -4,6 +4,7 @@ export const markerProblemIndex = [1];
 export const unitDistance = ['mile'];
 export const markerHouseIndex = [1];
 export const markerCountryFnIndex = [1];
+export const markerPrincipleLineIndex = [0];
 export const groupCountryFnIndex = [1];
 export const groupFnIndex = [1];
 export const groupPersonIndex = [1];

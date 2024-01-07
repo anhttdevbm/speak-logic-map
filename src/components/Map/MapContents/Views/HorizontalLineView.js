@@ -68,45 +68,58 @@ const HorizontalLineView = () => {
                 }
             });
 
-            if ((globalStore.addIcon === 'horizontal-line' || globalStore.addIcon === 'main-set') && globalStore.positionOfHorizontalLine.length > 0) {
+            if (globalStore.listPrincipleLine.length > 0) {
                 if (globalStore.map) {
+                    console.log('globalStore.listPrincipleLine', globalStore.listPrincipleLine)
+                    for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
+                        let principleLine = globalStore.listPrincipleLine[i];
+                        if (principleLine.position.length > 0 && principleLine.numberPerson > 0) {
+                            const latHorizontalLine = principleLine.position[0];
+                            const lngHorizontalLine = principleLine.position[1];
+                            const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
+                            const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
 
-                    const latHorizontalLine = globalStore.positionOfHorizontalLine[0];
-                    const lngHorizontalLine = globalStore.positionOfHorizontalLine[1];
-                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
-                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
+                            if (globalStore.chooseGivenSet) {
+                                L.marker([latHorizontalLine, lngHorizontalLine], {
+                                    options: {
+                                        type: 'the-given-set',
+                                        status: 'add'
+                                    },
+                                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+                                }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
+                                    .addTo(map)
+                            }
 
-                    if (globalStore.chooseGivenSet) {
-                        L.marker([latHorizontalLine, lngHorizontalLine], {
-                            options: {
-                                type: 'Main set',
-                            },
-                            icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
-                        }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                            .addTo(map)
-                    }
+                            const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
+                            console.log('horizontalLineLatLngs', horizontalLineLatLngs)
+                            const horizontalLine = L.polyline(horizontalLineLatLngs, {
+                                weight: 3,
+                                color: 'black',
+                                status: 'add',
+                                type: 'vertical-principle-line'
+                            })
+                                .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
+                            horizontalLine.addTo(map);
 
-                    const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black', status: 'add'})
-                        .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
-                    horizontalLine.addTo(map);
+                            countriesLayer.push(horizontalLine)
 
-                    countriesLayer.push(horizontalLine)
+                            const dental = 240 / (principleLine.numberPerson + 1);
 
-                    const dental = 240 / (globalStore.numberPersonInHorizontalLine + 1);
+                            for (let i = 0; i < principleLine.numberPerson; i++) {
+                                const lng = lngHorizontalLine - 120 + (i + 1) * dental;
+                                let countryMarker = L.marker([latHorizontalLine, lng], {
+                                    options: {
+                                        type: 'person-principle-line',
+                                        status: 'add'
+                                    },
+                                    icon: markerVerticalPersonIcon(`${styles['vertical-person-icon']}`),
+                                })
+                                    .on('contextmenu', e => removeVerticalPersonIconPopup(map, e, globalStore.removeVerticalIcon))
+                                    .addTo(map);
 
-                    for (let i = 0; i < globalStore.numberPersonInHorizontalLine; i++) {
-                        const lng = lngHorizontalLine - 120 + (i + 1) * dental;
-                        let countryMarker = L.marker([latHorizontalLine, lng], {
-                            options: {
-                                type: 'Vertical ' + i,
-                            },
-                            icon: markerVerticalPersonIcon(`${styles['vertical-person-icon']}`),
-                        })
-                            .on('contextmenu', e => removeVerticalPersonIconPopup(map, e, globalStore.removeVerticalIcon))
-                            .addTo(map);
-
-                        countriesLayer.push(countryMarker);
+                                countriesLayer.push(countryMarker);
+                            }
+                        }
                     }
                 }
             } else {
@@ -125,8 +138,7 @@ const HorizontalLineView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.numberPersonInHorizontalLine, globalStore.showModalInsertNumberPerson,
-            globalStore.positionOfHorizontalLine, globalStore.addIcon, globalStore.chooseGivenSet]
+        }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson, globalStore.chooseGivenSet]
     );
 
     return null

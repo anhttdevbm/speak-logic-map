@@ -24,7 +24,7 @@ import {
     selectedList,
     markerProblemIndex,
     markerHouseIndex, markerCountryFnIndex,
-    markerFnIndex
+    markerFnIndex, markerPrincipleLineIndex
 } from '../Variables/Variables';
 
 import {
@@ -199,6 +199,7 @@ const Markers = ({setModal, setModalType}) => {
 
             globalStore.resetListMarkerFunction();
             globalStore.resetListMarkerPopulation();
+            globalStore.resetListPrincipleLine();
             globalStore.resetMapLayer();
 
             map.eachLayer(layer => {
@@ -456,11 +457,9 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.resetDataScroll();
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'horizontal-line') {
-                    // addMarkerPrincipleLine(map, latlng.lat, latlng.lng, globalStore.lock);
-                    // globalStore.addIconHandle('');
-                    if (globalStore.positionOfHorizontalLine.length === 0) {
-                        globalStore.setPositionOfHorizontalLine(latlng.lat, latlng.lng);
-                    }
+                    globalStore.toggleModalInsertNumberPerson();
+                    globalStore.setListPrincipleLine([latlng.lat, latlng.lng], null);
+                    markerPrincipleLineIndex[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'relate') {
                     addRelateMarker(map, latlng.lat, latlng.lng, globalStore.lock);
@@ -495,11 +494,12 @@ const Markers = ({setModal, setModalType}) => {
                 })
             }
         } else {
-            if (globalStore.addIcon === 'horizontal-line') {
-                if (globalStore.positionOfHorizontalLine.length > 0) {
-                    globalStore.toggleModalInsertNumberPerson();
-                }
-            } else if (globalStore.addIcon === 'main-set') {
+            // if (globalStore.addIcon === 'horizontal-line') {
+            //     if (globalStore.positionOfHorizontalLine.length > 0) {
+            //         globalStore.toggleModalInsertNumberPerson();
+            //     }
+            // } else
+            if (globalStore.addIcon === 'main-set') {
                 if (globalStore.positionOfHorizontalLine.length > 0) {
                     globalStore.setChooseGivenSet(true)
                 }
@@ -625,10 +625,10 @@ const Markers = ({setModal, setModalType}) => {
                     addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
                         globalStore.setValueOfImage)
                 } else if (globalStore.addIcon === 'horizontal-line') {
-                    if (globalStore.positionOfHorizontalLine.length === 0) {
-                        // globalStore.toggleModalInsertNumberPerson();
-                        globalStore.setPositionOfHorizontalLine(e.latlng.lat, e.latlng.lng);
-                    }
+                    globalStore.toggleModalInsertNumberPerson();
+                    globalStore.setListPrincipleLine([e.latlng.lat, e.latlng.lng], null);
+                    markerPrincipleLineIndex[0]++;
+                    globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'main-set') {
                     globalStore.setChooseGivenSet(true);
                     addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,

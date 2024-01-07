@@ -206,8 +206,7 @@ const MapSSR: React.FC = (): JSX.Element => {
                     </>
                 )}
 
-                {(globalStore.addIcon === 'horizontal-line' || globalStore.addIcon === 'main-set')
-                    && globalStore.numberPersonInHorizontalLine > 0
+                {globalStore.listPrincipleLine.length > 0
                     && <HorizontalLineView/>}
 
                 {(globalStore.listMapElementSelected?.length > 0 && globalStore.listMapElementRelate?.length > 0)
@@ -240,12 +239,12 @@ const MapSSR: React.FC = (): JSX.Element => {
                 </ModalWrap>
             )}
             {
-                globalStore.positionOfHorizontalLine.length > 0 && globalStore.showModalInsertNumberPerson &&
+                globalStore.showModalInsertNumberPerson &&
                 <ModalWrap>
                     <InsertPersonM
                         type={'person'}
                         setToggleModal={globalStore.toggleModalInsertNumberPerson}
-                        setAction={globalStore.setNumberPersonInHorizontalLine}
+                        setAction={globalStore.setNumberPersonForPrincipleLine}
                     />
                 </ModalWrap>
             }
