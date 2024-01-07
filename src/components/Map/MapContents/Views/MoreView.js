@@ -38,6 +38,13 @@ const MoreView = ({selectedData}) => {
                     layer.options.type?.status === 'add'
                 ) {
                     map.removeLayer(layer);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.resetListMarkerFunction();
+                    } else if (globalStore.moreName === 'population-view') {
+                        globalStore.resetListMarkerPopulation();
+                    } else if (globalStore.moreName === 'world-problem-view') {
+                        globalStore.resetListMarkerProblem();
+                    }
                 }
             });
 

@@ -199,6 +199,7 @@ const Markers = ({setModal, setModalType}) => {
 
             globalStore.resetListMarkerFunction();
             globalStore.resetListMarkerPopulation();
+            globalStore.resetListMarkerProblem();
             globalStore.resetListPrincipleLine();
             globalStore.resetMapLayer();
 

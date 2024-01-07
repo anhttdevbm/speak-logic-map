@@ -464,6 +464,10 @@ export class GlobalStore {
         this.listMarkerPopulation = [];
     }
 
+    resetListMarkerProblem = (): void => {
+        this.listMarkerProblem = [];
+    }
+
     setShapeOfMarkerFn = (name: number, shape: string): void => {
         for (let i = 0; i < this.listMarkerFunction.length; i++) {
             if (this.listMarkerFunction[i].value === name) {
