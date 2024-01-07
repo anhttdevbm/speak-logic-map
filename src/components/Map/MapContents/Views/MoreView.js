@@ -2,7 +2,9 @@
 import L from 'leaflet';
 import {observer} from 'mobx-react-lite';
 import {useMap} from 'react-leaflet';
-import {allLayer, markerPersonIndex} from '../Variables/Variables';
+import {
+    allLayer,
+} from '../Variables/Variables';
 import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {

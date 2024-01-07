@@ -505,13 +505,17 @@ const Markers = ({setModal, setModalType}) => {
                 }
             } else {
                 globalStore.mapLayer.forEach(fn => {
-                    if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')) {
+                    if (fn.type === 'function'
+                        && fn.name !== ""
+                        && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')
+                        && globalStore.moreName === ''
+                    ) {
                         if (globalStore.tableView !== '') {
                             addMarkerFnEllipse(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                         } else {
                             addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
                         }
-                    } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility) {
+                    } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility && globalStore.moreName === '') {
                         let index = fn.name.replace("Person ", "");
                         if (!checkMarkerExist(map, index, 'person')) {
                             addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,

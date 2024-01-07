@@ -54,10 +54,8 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
                     const randomLng = Math.random() * (maxLng - minLng) + minLng;
                     globalStore.setMapLayer(randomLat, randomLng, 'Function ' + key, 'function');
                 }
-                console.log('map layer', globalStore.mapLayer)
             } else if (type === 'population-view') {
                 let indexList = globalStore.listMarkerPopulation.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
-                console.log('globalStore.listMarkerPopulation', globalStore.listMarkerPopulation)
                 let lastIndex = indexList[indexList.length - 1]
                 for (let i = 1; i <= numberPerson; i++) {
                     let key = lastIndex + i;

@@ -102,7 +102,7 @@ const RelateView = () => {
                         L.polyline([[latCenter, lng], [latCenter, lng + 40]], {
                             status: 'add',
                             weight: 2,
-                            color: 'red'
+                            color: 'black'
                         })
                             .arrowheads({size: '1%', color: 'red', type: 'arrow', status: 'add'})
                             .addTo(map);
