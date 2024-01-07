@@ -4,21 +4,14 @@ import {observer} from 'mobx-react-lite';
 import {useMap} from 'react-leaflet';
 import {useEffect, useState} from 'react';
 import {useGlobalStore} from '@/providers/RootStoreProvider';
-import {allLayer, handleName, markerPersonIndex} from "@/components/Map/MapContents/Variables/Variables";
+import {markerPersonIndex} from "@/components/Map/MapContents/Variables/Variables";
 import {
     markerFnCircleIcon,
-    markerGivenSetIcon, markerMapElementIcon, markerPersonIcon,
-    markerRectHouseIcon, markerRelateElementIcon, markerRelateIcon,
-    markerVerticalPersonIcon
+    markerMapElementIcon,
+    markerPersonIcon
 } from "@/components/Map/MapContents/Markers/MarkerIcons";
 import styles from "@/components/Map/MapContents/_MapContents.module.scss";
-import {
-    givenSetPopup,
-    mainsetPopup,
-    removeHorizontalIconPopup,
-    removeRectIconPopup,
-    removeVerticalPersonIconPopup
-} from "@/components/Map/MapContents/Popups/Popups";
+import {givenSetPopup, removeHorizontalIconPopup} from "@/components/Map/MapContents/Popups/Popups";
 
 const RelateView = () => {
     const map = useMap();
@@ -56,6 +49,15 @@ const RelateView = () => {
         }
     }, [globalStore.clear]);
 
+    const findLatLngPoint = (latLngElementSelected, latLngElementRelate) => {
+        let pointElementSelected = map.latLngToContainerPoint(latLngElementSelected);
+        let pointElementRelate = map.latLngToContainerPoint(latLngElementRelate);
+        let centerX = (pointElementSelected.x + pointElementRelate.x) / 2;
+        let centerY = (pointElementSelected.y + pointElementRelate.y) / 2;
+        let centerPoint = { x: centerX, y: centerY };
+        return map.containerPointToLatLng(centerPoint);
+    }
+
     useEffect(() => {
             let world = {};
             let fpBoundary;
@@ -71,11 +73,15 @@ const RelateView = () => {
                     if (globalStore.map) {
                         const latElementSelected = position[0];
                         const lngElementSelected = position[1];
+                        const latElementRelated = position[0] - 30;
+                        const lng = lngElementSelected + 100;
+                        let centerLatLng = findLatLngPoint([latElementSelected, lng], [latElementRelated, lng])
+                        const latCenter = centerLatLng.lat;
 
                         const leftHorizontalLineTop = [latElementSelected, lngElementSelected];
-                        const rightHorizontalLineTop = [latElementSelected, lngElementSelected + 100];
-                        const topVerticalLine = [latElementSelected, lngElementSelected + 100];
-                        const downVerticalLine = [latElementSelected - 10, lngElementSelected + 100];
+                        const rightHorizontalLineTop = [latElementSelected, lng];
+                        const topVerticalLine = [latElementSelected, lng];
+                        const downVerticalLine = [latCenter, lng];
                         const horizontalLineLatLngsTop = [[leftHorizontalLineTop, rightHorizontalLineTop],]
                         L.polyline(horizontalLineLatLngsTop, {weight: 2, color: 'black', status: 'add'})
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
@@ -84,7 +90,7 @@ const RelateView = () => {
                             .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                             .addTo(map);
 
-                        L.marker([latElementSelected - 10, lngElementSelected + 100], {
+                        L.marker([latCenter, lngElementSelected + 100], {
                             options: {
                                 type: 'Relationship',
                             },
@@ -93,18 +99,18 @@ const RelateView = () => {
                             ),
                         }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
                             .addTo(map);
-                        L.polyline([[latElementSelected - 10, lngElementSelected + 100], [latElementSelected - 10, lngElementSelected + 140]], {
+                        L.polyline([[latCenter, lng], [latCenter, lng + 40]], {
                             status: 'add',
                             weight: 2,
-                            color: 'black'
+                            color: 'red'
                         })
-                            .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
+                            .arrowheads({size: '1%', color: 'red', type: 'arrow', status: 'add'})
                             .addTo(map);
 
-                        const leftHorizontalLineBottom = [latElementSelected - 30, lngElementSelected];
-                        const rightHorizontalLineBottom = [latElementSelected - 30, lngElementSelected + 100];
-                        const topVerticalLine2 = [latElementSelected - 10, lngElementSelected + 100]
-                        const downVerticalLine2 = [latElementSelected - 30, lngElementSelected + 100];
+                        const leftHorizontalLineBottom = [latElementRelated, lngElementSelected];
+                        const rightHorizontalLineBottom = [latElementRelated, lng];
+                        const topVerticalLine2 = [latCenter, lng]
+                        const downVerticalLine2 = [latElementRelated, lng];
                         const horizontalLineLatLngsDown = [[leftHorizontalLineBottom, rightHorizontalLineBottom],]
                         L.polyline(horizontalLineLatLngsDown, {weight: 2, color: 'black', status: 'add'})
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
@@ -124,7 +130,7 @@ const RelateView = () => {
                                 ? markerPersonIcon(``, `Person ${index}`, null)
                                 : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
                         }).addTo(map);
-                        globalStore.changeStatusOfMapElementRelated(true, id)
+                        globalStore.changeStatusOfMapElementRelated(true, id);
                     }
                 } else {
                     countriesLayer.forEach((layer) => {
