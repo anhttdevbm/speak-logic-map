@@ -114,17 +114,17 @@ const ScrollFeatureViewM = () => {
     const [data, setData] = useState<DataType[]>([]);
     const [country, setCountry] = useState<any>(null);
     const [radioValue, setRadioValue] = useState('manual');
-    const [isClickAdd, setIsClickAdd] = useState<boolean>();
+    const [isClickAdd, setIsClickAdd] = useState<any>(false);
     const [form] = Form.useForm();
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
-    useEffect(() => {
-        setIsClickAdd(false);
-    }, [])
+    // useEffect(() => {
+    //     setIsClickAdd(false);
+    // }, [])
     useEffect(() => {
         if (country != null && radioValue == 'automatic') countFunctionOfEachCountry();
     }, [country]);
-    
+
     const closeModal = () => {
         globalStore.resetPositionScroll();
     }
@@ -224,8 +224,11 @@ const ScrollFeatureViewM = () => {
                 }
             }
         }
-        console.log("function of country:", count);
-        form.setFieldValue("numberFunction", count);
+        // console.log("function of country:", count);
+        form.setFieldsValue({
+            numberFunction: count,
+        });
+        setIsClickAdd(false);
     }
 
     const openNotification = (description: string) => {
@@ -259,7 +262,7 @@ const ScrollFeatureViewM = () => {
     }
 
     const onFinish = (value: DataType) => {
-        if (validate(value) && isClickAdd) {
+        if (validate(value) && isClickAdd == true) {
             const simulation = value.simulation ?? data[0].simulation;
             const objectColor = convertColor(simulation);
             const copyValue: DataType = {
@@ -318,11 +321,11 @@ const ScrollFeatureViewM = () => {
                     <div className={`${styles['main-content']}`} style={{padding: 10}}>
                         <Form
                             form={form}
-                            name="basic"
+                            name="control-hooks"
                             labelCol={{span: 11}}
                             wrapperCol={{span: 13}}
                             style={{maxWidth: 1000}}
-                            initialValues={initialValues}
+                            // initialValues={initialValues}
                             onFinish={onFinish}
                             autoComplete="off"
                         >
@@ -419,7 +422,6 @@ const ScrollFeatureViewM = () => {
                                     <Form.Item<FieldType>
                                         label="simulation From"
                                         name="simulation"
-                                        rules={[{required: true, message: 'input is required'}]}
                                     >
                                         <select>
                                             <option value="ggreen">Green to green</option>

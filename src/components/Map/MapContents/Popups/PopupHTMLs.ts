@@ -833,6 +833,24 @@ export const floorPopupHTML = (): string => {
         <div class="${styles['hover-func-block']}">
           <div class="${styles['upload-file-wrapper']}">
             Image
+            <input type="file" accept="image/png, image/jpg, image/jpeg" onChange="roomAddImg(event)" />
+          </div>
+          <div class="${styles['upload-file-wrapper']}">
+            Audio
+            <input type="file" accept="audio/mpeg" onChange="roomAddAudio(event)" />
+          </div>
+          <div class="${styles['upload-file-wrapper']}">
+            Video
+            <input type="file" accept="video/mp4" onChange="roomAddVideo(event)" />
+          </div>
+        </div>
+      </div>
+
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Replace Room with
+        <div class="${styles['hover-func-block']}">
+          <div class="${styles['upload-file-wrapper']}">
+            Image
             <input type="file" accept="image/png, image/jpg, image/jpeg" onChange="replaceRoomWithImg(event)" />
           </div>
           <div class="${styles['upload-file-wrapper']}">
