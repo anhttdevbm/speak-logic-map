@@ -114,13 +114,10 @@ const ScrollFeatureViewM = () => {
     const [data, setData] = useState<DataType[]>([]);
     const [country, setCountry] = useState<any>(null);
     const [radioValue, setRadioValue] = useState('manual');
-    const [isClickAdd, setIsClickAdd] = useState<any>(false);
+    const [isClickAdd, setIsClickAdd] = useState<boolean>(false);
     const [form] = Form.useForm();
     const globalStore = useGlobalStore();
     const countryStore = useCountryStore();
-    // useEffect(() => {
-    //     setIsClickAdd(false);
-    // }, [])
     useEffect(() => {
         if (country != null && radioValue == 'automatic') countFunctionOfEachCountry();
     }, [country]);
@@ -211,24 +208,22 @@ const ScrollFeatureViewM = () => {
                         countryStoreData.data[0].features[0].geometry.coordinates.forEach((coordinate: any) => {
                             const polygon = turf.polygon(coordinate)
                             if (turf.booleanPointInPolygon(point, polygon)) {
-                                count ++;
+                                count++;
                             }
                         })
                     } else {
                         // @ts-ignore
                         const polygon = turf.polygon(countryStoreData.data[0]?.features[0]?.geometry.coordinates);
                         if (turf.booleanPointInPolygon(point, polygon)) {
-                            count ++;
+                            count++;
                         }
                     }
                 }
             }
         }
-        // console.log("function of country:", count);
         form.setFieldsValue({
             numberFunction: count,
         });
-        setIsClickAdd(false);
     }
 
     const openNotification = (description: string) => {
@@ -299,7 +294,7 @@ const ScrollFeatureViewM = () => {
         setCountry(null);
     };
     const handleRadio = (value: any) => {
-        if(value.target.value == 'automatic' && country != null) {
+        if (value.target.value == 'automatic' && country != null) {
             countFunctionOfEachCountry();
         }
         setRadioValue(value.target.value);
@@ -436,6 +431,7 @@ const ScrollFeatureViewM = () => {
                                         label="Number function"
                                         name="numberFunction"
                                         rules={[{required: true, message: 'input is required'}]}
+                                        shouldUpdate
                                     >
                                         <Input type={"number"} disabled={radioValue == 'automatic'}/>
                                         {/*<InputNumber disabled={radioValue == 'automatic'}/>*/}
