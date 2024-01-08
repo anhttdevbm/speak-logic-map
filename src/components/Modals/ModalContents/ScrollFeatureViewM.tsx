@@ -113,7 +113,7 @@ const ScrollFeatureViewM = () => {
     const [api, contextHolder] = notification.useNotification();
     const [data, setData] = useState<DataType[]>([]);
     const [country, setCountry] = useState<any>(null);
-    const [radioValue, setRadiovalue] = useState('manual');
+    const [radioValue, setRadioValue] = useState('manual');
     const [isClickAdd, setIsClickAdd] = useState<boolean>();
     const [form] = Form.useForm();
     const globalStore = useGlobalStore();
@@ -296,7 +296,10 @@ const ScrollFeatureViewM = () => {
         setCountry(null);
     };
     const handleRadio = (value: any) => {
-        setRadiovalue(value.target.value);
+        if(value.target.value == 'automatic' && country != null) {
+            countFunctionOfEachCountry();
+        }
+        setRadioValue(value.target.value);
     }
 
     const handleDelete = (row: DataType) => {
