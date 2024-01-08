@@ -213,6 +213,7 @@ const Markers = ({setModal, setModalType}) => {
                     markerProblemIndex[0] = 1;
                     markerHouseIndex[0] = 1;
                     markerCountryFnIndex[0] = 1;
+                    markerPrincipleLineIndex[0] = 0;
                     globalStore.valueOfImage = '';
                 }
             });

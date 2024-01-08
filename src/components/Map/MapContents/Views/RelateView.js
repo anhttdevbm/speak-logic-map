@@ -104,7 +104,7 @@ const RelateView = () => {
                             weight: 2,
                             color: 'black'
                         })
-                            .arrowheads({size: '1%', color: 'red', type: 'arrow', status: 'add'})
+                            .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add'})
                             .addTo(map);
 
                         const leftHorizontalLineBottom = [latElementRelated, lngElementSelected];
