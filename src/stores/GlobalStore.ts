@@ -31,7 +31,9 @@ export class GlobalStore {
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
-    rectName: 'rect-non-linear' | 'rect-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | '' = '';
+    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    rectViewSetting: 'rect-non-linear' | 'rect-linear' | '' = '';
+    rectDistanceType: 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
@@ -313,12 +315,28 @@ export class GlobalStore {
         }
     }
 
-    toggleRectName = (value: 'rect-non-linear' | 'rect-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | ''): void => {
-        if (value === this.rectName) {
-            this.rectName = '';
-        } else {
+    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+        // if (value === this.rectName) {
+        //     this.rectName = '';
+        // } else {
             this.rectName = value;
-        }
+        // }
+    }
+
+    toggleRectViewSetting = (value: 'rect-non-linear' | 'rect-linear' | ''): void => {
+        // if (value === this.rectViewSetting) {
+        //     this.rectViewSetting = '';
+        // } else {
+            this.rectViewSetting = value;
+        // }
+    }
+
+    toggleRectDistanceType = (value: 'rect-distance' | 'rect-shot-distance' | ''): void => {
+        // if (value === this.rectDistanceType) {
+        //     this.rectDistanceType = '';
+        // } else {
+            this.rectDistanceType = value;
+        // }
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
