@@ -69,56 +69,55 @@ const HorizontalLineView = () => {
             });
 
             if (globalStore.listPrincipleLine.length > 0) {
-                if (globalStore.map) {
-                    console.log('globalStore.listPrincipleLine', globalStore.listPrincipleLine)
-                    for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
-                        let principleLine = globalStore.listPrincipleLine[i];
-                        if (principleLine.position.length > 0 && principleLine.numberPerson > 0) {
-                            const latHorizontalLine = principleLine.position[0];
-                            const lngHorizontalLine = principleLine.position[1];
-                            const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
-                            const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
+                console.log('globalStore.map', globalStore.map)
+                console.log('globalStore.listPrincipleLine', globalStore.listPrincipleLine)
+                for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
+                    let principleLine = globalStore.listPrincipleLine[i];
+                    if (principleLine.position.length > 0 && principleLine.numberPerson > 0) {
+                        const latHorizontalLine = principleLine.position[0];
+                        const lngHorizontalLine = principleLine.position[1];
+                        const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
+                        const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
 
-                            if (globalStore.chooseGivenSet) {
-                                L.marker([latHorizontalLine, lngHorizontalLine], {
-                                    options: {
-                                        type: 'the-given-set',
-                                        status: 'add'
-                                    },
-                                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
-                                }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                                    .addTo(map)
-                            }
+                        if (globalStore.chooseGivenSet) {
+                            L.marker([latHorizontalLine, lngHorizontalLine], {
+                                options: {
+                                    type: 'the-given-set',
+                                    status: 'add'
+                                },
+                                icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+                            }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
+                                .addTo(map)
+                        }
 
-                            const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                            console.log('horizontalLineLatLngs', horizontalLineLatLngs)
-                            const horizontalLine = L.polyline(horizontalLineLatLngs, {
-                                weight: 3,
-                                color: 'black',
-                                status: 'add',
-                                type: 'vertical-principle-line'
+                        const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
+                        console.log('horizontalLineLatLngs', horizontalLineLatLngs)
+                        const horizontalLine = L.polyline(horizontalLineLatLngs, {
+                            weight: 3,
+                            color: 'black',
+                            status: 'add',
+                            type: 'vertical-principle-line'
+                        })
+                            .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
+                        horizontalLine.addTo(map);
+
+                        countriesLayer.push(horizontalLine)
+
+                        const dental = 240 / (principleLine.numberPerson + 1);
+
+                        for (let i = 0; i < principleLine.numberPerson; i++) {
+                            const lng = lngHorizontalLine - 120 + (i + 1) * dental;
+                            let countryMarker = L.marker([latHorizontalLine, lng], {
+                                options: {
+                                    type: 'person-principle-line',
+                                    status: 'add'
+                                },
+                                icon: markerVerticalPersonIcon(`${styles['vertical-person-icon']}`),
                             })
-                                .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
-                            horizontalLine.addTo(map);
+                                .on('contextmenu', e => removeVerticalPersonIconPopup(map, e, globalStore.removeVerticalIcon))
+                                .addTo(map);
 
-                            countriesLayer.push(horizontalLine)
-
-                            const dental = 240 / (principleLine.numberPerson + 1);
-
-                            for (let i = 0; i < principleLine.numberPerson; i++) {
-                                const lng = lngHorizontalLine - 120 + (i + 1) * dental;
-                                let countryMarker = L.marker([latHorizontalLine, lng], {
-                                    options: {
-                                        type: 'person-principle-line',
-                                        status: 'add'
-                                    },
-                                    icon: markerVerticalPersonIcon(`${styles['vertical-person-icon']}`),
-                                })
-                                    .on('contextmenu', e => removeVerticalPersonIconPopup(map, e, globalStore.removeVerticalIcon))
-                                    .addTo(map);
-
-                                countriesLayer.push(countryMarker);
-                            }
+                            countriesLayer.push(countryMarker);
                         }
                     }
                 }
