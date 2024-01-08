@@ -142,7 +142,7 @@ export const boatPopup = (map, e, isMap, toggleBoatView, setMapElementRelate, se
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
-export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
+export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById) => {
     clearAllPopups(map);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     // console.log(e.target)
@@ -179,7 +179,6 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     if (error) {
         window.problem = error;
     }
-    ;
 
     window.handleToggleFlasingFn = () => {
         const random = Math.round(Math.random() * 10) % 6;
@@ -466,12 +465,9 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     };
 
     window.deleteItem = () => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        // const globalStore = useGlobalStore();
-        //
-        // globalStore.removeMarkerFnList(e.target.options.target.index)
         map.removeLayer(e.target);
         map.removeLayer(popup);
+        removeMapLayerById('function', 'Function '+ e.target.options.target.index);
     }
 
     window.changeToStopFunction = () => {
@@ -492,7 +488,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
 export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected,
-                            resetNumberPersonMobility, updateMapLayerById) => {
+                            resetNumberPersonMobility, updateMapLayerById, removeMapLayerById) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -666,7 +662,10 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     window.deleteItem = () => {
         map.removeLayer(e.target);
         map.removeLayer(popup);
-        map.removeLayer(path);
+        if (path) {
+            map.removeLayer(path);
+        }
+        removeMapLayerById('person', 'Person '+ index);
     }
 }
 

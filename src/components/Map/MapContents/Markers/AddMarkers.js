@@ -2,39 +2,43 @@ import L from 'leaflet';
 import "leaflet.motion/dist/leaflet.motion.js";
 import {addSelectedItem} from './HandleSelectItem';
 import {
-    markerPersonIcon,
-    markerHouseIcon,
-    markerNavigationSignIcon,
-    markerFnIcon,
-    markerDistancePointIcon,
     markerCountryFnIcon,
+    markerDistancePointIcon,
+    markerFnIcon,
+    markerHouseIcon,
     markerMapElementIcon,
-    markerRelateIcon,
-    markerPersonWaveIcon, markerPrincipleLineIcon
+    markerNavigationSignIcon,
+    markerPersonIcon,
+    markerPersonWaveIcon,
+    markerPrincipleLineIcon,
+    markerRelateIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
-    functionPopup,
-    routePopup,
     distancePopup,
-    fnProblemPopup,
     fnCountryPopup,
-    stopFnPopup,
-    tempFnPopup,
+    fnProblemPopup,
+    functionPopup,
+    givenSetPopup,
+    mapElementPopup,
     personPopup,
-    mapElementPopup, givenSetPopup
+    routePopup,
+    stopFnPopup,
+    tempFnPopup
 } from '../Popups/Popups';
-import {
-    groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML
-} from '../Popups/PopupHTMLs'
+import {groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML} from '../Popups/PopupHTMLs'
 
 import {
-    dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
-    clickLine, clickArc, clickArrow, staticArcRouteInit
+    arcRouteInit,
+    clickArc,
+    clickArrow,
+    clickLine,
+    dragEndHandler,
+    dragHandlerLine,
+    dragStartHandler,
+    staticArcRouteInit
 } from './HandleRouteAndDistance';
-import {
-    unitDistance
-} from "@/components/Map/MapContents/Variables/Variables";
+import {unitDistance} from "@/components/Map/MapContents/Variables/Variables";
 
 export const checkMarkerExist = (map, index, type) => {
     let existArr = [];
@@ -52,7 +56,7 @@ export const checkMarkerExist = (map, index, type) => {
 }
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected,
-                                resetNumberPersonMobility, updateMapLayerById) => {
+                                resetNumberPersonMobility, updateMapLayerById, removeMapLayerById) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -63,15 +67,15 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
     icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
   })
     .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
-        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById))
+        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }
 
 
 export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
-                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
-    const fnMarker = L.marker([lat, lng], {
+                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById) => {
+    return L.marker([lat, lng], {
         target: {
             type: 'function',
             shape: 'rectangle',
@@ -84,12 +88,11 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
         ),
         draggable: !isLocked,
     })
-        .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
+        .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn,
+            addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById))
         .on('click', e => addSelectedItem(e, container, isLocked))
         // .on('dblclick', e => toggleBoundaryFn(e))
         .addTo(container);
-
-    return fnMarker;
 }
 
 export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,

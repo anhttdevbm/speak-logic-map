@@ -148,21 +148,29 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         if (y <= +input && turf.booleanPointInPolygon(item, turf.polygon([newPol]))) {
           if (object === 'function-person') {
             if (y % 2 !== 0) {
-              addMarkerPerson(map, item[0], item[1], markerPersonIndex[0], globalStore.lock, setModal, setModalType);
+              addMarkerPerson(map, item[0], item[1], markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+                  globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                  globalStore.updateMapLayerById, globalStore.removeMapLayerById);
               markerPersonIndex[0]++;
             }
             else {
-              addMarkerFn(map, item[0], item[1], markerFnIndex[0], globalStore.lock, setModal, setModalType);
+              addMarkerFn(map, item[0], item[1], markerFnIndex[0], globalStore.lock, setModal, setModalType, null,
+                  null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
+                  globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
               markerFnIndex[0]++;
             }
           }
           else {
             if (object === 'function') {
-              addMarkerFn(map, item[0], item[1], markerFnIndex[0], globalStore.lock, setModal, setModalType);
+              addMarkerFn(map, item[0], item[1], markerFnIndex[0], globalStore.lock, setModal, setModalType, null,
+                  null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
+                  globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
               markerFnIndex[0]++;
             }
             else if (object === 'person') {
-              addMarkerPerson(map, item[0], item[1], markerPersonIndex[0], globalStore.lock, setModal, setModalType);
+              addMarkerPerson(map, item[0], item[1], markerPersonIndex[0], globalStore.lock, setModal, setModalType,
+                  globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                  globalStore.updateMapLayerById, globalStore.removeMapLayerById);
               markerPersonIndex[0]++;
             }
           }
@@ -215,7 +223,9 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
     // });
     
     for (let i = 0; i < Number(defaultFunction[0]); i++) {
-      addMarkerFn(map, centroid.geometry.coordinates[0], centroid.geometry.coordinates[1] + i, i + 1, false, setModal, setModalType, `${selectedCode} ${i + 1}`, null, 'country-group');
+      addMarkerFn(map, centroid.geometry.coordinates[0], centroid.geometry.coordinates[1] + i, i + 1, false,
+          setModal, setModalType, `${selectedCode} ${i + 1}`, null, 'country-group', globalStore.setShapeOfMarkerFn,
+          globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
     }
     let selectedCountryFn = [];
     let countryFns = [];
@@ -308,7 +318,9 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
           event.preventDefault();
           event.stopPropagation();
   
-          addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, name, index);
+          addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, name, index,
+              null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
+              globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
           
           if (index) index[0]++;
           else markerFnIndex[0]++;

@@ -166,6 +166,8 @@ export class GlobalStore {
     toggleMap = (): void => {
         this.map = !this.map;
         this.addIcon = "";
+        this.changeStatusOfAllMapElementRelated();
+
         // this.searchCode = "";
         // this.searchMode = 'countries';
     }
@@ -525,6 +527,10 @@ export class GlobalStore {
         this.mapElementSelected = value;
     }
 
+    resetListMapElementSelected = () => {
+        this.listMapElementSelected = []
+    }
+
     setListMapElementSelected = (value: any): void => {
         let id = this.listMapElementSelected.length;
         this.listMapElementSelected.push({
@@ -574,6 +580,14 @@ export class GlobalStore {
         })
     }
 
+    changeStatusOfAllMapElementRelated = (): void => {
+        this.listMapElementSelected = this.listMapElementSelected.map(item => {
+            return {
+                ...item, statusRelate: false
+            }
+        });
+    }
+
     setMapElementRelate = (value: any, id: any): void => {
         this.listMapElementRelate.push(value);
         this.listMapElementSelected.map(item => {
@@ -606,6 +620,10 @@ export class GlobalStore {
                 this.mapLayer[i].mobility = mobility;
             }
         }
+    }
+
+    removeMapLayerById = (type: 'person' | 'function', name: any) => {
+        this.mapLayer = this.mapLayer.filter((item: any) => item.type !== type && item.name !== name);
     }
 
     setListPrincipleLine = (position: any[], numberPerson: number) => {

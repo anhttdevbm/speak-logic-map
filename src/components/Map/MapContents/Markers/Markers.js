@@ -201,6 +201,7 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.resetListMarkerPopulation();
             globalStore.resetListMarkerProblem();
             globalStore.resetListPrincipleLine();
+            globalStore.resetListMapElementSelected();
             globalStore.resetMapLayer();
 
             map.eachLayer(layer => {
@@ -484,13 +485,15 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
                 globalStore.mapLayer.forEach(fn => {
                     if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')) {
-                        addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                        addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
+                            null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
+                            globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
                     } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility) {
                         let index = fn.name.replace("Person ", "");
                         if (!checkMarkerExist(map, index, 'person')) {
                             addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
                                 setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                                globalStore.updateMapLayerById);
+                                globalStore.updateMapLayerById, globalStore.removeMapLayerById);
                         }
                     }
                 })
@@ -513,16 +516,20 @@ const Markers = ({setModal, setModalType}) => {
                         && globalStore.moreName === ''
                     ) {
                         if (globalStore.tableView !== '') {
-                            addMarkerFnEllipse(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                            addMarkerFnEllipse(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal,
+                                setModalType, null, null, null, globalStore.setShapeOfMarkerFn,
+                                globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
                         } else {
-                            addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
+                            addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
+                                null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
+                                globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
                         }
                     } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility && globalStore.moreName === '') {
                         let index = fn.name.replace("Person ", "");
                         if (!checkMarkerExist(map, index, 'person')) {
                             addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
                                 setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                                globalStore.updateMapLayerById);
+                                globalStore.updateMapLayerById, globalStore.removeMapLayerById);
                         }
                     }
                 })
