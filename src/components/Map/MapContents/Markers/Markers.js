@@ -516,9 +516,13 @@ const Markers = ({setModal, setModalType}) => {
                         && globalStore.moreName === ''
                     ) {
                         if (globalStore.tableView !== '') {
-                            addMarkerFnEllipse(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal,
-                                setModalType, null, null, null, globalStore.setShapeOfMarkerFn,
-                                globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
+                            if (globalStore.addIcon !== '') {
+                                addMarkerFnEllipse(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal,
+                                    setModalType, null, null, null, globalStore.setShapeOfMarkerFn,
+                                    globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
+                            } else {
+
+                            }
                         } else {
                             addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
                                 null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
@@ -648,7 +652,6 @@ const Markers = ({setModal, setModalType}) => {
                         globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
                 } else if (globalStore.listMapElementSelected.length > 0
                     && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
-                    console.log('globalStore.listMapElementSelected', globalStore.listMapElementSelected);
                     for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
                         const mapElement = globalStore.listMapElementSelected[i];
                         if (!mapElement.status) {

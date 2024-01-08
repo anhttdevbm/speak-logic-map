@@ -97,7 +97,6 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
 
 export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
                                    setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
-    // console.log(lat, lng);
     const fnMarker = L.marker([lat, lng], {
         target: {
             type: 'function',
