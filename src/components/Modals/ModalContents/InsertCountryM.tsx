@@ -56,7 +56,7 @@ const InsertCountryM = () => {
         <>
             {contextHolder}
             <div className={`${styles['rename-wrap']}`} onClick={e => e.stopPropagation()}>
-                <div className={`${styles['rename-header']}`}>
+                <div className={`${styles['rename-header']}`} style={{marginBottom: '15px'}}>
                     <h3>Insert country</h3>
                 </div>
                 <div>
