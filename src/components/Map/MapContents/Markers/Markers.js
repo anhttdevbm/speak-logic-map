@@ -20,7 +20,7 @@ import styles from '../_MapContents.module.scss';
 import {boatPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
 
 import {
-    markerPersonIndex,
+    markerPersonIndex, markerGivenSet,
     selectedList,
     markerProblemIndex,
     markerHouseIndex, markerCountryFnIndex,
@@ -470,8 +470,10 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'main-set') {
                     globalStore.setChooseGivenSet(true);
-                    addMarkerGivenSet(map, latlng.lat, latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
-                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
+                    let index = markerGivenSet[0];
+                    addMarkerGivenSet(map, latlng.lat, latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
+                    markerGivenSet[0]++;
                 } else if (globalStore.addIcon === 'mobility') {
                     // if (globalStore.numberPersonMobility < 2 || globalStore.numberPersonMobility % 2 === 0) {
                         globalStore.setTypeMobility('path');
@@ -649,8 +651,10 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'main-set') {
                     globalStore.setChooseGivenSet(true);
-                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
-                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
+                    let index = markerGivenSet[0];
+                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
+                    markerGivenSet[0]++;
                     globalStore.addIconHandle('');
                 } else if (globalStore.listMapElementSelected.length > 0
                     && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {

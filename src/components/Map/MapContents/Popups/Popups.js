@@ -1589,54 +1589,56 @@ export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
     });
     popup.addTo(map);
 
+    let index = e.target.options?.type?.index;
+
     window.deleteMainSet = () => {
         resetPositionOfHorizontalLine();
         map.removeLayer(popup);
         map.removeLayer(e.target);
     }
     window.arrowDirectionBottom = () => {
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-down"]);
         map.removeLayer(popup);
     }
     window.arrowDirectionRight = () => {
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
 
     }
     window.arrowDirectionLeft = () => {
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
     }
     window.arrowDirectionTop = () => {
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
     }
 }

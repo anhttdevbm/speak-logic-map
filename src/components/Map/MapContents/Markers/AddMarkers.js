@@ -521,21 +521,23 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, mapElement, setMapE
         .on('click', e => addSelectedItem(e, map, isLocked))
 }
 
-export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
+export const addMarkerGivenSet = (map, lat, lng, index, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
     setPositionOfHorizontalLine(lat, lng);
-    name = 'The Given Set'
+    let id1 = 'line-given-set-' + index;
+    let id2 = 'arrow-given-set-' + index;
     L.marker([lat, lng], {
         draggable: !isLocked,
         type: {
             type: 'the-given-set',
             shape: 'rectangle',
             status: 'add',
+            index: index
         },
         icon: markerFnIcon(
             `${styles['rectangle-fn']} ${styles['given-set-color']}`,
             `
-        ${name}
-        <div id="line-given-set" class="${styles['arrow-given-set-bottom']}"></div><div id="arrow-given-set" class="${styles['arrow-down']}"></div>
+        <b style="font-size: 18px">U</b><span style="margin-top: 12px;font-size: 12px;">T</span>
+        <div id="${id1}" class="${styles['arrow-given-set-bottom']}"></div><div id="${id2}" class="${styles['arrow-down']}"></div>
       `
         ),
     }).addTo(map)
