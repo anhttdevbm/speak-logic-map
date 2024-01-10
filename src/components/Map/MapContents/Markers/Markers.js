@@ -202,6 +202,7 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.resetListMarkerProblem();
             globalStore.resetListPrincipleLine();
             globalStore.resetListMapElementSelected();
+            globalStore.resetListMapElementRelate();
             globalStore.resetMapLayer();
 
             map.eachLayer(layer => {
@@ -572,9 +573,9 @@ const Markers = ({setModal, setModalType}) => {
         // Open right-click menu on map
         contextmenu(e) {
             if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
-                worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setMapElementRelate, globalStore.setListMapElementSelected);
+                worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setListMapElementRelate, globalStore.setListMapElementSelected);
             } else if (globalStore.boatView) {
-                boatPopup(map, e, globalStore.map, globalStore.toggleBoatView, globalStore.setMapElementRelate, globalStore.setListMapElementSelected);
+                boatPopup(map, e, globalStore.map, globalStore.toggleBoatView, globalStore.setListMapElementRelate, globalStore.setListMapElementSelected);
             }
         },
 
@@ -650,6 +651,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.setChooseGivenSet(true);
                     addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
                         globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine)
+                    globalStore.addIconHandle('');
                 } else if (globalStore.listMapElementSelected.length > 0
                     && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
                     for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
@@ -657,7 +659,7 @@ const Markers = ({setModal, setModalType}) => {
                         if (!mapElement.status) {
                             globalStore.changePositionOfMapElementSelected(e.latlng.lat, e.latlng.lng, mapElement.id);
                             addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement,
-                                globalStore.setMapElementRelate, globalStore.setPositionOfMapElementSelected);
+                                globalStore.setListMapElementRelate, globalStore.setPositionOfMapElementSelected);
                             globalStore.changeStatusOfMapElementSelected(true, mapElement.id);
                         }
                     }

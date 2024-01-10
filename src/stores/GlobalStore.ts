@@ -606,13 +606,17 @@ export class GlobalStore {
         });
     }
 
-    setMapElementRelate = (value: any, id: any): void => {
+    setListMapElementRelate = (value: any, id: any): void => {
         this.listMapElementRelate.push(value);
         this.listMapElementSelected.map(item => {
             if (item.id === id) {
                 item.related = value;
             }
         })
+    }
+
+    resetListMapElementRelate = (): void => {
+        this.listMapElementRelate = [];
     }
 
     setPositionOfMapElementSelected = (lat: number, lng: number) => {

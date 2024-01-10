@@ -8,6 +8,7 @@ const InfoOnMap: React.FC = (): JSX.Element => {
 
     const handleClickMapElement = (element: any) => {
         globalStore.setMapElementSelected(element);
+        globalStore.setListMapElementSelected(element);
     }
 
     return (

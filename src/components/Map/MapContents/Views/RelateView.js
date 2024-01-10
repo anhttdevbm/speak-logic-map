@@ -152,7 +152,7 @@ const RelateView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.listMapElementSelected, globalStore.mapView]
+        }, [globalStore.map, globalStore.mapView, globalStore.listMapElementSelected.length, globalStore.listMapElementRelate.length]
     );
 
     return null
