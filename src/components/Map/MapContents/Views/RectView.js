@@ -63,24 +63,43 @@ const RectView = ({selectedData}) => {
                 });
 
                 if (globalStore.map) {
+                    let listCountry = globalStore.listCountryInRect;
                     let firstLat = null;
                     let firstLng = null;
-                    let latList = null;
-                    let lngList = null;
+                    let latList = [];
+                    let lngList = [];
                     // Rectangle View Non-linear
                     if (globalStore.rectViewSetting === 'rect-linear') {
                         firstLat = -25;
                         firstLng = -180;
-                        latList = [12.5, 15];
-                        lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
+                        if (listCountry.length < 8) {
+                            latList = [12.5, 15];
+                            lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
+                        } else {
+                            latList = [12.5, 15];
+                            for (let i = 0; i < listCountry.length; i++) {
+                                let res = -155 + 320 / listCountry.length * ((i) % listCountry.length)
+                                lngList.push(res);
+                            }
+                        }
                     } else {
                         firstLat = -60;
                         firstLng = -120;
-                        latList = [53, 15, -32];
-                        lngList = [-99, -52, -4, 41, 88];
                         if (zoom >= 3) {
                             latList = [53, 20, 0, -20 - 40];
                             lngList = [-99, -75, -52, -28, -4, 20, 44, 68, 94];
+                        } else {
+                            if (listCountry.length < 8) {
+                                latList = [53, 15, -32];
+                                lngList = [-99, -52, -4, 41, 88];
+                            } else {
+                                latList = [53, 15, -32];
+                                let numberPersonPerRow = Math.floor(listCountry.length / 3) + 1;
+                                for (let i = 0; i < numberPersonPerRow; i++) {
+                                    let res = -99 + 230 / numberPersonPerRow * ((i) % numberPersonPerRow)
+                                    lngList.push(res);
+                                }
+                            }
                         }
                     }
 
@@ -89,7 +108,6 @@ const RectView = ({selectedData}) => {
                     fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                     fpBoundary.addTo(map);
 
-                    let listCountry = globalStore.listCountryInRect;
                     let listCountryIncludedPlus = listCountry.filter(item => item.codeName === '');
                     if (listCountryIncludedPlus.length === 0) {
                         listCountry.push({codeName: '', fullName: ''});
@@ -99,12 +117,6 @@ const RectView = ({selectedData}) => {
                         let countryMarker;
 
                         if (globalStore.rectDistanceType === 'rect-distance') {
-                            let latListt = [53, 15, -32];
-                            let lngListt = [-99, -36, 29, 90];
-                            if (zoom >= 3) {
-                                latListt = [53, 20, 0, -20 - 40];
-                                lngListt = [-99, -57, -18, 20, 60, 100];
-                            }
                             if (country.codeName !== '') {
                                 const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
                                 countryMarker = L.marker([latList[Math.floor(index / lngList.length)], lngList[index % lngList.length]], {
@@ -125,7 +137,9 @@ const RectView = ({selectedData}) => {
                                                     nameIcon.toUpperCase(), country.codeName.toUpperCase())
                                                 : markerRectNameIcon(`${styles['rect-house-icon']}`,
                                                     nameIcon.toUpperCase()),
-                                }).addTo(map)
+                                })
+                                    .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                    .addTo(map)
                                 if (index < listCountry.length - 2) {
                                     addStaticDistance(map, latList[Math.floor(index / lngList.length)], lngList[index % lngList.length],
                                         latList[Math.floor((index + 1) / lngList.length)], lngList[(index + 1) % lngList.length], true, 'rect-distance')
@@ -144,12 +158,6 @@ const RectView = ({selectedData}) => {
                                     .addTo(map);
                             }
                         } else if (globalStore.rectDistanceType === 'rect-shot-distance') {
-                            let latListt = [53, 15, -32];
-                            let lngListt = [-99, -36, 29, 90];
-                            if (zoom >= 3) {
-                                latListt = [53, 20, 0, -20 - 40];
-                                lngListt = [-99, -57, -18, 20, 60, 100];
-                            }
                             if (country.codeName !== '') {
                                 const nameIcon = country.fullName?.includes(" ") ? country.codeName : country.fullName;
                                 countryMarker = L.marker([latList[Math.floor(index / lngList.length)], lngList[index % lngList.length]], {
@@ -170,7 +178,9 @@ const RectView = ({selectedData}) => {
                                                     nameIcon.toUpperCase(), country.codeName.toUpperCase())
                                                 : markerRectNameIcon(`${styles['rect-house-icon']}`,
                                                     nameIcon.toUpperCase()),
-                                }).addTo(map)
+                                })
+                                    .on('contextmenu', e => removeRectIconPopup(map, e, globalStore.removeCountryToRect))
+                                    .addTo(map)
                                 if (index < listCountry.length - 2) {
                                     addShotDistance(map, latList[Math.floor(index / lngList.length)], lngList[index % lngList.length],
                                         latList[Math.floor((index + 1) / lngList.length)], lngList[(index + 1) % lngList.length], true, 'rect-distance')
