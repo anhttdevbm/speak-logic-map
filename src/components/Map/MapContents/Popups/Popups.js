@@ -531,6 +531,16 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -548,10 +558,11 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
+                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
         });
     }
 
@@ -562,6 +573,17 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
+
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -579,7 +601,9 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index  })
+                .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
+                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
@@ -593,6 +617,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            removeItemArrow(map, index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -610,7 +635,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
@@ -624,6 +649,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            removeItemArrow(map, index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -641,7 +667,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
@@ -665,8 +691,17 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         if (path) {
             map.removeLayer(path);
         }
+        removeItemArrow(map, index);
         removeMapLayerById('person', 'Person '+ index);
     }
+}
+
+const removeItemArrow = (map, index) => {
+    map.eachLayer(layer => {
+        if (layer.options.type === 'arrow' && layer.options.index === 'arrow' + index && layer.options.status === 'add') {
+            map.removeLayer(layer);
+        }
+    })
 }
 
 // ---------------------------------------------------------------------------------------------------------
