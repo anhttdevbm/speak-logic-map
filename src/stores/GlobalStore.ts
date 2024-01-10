@@ -332,11 +332,11 @@ export class GlobalStore {
     }
 
     toggleRectDistanceType = (value: 'rect-distance' | 'rect-shot-distance' | ''): void => {
-        // if (value === this.rectDistanceType) {
-        //     this.rectDistanceType = '';
-        // } else {
+        if (value === this.rectDistanceType) {
+            this.rectDistanceType = '';
+        } else {
             this.rectDistanceType = value;
-        // }
+        }
     }
 
     toggleMapView = (value: 'map-world' | 'map-countries' | ''): void => {
