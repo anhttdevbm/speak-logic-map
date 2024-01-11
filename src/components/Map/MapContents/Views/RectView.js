@@ -85,10 +85,10 @@ const RectView = ({selectedData}) => {
                     } else {
                         firstLat = -60;
                         firstLng = -120;
-                        if (zoom >= 3) {
-                            latList = [53, 20, 0, -20 - 40];
-                            lngList = [-99, -75, -52, -28, -4, 20, 44, 68, 94];
-                        } else {
+                        // if (zoom >= 3) {
+                        //     latList = [53, 20, 0, -20 - 40];
+                        //     lngList = [-99, -75, -52, -28, -4, 20, 44, 68, 94];
+                        // } else {
                             if (listCountry.length < 8) {
                                 latList = [53, 15, -32];
                                 lngList = [-99, -52, -4, 41, 88];
@@ -100,7 +100,7 @@ const RectView = ({selectedData}) => {
                                     lngList.push(res);
                                 }
                             }
-                        }
+                        // }
                     }
 
                     // Add the floor-plan boundary
