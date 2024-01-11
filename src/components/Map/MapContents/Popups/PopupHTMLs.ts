@@ -158,7 +158,7 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
         onclick="handleToggleFlasingFn()" 
         class="${styles['row']}"
       >
-        ${isFlashing ? 'Stop Flashing Function' : 'Flash The Function'}
+        ${isFlashing ? 'Stop Changing Function State' : 'Change Function State'}
       </div>
 
       <div 
