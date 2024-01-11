@@ -560,7 +560,7 @@ export class GlobalStore {
 
     checkListMapElementSelectedContainElementNotRelate = () => {
         for (let i = 0; i < this.listMapElementSelected.length; i++) {
-            if (!this.listMapElementSelected[i].related) {
+            if (!this.listMapElementSelected[i].status) {
                 this.listMapElementSelected = this.listMapElementSelected.filter((item: any) => item.id !== this.listMapElementSelected[i].id);
                 return true;
             }
