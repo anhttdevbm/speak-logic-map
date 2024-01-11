@@ -558,8 +558,19 @@ export class GlobalStore {
         this.listMapElementSelected = []
     }
 
+    checkListMapElementSelectedContainElementNotRelate = () => {
+        for (let i = 0; i < this.listMapElementSelected.length; i++) {
+            if (!this.listMapElementSelected[i].related) {
+                this.listMapElementSelected = this.listMapElementSelected.filter((item: any) => item.id !== this.listMapElementSelected[i].id);
+                return true;
+            }
+        }
+        return false;
+    }
+
     setListMapElementSelected = (value: any): void => {
         let id = this.listMapElementSelected.length;
+        this.checkListMapElementSelectedContainElementNotRelate();
         this.listMapElementSelected.push({
             id: id,
             name: value,
