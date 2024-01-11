@@ -72,9 +72,18 @@ export class GlobalStore {
     typeMobility: 'path' | 'no-path' | '' = 'path';
     numberPersonMobility: any = 0;
     positionOfPreviewPerson: any = [];
+    showErrorInsertFunction: boolean = false;
+    showErrorInsertPerson: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setShowErrorInsertFunction = (value: boolean) => {
+        this.showErrorInsertFunction = value;
+    }
+    setShowErrorInsertPerson = (value: boolean) => {
+        this.showErrorInsertPerson = value
     }
 
     setDataScroll = (value: any) => {

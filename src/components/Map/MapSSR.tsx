@@ -40,6 +40,7 @@ import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 import {FeatureCollection} from "geojson";
 import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
+import {notification} from "antd";
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -67,6 +68,29 @@ const MapSSR: React.FC = (): JSX.Element => {
     const [selectedData, setSelectedData] = useState<CountryData[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [geoLocationResult, setGeoLocationResult] = useState<string>('');
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (text: string) => {
+        api.open({
+            message: 'Warning',
+            type: 'warning',
+            duration: 3,
+            description: text,
+        });
+    };
+
+    useEffect(() => {
+        if (globalStore.showErrorInsertFunction) {
+            openNotification('You cannot drag and drop an item except the person into the view.');
+            globalStore.setShowErrorInsertFunction(false);
+        }
+    }, [globalStore.showErrorInsertFunction]);
+
+    useEffect(() => {
+        if (globalStore.showErrorInsertPerson) {
+            openNotification('You cannot drag and drop an item except the function into the view.')
+            globalStore.setShowErrorInsertPerson(false)
+        }
+    }, [globalStore.showErrorInsertPerson])
 
     const fetchData = async (code: string, type: string) => {
         setIsLoading(true);
@@ -107,6 +131,7 @@ const MapSSR: React.FC = (): JSX.Element => {
 
     return (
         <>
+            {contextHolder}
             <MapContainer
                 attributionControl={false}
                 style={{backgroundColor: "#AAD3DF", width: "100%", height: "100%"}}

@@ -429,60 +429,114 @@ const Markers = ({setModal, setModalType}) => {
                 const latlng = map.containerPointToLatLng(L.point(e.layerX, e.layerY));
 
                 if (globalStore.addIcon === 'person') {
-                    // addMarkerPerson(map, latlng.lat, latlng.lng, markerPersonIndex[0], globalStore.lock, setModal, setModalType,
-                    //     globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                    //     globalStore.updateMapLayerById)
-                    let index = markerPersonIndex[0];
-                    globalStore.setMapLayer(latlng.lat, latlng.lng, 'Person ' + index, 'person')
-                    globalStore.addMarkerPopulationToList(index)
-                    markerPersonIndex[0]++;
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else {
+                        let index = markerPersonIndex[0];
+                        globalStore.setMapLayer(latlng.lat, latlng.lng, 'Person ' + index, 'person')
+                        globalStore.addMarkerPopulationToList(index)
+                        markerPersonIndex[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
-                    // addMarkerFn(map, latlng.lat, latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType)
-                    let index = markerFnIndex[0];
-                    globalStore.addMarkerFnToList(index)
-                    globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function');
-                    markerFnIndex[0]++;
+                    if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        let index = markerFnIndex[0];
+                        globalStore.addMarkerFnToList(index)
+                        globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function');
+                        markerFnIndex[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'house') {
-                    addHouseMarker(map, latlng.lat, latlng.lng, globalStore.lock)
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addHouseMarker(map, latlng.lat, latlng.lng, globalStore.lock)
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'welcome-sign') {
-                    addMarkerWelcomeSign(map, latlng.lat, latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addMarkerWelcomeSign(map, latlng.lat, latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'inter-route') {
-                    addRoute(map, latlng.lat, latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addRoute(map, latlng.lat, latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'distance') {
-                    addDistance(map, latlng.lat, latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addDistance(map, latlng.lat, latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'scroll-feature') {
-                    globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
-                    globalStore.resetDataScroll();
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.setPositionOfScroll(latlng.lat, latlng.lng);
+                        globalStore.resetDataScroll();
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'horizontal-line') {
-                    globalStore.toggleModalInsertNumberPerson();
-                    globalStore.setListPrincipleLine([latlng.lat, latlng.lng], null);
-                    markerPrincipleLineIndex[0]++;
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.toggleModalInsertNumberPerson();
+                        globalStore.setListPrincipleLine([latlng.lat, latlng.lng], null);
+                        markerPrincipleLineIndex[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'relate') {
-                    addRelateMarker(map, latlng.lat, latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addRelateMarker(map, latlng.lat, latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'main-set') {
-                    globalStore.setChooseGivenSet(true);
-                    let index = markerGivenSet[0];
-                    addMarkerGivenSet(map, latlng.lat, latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
-                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
-                    markerGivenSet[0]++;
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.setChooseGivenSet(true);
+                        let index = markerGivenSet[0];
+                        addMarkerGivenSet(map, latlng.lat, latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+                            globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
+                        markerGivenSet[0]++;
+                    }
+                    globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'mobility') {
-                    // if (globalStore.numberPersonMobility < 2 || globalStore.numberPersonMobility % 2 === 0) {
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
                         globalStore.setTypeMobility('path');
                         addPersonInMobility(map, latlng.lat, latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
-                        globalStore.addIconHandle('');
-                    // } else {
-                    //     globalStore.addIconHandle('');
-                    //     globalStore.resetNumberPersonMobility();
-                    // }
+                    }
+                    globalStore.addIconHandle('');
                 }
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
@@ -508,8 +562,14 @@ const Markers = ({setModal, setModalType}) => {
             //     }
             // } else
             if (globalStore.addIcon === 'main-set') {
-                if (globalStore.positionOfHorizontalLine.length > 0) {
-                    globalStore.setChooseGivenSet(true)
+                if (globalStore.moreName === 'world-as-function') {
+                    globalStore.setShowErrorInsertPerson(true);
+                } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                    globalStore.setShowErrorInsertFunction(true);
+                } else {
+                    if (globalStore.positionOfHorizontalLine.length > 0) {
+                        globalStore.setChooseGivenSet(true)
+                    }
                 }
             } else {
                 globalStore.mapLayer.forEach(fn => {
@@ -568,7 +628,9 @@ const Markers = ({setModal, setModalType}) => {
             });
             imageTransform.addTo(map);
         }
-    }, [globalStore.valueOfImage])
+    }, [globalStore.valueOfImage]);
+
+
 
     useMapEvents({
 
@@ -588,55 +650,94 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.click) {
                 // Add Person Marker
                 if (globalStore.addIcon === 'person') {
-                    // addMarkerPerson(map, e.latlng.lat, e.latlng.lng, markerPersonIndex[0], globalStore.lock, setModal,
-                    //     setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
-                    //     globalStore.updateMapLayerById);
-                    let index = markerPersonIndex[0];
-                    globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
-                    globalStore.addMarkerPopulationToList(index)
-                    markerPersonIndex[0]++;
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else {
+                        let index = markerPersonIndex[0];
+                        globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
+                        globalStore.addMarkerPopulationToList(index)
+                        markerPersonIndex[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'function') {
-                    // if (globalStore.tableView !== '') {
-                    //     globalStore.addMarkerFnToList(markerFnIndex[0])
-                    //     // addMarkerFnEllipse(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
-                    // } else {
-                    //     // addMarkerFn(map, e.latlng.lat, e.latlng.lng, markerFnIndex[0], globalStore.lock, setModal, setModalType, null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList, globalStore.setShapeOfMarkerPl);
-                    // }
-                    globalStore.addMarkerFnToList(markerFnIndex[0])
-                    globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function');
-                    // let index = markerFnIndex[0];
-                    // globalStore.addMarkerFnToList(index)
-                    markerFnIndex[0]++;
+                    if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.addMarkerFnToList(markerFnIndex[0])
+                        globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function');
+                        markerFnIndex[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'house') {
-                    addHouseMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock)
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addHouseMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock)
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'welcome-sign') {
-                    addMarkerWelcomeSign(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addMarkerWelcomeSign(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'inter-route') {
-                    addRoute(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addRoute(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'distance') {
-                    addDistance(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addDistance(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'relate') {
-                    globalStore.resetPositionScroll();
-                    addRelateMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.resetPositionScroll();
+                        addRelateMarker(map, e.latlng.lat, e.latlng.lng, globalStore.lock);
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'mobility') {
-                    globalStore.resetPositionScroll();
-                    if (globalStore.numberPersonMobility < 2) {
-                        globalStore.setTypeMobility('path');
-                        addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
                     } else {
-                        globalStore.addIconHandle('');
-                        globalStore.resetNumberPersonMobility();
+                        globalStore.resetPositionScroll();
+                        if (globalStore.numberPersonMobility < 2) {
+                            globalStore.setTypeMobility('path');
+                            addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
+                        } else {
+                            globalStore.resetNumberPersonMobility();
+                        }
                     }
+                    globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'scroll-feature') {
-                    globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
-                    globalStore.resetDataScroll();
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.setPositionOfScroll(e.latlng.lat, e.latlng.lng);
+                        globalStore.resetDataScroll();
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.palletOption === 'text') {
                     addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
@@ -645,16 +746,28 @@ const Markers = ({setModal, setModalType}) => {
                     addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
                         globalStore.setValueOfImage)
                 } else if (globalStore.addIcon === 'horizontal-line') {
-                    globalStore.toggleModalInsertNumberPerson();
-                    globalStore.setListPrincipleLine([e.latlng.lat, e.latlng.lng], null);
-                    markerPrincipleLineIndex[0]++;
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.toggleModalInsertNumberPerson();
+                        globalStore.setListPrincipleLine([e.latlng.lat, e.latlng.lng], null);
+                        markerPrincipleLineIndex[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'main-set') {
-                    globalStore.setChooseGivenSet(true);
-                    let index = markerGivenSet[0];
-                    addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
-                        globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
-                    markerGivenSet[0]++;
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        globalStore.setChooseGivenSet(true);
+                        let index = markerGivenSet[0];
+                        addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
+                            globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
+                        markerGivenSet[0]++;
+                    }
                     globalStore.addIconHandle('');
                 } else if (globalStore.listMapElementSelected.length > 0
                     && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
