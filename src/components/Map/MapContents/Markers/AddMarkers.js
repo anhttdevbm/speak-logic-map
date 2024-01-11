@@ -176,7 +176,7 @@ export const addMarkerCountryGroupFn = (map, lat, lng, name, countryName, group,
 
 export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
     L.marker([lat, lng], {
-        target: {status: 'add'},
+        target: {status: 'add', type: 'welcome'},
         icon: markerNavigationSignIcon(),
         draggable: !isLocked,
     })
@@ -196,7 +196,7 @@ export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
 
 export const addHouseMarker = (map, lat, lng, isLocked) => {
     L.marker([lat, lng], {
-        target: {status: 'add'},
+        target: {status: 'add', type: 'house'},
         icon: markerHouseIcon(),
         draggable: !isLocked,
     })
@@ -567,7 +567,7 @@ export const addMarkerPrincipleLine = (map, lat, lng, isLocked) => {
 
 export const addRelateMarker = (map, lat, lng, isLocked) => {
     L.marker([lat, lng], {
-        target: {status: 'add'},
+        target: {status: 'add', type: 'relate'},
         icon: markerRelateIcon(),
         draggable: !isLocked,
     })
@@ -620,7 +620,8 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
             ],
             {
                 color: typeMobility === 'path' ? 'black' : "transparent",
-                status: 'add'
+                status: 'add',
+                type: 'person-mobility'
             },
             {
                 auto: true,

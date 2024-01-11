@@ -82,7 +82,15 @@ const Markers = ({setModal, setModalType}) => {
                         listNameFunction.push(layer.options?.icon?.options?.html);
                         listLayer.push(layer);
                     }
+                } else if (layer.options.target?.type === 'person' || layer.options.target?.type === 'welcome'
+                    || layer.options.target?.type === 'house' || layer.options.target?.type === 'relate'
+                    || layer.options?.options?.type === 'arrow' || layer.options.target?.type === 'person-mobility'
+                    || layer.options?.options?.type === 'person-principle-line' || layer.options?.options?.type === 'vertical-principle-line'
+                    || layer.options?.type?.type === 'the-given-set' || layer.options?.type === 'person-mobility'
+                    || layer.options?.type === 'relationship' || layer.options?.type === 'map-element' || layer.options?.options?.type === 'distance'
+                    || layer.options.target?.type === 'boat' || layer.options.target?.type === 'room') {
                 } else {
+                    // console.log('layer', layer)
                     setTimeout(() => {
                         layer._icon?.classList.add(styles[`hidden`]);
                     }, simulationSettingStore.discardTime)
@@ -102,10 +110,8 @@ const Markers = ({setModal, setModalType}) => {
         } else {
             map.eachLayer(layer => {
                 if (layer.options.target?.type === 'function') {
-                    // for (let i = 0; i < 6; i++) {
                     layer._icon.classList.remove(styles[`simulation-animate0`]);
                     layer._icon.classList.remove(styles["boundary"]);
-                    // }
                 }
             });
         }
