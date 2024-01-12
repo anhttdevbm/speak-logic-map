@@ -1,5 +1,6 @@
 import L from 'leaflet';
 import "leaflet.motion/dist/leaflet.motion.js";
+import 'leaflet.path.drag';
 import {addSelectedItem} from './HandleSelectItem';
 import {
     markerCountryFnIcon,

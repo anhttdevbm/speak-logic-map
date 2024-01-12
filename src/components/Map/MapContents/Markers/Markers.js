@@ -167,7 +167,7 @@ const Markers = ({setModal, setModalType}) => {
             marker: false, circle: false, polygon: false, circlemarker: false
         }, edit: {
             featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
-            remove: true, edit: false
+            remove: true, edit: true
         },
     });
 
@@ -178,7 +178,7 @@ const Markers = ({setModal, setModalType}) => {
             polyline: false, marker: false, circle: false, polygon: false, circlemarker: false
         }, edit: {
             featureGroup: drawnItemsRect, // Create a feature group to store drawn rectangles
-            remove: true, edit: false
+            remove: true, edit: true
         },
     });
 
@@ -189,7 +189,7 @@ const Markers = ({setModal, setModalType}) => {
             marker: false, polyline: false, circle: true, polygon: false, circlemarker: false
         }, edit: {
             featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
-            remove: true, edit: false
+            remove: true, edit: true
         },
     });
 

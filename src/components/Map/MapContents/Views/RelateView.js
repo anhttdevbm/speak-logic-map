@@ -12,6 +12,7 @@ import {
 } from "@/components/Map/MapContents/Markers/MarkerIcons";
 import styles from "@/components/Map/MapContents/_MapContents.module.scss";
 import {givenSetPopup, removeHorizontalIconPopup} from "@/components/Map/MapContents/Popups/Popups";
+import 'leaflet-polylinedecorator';
 
 const RelateView = () => {
     const map = useMap();
@@ -91,7 +92,6 @@ const RelateView = () => {
                         .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                         .addTo(map);
                     L.polyline([topVerticalLine, downVerticalLine], {status: 'add', weight: 2, color: 'black'})
-                        .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                         .addTo(map);
 
                     L.marker([latCenter, lngElementSelected + 100], {
@@ -103,13 +103,18 @@ const RelateView = () => {
                         ),
                     }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
                         .addTo(map);
-                    L.polyline([[latCenter, lng], [latCenter, lng + 40]], {
+                    let lineRelate = L.polyline([[latCenter, lng], [latCenter, lng + 30]], {
                         status: 'add',
                         weight: 2,
                         color: 'black'
                     })
-                        .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add'})
                         .addTo(map);
+
+                    L.polylineDecorator(lineRelate, {
+                        patterns: [
+                            {offset: '100%', repeat: 1, symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: { stroke: true, color: 'black', type: 'arrow', status: 'add' } }) }
+                        ]
+                    }).addTo(map);
 
                     const leftHorizontalLineBottom = [latElementRelated, lngElementSelected];
                     const rightHorizontalLineBottom = [latElementRelated, lng];
@@ -120,7 +125,6 @@ const RelateView = () => {
                         .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon))
                         .addTo(map);
                     L.polyline([topVerticalLine2, downVerticalLine2], {status: 'add', weight: 2, color: 'black'})
-                        .arrowheads({size: '1%', color: 'black', type: 'arrow', status: 'add'})
                         .addTo(map);
 
                     let index = markerPersonIndex[0];
