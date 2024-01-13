@@ -258,7 +258,6 @@ const ScrollFeatureViewM = () => {
 
     const onFinish = (value: DataType) => {
         if (validate(value) && isClickAdd) {
-            debugger
             const simulation = value?.simulation ? value?.simulation : (data[0]?.simulation ? data[0].simulation : 'ggreen');
             const objectColor = convertColor(simulation);
             const copyValue: DataType = {
