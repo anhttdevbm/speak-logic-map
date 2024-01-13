@@ -257,8 +257,8 @@ const ScrollFeatureViewM = () => {
     }
 
     const onFinish = (value: DataType) => {
-        if (validate(value) && isClickAdd == true) {
-            const simulation = value.simulation ?? data[0].simulation;
+        if (validate(value) && isClickAdd) {
+            const simulation = value?.simulation ? value?.simulation : (data[0]?.simulation ? data[0].simulation : 'ggreen');
             const objectColor = convertColor(simulation);
             const copyValue: DataType = {
                 ...value,
@@ -418,7 +418,7 @@ const ScrollFeatureViewM = () => {
                                         label="simulation From"
                                         name="simulation"
                                     >
-                                        <select>
+                                        <select defaultValue="ggreen">
                                             <option value="ggreen">Green to green</option>
                                             <option value="red">Red to green</option>
                                             <option value="rred">Red to red</option>
