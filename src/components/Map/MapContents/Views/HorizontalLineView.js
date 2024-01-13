@@ -69,8 +69,6 @@ const HorizontalLineView = () => {
             });
 
             if (globalStore.listPrincipleLine.length > 0) {
-                console.log('globalStore.map', globalStore.map)
-                console.log('globalStore.listPrincipleLine', globalStore.listPrincipleLine)
                 for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
                     let principleLine = globalStore.listPrincipleLine[i];
                     if (principleLine.position.length > 0 && principleLine.numberPerson > 0) {

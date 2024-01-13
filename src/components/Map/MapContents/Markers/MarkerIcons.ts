@@ -8,7 +8,7 @@ import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/Black_Icon/64X64/House.png';
 import ICON_BOAT from '@/assets/icons/Black_Icon/64X64/Boat_View.png';
-import ICON_MAIN_SET from '@/assets/icons/icon-given-set-2.png';
+import ICON_MAIN_SET from '@/assets/icons/icon-given-set.png';
 import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person.png';
 import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
 import ICON_RELATE from '@/assets/icons/Black_Icon/64X64/Relate.png';

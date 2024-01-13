@@ -124,7 +124,9 @@ const BoatView = ({selectedData, setModal, setModalType}) => {
       }
     });
 
-    const markerFn = addMarkerFn(boat, latlng.lat, latlng.lng, count + 1, globalStore.lock, setModal, setModalType)
+    const markerFn = addMarkerFn(boat, latlng.lat, latlng.lng, count + 1, globalStore.lock, setModal, setModalType, null,
+        null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
+        globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById)
     globalStore.addIconHandle('');
 
     const turfPol = []; // Create a turf polygon coordinates array

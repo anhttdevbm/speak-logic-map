@@ -77,7 +77,7 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
             {contextHolder}
             <div className={`${styles['rename-wrap']}`} onClick={e => e.stopPropagation()}>
                 <div className={`${styles['rename-header']}`}>
-                    <h3 style={{marginBottom: '10px'}}>Insert number {type}</h3>
+                    <h3 style={{marginBottom: '15px'}}>Insert number {type}</h3>
                 </div>
                 <div>
                     <InputNumber style={{width: '100%'}} type='number' value={numberPerson} onChange={(e) => {

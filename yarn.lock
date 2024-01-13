@@ -2894,6 +2894,18 @@
   "resolved" "https://registry.npmjs.org/leaflet-image-transform/-/leaflet-image-transform-0.0.1.tgz"
   "version" "0.0.1"
 
+"leaflet-polylinedecorator@^1.6.0":
+  "integrity" "sha512-kn3krmZRetgvN0wjhgYL8kvyLS0tUogAl0vtHuXQnwlYNjbl7aLQpkoFUo8UB8gVZoB0dhI4Tb55VdTJAcYzzQ=="
+  "resolved" "https://registry.npmjs.org/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz"
+  "version" "1.6.0"
+  dependencies:
+    "leaflet-rotatedmarker" "^0.2.0"
+
+"leaflet-rotatedmarker@^0.2.0":
+  "integrity" "sha512-yc97gxLXwbZa+Gk9VCcqI0CkvIBC9oNTTjFsHqq4EQvANrvaboib4UdeQLyTnEqDpaXHCqzwwVIDHtvz2mUiDg=="
+  "resolved" "https://registry.npmjs.org/leaflet-rotatedmarker/-/leaflet-rotatedmarker-0.2.0.tgz"
+  "version" "0.2.0"
+
 "leaflet-textpath@^1.2.3":
   "integrity" "sha512-mPb5m2MlihNkLlo762j8S8FJCUyLvDU2fJTjjmDWKfqqyUQkV3ca3IzrxwsfzYz2DXrV2ytCVHb5+DjQymF+8w=="
   "resolved" "https://registry.npmjs.org/leaflet-textpath/-/leaflet-textpath-1.2.3.tgz"
@@ -2903,6 +2915,11 @@
   "integrity" "sha512-PqvJ86zBSsIvFgKi9kNj7Q6xvo92zhC0smfhtkYGxrjFhRXwGw8PdQJP2UB8YWReRE6r7iy9icJvKG/z0CBW4Q=="
   "resolved" "https://registry.npmjs.org/leaflet.motion/-/leaflet.motion-0.3.2.tgz"
   "version" "0.3.2"
+
+"leaflet.path.drag@^0.0.6":
+  "integrity" "sha512-U6jp7sqX4kZss2FCm7bGPltOl8URWd+c4DPcRnEO9mYoZ1hfrteZ3XXVJ6zcEU8zxjnWeu1YywF08EDYbelmFg=="
+  "resolved" "https://registry.npmjs.org/leaflet.path.drag/-/leaflet.path.drag-0.0.6.tgz"
+  "version" "0.0.6"
 
 "leaflet.polylinemeasure@^3.0.0":
   "integrity" "sha512-PTTHz7NBJiWmNFetH8hb3leQNM15qoM9Xe7VDKh1Hyat/M+USqFYeoa0A0LAecsqsjUqA63Rzux4SivoyrSFkA=="

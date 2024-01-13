@@ -20,7 +20,8 @@ const RectangularView: React.FC = (): JSX.Element => {
             } else {
                 globalStore.toggleRectangularView('rect-country');
             }
-            globalStore.toggleRectName('rect-linear')
+            globalStore.toggleRectViewSetting('rect-linear')
+            globalStore.toggleRectName('rect-house')
         }
     }
 

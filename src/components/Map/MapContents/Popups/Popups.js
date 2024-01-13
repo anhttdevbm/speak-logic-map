@@ -142,7 +142,7 @@ export const boatPopup = (map, e, isMap, toggleBoatView, setMapElementRelate, se
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
-export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
+export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById) => {
     clearAllPopups(map);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     // console.log(e.target)
@@ -179,7 +179,6 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     if (error) {
         window.problem = error;
     }
-    ;
 
     window.handleToggleFlasingFn = () => {
         const random = Math.round(Math.random() * 10) % 6;
@@ -466,12 +465,9 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     };
 
     window.deleteItem = () => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        // const globalStore = useGlobalStore();
-        //
-        // globalStore.removeMarkerFnList(e.target.options.target.index)
         map.removeLayer(e.target);
         map.removeLayer(popup);
+        removeMapLayerById('function', 'Function '+ e.target.options.target.index);
     }
 
     window.changeToStopFunction = () => {
@@ -492,7 +488,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on person marker
 export const personPopup = (map, marker, setModal, setModalType, isLocked, e, setPersonToListMapElementSelected,
-                            resetNumberPersonMobility, updateMapLayerById) => {
+                            resetNumberPersonMobility, updateMapLayerById, removeMapLayerById) => {
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
@@ -535,6 +531,16 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -552,10 +558,11 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
+                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
         });
     }
 
@@ -566,6 +573,17 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
+
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -583,7 +601,9 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add'  })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index  })
+                .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
+                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
@@ -597,6 +617,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            removeItemArrow(map, index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -614,7 +635,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add' })
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
@@ -628,6 +649,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
+            removeItemArrow(map, index);
 
             path = L.motion.polyline(
                 [currentLatLng, clickedLatLng],
@@ -645,7 +667,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add' })
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
@@ -666,8 +688,20 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     window.deleteItem = () => {
         map.removeLayer(e.target);
         map.removeLayer(popup);
-        map.removeLayer(path);
+        if (path) {
+            map.removeLayer(path);
+        }
+        removeItemArrow(map, index);
+        removeMapLayerById('person', 'Person '+ index);
     }
+}
+
+const removeItemArrow = (map, index) => {
+    map.eachLayer(layer => {
+        if (layer.options.type === 'arrow' && layer.options.index === 'arrow' + index && layer.options.status === 'add') {
+            map.removeLayer(layer);
+        }
+    })
 }
 
 // ---------------------------------------------------------------------------------------------------------
@@ -1555,54 +1589,56 @@ export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {
     });
     popup.addTo(map);
 
+    let index = e.target.options?.type?.index;
+
     window.deleteMainSet = () => {
         resetPositionOfHorizontalLine();
         map.removeLayer(popup);
         map.removeLayer(e.target);
     }
     window.arrowDirectionBottom = () => {
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-down"]);
         map.removeLayer(popup);
     }
     window.arrowDirectionRight = () => {
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
 
     }
     window.arrowDirectionLeft = () => {
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
     }
     window.arrowDirectionTop = () => {
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-right"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-left"]);
-        document.getElementById('line-given-set').classList.add(styles["arrow-given-set-top"]);
-        document.getElementById('line-given-set').classList.remove(styles["arrow-given-set-bottom"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-right"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-left"]);
-        document.getElementById('arrow-given-set').classList.add(styles["arrow-up"]);
-        document.getElementById('arrow-given-set').classList.remove(styles["arrow-down"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-right"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-left"]);
+        document.getElementById('line-given-set-' + index).classList.add(styles["arrow-given-set-top"]);
+        document.getElementById('line-given-set-' + index).classList.remove(styles["arrow-given-set-bottom"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-right"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-left"]);
+        document.getElementById('arrow-given-set-' + index).classList.add(styles["arrow-up"]);
+        document.getElementById('arrow-given-set-' + index).classList.remove(styles["arrow-down"]);
         map.removeLayer(popup);
     }
 }

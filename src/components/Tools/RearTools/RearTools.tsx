@@ -1,14 +1,9 @@
 import {
-  CircleIcon,
-  HomeIcon, HorizontalLineIcon,
-  LeftArrowIcon,
-  LocationIcon,
-  MainsetIcon, MobilityIcon,
-  PersonIcon,
-  RectangleIcon,
+  DistanceIcon, FunctionIcon, FunctionPerformanceIcon,
+  HouseIcon, LeftArrowIcon, MainsetIcon, MobilityIcon,
+  PersonIcon, PhilosophyIcon, PrincipleLineIcon,
   RelatedIcon,
   RightArrowIcon,
-  ScrollFeatureIcon,
   VectorIcon,
   WelcomeSignIcon
 } from '@/components/Icons/Icons';
@@ -21,25 +16,29 @@ import SwitchOptions from './ToolItems/SwitchOptions';
 import styles from './_RearTools.module.scss';
 
 
-const ItemList: ItemInterface[] = [
-  {value: 'function', Icon: RectangleIcon, name: 'Function', ability: true},
-  {value: 'person', Icon: PersonIcon, name: 'Person', ability: true},
-  {value: 'main-set', Icon: MainsetIcon, name: 'The Given Set', ability: true},
-  {value: 'house', Icon: HomeIcon, name: 'House', ability: true},
-  {value: 'inter-route', Icon: VectorIcon, name: 'Inter-route', ability: true},
-  {value: 'distance', Icon: LocationIcon, name: 'Distance', ability: true},
-  {value: 'philosophy', Icon: CircleIcon, name: 'Philosophy', ability: false},
-  {value: 'welcome-sign', Icon: WelcomeSignIcon, name: 'Welcome', ability: true},
-  {value: 'scroll-feature', Icon: ScrollFeatureIcon, name: 'Function Performance', ability: true},
-  {value: 'horizontal-line', Icon: HorizontalLineIcon, name: 'Principle Line', ability: true},
-  {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
-  {value: 'mobility', Icon: MobilityIcon, name: 'Mobility', ability: true},
-
-]
-
 const RearTools: React.FC = (): JSX.Element => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const globalStore = useGlobalStore();
+
+  let isSelectedMoreViewFunction = globalStore.moreName === 'world-as-function';
+  let isSelectedMoreViewPerson = globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line';
+  let ability = isSelectedMoreViewPerson || isSelectedMoreViewFunction;
+
+  const ItemList: ItemInterface[] = [
+    {value: 'function', Icon: FunctionIcon, name: 'Function', ability: true},
+    {value: 'person', Icon: PersonIcon, name: 'Person', ability: true},
+    {value: 'main-set', Icon: MainsetIcon, name: 'The Given Set', ability: true},
+    {value: 'house', Icon: HouseIcon, name: 'House', ability: true},
+    {value: 'inter-route', Icon: VectorIcon, name: 'Inter-route', ability: true},
+    {value: 'distance', Icon: DistanceIcon, name: 'Distance', ability: true},
+    {value: 'philosophy', Icon: PhilosophyIcon, name: 'Philosophy', ability: false},
+    {value: 'welcome-sign', Icon: WelcomeSignIcon, name: 'Welcome', ability: true},
+    {value: 'scroll-feature', Icon: FunctionPerformanceIcon, name: 'Function Performance', ability: true},
+    {value: 'horizontal-line', Icon: PrincipleLineIcon, name: 'Principle Line', ability: true},
+    {value: 'relate', Icon: RelatedIcon, name: 'Relate', ability: true},
+    {value: 'mobility', Icon: MobilityIcon, name: 'Mobility', ability: true},
+  ]
+
   return (
     <div className={`${styles['rear-tools-wrap']} ${isExpanded ? styles['expanded'] : styles['minimal']}`}>
       <div className={`${styles['rear-tools-content']}`}>

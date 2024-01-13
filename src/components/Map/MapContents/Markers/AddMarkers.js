@@ -1,40 +1,45 @@
 import L from 'leaflet';
 import "leaflet.motion/dist/leaflet.motion.js";
+import 'leaflet.path.drag';
 import {addSelectedItem} from './HandleSelectItem';
 import {
-    markerPersonIcon,
-    markerHouseIcon,
-    markerNavigationSignIcon,
-    markerFnIcon,
-    markerDistancePointIcon,
     markerCountryFnIcon,
+    markerDistancePointIcon,
+    markerFnIcon,
+    markerHouseIcon,
     markerMapElementIcon,
-    markerRelateIcon,
-    markerPersonWaveIcon, markerPrincipleLineIcon
+    markerNavigationSignIcon,
+    markerPersonIcon,
+    markerPersonWaveIcon,
+    markerPrincipleLineIcon,
+    markerRelateIcon
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
-    functionPopup,
-    routePopup,
     distancePopup,
-    fnProblemPopup,
     fnCountryPopup,
-    stopFnPopup,
-    tempFnPopup,
+    fnProblemPopup,
+    functionPopup,
+    givenSetPopup,
+    mapElementPopup,
     personPopup,
-    mapElementPopup, givenSetPopup
+    routePopup,
+    stopFnPopup,
+    tempFnPopup
 } from '../Popups/Popups';
-import {
-    groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML
-} from '../Popups/PopupHTMLs'
+import {groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML} from '../Popups/PopupHTMLs'
 
 import {
-    dragStartHandler, dragHandlerLine, dragEndHandler, arcRouteInit,
-    clickLine, clickArc, clickArrow, staticArcRouteInit
+    arcRouteInit,
+    clickArc,
+    clickArrow,
+    clickLine,
+    dragEndHandler,
+    dragHandlerLine,
+    dragStartHandler,
+    staticArcRouteInit
 } from './HandleRouteAndDistance';
-import {
-    unitDistance
-} from "@/components/Map/MapContents/Variables/Variables";
+import {unitDistance} from "@/components/Map/MapContents/Variables/Variables";
 
 export const checkMarkerExist = (map, index, type) => {
     let existArr = [];
@@ -52,7 +57,7 @@ export const checkMarkerExist = (map, index, type) => {
 }
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected,
-                                resetNumberPersonMobility, updateMapLayerById) => {
+                                resetNumberPersonMobility, updateMapLayerById, removeMapLayerById) => {
   let marker = L.marker([lat, lng], {
     target: {
       type: 'person',
@@ -63,15 +68,15 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
     icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
   })
     .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
-        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById))
+        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
 }
 
 
 export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
-                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
-    const fnMarker = L.marker([lat, lng], {
+                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById) => {
+    return L.marker([lat, lng], {
         target: {
             type: 'function',
             shape: 'rectangle',
@@ -84,17 +89,15 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
         ),
         draggable: !isLocked,
     })
-        .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
+        .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn,
+            addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById))
         .on('click', e => addSelectedItem(e, container, isLocked))
         // .on('dblclick', e => toggleBoundaryFn(e))
         .addTo(container);
-
-    return fnMarker;
 }
 
 export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
                                    setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
-    // console.log(lat, lng);
     const fnMarker = L.marker([lat, lng], {
         target: {
             type: 'function',
@@ -174,7 +177,7 @@ export const addMarkerCountryGroupFn = (map, lat, lng, name, countryName, group,
 
 export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
     L.marker([lat, lng], {
-        target: {status: 'add'},
+        target: {status: 'add', type: 'welcome'},
         icon: markerNavigationSignIcon(),
         draggable: !isLocked,
     })
@@ -194,7 +197,7 @@ export const addMarkerWelcomeSign = (map, lat, lng, isLocked) => {
 
 export const addHouseMarker = (map, lat, lng, isLocked) => {
     L.marker([lat, lng], {
-        target: {status: 'add'},
+        target: {status: 'add', type: 'house'},
         icon: markerHouseIcon(),
         draggable: !isLocked,
     })
@@ -519,21 +522,23 @@ export const addMarkerMapElement = (map, lat, lng, isLocked, mapElement, setMapE
         .on('click', e => addSelectedItem(e, map, isLocked))
 }
 
-export const addMarkerGivenSet = (map, lat, lng, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
+export const addMarkerGivenSet = (map, lat, lng, index, isLocked, name, setChooseGivenSet, setPositionOfHorizontalLine, resetPositionOfHorizontalLine) => {
     setPositionOfHorizontalLine(lat, lng);
-    name = 'The Given Set'
+    let id1 = 'line-given-set-' + index;
+    let id2 = 'arrow-given-set-' + index;
     L.marker([lat, lng], {
         draggable: !isLocked,
         type: {
             type: 'the-given-set',
             shape: 'rectangle',
             status: 'add',
+            index: index
         },
         icon: markerFnIcon(
             `${styles['rectangle-fn']} ${styles['given-set-color']}`,
             `
-        ${name}
-        <div id="line-given-set" class="${styles['arrow-given-set-bottom']}"></div><div id="arrow-given-set" class="${styles['arrow-down']}"></div>
+        <b style="font-size: 18px">U</b><span style="margin-top: 12px;font-size: 12px;">T</span>
+        <div id="${id1}" class="${styles['arrow-given-set-bottom']}"></div><div id="${id2}" class="${styles['arrow-down']}"></div>
       `
         ),
     }).addTo(map)
@@ -563,7 +568,7 @@ export const addMarkerPrincipleLine = (map, lat, lng, isLocked) => {
 
 export const addRelateMarker = (map, lat, lng, isLocked) => {
     L.marker([lat, lng], {
-        target: {status: 'add'},
+        target: {status: 'add', type: 'relate'},
         icon: markerRelateIcon(),
         draggable: !isLocked,
     })
@@ -616,7 +621,8 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
             ],
             {
                 color: typeMobility === 'path' ? 'black' : "transparent",
-                status: 'add'
+                status: 'add',
+                type: 'person-mobility'
             },
             {
                 auto: true,

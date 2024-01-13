@@ -110,6 +110,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         globalStore.mapLayer.forEach(marker => {
             if (marker?.type === 'function') {
                 let latLng = getRandomLatLngInBound(ellipseBounds, isWorldTable)
+                console.log('huhu')
                 addMarkerFnEllipse(table, latLng[0], latLng[1], marker.name.replace("Function ", ""), globalStore.lock, setModal, setModalType)
             }
         })
@@ -153,6 +154,7 @@ const TableView = ({selectedData, setModal, setModalType}) => {
         globalStore.addMarkerFnToList(index)
         globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function');
 
+        console.log('hihi')
         const markerFn = addMarkerFnEllipse(table, latlng.lat, latlng.lng, count + 1, globalStore.lock, setModal, setModalType)
         markerFnIndex[0]++;
         globalStore.addIconHandle('');
@@ -187,7 +189,8 @@ const TableView = ({selectedData, setModal, setModalType}) => {
                     map.removeLayer(layer);
                 }
             });
-
+            globalStore.resetMapLayer();
+            globalStore.resetListMarkerFunction();
             globalStore.toggleClear();
         }
     }, [globalStore.clear]);

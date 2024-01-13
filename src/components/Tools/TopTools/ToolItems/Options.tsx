@@ -254,18 +254,18 @@ const Options: React.FC = (): JSX.Element => {
                             Rectangular View Setting
                             <RightArrowIcon className={`${styles['sub-icon']}`}/>
                             <ul className={`${styles['minor-list']}`}>
-                                <li onClick={() => globalStore.toggleRectName('rect-linear')}>
+                                <li onClick={() => globalStore.toggleRectViewSetting('rect-linear')}>
                                     Linear
                                     <CheckIcon className={`
                                         ${styles['sub-icon']} 
-                                        ${globalStore.rectName !== 'rect-linear' ? styles['hide'] : styles['show']}
+                                        ${globalStore.rectViewSetting !== 'rect-linear' ? styles['hide'] : styles['show']}
                                       `}/>
                                 </li>
-                                <li onClick={() => globalStore.toggleRectName('rect-non-linear')}>
+                                <li onClick={() => globalStore.toggleRectViewSetting('rect-non-linear')}>
                                     Non-Linear
                                     <CheckIcon className={`
                                         ${styles['sub-icon']} 
-                                        ${globalStore.rectName !== 'rect-non-linear' ? styles['hide'] : styles['show']}
+                                        ${globalStore.rectViewSetting !== 'rect-non-linear' ? styles['hide'] : styles['show']}
                                       `}/>
                                 </li>
                             </ul>
@@ -275,13 +275,6 @@ const Options: React.FC = (): JSX.Element => {
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
                 ${globalStore.rectName !== 'rect-map' ? styles['hide'] : styles['show']}
-              `}/>
-                        </li>
-                        <li onClick={() => globalStore.toggleRectName('rect-name')}>
-                            Show country only name
-                            <CheckIcon className={`
-                ${styles['sub-icon']} 
-                ${globalStore.rectName !== 'rect-name' ? styles['hide'] : styles['show']}
               `}/>
                         </li>
                         <li className={`${!globalStore.rectangularView}`}>
@@ -308,19 +301,32 @@ const Options: React.FC = (): JSX.Element => {
                                 </li>
                             </ul>
                         </li>
-                        <li onClick={() => globalStore.toggleRectName('rect-distance')}>
-                            Show distance between country
+                        <li onClick={() => globalStore.toggleRectName('rect-name')}>
+                            Show country only name
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectName !== 'rect-distance' ? styles['hide'] : styles['show']}
+                ${globalStore.rectName !== 'rect-name' ? styles['hide'] : styles['show']}
               `}/>
                         </li>
-                        <li onClick={() => globalStore.toggleRectName('rect-shot-distance')}>
-                            Show shot distance between country
-                            <CheckIcon className={`
+                        <li className={`${!globalStore.rectangularView}`}>
+                            Show country with distance
+                            <RightArrowIcon className={`${styles['sub-icon']}`}/>
+                            <ul className={`${styles['minor-list']}`}>
+                                <li onClick={() => globalStore.toggleRectDistanceType('rect-distance')}>
+                                    Show distance between country
+                                    <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.rectName !== 'rect-shot-distance' ? styles['hide'] : styles['show']}
+                ${globalStore.rectDistanceType !== 'rect-distance' ? styles['hide'] : styles['show']}
               `}/>
+                                </li>
+                                <li onClick={() => globalStore.toggleRectDistanceType('rect-shot-distance')}>
+                                    Show shot distance between country
+                                    <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.rectDistanceType !== 'rect-shot-distance' ? styles['hide'] : styles['show']}
+              `}/>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>

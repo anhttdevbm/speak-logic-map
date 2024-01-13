@@ -31,7 +31,9 @@ export class GlobalStore {
     countryName: 'location' | 'l' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
-    rectName: 'rect-non-linear' | 'rect-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | '' = '';
+    rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
+    rectViewSetting: 'rect-non-linear' | 'rect-linear' | '' = '';
+    rectDistanceType: 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
@@ -70,9 +72,18 @@ export class GlobalStore {
     typeMobility: 'path' | 'no-path' | '' = 'path';
     numberPersonMobility: any = 0;
     positionOfPreviewPerson: any = [];
+    showErrorInsertFunction: boolean = false;
+    showErrorInsertPerson: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setShowErrorInsertFunction = (value: boolean) => {
+        this.showErrorInsertFunction = value;
+    }
+    setShowErrorInsertPerson = (value: boolean) => {
+        this.showErrorInsertPerson = value
     }
 
     setDataScroll = (value: any) => {
@@ -166,6 +177,8 @@ export class GlobalStore {
     toggleMap = (): void => {
         this.map = !this.map;
         this.addIcon = "";
+        this.changeStatusOfAllMapElementRelated();
+
         // this.searchCode = "";
         // this.searchMode = 'countries';
     }
@@ -311,11 +324,27 @@ export class GlobalStore {
         }
     }
 
-    toggleRectName = (value: 'rect-non-linear' | 'rect-linear' | 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | 'rect-distance' | 'rect-shot-distance' | ''): void => {
-        if (value === this.rectName) {
-            this.rectName = '';
-        } else {
+    toggleRectName = (value: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | ''): void => {
+        // if (value === this.rectName) {
+        //     this.rectName = '';
+        // } else {
             this.rectName = value;
+        // }
+    }
+
+    toggleRectViewSetting = (value: 'rect-non-linear' | 'rect-linear' | ''): void => {
+        // if (value === this.rectViewSetting) {
+        //     this.rectViewSetting = '';
+        // } else {
+            this.rectViewSetting = value;
+        // }
+    }
+
+    toggleRectDistanceType = (value: 'rect-distance' | 'rect-shot-distance' | ''): void => {
+        if (value === this.rectDistanceType) {
+            this.rectDistanceType = '';
+        } else {
+            this.rectDistanceType = value;
         }
     }
 
@@ -525,8 +554,23 @@ export class GlobalStore {
         this.mapElementSelected = value;
     }
 
+    resetListMapElementSelected = () => {
+        this.listMapElementSelected = []
+    }
+
+    checkListMapElementSelectedContainElementNotRelate = () => {
+        for (let i = 0; i < this.listMapElementSelected.length; i++) {
+            if (!this.listMapElementSelected[i].status) {
+                this.listMapElementSelected = this.listMapElementSelected.filter((item: any) => item.id !== this.listMapElementSelected[i].id);
+                return true;
+            }
+        }
+        return false;
+    }
+
     setListMapElementSelected = (value: any): void => {
         let id = this.listMapElementSelected.length;
+        this.checkListMapElementSelectedContainElementNotRelate();
         this.listMapElementSelected.push({
             id: id,
             name: value,
@@ -574,13 +618,25 @@ export class GlobalStore {
         })
     }
 
-    setMapElementRelate = (value: any, id: any): void => {
+    changeStatusOfAllMapElementRelated = (): void => {
+        this.listMapElementSelected = this.listMapElementSelected.map(item => {
+            return {
+                ...item, statusRelate: false
+            }
+        });
+    }
+
+    setListMapElementRelate = (value: any, id: any): void => {
         this.listMapElementRelate.push(value);
         this.listMapElementSelected.map(item => {
             if (item.id === id) {
                 item.related = value;
             }
         })
+    }
+
+    resetListMapElementRelate = (): void => {
+        this.listMapElementRelate = [];
     }
 
     setPositionOfMapElementSelected = (lat: number, lng: number) => {
@@ -606,6 +662,10 @@ export class GlobalStore {
                 this.mapLayer[i].mobility = mobility;
             }
         }
+    }
+
+    removeMapLayerById = (type: 'person' | 'function', name: any) => {
+        this.mapLayer = this.mapLayer.filter((item: any) => item.type !== type && item.name !== name);
     }
 
     setListPrincipleLine = (position: any[], numberPerson: number) => {
