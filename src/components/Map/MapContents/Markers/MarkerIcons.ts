@@ -3,7 +3,7 @@ import L from 'leaflet';
 import styles from '../_MapContents.module.scss';
 
 import ICON_PERSON from '@/assets/icons/Black_Icon/64X64/Person-02.png';
-import ICON_WAVE from '@/assets/images/wave.png';
+import ICON_WAVE from '@/assets/images/wave-2.png';
 import ICON_NAVI_SIGN from '@/assets/icons/navigation-sign-icon.png';
 import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/Black_Icon/64X64/House.png';
@@ -39,7 +39,7 @@ export const markerPersonWaveIcon = (className: string, name: string, image: str
         html: (
             `<img src="${image ? image : ICON_PERSON.src}" style="position: absolute; left: 50%; transform: translateX(-50%);" alt="Person" width="40" height="40" />
              <div class="${styles["marker-person-name"]}">${name}</div>
-            <img src="${ICON_WAVE.src}" style="margin-top: 30px; margin-left: -30px" width="100" height="100" alt="wave"/>`
+            <img src="${ICON_WAVE.src}" style="margin-top: 55px; margin-left: -10px" width="60" height="60" alt="wave"/>`
         ),
     })
 }
