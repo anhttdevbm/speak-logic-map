@@ -161,31 +161,33 @@ export function dragHandlerLine(map, e) {
   }
 
   // Set line
-  const latlngPolyline = polyline.getLatLngs();
-  const latlngPolyline_1 = polyline_1.getLatLngs();
-  latlngPolyline.splice(e.target.polylineLatlng, 1, latlngMarker);
-  latlngPolyline_1.splice(e.target.polylineLatlng_1, 1, latlngMarker);
-  
-  polyline.setLatLngs(latlngPolyline);
-  polyline_1.setLatLngs(latlngPolyline_1);
+  if (latlngMarker.lng < 178 && latlngMarker.lng > -178) {
+    const latlngPolyline = polyline.getLatLngs();
+    const latlngPolyline_1 = polyline_1.getLatLngs();
+    latlngPolyline.splice(e.target.polylineLatlng, 1, latlngMarker);
+    latlngPolyline_1.splice(e.target.polylineLatlng_1, 1, latlngMarker);
 
-  let orientation = tempLatlngPolyline[1].lng < tempLatlngPolyline[0].lng ? 180 : 0;
+    polyline.setLatLngs(latlngPolyline);
+    polyline_1.setLatLngs(latlngPolyline_1);
 
-  const distance = map.distance(
-    L.latLng(tempLatlngPolyline[0].lat, tempLatlngPolyline[0].lng),
-    L.latLng(tempLatlngPolyline[1].lat, tempLatlngPolyline[1].lng)
-  );
+    let orientation = tempLatlngPolyline[1].lng < tempLatlngPolyline[0].lng ? 180 : 0;
 
-  let customText = (text === 'Inter-route' || text === 'Arc-route' || text === 'Distance')
-    ? text 
-    : (unitDistance[0] === 'mile' ? `${(distance * 0.001 * 0.6214).toFixed()} ${unitDistance[0]}` : `${(distance * 0.001).toFixed()} ${unitDistance[0]}`);
+    const distance = map.distance(
+        L.latLng(tempLatlngPolyline[0].lat, tempLatlngPolyline[0].lng),
+        L.latLng(tempLatlngPolyline[1].lat, tempLatlngPolyline[1].lng)
+    );
 
-  setText(null);
-  setText(customText, {
-    center: true,
-    offset: -3,
-    orientation: orientation,
-  });
+    let customText = (text === 'Inter-route' || text === 'Arc-route' || text === 'Distance')
+        ? text
+        : (unitDistance[0] === 'mile' ? `${(distance * 0.001 * 0.6214).toFixed()} ${unitDistance[0]}` : `${(distance * 0.001).toFixed()} ${unitDistance[0]}`);
+
+    setText(null);
+    setText(customText, {
+      center: true,
+      offset: -3,
+      orientation: orientation,
+    });
+  }
 }
 
 export function dragEndHandler(map) {
