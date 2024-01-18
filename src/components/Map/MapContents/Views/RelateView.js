@@ -11,10 +11,10 @@ import {
     markerPersonIcon
 } from "@/components/Map/MapContents/Markers/MarkerIcons";
 import styles from "@/components/Map/MapContents/_MapContents.module.scss";
-import {givenSetPopup, removeHorizontalIconPopup} from "@/components/Map/MapContents/Popups/Popups";
+import {givenSetPopup, personPopup, removeHorizontalIconPopup} from "@/components/Map/MapContents/Popups/Popups";
 import 'leaflet-polylinedecorator';
 
-const RelateView = () => {
+const RelateView = ({setModal, setModalType}) => {
     const map = useMap();
     const globalStore = useGlobalStore();
 
@@ -130,16 +130,30 @@ const RelateView = () => {
                     let index = markerPersonIndex[0];
                     if (mapElementRelate === 'Person') {
                         markerPersonIndex[0]++;
+                        globalStore.setMapLayer(leftHorizontalLineBottom[0], leftHorizontalLineBottom[1], 'Person ' + index, 'person')
+                        globalStore.updateRelationshipMapLayerById(leftHorizontalLineBottom[0], leftHorizontalLineBottom[1], 'person', 'Person '+ index, true);
+                        let newMarker = L.marker(leftHorizontalLineBottom, {
+                            target: {
+                                type: 'person',
+                                index: index,
+                                status: 'add',
+                            },
+                            icon: markerPersonIcon(``, `Person ${index}`, null),
+                        })
+                            .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, globalStore.lock, e,
+                                globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
+                                globalStore.updateMapLayerById, globalStore.removeMapLayerById))
+                            .addTo(map);
+                    } else {
+                        L.marker(leftHorizontalLineBottom, {
+                            options: {
+                                type: 'Relationship',
+                            },
+                            icon: mapElementRelate === 'Person'
+                                ? markerPersonIcon(``, `Person ${index}`, null)
+                                : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
+                        }).addTo(map);
                     }
-
-                    L.marker(leftHorizontalLineBottom, {
-                        options: {
-                            type: 'Relationship',
-                        },
-                        icon: mapElementRelate === 'Person'
-                            ? markerPersonIcon(``, `Person ${index}`, null)
-                            : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
-                    }).addTo(map);
                     globalStore.changeStatusOfMapElementRelated(true, id);
                 } else {
                     countriesLayer.forEach((layer) => {

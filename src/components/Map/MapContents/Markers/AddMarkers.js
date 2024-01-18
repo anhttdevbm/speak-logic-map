@@ -41,12 +41,15 @@ import {
 } from './HandleRouteAndDistance';
 import {unitDistance} from "@/components/Map/MapContents/Variables/Variables";
 
-export const checkMarkerExist = (map, index, type) => {
+export const checkMarkerExist = (map, index, type, lat, lng) => {
     let existArr = [];
     map.eachLayer(layer => {
         if (layer.options.target?.status === 'add'
             && layer.options.target?.type === type
-            && layer.options.target?.index === index) {
+            && Number(layer.options.target?.index) === Number(index)
+            && layer._latlng?.lat === lat
+            && layer._latlng?.lng === lng
+        ) {
             existArr.push(true)
         } else {
             existArr.push(false)

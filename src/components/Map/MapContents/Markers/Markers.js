@@ -87,7 +87,7 @@ const Markers = ({setModal, setModalType}) => {
                     || layer.options?.options?.type === 'arrow' || layer.options.target?.type === 'person-mobility'
                     || layer.options?.options?.type === 'person-principle-line' || layer.options?.options?.type === 'vertical-principle-line'
                     || layer.options?.type?.type === 'the-given-set' || layer.options?.type === 'person-mobility'
-                    || layer.options?.type === 'relationship' || layer.options?.type === 'map-element' || layer.options?.options?.type === 'distance'
+                    || layer.options?.target.type === 'relationship' || layer.options?.type === 'map-element' || layer.options?.options?.type === 'distance'
                     || layer.options.target?.type === 'boat' || layer.options.target?.type === 'room') {
                 } else {
                     // console.log('layer', layer)
@@ -605,7 +605,7 @@ const Markers = ({setModal, setModalType}) => {
                         }
                     } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility && globalStore.moreName === '') {
                         let index = fn.name.replace("Person ", "");
-                        if (!checkMarkerExist(map, index, 'person')) {
+                        if (!checkMarkerExist(map, index, 'person', fn.lat, fn.lng)) {
                             addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
                                 setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
                                 globalStore.updateMapLayerById, globalStore.removeMapLayerById);

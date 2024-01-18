@@ -92,6 +92,13 @@ const MapSSR: React.FC = (): JSX.Element => {
         }
     }, [globalStore.showErrorInsertPerson])
 
+    useEffect(() => {
+        if (globalStore.showErrorInsertRelationship) {
+            openNotification('You cannot insert relationship for this person.')
+            globalStore.setShowErrorInsertRelationship(false)
+        }
+    }, [globalStore.showErrorInsertRelationship])
+
     const fetchData = async (code: string, type: string) => {
         setIsLoading(true);
         const response = await fetch(`api/${type}/${code}`);
@@ -235,7 +242,7 @@ const MapSSR: React.FC = (): JSX.Element => {
                     && <HorizontalLineView/>}
 
                 {(globalStore.listMapElementSelected?.length > 0 && globalStore.listMapElementRelate?.length > 0)
-                    && <RelateView/>}
+                    && <RelateView setModal={setModal} setModalType={setModalType}/>}
 
 
             </MapContainer>

@@ -74,6 +74,7 @@ export class GlobalStore {
     positionOfPreviewPerson: any = [];
     showErrorInsertFunction: boolean = false;
     showErrorInsertPerson: boolean = false;
+    showErrorInsertRelationship: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -84,6 +85,10 @@ export class GlobalStore {
     }
     setShowErrorInsertPerson = (value: boolean) => {
         this.showErrorInsertPerson = value
+    }
+
+    setShowErrorInsertRelationship = (value: boolean) => {
+        this.showErrorInsertRelationship = value
     }
 
     setDataScroll = (value: any) => {
@@ -580,18 +585,39 @@ export class GlobalStore {
             statusRelate: false
         });
     }
+    checkMapLayerRelationship = (lat: any, lng: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].lat === lat && this.mapLayer[i].lng === lng && this.mapLayer[i].relationship) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    updateMapLayerRelationshipByLatLng = (lat: any, lng: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].lat === lat && this.mapLayer[i].lng === lng) {
+                this.mapLayer[i].relationship = true;
+            }
+        }
+    }
 
     setPersonToListMapElementSelected = (value: any, lat: any, lng: any, relate: any): void => {
-        let id = this.listMapElementSelected.length;
-        this.listMapElementSelected.push({
-            id: id,
-            name: value,
-            position: [lat, lng],
-            status: true,
-            related: relate,
-            statusRelate: false
-        });
-        this.listMapElementRelate.push(relate);
+        if (!this.checkMapLayerRelationship(lat, lng)) {
+            let id = this.listMapElementSelected.length;
+            this.listMapElementSelected.push({
+                id: id,
+                name: value,
+                position: [lat, lng],
+                status: true,
+                related: relate,
+                statusRelate: false
+            });
+            this.listMapElementRelate.push(relate);
+            this.updateMapLayerRelationshipByLatLng(lat, lng);
+        } else {
+            this.showErrorInsertRelationship = true;
+        }
     }
 
     changePositionOfMapElementSelected = (lat: any, lng: any, id: any): void => {
@@ -660,6 +686,16 @@ export class GlobalStore {
                 this.mapLayer[i].lat = lat;
                 this.mapLayer[i].lng = lng;
                 this.mapLayer[i].mobility = mobility;
+            }
+        }
+    }
+
+    updateRelationshipMapLayerById = (lat: any, lng: any, type: 'person', name: any, relationship: boolean) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].type === type && this.mapLayer[i].name === name) {
+                this.mapLayer[i].lat = lat;
+                this.mapLayer[i].lng = lng;
+                this.mapLayer[i].relationship = relationship;
             }
         }
     }
