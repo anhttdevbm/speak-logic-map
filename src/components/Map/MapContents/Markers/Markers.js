@@ -112,6 +112,7 @@ const Markers = ({setModal, setModalType}) => {
                 if (layer.options.target?.type === 'function') {
                     layer._icon.classList.remove(styles[`simulation-animate0`]);
                     layer._icon.classList.remove(styles[`simulation-animate1`]);
+                    layer._icon.classList.remove(styles[`simulation-animate-boundary`]);
                     layer._icon.classList.remove(styles["boundary"]);
                 }
             });
@@ -129,6 +130,10 @@ const Markers = ({setModal, setModalType}) => {
                 let name = layer.options?.icon?.options?.html;
                 if (name.includes('Natural')) {
                     layer._icon.classList.add(styles[`simulation-animate1`]);
+                    layer._icon.classList.remove(styles["boundary"]);
+                } else if (name.includes('Non-natural')) {
+                    layer._icon.classList.remove(styles["boundary"]);
+                    layer._icon.classList.add(styles[`simulation-animate-boundary`]);
                 } else {
                     layer._icon.classList.add(styles[`simulation-animate0`]);
                 }

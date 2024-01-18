@@ -67,12 +67,13 @@ $time-animation: var(--time-animation);
   font-weight: 400;
   font-size: 0.7rem;
   word-wrap: break-word;
-  white-space:pre-wrap;
+  white-space: pre-wrap;
   width: 100%;
 }
 
 .upload-file-wrapper {
   position: relative;
+
   input {
     position: absolute;
     inset: 0;
@@ -199,8 +200,8 @@ $time-animation: var(--time-animation);
 }
 
 .popup-wrap {
-  background-color: #fff; 
-  padding: 10px; 
+  background-color: #fff;
+  padding: 10px;
   min-width: 180px;
 }
 
@@ -211,6 +212,7 @@ $time-animation: var(--time-animation);
     border-bottom: 1px solid #d1d1d1;
     padding: 10px;
     white-space: nowrap;
+
     &:last-child {
       border: unset;
     }
@@ -267,11 +269,11 @@ $time-animation: var(--time-animation);
     &.active.blue::before {
       border: 2px solid #56ccf2;
     }
-    
+
     &:last-child {
       margin-right: unset;
     }
-    
+
     &.active::before {
       content: " ";
       position: absolute;
@@ -332,7 +334,7 @@ $time-animation: var(--time-animation);
     &.active.blue::before {
       border: 2px solid #56ccf2;
     }
-    
+
     &:last-child {
       margin-right: unset;
     }
@@ -368,6 +370,7 @@ $time-animation: var(--time-animation);
       border: 2px solid #ffea00;
       border-radius: 50%;
     }
+
     border: 2px solid transparent;
     width: 17px;
     height: 17px;
@@ -401,6 +404,7 @@ $time-animation: var(--time-animation);
       box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
       border-radius: 2px;
       font-size: 0.813rem;
+
       div {
         font-size: 0.813rem;
       }
@@ -431,7 +435,9 @@ $time-animation: var(--time-animation);
           background-color: #ddd;
           cursor: pointer;
         }
+
         border-bottom: 1px solid #d1d1d1;
+
         &:last-child {
           border-bottom: unset;
         }
@@ -441,6 +447,7 @@ $time-animation: var(--time-animation);
 
   .on-hover-rename {
     position: relative;
+
     &:hover .hover-func {
       display: block;
     }
@@ -475,7 +482,7 @@ $time-animation: var(--time-animation);
         &:last-child {
           border-bottom: unset;
         }
-      } 
+      }
     }
   }
 }
@@ -675,6 +682,7 @@ $time-animation: var(--time-animation);
   cursor: pointer;
   border: 2px solid #3d3d3d;
 }
+
 .button-group:hover {
   color: white;
 }
@@ -698,7 +706,7 @@ $time-animation: var(--time-animation);
 
 .menu-geojson:hover {
   background-color: #ddd;
-  
+
 }
 
 .stop-icon {
@@ -912,10 +920,10 @@ $time-animation: var(--time-animation);
   font-size: 1rem;
   font-weight: 600;
   border-radius: 50px;
-  width: 50px!important;
-  height: 50px!important;
-  margin-top: -30px!important;
-  margin-left: -70px!important;
+  width: 50px !important;
+  height: 50px !important;
+  margin-top: -30px !important;
+  margin-left: -70px !important;
 }
 
 .dot-icon {
@@ -967,6 +975,7 @@ $time-animation: var(--time-animation);
   white-space: nowrap;
   color: #3388ff;
 }
+
 .rect-icon {
   //display: flex;
   justify-content: center;
@@ -1009,7 +1018,7 @@ $time-animation: var(--time-animation);
 .boat-icon {
   display: flex;
   position: relative;
-} 
+}
 
 .boat-name {
   background-color: transparent;
@@ -1025,6 +1034,7 @@ $time-animation: var(--time-animation);
   display: flex;
   justify-content: center;
   align-items: center;
+
   .boat-body-horizontal {
     position: absolute;
     height: 5px;
@@ -1054,6 +1064,7 @@ $time-animation: var(--time-animation);
       left: -7%;
       transform: rotate(-21deg);
     }
+
     &.right {
       right: -7%;
       transform: rotate(21deg);
@@ -1089,9 +1100,9 @@ $time-animation: var(--time-animation);
   font-weight: 800;
   font-size: 1rem;
   white-space: nowrap;
-  margin: 0!important;
+  margin: 0 !important;
   position: relative;
-  margin-top: 16%!important;
+  margin-top: 16% !important;
 }
 
 .relateText {
@@ -1099,9 +1110,9 @@ $time-animation: var(--time-animation);
   font-weight: 800;
   font-size: 1rem;
   white-space: nowrap;
-  margin: 0!important;
+  margin: 0 !important;
   position: relative;
-  margin-top: 30%!important;
+  margin-top: 30% !important;
 }
 
 .relate-icon {
@@ -1213,6 +1224,13 @@ $time-animation: var(--time-animation);
   display: none;
 }
 
+.simulation-animate-boundary {
+  animation-name: flashFnMarkerBoundary;
+  animation-duration: $time-animation;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
 .simulation-animate0 {
   animation-name: flashFnMarker0;
   animation-duration: $time-animation;
@@ -1278,6 +1296,20 @@ $time-animation: var(--time-animation);
   // -webkit-text-fill-color: #000;
   // background-color: violet;
   // animation: hue 2s infinite linear;
+}
+
+@keyframes flashFnMarkerBoundary {
+  50% {
+    background-color: red;
+    content: "";
+    position: absolute;
+    border: 5px solid #2a93ee;
+    display: flex;
+  }
+  100% {
+    background-color: green;
+    border: 2px solid transparent;
+  }
 }
 
 @keyframes flashFnMarker0 {
@@ -1350,7 +1382,7 @@ $time-animation: var(--time-animation);
   from {
     filter: hue-rotate(0deg);
   }
-  
+
   to {
     filter: hue-rotate(360deg);
   }
