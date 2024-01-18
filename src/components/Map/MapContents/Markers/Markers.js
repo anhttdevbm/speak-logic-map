@@ -87,7 +87,7 @@ const Markers = ({setModal, setModalType}) => {
                     || layer.options?.options?.type === 'arrow' || layer.options.target?.type === 'person-mobility'
                     || layer.options?.options?.type === 'person-principle-line' || layer.options?.options?.type === 'vertical-principle-line'
                     || layer.options?.type?.type === 'the-given-set' || layer.options?.type === 'person-mobility'
-                    || layer.options?.target.type === 'relationship' || layer.options?.type === 'map-element' || layer.options?.options?.type === 'distance'
+                    || layer.options?.target?.type === 'relationship' || layer.options?.type === 'map-element' || layer.options?.options?.type === 'distance'
                     || layer.options.target?.type === 'boat' || layer.options.target?.type === 'room') {
                 } else {
                     // console.log('layer', layer)
