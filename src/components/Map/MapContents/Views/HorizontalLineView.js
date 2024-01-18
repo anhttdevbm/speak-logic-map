@@ -89,7 +89,6 @@ const HorizontalLineView = () => {
                         }
 
                         const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                        console.log('horizontalLineLatLngs', horizontalLineLatLngs)
                         const horizontalLine = L.polyline(horizontalLineLatLngs, {
                             weight: 3,
                             color: 'black',

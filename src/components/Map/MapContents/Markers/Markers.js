@@ -216,11 +216,12 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.resetListMapElementSelected();
             globalStore.resetListMapElementRelate();
             globalStore.resetMapLayer();
+            globalStore.setChooseGivenSet(false);
 
             map.eachLayer(layer => {
                 if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
-                    layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform') {
+                    layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform' || layer.options.patterns?.length > 0) {
                     map.removeLayer(layer);
                     markerFnIndex[0] = 1;
                     markerPersonIndex[0] = 1;
@@ -553,13 +554,13 @@ const Markers = ({setModal, setModalType}) => {
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
                 globalStore.mapLayer.forEach(fn => {
-                    if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')) {
+                    if (fn.type === 'function' && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function', fn.lat, fn.lng)) {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.replace("Function ", ""), globalStore.lock, setModal, setModalType,
                             null, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
                             globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById);
                     } else if (fn.type === 'person' && fn.name !== "" && !fn.mobility) {
                         let index = fn.name.replace("Person ", "");
-                        if (!checkMarkerExist(map, index, 'person')) {
+                        if (!checkMarkerExist(map, index, 'person', fn.lat, fn.lng)) {
                             addMarkerPerson(map, fn.lat, fn.lng, index, globalStore.lock, setModal,
                                 setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
                                 globalStore.updateMapLayerById, globalStore.removeMapLayerById);
@@ -587,7 +588,7 @@ const Markers = ({setModal, setModalType}) => {
                 globalStore.mapLayer.forEach(fn => {
                     if (fn.type === 'function'
                         && fn.name !== ""
-                        && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function')
+                        && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function', fn.lat, fn.lng)
                         && globalStore.moreName === ''
                     ) {
                         if (globalStore.tableView !== '') {

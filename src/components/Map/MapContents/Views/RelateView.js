@@ -112,7 +112,7 @@ const RelateView = ({setModal, setModalType}) => {
 
                     L.polylineDecorator(lineRelate, {
                         patterns: [
-                            {offset: '100%', repeat: 1, symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: { stroke: true, color: 'black', type: 'arrow', status: 'add' } }) }
+                            {offset: '100%', symbol: L.Symbol.arrowHead({pixelSize: 10, polygon: false, pathOptions: { color: 'black', type: 'arrow', status: 'add' } }) }
                         ]
                     }).addTo(map);
 
