@@ -184,12 +184,12 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     window.handleToggleFlasingFn = () => {
         const random = Math.round(Math.random() * 10) % 6;
         if (!e.target.options.isFlashing) {
-            e.target._icon.classList.add(styles[`simulation-animate0`]);
+            e.target._icon.classList.add(styles[`simulation-animate1`]);
             e.target.options.isFlashing = true;
         } else {
             e.target.options.isFlashing = false;
             for (let i = 0; i < 6; i++) {
-                e.target._icon.classList.remove(styles[`simulation-animate0`]);
+                e.target._icon.classList.remove(styles[`simulation-animate1`]);
             }
         }
         map.removeLayer(popup);
