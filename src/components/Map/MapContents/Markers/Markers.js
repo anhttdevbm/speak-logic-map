@@ -148,9 +148,9 @@ const Markers = ({setModal, setModalType}) => {
         }
     }
 
-    useEffect(() => {
-        globalStore.setMapLayer(map);
-    }, [map])
+    // useEffect(() => {
+    //     globalStore.setMapLayer(map);
+    // }, [map])
 
     // Toggle Lock - Unlock Markers
     useEffect(() => {
@@ -178,7 +178,7 @@ const Markers = ({setModal, setModalType}) => {
             marker: false, circle: false, polygon: false, circlemarker: false
         }, edit: {
             featureGroup: drawnItemsLine, // Create a feature group to store drawn rectangles
-            remove: true, edit: true
+            remove: true, edit: false
         },
     });
 
@@ -189,7 +189,7 @@ const Markers = ({setModal, setModalType}) => {
             polyline: false, marker: false, circle: false, polygon: false, circlemarker: false
         }, edit: {
             featureGroup: drawnItemsRect, // Create a feature group to store drawn rectangles
-            remove: true, edit: true
+            remove: true, edit: false
         },
     });
 
@@ -200,7 +200,7 @@ const Markers = ({setModal, setModalType}) => {
             marker: false, polyline: false, circle: true, polygon: false, circlemarker: false
         }, edit: {
             featureGroup: drawnItemsCircle, // Create a feature group to store drawn rectangles
-            remove: true, edit: true
+            remove: true, edit: false
         },
     });
 
@@ -222,6 +222,11 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.resetListMapElementRelate();
             globalStore.resetMapLayer();
             globalStore.setChooseGivenSet(false);
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            globalStore.resetListRectPolygonPallet();
+            globalStore.resetListCirclePolygonPallet();
+            globalStore.resetListLinePallet();
 
             map.eachLayer(layer => {
                 if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
@@ -321,7 +326,9 @@ const Markers = ({setModal, setModalType}) => {
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
-                    drawnItemsLine.addLayer(layer);
+                    globalStore.setListLinePallet(layer._latlngs);
+                    globalStore.togglePalletOption('');
+                    map.removeControl(drawControlLine);
                 });
             } else {
                 refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine);
@@ -337,12 +344,19 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.togglePalletOption('rectangle');
 
             if (globalStore.palletOption === 'rectangle') {
+                drawnItemsRect.options = {
+                    status: 'add',
+                    type: 'draw-item-rect'
+                }
                 map.addLayer(drawnItemsRect);
                 map.addControl(drawControlRect);
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
-                    drawnItemsRect.addLayer(layer);
+                    // drawnItemsRect.addLayer(layer);
+                    globalStore.setListRectPolygonPallet(layer._latlngs, layer.toGeoJSON());
+                    globalStore.togglePalletOption('');
+                    map.removeControl(drawControlRect);
                 });
             } else {
                 refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
@@ -357,12 +371,18 @@ const Markers = ({setModal, setModalType}) => {
             }
             globalStore.togglePalletOption('circle');
             if (globalStore.palletOption === 'circle') {
+                drawnItemsCircle.options = {
+                    status: 'add',
+                    type: 'draw-item-circle'
+                }
                 map.addLayer(drawnItemsCircle);
                 map.addControl(drawControlCircle);
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
-                    drawnItemsCircle.addLayer(layer);
+                    globalStore.setListCirclePolygonPallet(layer._latlng, layer._mRadius, layer.toGeoJSON());
+                    globalStore.togglePalletOption('');
+                    map.removeControl(drawControlCircle);
                 });
             } else {
                 refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
@@ -413,12 +433,12 @@ const Markers = ({setModal, setModalType}) => {
     }
 
     const refreshLayerAndControlRect = (map, drawnItems, drawControl) => {
-        // map.removeLayer(drawnItemsRect);
+        map.removeLayer(drawnItems);
         map.removeControl(drawControl)
     }
 
     const refreshLayerAndControlCircle = (map, drawnItems, drawControl) => {
-        // map.removeLayer(drawnItemsRect);
+        map.removeLayer(drawnItems);
         map.removeControl(drawControl)
     }
 
@@ -472,7 +492,10 @@ const Markers = ({setModal, setModalType}) => {
                     } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
                         globalStore.setShowErrorInsertFunction(true);
                     } else {
-                        addHouseMarker(map, latlng.lat, latlng.lng, globalStore.lock)
+                        let index = markerHouseIndex[0];
+                        addHouseMarker(map, latlng.lat, latlng.lng, globalStore.lock);
+                        globalStore.setMapLayer(latlng.lat, latlng.lng, index, 'house');
+                        markerFnIndex[0]++;
                     }
                     globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'welcome-sign') {
@@ -648,6 +671,10 @@ const Markers = ({setModal, setModalType}) => {
         }
     }, [globalStore.valueOfImage]);
 
+    useEffect(() => {
+        refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
+        refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+    }, [globalStore.listRectPolygonPallet.length, globalStore.listCirclePolygonPallet.length])
 
 
     useMapEvents({

@@ -37,6 +37,9 @@ export class GlobalStore {
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
+    listLinePallet: any[] = [];
+    listRectPolygonPallet: any[] = [];
+    listCirclePolygonPallet: any[] = [];
     clear: boolean = false;
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
@@ -405,6 +408,99 @@ export class GlobalStore {
         }
     }
 
+    setListLinePallet = (bound: any[]): void => {
+        let id = this.listLinePallet.length + 1;
+        this.listLinePallet.push({
+            id: id,
+            type: 'line-pallet',
+            latlng: bound,
+            status: false
+        })
+    }
+
+    setStatusLinePallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listLinePallet.length; i++) {
+            if (this.listLinePallet[i].id === id) {
+                this.listLinePallet[i].status = status;
+            }
+        }
+    }
+
+    updateLatlngLinePallet = (id: any, latlng: any) => {
+        for (let i = 0; i < this.listLinePallet.length; i++) {
+            if (this.listLinePallet[i].id === id) {
+                this.listLinePallet[i].latlng = latlng;
+            }
+        }
+    }
+
+    resetListLinePallet = () => {
+        this.listLinePallet = [];
+    }
+    setListRectPolygonPallet = (bound: any[], geoJson: any): void => {
+        let id = this.listRectPolygonPallet.length + 1;
+        this.listRectPolygonPallet.push({
+            id: id,
+            type: 'rect-polygon',
+            bound: bound,
+            geoJson: geoJson,
+            status: false
+        })
+    }
+
+    setStatusRectPolygonPallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listRectPolygonPallet.length; i++) {
+            if (this.listRectPolygonPallet[i].id === id) {
+                this.listRectPolygonPallet[i].status = status;
+            }
+        }
+    }
+
+    updateBoundRectPolygonPallet = (id: any, bound: any, geoJson: any) => {
+        for (let i = 0; i < this.listRectPolygonPallet.length; i++) {
+            if (this.listRectPolygonPallet[i].id === id) {
+                this.listRectPolygonPallet[i].bound = bound;
+                this.listRectPolygonPallet[i].geoJson = geoJson;
+            }
+        }
+    }
+
+    resetListRectPolygonPallet = () => {
+        this.listRectPolygonPallet = [];
+    }
+
+    resetListCirclePolygonPallet = () => {
+        this.listCirclePolygonPallet = [];
+    }
+
+    setListCirclePolygonPallet = (bound: any[], radius: any, geoJson: any): void => {
+        let id = this.listCirclePolygonPallet.length + 1;
+        this.listCirclePolygonPallet.push({
+            id: id,
+            type: 'circle-polygon',
+            bound: bound,
+            radius: radius,
+            geoJson: geoJson,
+            status: false
+        })
+    }
+
+    updateBoundCirclePolygonPallet = (id: any, bound: any) => {
+        for (let i = 0; i < this.listCirclePolygonPallet.length; i++) {
+            if (this.listCirclePolygonPallet[i].id === id) {
+                this.listCirclePolygonPallet[i].bound = bound;
+            }
+        }
+    }
+
+    setStatusCirclePolygonPallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listCirclePolygonPallet.length; i++) {
+            if (this.listCirclePolygonPallet[i].id === id) {
+                this.listCirclePolygonPallet[i].status = status;
+            }
+        }
+    }
+
     setTypeMobility = (value: 'path' | 'no-path'): void => {
         if (value === this.typeMobility) {
             this.typeMobility = '';
@@ -669,7 +765,7 @@ export class GlobalStore {
         this.positionOfMapElementSelected = [lat, lng];
     }
 
-    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function') => {
+    setMapLayer = (lat: any, lng: any, value: any, type: any) => {
         let id = this.mapLayer.length + 1;
         if (this.mapLayer.filter(item => item.value === value && item.type === type).length === 0) {
             this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})

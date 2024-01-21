@@ -41,6 +41,7 @@ import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 import {FeatureCollection} from "geojson";
 import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
 import {notification} from "antd";
+import PalletGeoJsonContainer from './MapContents/Views/PalletGeoJsonContainer'
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -243,6 +244,10 @@ const MapSSR: React.FC = (): JSX.Element => {
 
                 {(globalStore.listMapElementSelected?.length > 0 && globalStore.listMapElementRelate?.length > 0)
                     && <RelateView setModal={setModal} setModalType={setModalType}/>}
+
+                {(globalStore.listRectPolygonPallet?.length > 0
+                    || globalStore.listCirclePolygonPallet?.length > 0
+                    || globalStore.listLinePallet?.length > 0) && <PalletGeoJsonContainer />}
 
 
             </MapContainer>

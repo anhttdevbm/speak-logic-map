@@ -2894,6 +2894,11 @@
   "resolved" "https://registry.npmjs.org/leaflet-image-transform/-/leaflet-image-transform-0.0.1.tgz"
   "version" "0.0.1"
 
+"leaflet-path-drag@^1.8.0-beta.3":
+  "integrity" "sha512-kpZ6sPOKlR+m+VChIzZZ7XFH4C+VGTrAxgnM4UN5iYl7lJ00iDOxS+r717bDf/xFFHB6n2jpUp9vvzjjteMpeQ=="
+  "resolved" "https://registry.npmjs.org/leaflet-path-drag/-/leaflet-path-drag-1.8.0-beta.3.tgz"
+  "version" "1.8.0-beta.3"
+
 "leaflet-polylinedecorator@^1.6.0":
   "integrity" "sha512-kn3krmZRetgvN0wjhgYL8kvyLS0tUogAl0vtHuXQnwlYNjbl7aLQpkoFUo8UB8gVZoB0dhI4Tb55VdTJAcYzzQ=="
   "resolved" "https://registry.npmjs.org/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz"
