@@ -709,7 +709,8 @@ export class GlobalStore {
         this.listPrincipleLine.push({
             id: id,
             position: position,
-            numberPerson: numberPerson
+            numberPerson: numberPerson,
+            addGivenSetStatus: false,
         });
     }
 
@@ -717,6 +718,14 @@ export class GlobalStore {
         for (let i = 0; i < this.listPrincipleLine.length; i++) {
             if (this.listPrincipleLine[i].id === id) {
                 this.listPrincipleLine[i].numberPerson = numberPerson
+            }
+        }
+    }
+
+    setStatusGivenSetForPrincipleLine = (id: number, addGivenSetStatus: boolean) => {
+        for (let i = 0; i < this.listPrincipleLine.length; i++) {
+            if (this.listPrincipleLine[i].id === id) {
+                this.listPrincipleLine[i].addGivenSetStatus = addGivenSetStatus
             }
         }
     }

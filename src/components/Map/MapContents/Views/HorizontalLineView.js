@@ -77,7 +77,7 @@ const HorizontalLineView = () => {
                         const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
                         const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
 
-                        if (globalStore.chooseGivenSet) {
+                        if (globalStore.chooseGivenSet && !principleLine.addGivenSetStatus) {
                             L.marker([latHorizontalLine, lngHorizontalLine], {
                                 options: {
                                     type: 'the-given-set',
@@ -85,7 +85,8 @@ const HorizontalLineView = () => {
                                 },
                                 icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
                             }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                                .addTo(map)
+                                .addTo(map);
+                            globalStore.setStatusGivenSetForPrincipleLine(principleLine.id, true)
                         }
 
                         const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
@@ -107,7 +108,8 @@ const HorizontalLineView = () => {
                             let countryMarker = L.marker([latHorizontalLine, lng], {
                                 options: {
                                     type: 'person-principle-line',
-                                    status: 'add'
+                                    status: 'add',
+                                    draggable: false
                                 },
                                 icon: markerVerticalPersonIcon(`${styles['vertical-person-icon']}`),
                             })
