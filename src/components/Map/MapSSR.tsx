@@ -223,7 +223,7 @@ const MapSSR: React.FC = (): JSX.Element => {
                     <>
                         <HouseView selectedData={selectedData}/>
                         <RoomView selectedData={selectedData}/>
-                        <FloorPlanView/>
+                        <FloorPlanView selectedData={selectedData}/>
                         {/*<BoatView selectedData={selectedData} setModal={setModal} setModalType={setModalType} />*/}
                         {globalStore.boatView !== '' &&
                             <BoatView selectedData={selectedData} setModal={setModal}

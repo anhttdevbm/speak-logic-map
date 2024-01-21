@@ -268,7 +268,9 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
 
   // Change the map to selected location only
   useEffect(() => {
-    if (!globalStore.boatView && !globalStore.houseView && !globalStore.roomView && !globalStore.tableView && !globalStore.rectangularView && !globalStore.moreName) {
+    if (!globalStore.boatView && !globalStore.houseView &&
+        !globalStore.roomView && !globalStore.floorPlanView &&
+        !globalStore.tableView && !globalStore.rectangularView && !globalStore.moreName) {
       const makeEvent = (e) => {
         window.openPopulateModal = () => {
           setModal(true);

@@ -95,17 +95,17 @@ const RoomView = ({selectedData}) => {
         else {
           const mainLand = getGeoMainLand(selectedData[0]);
           const center = turf.center(turf.points(mainLand.features[0].geometry.coordinates[0])).geometry.coordinates;
-    
+
           const countryMarker = L.marker(center.reverse(), {
             options: {
               type: 'room',
             },
             icon: markerRoomIcon(
-              `${styles['room-icon']}`, 
+              `${styles['room-icon']}`,
               name ? `${name}` : selectedData[0].features[0].properties.CODE.toUpperCase()),
           })
             .addTo(map);
-  
+
           countriesLayer.push(countryMarker);
         }
       }
