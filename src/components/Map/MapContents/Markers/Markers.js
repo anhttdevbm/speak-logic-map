@@ -812,6 +812,7 @@ const Markers = ({setModal, setModalType}) => {
                     } else {
                         globalStore.setChooseGivenSet(true);
                         let index = markerGivenSet[0];
+                        globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, index + '', 'the-given-set')
                         addMarkerGivenSet(map, e.latlng.lat, e.latlng.lng, index, globalStore.lock, 'Main Set', globalStore.setChooseGivenSet,
                             globalStore.setPositionOfHorizontalLine, globalStore.resetPositionOfHorizontalLine);
                         markerGivenSet[0]++;

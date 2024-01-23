@@ -71,35 +71,42 @@ const PalletGeoJsonContainer = () => {
     }
 
     const handleFeature = (layer, id) => {
-        layer.makeDraggable();
-        if (!layer.dragging.enabled()) {
-            layer.dragging.enable();
-            layer.on("dragend", function (e) {
-                requestAnimationFrame(() => {
-                    let bound = globalStore.getRectPolygonPalletById(id).bound;
-                    let point1 = globalStore.getRectPolygonPalletById(id).latlngs[0][0];
-                    let point2 = e.target._latlngs[0][0];
-                    for (let i = 0; i < globalStore.mapLayer.length; i++) {
-                        let id = globalStore.mapLayer[i].id;
-                        let type = globalStore.mapLayer[i].type;
-                        let name = globalStore.mapLayer[i].name;
-                        let lat = globalStore.mapLayer[i].lat;
-                        let lng = globalStore.mapLayer[i].lng;
-                        let point3 = L.latLng(lat, lng);
-                        if (checkBoundContainMarker(bound, lat, lng)) {
-                            let point4 = findLastPoint(point1, point2, point3);
-                            globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
-                            map.eachLayer(layer => {
-                                let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
-                                if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
-                                    layer.setLatLng(point4)
-                                }
-                            })
+        if (layer._bounds) {
+            layer.makeDraggable();
+            if (!layer.dragging.enabled()) {
+                layer.dragging.enable();
+                layer.on("dragend", function (e) {
+                    requestAnimationFrame(() => {
+                        let bound = globalStore.getRectPolygonPalletById(id).bound;
+                        let point1 = globalStore.getRectPolygonPalletById(id).latlngs[0][0];
+                        let point2 = e.target._latlngs[0][0];
+                        for (let i = 0; i < globalStore.mapLayer.length; i++) {
+                            console.log('globalStore.mapLayer[i]', globalStore.mapLayer[i])
+                            let id = globalStore.mapLayer[i].id;
+                            let type = globalStore.mapLayer[i].type;
+                            let name = globalStore.mapLayer[i].name;
+                            let lat = globalStore.mapLayer[i].lat;
+                            let lng = globalStore.mapLayer[i].lng;
+                            let point3 = L.latLng(lat, lng);
+                            if (checkBoundContainMarker(bound, lat, lng)) {
+                                let point4 = findLastPoint(point1, point2, point3);
+                                globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
+                                map.eachLayer(layer => {
+                                    if (layer.options?.type?.type === 'the-given-set' && layer.options?.type?.type === type && layer.options?.type?.index.toString() === name.toString()) {
+                                        layer.setLatLng(point4)
+                                    } else {
+                                        let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
+                                        if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
+                                            layer.setLatLng(point4)
+                                        }
+                                    }
+                                })
+                            }
                         }
-                    }
-                    globalStore.updateBoundRectPolygonPallet(id, e.target._bounds, e.target._latlngs, e.target.toGeoJSON())
+                        globalStore.updateBoundRectPolygonPallet(id, e.target._bounds, e.target._latlngs, e.target.toGeoJSON())
+                    });
                 });
-            });
+            }
         }
     };
 
@@ -202,9 +209,13 @@ const PalletGeoJsonContainer = () => {
                                 if (distance < radius) {
                                     let point4 = findLastPoint(currentCenter, newCenter, point3);
                                     map.eachLayer(layer => {
-                                        let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
-                                        if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
+                                        if (layer.options?.type?.type === 'the-given-set' && layer.options?.type?.type === type && layer.options?.type?.index.toString() === name.toString()) {
                                             layer.setLatLng(point4)
+                                        } else {
+                                            let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
+                                            if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
+                                                layer.setLatLng(point4)
+                                            }
                                         }
                                     })
                                     globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);

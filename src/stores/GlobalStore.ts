@@ -784,10 +784,10 @@ export class GlobalStore {
         this.positionOfMapElementSelected = [lat, lng];
     }
 
-    setMapLayer = (lat: any, lng: any, value: any, type: any) => {
+    setMapLayer = (lat: any, lng: any, name: any, type: any) => {
         let id = this.mapLayer.length + 1;
-        if (this.mapLayer.filter(item => item.value === value && item.type === type).length === 0) {
-            this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})
+        if (this.mapLayer.filter(item => item.value === name && item.type === type).length === 0) {
+            this.mapLayer.push({id: id, lat: lat, lng: lng, name: name, type: type})
         }
     }
 
