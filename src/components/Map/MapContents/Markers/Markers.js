@@ -326,7 +326,9 @@ const Markers = ({setModal, setModalType}) => {
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
-                    globalStore.setListLinePallet(layer._latlngs);
+                    if (globalStore.palletOption === 'line') {
+                        globalStore.setListLinePallet(layer._latlngs);
+                    }
                     globalStore.togglePalletOption('');
                     map.removeControl(drawControlLine);
                 });
@@ -354,7 +356,7 @@ const Markers = ({setModal, setModalType}) => {
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
                     // drawnItemsRect.addLayer(layer);
-                    globalStore.setListRectPolygonPallet(layer._latlngs, layer.toGeoJSON());
+                    globalStore.setListRectPolygonPallet(layer._bounds, layer._latlngs, layer.toGeoJSON());
                     globalStore.togglePalletOption('');
                     map.removeControl(drawControlRect);
                 });
@@ -380,6 +382,7 @@ const Markers = ({setModal, setModalType}) => {
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
+                    console.log('test', layer)
                     globalStore.setListCirclePolygonPallet(layer._latlng, layer._mRadius, layer.toGeoJSON());
                     globalStore.togglePalletOption('');
                     map.removeControl(drawControlCircle);

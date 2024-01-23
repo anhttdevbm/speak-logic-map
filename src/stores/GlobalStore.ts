@@ -78,9 +78,14 @@ export class GlobalStore {
     showErrorInsertFunction: boolean = false;
     showErrorInsertPerson: boolean = false;
     showErrorInsertRelationship: boolean = false;
+    statusMovePallet: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    toggleStatusMovePallet = () => {
+        this.statusMovePallet = !this.statusMovePallet;
     }
 
     setShowErrorInsertFunction = (value: boolean) => {
@@ -437,15 +442,22 @@ export class GlobalStore {
     resetListLinePallet = () => {
         this.listLinePallet = [];
     }
-    setListRectPolygonPallet = (bound: any[], geoJson: any): void => {
+    setListRectPolygonPallet = (bound: any, latlngs: any, geoJson: any): void => {
         let id = this.listRectPolygonPallet.length + 1;
-        this.listRectPolygonPallet.push({
-            id: id,
-            type: 'rect-polygon',
-            bound: bound,
-            geoJson: geoJson,
-            status: false
-        })
+        if (this.listRectPolygonPallet.filter(item => JSON.stringify(item.bound) === JSON.stringify(bound)).length === 0) {
+            this.listRectPolygonPallet.push({
+                id: id,
+                type: 'rect-polygon',
+                bound: bound,
+                latlngs: latlngs,
+                geoJson: geoJson,
+                status: false
+            })
+        }
+    }
+
+    getRectPolygonPalletById = (id: any) => {
+        return this.listRectPolygonPallet.filter(item => item.id === id)[0];
     }
 
     setStatusRectPolygonPallet = (id: any, status: boolean) => {
@@ -456,10 +468,11 @@ export class GlobalStore {
         }
     }
 
-    updateBoundRectPolygonPallet = (id: any, bound: any, geoJson: any) => {
+    updateBoundRectPolygonPallet = (id: any, bound: any, latlngs: any, geoJson: any) => {
         for (let i = 0; i < this.listRectPolygonPallet.length; i++) {
             if (this.listRectPolygonPallet[i].id === id) {
                 this.listRectPolygonPallet[i].bound = bound;
+                this.listRectPolygonPallet[i].latlngs = latlngs;
                 this.listRectPolygonPallet[i].geoJson = geoJson;
             }
         }
@@ -475,14 +488,20 @@ export class GlobalStore {
 
     setListCirclePolygonPallet = (bound: any[], radius: any, geoJson: any): void => {
         let id = this.listCirclePolygonPallet.length + 1;
-        this.listCirclePolygonPallet.push({
-            id: id,
-            type: 'circle-polygon',
-            bound: bound,
-            radius: radius,
-            geoJson: geoJson,
-            status: false
-        })
+        if (this.listCirclePolygonPallet.filter(item => JSON.stringify(item.bound) === JSON.stringify(bound) && item.radius === radius).length === 0) {
+            this.listCirclePolygonPallet.push({
+                id: id,
+                type: 'circle-polygon',
+                bound: bound,
+                radius: radius,
+                geoJson: geoJson,
+                status: false
+            })
+        }
+    }
+
+    getCirclePolygonPalletById = (id: any) => {
+        return this.listCirclePolygonPallet.filter(item => item.id === id)[0];
     }
 
     updateBoundCirclePolygonPallet = (id: any, bound: any) => {
@@ -774,6 +793,15 @@ export class GlobalStore {
 
     resetMapLayer = () => {
         this.mapLayer = [];
+    }
+
+    updateLatLngMapLayerById = (lat: any, lng: any, id: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].id === id) {
+                this.mapLayer[i].lat = lat;
+                this.mapLayer[i].lng = lng;
+            }
+        }
     }
 
     updateMapLayerById = (lat: any, lng: any, type: 'person' | 'function', name: any, mobility: boolean) => {

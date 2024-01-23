@@ -71,36 +71,35 @@ const PalletGeoJsonContainer = () => {
     }
 
     const handleFeature = (layer, id) => {
-        let bound = layer._bounds;
-        if (bound) {
-            layer.makeDraggable();
-            if (!layer.dragging.enabled()) {
-                layer.dragging.enable();
-                let point1 = layer._latlngs[0][0];
-                // L.marker(point1).addTo(map);
-                layer.on("dragend", function (e) {
-                    requestAnimationFrame(() => {
-                        console.log('e', e)
-                        let point2 = e.target._latlngs[0][0];
-                        // L.marker(point2).addTo(map);
-                        let distance = computeDistanceBetweenTwoPoint(point1.lat, point1.lng, point2.lat, point2.lng);
-                        let bearing = calculateBearing(point1.lat, point1.lng, point2.lat, point2.lng);
-                        for (let i = 0; i < globalStore.mapLayer.length; i++) {
-                            let lat = globalStore.mapLayer[i].lat;
-                            let lng = globalStore.mapLayer[i].lng;
-                            if (checkBoundContainMarker(bound, lat, lng)) {
-                                let newPoint = calculateDestinationPoint(lat, lng, bearing, distance * 1000)
-                                if (newPoint.lat && newPoint.lng) {
-                                    addHouseMarker(map, newPoint.lat, newPoint.lng, globalStore.lock);
-                                    globalStore.changePositionOfMapElementSelected(newPoint.lat, newPoint.lng, globalStore.mapLayer[i].id);
-                                    console.log('test', distance, computeDistanceBetweenTwoPoint(lat, lng, newPoint.lat, newPoint.lng), bearing, calculateBearing(lat, lng, newPoint.lat, newPoint.lng))
+        layer.makeDraggable();
+        if (!layer.dragging.enabled()) {
+            layer.dragging.enable();
+            layer.on("dragend", function (e) {
+                requestAnimationFrame(() => {
+                    let bound = globalStore.getRectPolygonPalletById(id).bound;
+                    let point1 = globalStore.getRectPolygonPalletById(id).latlngs[0][0];
+                    let point2 = e.target._latlngs[0][0];
+                    for (let i = 0; i < globalStore.mapLayer.length; i++) {
+                        let id = globalStore.mapLayer[i].id;
+                        let type = globalStore.mapLayer[i].type;
+                        let name = globalStore.mapLayer[i].name;
+                        let lat = globalStore.mapLayer[i].lat;
+                        let lng = globalStore.mapLayer[i].lng;
+                        let point3 = L.latLng(lat, lng);
+                        if (checkBoundContainMarker(bound, lat, lng)) {
+                            let point4 = findLastPoint(point1, point2, point3);
+                            globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
+                            map.eachLayer(layer => {
+                                let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
+                                if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
+                                    layer.setLatLng(point4)
                                 }
-                            }
+                            })
                         }
-                        globalStore.updateBoundRectPolygonPallet(id, e.target._latlngs, e.target.toGeoJSON())
-                    });
+                    }
+                    globalStore.updateBoundRectPolygonPallet(id, e.target._bounds, e.target._latlngs, e.target.toGeoJSON())
                 });
-            }
+            });
         }
     };
 
@@ -109,8 +108,17 @@ const PalletGeoJsonContainer = () => {
         return bound.contains(pointToCheck);
     }
 
+    const findLastPoint = (point1, point2, point3) => {
+        let pointA = map.latLngToContainerPoint(point1);
+        let pointB = map.latLngToContainerPoint(point2);
+        let pointC = map.latLngToContainerPoint(point3);
+        let vectorAB = {x: pointB.x - pointA.x, y: pointB.y - pointA.y};
+        let pointD = {x: pointC.x + vectorAB.x, y: pointC.y + vectorAB.y};
+        return map.containerPointToLatLng(pointD);
+    }
+
     function computeDistanceBetweenTwoPoint(lat1, lng1, lat2, lng2) {
-        const R = 6371; // Radius of the earth in km
+        const R = 6371000; // Radius of the earth in m
         const dLat = toRadians(lat2 - lat1); // deg2rad below
         const dLon = toRadians(lng2 - lng1);
         const a =
@@ -123,47 +131,11 @@ const PalletGeoJsonContainer = () => {
         return R * c;
     }
 
-    function calculateBearing(lat1, lon1, lat2, lon2) {
-        let lat1Rad = (lat1 * Math.PI) / 180;
-        let lon1Rad = (lon1 * Math.PI) / 180;
-        let lat2Rad = (lat2 * Math.PI) / 180;
-        let lon2Rad = (lon2 * Math.PI) / 180;
-
-        let y = Math.sin(lon2Rad - lon1Rad) * Math.cos(lat2Rad);
-        let x = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(lon2Rad - lon1Rad);
-
-        let bearingRad = Math.atan2(y, x);
-        let bearingDeg = (bearingRad * 180) / Math.PI;
-        return (bearingDeg + 360) % 360;
-    }
-
-    function calculateDestinationPoint(lat, lng, bearing, distance) {
-        let R = 6371000; // Radius of the Earth in meters
-
-        let lat1 = lat * Math.PI / 180;
-        let lon1 = lng * Math.PI / 180;
-        let angularDistance = distance / R;
-        let bearingRad = bearing * Math.PI / 180;
-
-        let lat2 = Math.asin(Math.sin(lat1) * Math.cos(angularDistance) +
-            Math.cos(lat1) * Math.sin(angularDistance) * Math.cos(bearingRad));
-
-        let lon2 = lon1 + Math.atan2(Math.sin(bearingRad) * Math.sin(angularDistance) * Math.cos(lat1),
-            Math.cos(angularDistance) - Math.sin(lat1) * Math.sin(lat2));
-
-        return {lat: lat2 * 180 / Math.PI, lng: lon2 * 180 / Math.PI};
-    }
-
     const toRadians = (degrees) => {
         return (degrees * Math.PI) / 180;
     };
 
-    const toDegree = (radians) => {
-        return (radians * 180) / Math.PI;
-    };
-
     useEffect(() => {
-        // debugger
         if (globalStore.map) {
             if (globalStore.listRectPolygonPallet.length > 0) {
                 for (let i = 0; i < globalStore.listRectPolygonPallet.length; i++) {
@@ -214,24 +186,31 @@ const PalletGeoJsonContainer = () => {
                         }).addTo(map);
 
                         circle.on('dragend', function (event) {
-                            let newLatLng = event.target.getLatLng();
-                            // L.marker([newLatLng.lat, newLatLng.lng]).addTo(map);
-                            let distance = computeDistanceBetweenTwoPoint(lat, lng, newLatLng.lat, newLatLng.lng);
-                            let bearing = calculateBearing(lat, lng, newLatLng.lat, newLatLng.lng);
+                            circle.setRadius(radius);
+                            let newCenter = event.target.getLatLng();
+                            console.log('event', event)
+                            let currentCenter = globalStore.getCirclePolygonPalletById(id).bound;
                             for (let i = 0; i < globalStore.mapLayer.length; i++) {
-                                let latOfMarker = globalStore.mapLayer[i].lat;
-                                let lngOfMarker = globalStore.mapLayer[i].lng;
-                                // console.log('checkMarkerInCircle(circle, latOfMarker, lngOfMarker)', checkMarkerInCircle(circle, latOfMarker, lngOfMarker))
-                                if (checkMarkerInCircle(circle, latOfMarker, lngOfMarker)) {
-                                    let newPoint = calculateDestinationPoint(latOfMarker, lngOfMarker, bearing, distance * 1000)
-                                    if (newPoint.lat && newPoint.lng) {
-                                        addHouseMarker(map, newPoint.lat, newPoint.lng, globalStore.lock);
-                                        globalStore.changePositionOfMapElementSelected(newPoint.lat, newPoint.lng, globalStore.mapLayer[i].id);
-                                        console.log('test', distance, computeDistanceBetweenTwoPoint(latOfMarker, lngOfMarker, newPoint.lat, newPoint.lng), bearing, calculateBearing(latOfMarker, lngOfMarker, newPoint.lat, newPoint.lng))
-                                    }
+                                let id = globalStore.mapLayer[i].id;
+                                let type = globalStore.mapLayer[i].type;
+                                let name = globalStore.mapLayer[i].name;
+                                let lat = globalStore.mapLayer[i].lat;
+                                let lng = globalStore.mapLayer[i].lng;
+                                let point3 = L.latLng(lat, lng);
+                                const distance = computeDistanceBetweenTwoPoint(lat, lng, currentCenter.lat, currentCenter.lng)
+                                console.log(distance, radius)
+                                if (distance < radius) {
+                                    let point4 = findLastPoint(currentCenter, newCenter, point3);
+                                    map.eachLayer(layer => {
+                                        let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
+                                        if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
+                                            layer.setLatLng(point4)
+                                        }
+                                    })
+                                    globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
                                 }
                             }
-                            globalStore.updateBoundCirclePolygonPallet(id, newLatLng);
+                            globalStore.updateBoundCirclePolygonPallet(id, newCenter);
                         });
                         globalStore.setStatusCirclePolygonPallet(id, true)
                     }
@@ -252,11 +231,11 @@ const PalletGeoJsonContainer = () => {
                     let linePallet = globalStore.listLinePallet[i]
                     let id = linePallet.id;
                     let status = linePallet.status;
-                    let latlngs = linePallet.latlng.map(function(obj) {
-                        return [obj.lat, obj.lng];
-                    });
                     let type = linePallet.type;
-                    if (!status && type === 'line-pallet') {
+                    if (!status && type === 'line-pallet' && linePallet.latlng) {
+                        let latlngs = linePallet.latlng.map(function (obj) {
+                            return [obj.lat, obj.lng];
+                        });
                         L.polyline(latlngs, {
                             draggable: true,
                             color: 'rgb(51, 136, 255)',
