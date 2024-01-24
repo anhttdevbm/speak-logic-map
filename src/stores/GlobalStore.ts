@@ -835,6 +835,7 @@ export class GlobalStore {
             position: position,
             numberPerson: numberPerson,
             addGivenSetStatus: false,
+            haveGivenSet: this.chooseGivenSet
         });
     }
 

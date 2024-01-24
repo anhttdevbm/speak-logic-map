@@ -77,7 +77,7 @@ const HorizontalLineView = () => {
                         const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
                         const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
 
-                        if (globalStore.chooseGivenSet && !principleLine.addGivenSetStatus) {
+                        if (principleLine.haveGivenSet && !principleLine.addGivenSetStatus) {
                             L.marker([latHorizontalLine, lngHorizontalLine], {
                                 options: {
                                     type: 'the-given-set',
