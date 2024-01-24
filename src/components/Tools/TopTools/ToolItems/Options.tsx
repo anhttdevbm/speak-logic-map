@@ -58,7 +58,7 @@ const Options: React.FC = (): JSX.Element => {
               `}/>
                         </li>
                         <li onClick={() => globalStore.changePosition('down')}>
-                            Down
+                            Bottom
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
                 ${globalStore.position !== 'down' ? styles['hide'] : styles['show']}
