@@ -28,7 +28,7 @@ export class GlobalStore {
     tableView: 'table-world' | 'table-countries' | '' = '';
     moreView: 'more-world' | 'more-countries' | '' = '';
     moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | 'population-view-principle-line' | '' = '';
-    countryName: 'location' | 'l' | '' = '';
+    countryName: 'location' | 'l' | 'house-distance' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
     rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
@@ -44,6 +44,7 @@ export class GlobalStore {
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
     inAreaSelection: boolean = false;
+    showHouseDistance: boolean = false;
     showRoomDistance: boolean = false;
     showFloorPlanDistance: boolean = false;
     showBoatWave: boolean = false;
@@ -241,7 +242,7 @@ export class GlobalStore {
         }
     }
 
-    toggleCountryName = (value: 'location' | 'l' | ''): void => {
+    toggleCountryName = (value: 'location' | 'l' | 'house-distance' | ''): void => {
         this.countryName = value;
     }
 
@@ -282,6 +283,10 @@ export class GlobalStore {
 
     toggleRoomName = (value: 'room' | 'r' | ''): void => {
         this.roomName = value;
+    }
+
+    toggleHouseDistance = (): void => {
+        this.showHouseDistance = !this.showHouseDistance;
     }
 
     toggleRoomDistance = (): void => {

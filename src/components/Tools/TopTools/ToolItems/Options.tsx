@@ -120,6 +120,13 @@ const Options: React.FC = (): JSX.Element => {
                     House View
                     <RightArrowIcon className={`${styles['sub-icon']}`}/>
                     <ul className={`${styles['minor-list']}`}>
+                        <li onClick={() => globalStore.toggleHouseDistance()}>
+                            Show Distance between Houses (Very Lag)
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${!globalStore.showHouseDistance ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
                         <li onClick={() => globalStore.toggleCountryName('location')}>
                             Replace Name with &quot;Location + Index&quot;
                             <CheckIcon className={`
