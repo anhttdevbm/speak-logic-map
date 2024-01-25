@@ -11,64 +11,17 @@ const PalletGeoJsonContainer = () => {
     const map = useMap();
     const globalStore = useGlobalStore();
 
-    let geojsonMarkerData = {
-        "type": "FeatureCollection",
-        "features": [
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[
-                        [-104.05, 48.99],
-                        [-97.22, 48.98],
-                        [-96.58, 45.94],
-                        [-104.03, 45.94],
-                        [-104.05, 48.99]
-                    ]]
-                },
-                "properties": {
-                    "name": "Marker 1"
-                }
-            },
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [[
-                        [-109.05, 41.00],
-                        [-102.06, 40.99],
-                        [-102.03, 36.99],
-                        [-109.04, 36.99],
-                        [-109.05, 41.00]
-                    ]]
-                },
-                "properties": {
-                    "name": "Marker 2"
-                }
-            }
-        ]
-    };
-
-
-    let geojsonMarkerOptions = {
-        radius: 8,
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
-
-    const setIcon = ({properties}, latlng) => {
-        return L.marker(latlng, {icon: markerNavigationSignIcon()});
-    };
-
-    function onEachFeature(feature, layer) {
-        // does this feature have a property named popupContent?
-        if (feature.properties && feature.properties.popupContent) {
-            layer.bindPopup(feature.properties.popupContent);
+    useEffect(() => {
+        for (let i = 0; i < globalStore.listRectPolygonPallet.length; i++) {
+            globalStore.setStatusRectPolygonPallet(globalStore.listRectPolygonPallet[i].id, false)
         }
-    }
+        for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
+            globalStore.setStatusCirclePolygonPallet(globalStore.listCirclePolygonPallet[i].id, false)
+        }
+        for (let i = 0; i < globalStore.listLinePallet.length; i++) {
+            globalStore.setStatusLinePallet(globalStore.listLinePallet[i].id, false)
+        }
+    }, [globalStore.map]);
 
     const handleFeature = (layer, id) => {
         if (layer._bounds) {
@@ -81,7 +34,6 @@ const PalletGeoJsonContainer = () => {
                         let point1 = globalStore.getRectPolygonPalletById(id).latlngs[0][0];
                         let point2 = e.target._latlngs[0][0];
                         for (let i = 0; i < globalStore.mapLayer.length; i++) {
-                            console.log('globalStore.mapLayer[i]', globalStore.mapLayer[i])
                             let id = globalStore.mapLayer[i].id;
                             let type = globalStore.mapLayer[i].type;
                             let name = globalStore.mapLayer[i].name;
@@ -143,132 +95,109 @@ const PalletGeoJsonContainer = () => {
     };
 
     useEffect(() => {
-        if (globalStore.map) {
-            if (globalStore.listRectPolygonPallet.length > 0) {
-                for (let i = 0; i < globalStore.listRectPolygonPallet.length; i++) {
-                    let id = globalStore.listRectPolygonPallet[i].id;
-                    let status = globalStore.listRectPolygonPallet[i].status;
-                    let type = globalStore.listRectPolygonPallet[i].type;
-                    if (!status && type === 'rect-polygon') {
-                        let geoJson = [globalStore.listRectPolygonPallet[i].geoJson];
-                        console.log('geoJson', globalStore.listRectPolygonPallet[i])
-                        L.geoJSON(geoJson, {
-                            status: 'add',
-                            type: 'rect-polygon',
-                            onEachFeature(feature, layer) {
-                                if (type === 'rect-polygon') {
-                                    handleFeature(layer, id);
-                                }
-                            }
-                        }).addTo(map);
-                        globalStore.setStatusRectPolygonPallet(id, true)
-                    }
-                }
-            }
-        } else {
+        if (globalStore.listRectPolygonPallet.length > 0) {
             for (let i = 0; i < globalStore.listRectPolygonPallet.length; i++) {
-                globalStore.setStatusRectPolygonPallet(globalStore.listRectPolygonPallet[i].id, false)
-            }
-        }
-
-    }, [globalStore.listRectPolygonPallet.length, globalStore.map])
-
-    useEffect(() => {
-        if (globalStore.map) {
-            if (globalStore.listCirclePolygonPallet.length > 0) {
-                for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
-                    let circlePolygonPallet = globalStore.listCirclePolygonPallet[i]
-                    let id = circlePolygonPallet.id;
-                    let status = circlePolygonPallet.status;
-                    let radius = circlePolygonPallet.radius;
-                    let type = circlePolygonPallet.type;
-                    let lat = circlePolygonPallet.bound?.lat;
-                    let lng = circlePolygonPallet.bound?.lng;
-                    if (!status && lat && lat && type === 'circle-polygon') {
-                        let circle = L.circle([lat, lng], {
-                            radius: radius,
-                            draggable: true,
-                            status: 'add',
-                            type: 'circle-polygon',
-                        }).addTo(map);
-
-                        circle.on('dragend', function (event) {
-                            circle.setRadius(radius);
-                            let newCenter = event.target.getLatLng();
-                            console.log('event', event)
-                            let currentCenter = globalStore.getCirclePolygonPalletById(id).bound;
-                            for (let i = 0; i < globalStore.mapLayer.length; i++) {
-                                let id = globalStore.mapLayer[i].id;
-                                let type = globalStore.mapLayer[i].type;
-                                let name = globalStore.mapLayer[i].name;
-                                let lat = globalStore.mapLayer[i].lat;
-                                let lng = globalStore.mapLayer[i].lng;
-                                let point3 = L.latLng(lat, lng);
-                                const distance = computeDistanceBetweenTwoPoint(lat, lng, currentCenter.lat, currentCenter.lng)
-                                console.log(distance, radius)
-                                if (distance < radius) {
-                                    let point4 = findLastPoint(currentCenter, newCenter, point3);
-                                    map.eachLayer(layer => {
-                                        if (layer.options?.type?.type === 'the-given-set' && layer.options?.type?.type === type && layer.options?.type?.index.toString() === name.toString()) {
-                                            layer.setLatLng(point4)
-                                        } else {
-                                            let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
-                                            if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
-                                                layer.setLatLng(point4)
-                                            }
-                                        }
-                                    })
-                                    globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
-                                }
+                let id = globalStore.listRectPolygonPallet[i].id;
+                let status = globalStore.listRectPolygonPallet[i].status;
+                let type = globalStore.listRectPolygonPallet[i].type;
+                if (!status && type === 'rect-polygon') {
+                    let geoJson = [globalStore.listRectPolygonPallet[i].geoJson];
+                    L.geoJSON(geoJson, {
+                        status: 'add',
+                        type: 'rect-polygon',
+                        onEachFeature(feature, layer) {
+                            if (type === 'rect-polygon') {
+                                handleFeature(layer, id);
                             }
-                            globalStore.updateBoundCirclePolygonPallet(id, newCenter);
-                        });
-                        globalStore.setStatusCirclePolygonPallet(id, true)
-                    }
+                        }
+                    }).addTo(map);
+                    globalStore.setStatusRectPolygonPallet(id, true)
                 }
-            }
-        } else {
-            for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
-                globalStore.setStatusCirclePolygonPallet(globalStore.listCirclePolygonPallet[i].id, false)
             }
         }
 
-    }, [globalStore.listCirclePolygonPallet.length, globalStore.map]);
+    }, [globalStore.listRectPolygonPallet.length])
 
     useEffect(() => {
-        if (globalStore.map) {
-            if (globalStore.listLinePallet.length > 0) {
-                for (let i = 0; i < globalStore.listLinePallet.length; i++) {
-                    let linePallet = globalStore.listLinePallet[i]
-                    let id = linePallet.id;
-                    let status = linePallet.status;
-                    let type = linePallet.type;
-                    if (!status && type === 'line-pallet' && linePallet.latlng) {
-                        let latlngs = linePallet.latlng.map(function (obj) {
-                            return [obj.lat, obj.lng];
-                        });
-                        L.polyline(latlngs, {
-                            draggable: true,
-                            color: 'rgb(51, 136, 255)',
-                            status: 'add',
-                            type: 'line-pallet',
-                        }).addTo(map);
-                        globalStore.setStatusLinePallet(id, true)
-                    }
+        if (globalStore.listCirclePolygonPallet.length > 0) {
+            for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
+                let circlePolygonPallet = globalStore.listCirclePolygonPallet[i]
+                let id = circlePolygonPallet.id;
+                let status = circlePolygonPallet.status;
+                let radius = circlePolygonPallet.radius;
+                let type = circlePolygonPallet.type;
+                let lat = circlePolygonPallet.bound?.lat;
+                let lng = circlePolygonPallet.bound?.lng;
+                if (!status && lat && lat && type === 'circle-polygon') {
+                    let circle = L.circle([lat, lng], {
+                        radius: radius,
+                        draggable: true,
+                        status: 'add',
+                        type: 'circle-polygon',
+                    }).addTo(map);
+
+                    circle.on('dragend', function (event) {
+                        circle.setRadius(radius);
+                        let newCenter = event.target.getLatLng();
+                        console.log('event', event)
+                        let currentCenter = globalStore.getCirclePolygonPalletById(id).bound;
+                        for (let i = 0; i < globalStore.mapLayer.length; i++) {
+                            let id = globalStore.mapLayer[i].id;
+                            let type = globalStore.mapLayer[i].type;
+                            let name = globalStore.mapLayer[i].name;
+                            let lat = globalStore.mapLayer[i].lat;
+                            let lng = globalStore.mapLayer[i].lng;
+                            let point3 = L.latLng(lat, lng);
+                            const distance = computeDistanceBetweenTwoPoint(lat, lng, currentCenter.lat, currentCenter.lng)
+                            console.log(distance, radius)
+                            if (distance < radius) {
+                                let point4 = findLastPoint(currentCenter, newCenter, point3);
+                                map.eachLayer(layer => {
+                                    if (layer.options?.type?.type === 'the-given-set' && layer.options?.type?.type === type && layer.options?.type?.index.toString() === name.toString()) {
+                                        layer.setLatLng(point4)
+                                    } else {
+                                        let nameMarker = layer.options?.target?.type + ' ' + layer.options?.target?.index
+                                        if (name.toLowerCase() === nameMarker.toLowerCase() && layer.options?.target?.type === type) {
+                                            layer.setLatLng(point4)
+                                        }
+                                    }
+                                })
+                                globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
+                            }
+                        }
+                        globalStore.updateBoundCirclePolygonPallet(id, newCenter);
+                    });
+                    globalStore.setStatusCirclePolygonPallet(id, true)
                 }
-            }
-        } else {
-            for (let i = 0; i < globalStore.listLinePallet.length; i++) {
-                globalStore.setStatusLinePallet(globalStore.listLinePallet[i].id, false)
             }
         }
 
-    }, [globalStore.listLinePallet.length, globalStore.map]);
+    }, [globalStore.listCirclePolygonPallet.length]);
 
-    const checkMarkerInCircle = (circle, lat, lng) => {
-        let marker = L.marker([lat, lng]);
-        return circle.getBounds().contains(marker.getLatLng());
-    }
+    useEffect(() => {
+        if (globalStore.listLinePallet.length > 0) {
+            for (let i = 0; i < globalStore.listLinePallet.length; i++) {
+                let linePallet = globalStore.listLinePallet[i]
+                let id = linePallet.id;
+                let status = linePallet.status;
+                let type = linePallet.type;
+                if (!status && type === 'line-pallet' && linePallet.latlng) {
+                    let latlngs = linePallet.latlng.map(function (obj) {
+                        return [obj.lat, obj.lng];
+                    });
+                    L.polyline(latlngs, {
+                        draggable: true,
+                        color: 'rgb(51, 136, 255)',
+                        status: 'add',
+                        type: 'line-pallet',
+                    }).addTo(map);
+                    globalStore.setStatusLinePallet(id, true)
+                }
+            }
+        }
+
+    }, [globalStore.listLinePallet.length]);
+
 };
 
 export default observer(PalletGeoJsonContainer)
