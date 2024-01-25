@@ -30,6 +30,7 @@ const HorizontalLineView = () => {
     ]
 
     const [zoom, setZoom] = useState(map.getZoom());
+    const [distance, setDistance] = useState(100);
 
     map.on('zoomend', () => {
         setZoom(map.getZoom());
@@ -38,6 +39,10 @@ const HorizontalLineView = () => {
     useEffect(() => {
         globalStore.setListCountryInRect(LIST_COUNTRY)
     }, []);
+
+    useEffect(() => {
+        setDistance(globalStore.map ? 100 : 10)
+    }, [globalStore.map]);
 
     useEffect(() => {
         if (globalStore.clear) {
@@ -54,6 +59,10 @@ const HorizontalLineView = () => {
             globalStore.toggleClear();
         }
     }, [globalStore.clear]);
+
+    const convertLatLng = (lat, lng, delta, index) => {
+
+    }
 
     useEffect(() => {
             let world = {};
@@ -74,8 +83,10 @@ const HorizontalLineView = () => {
                     if (principleLine.position.length > 0 && principleLine.numberPerson > 0) {
                         const latHorizontalLine = principleLine.position[0];
                         const lngHorizontalLine = principleLine.position[1];
-                        const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
-                        const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
+                        const leftHorizontalLine = globalStore.map
+                            ? [latHorizontalLine, lngHorizontalLine - distance]
+                            : [latHorizontalLine, lngHorizontalLine - distance - distance]
+                        const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + distance];
 
                         if (principleLine.haveGivenSet && !principleLine.addGivenSetStatus) {
                             L.marker([latHorizontalLine, lngHorizontalLine], {
@@ -101,10 +112,10 @@ const HorizontalLineView = () => {
 
                         countriesLayer.push(horizontalLine)
 
-                        const dental = 240 / (principleLine.numberPerson + 1);
+                        const dental = (2 * distance) / (principleLine.numberPerson + 1);
 
                         for (let i = 0; i < principleLine.numberPerson; i++) {
-                            const lng = lngHorizontalLine - 120 + (i + 1) * dental;
+                            const lng = lngHorizontalLine - distance + (i + 1) * dental;
                             let countryMarker = L.marker([latHorizontalLine, lng], {
                                 options: {
                                     type: 'person-principle-line',
@@ -136,7 +147,7 @@ const HorizontalLineView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson, globalStore.chooseGivenSet]
+        }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson, globalStore.chooseGivenSet, distance]
     );
 
     return null
