@@ -132,20 +132,32 @@ const MoreView = ({selectedData}) => {
                         lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
                     }
                     let functionMarker;
-                    if (pl.key !== '') {
+                    if (pl.key === 'dot') {
+                        functionMarker = addIconDotDot(lat, lng);
+                    } else if (pl.key === 'plus') {
+                        functionMarker = L.marker([lat, lng], {
+                            options: {
+                                type: pl.value,
+                            },
+                            icon: markerPlusMoreViewIcon(
+                                `${styles['plus-icon-more-view']}`)
+                        })
+                            .on('click', e => {
+                                globalStore.toggleModalInsertNumberProblemMoreView();
+                            })
+                            .addTo(map);
+                    } else {
                         functionMarker = L.marker([lat, lng], {
                             options: {
                                 type: pl.value,
                             },
                             icon: markerFnIcon(
                                 pl.shape === 'rectangle'
-                                    ? `${styles['rect-house-icon']}` : pl.shape === 'ellipse'
-                                        ? `${styles['ellipse-fn-icon']}` : `${styles['rect-house-icon']}`,
+                                    ? `${styles['rect-house-icon']} ${styles['fn--red']}` : pl.shape === 'ellipse'
+                                        ? `${styles['ellipse-fn-icon']} ${styles['fn--red']}` : `${styles['rect-house-icon']} ${styles['fn--red']}`,
                                 pl.value)
                         })
                             .addTo(map);
-                    } else {
-                        functionMarker = addIconDotDot(lat, lng)
                     }
 
                     functionsLayer.push(functionMarker);
@@ -359,7 +371,7 @@ const MoreView = ({selectedData}) => {
             });
         };
     }, [globalStore.map, globalStore.mapLayer.length, globalStore.moreName, selectedData, globalStore.numberFunctionMoreView,
-        globalStore.numberPersonMoreView]);
+        globalStore.numberPersonMoreView, globalStore.numberProblemMoreView]);
 
     const addItemDotDot = (listCountry) => {
         if (globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {

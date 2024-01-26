@@ -22,7 +22,7 @@ import { groupPopup, clearAllPopups } from '../Popups/Popups';
 import { groupFnLayoutPopupHTML, groupPersonLayoutPopupHTML, countryModePopupHTML } from '../Popups/PopupHTMLs';
 import { 
   addMarkerFn, addMarkerPerson, addSoluOrProbFn, 
-  addMarkerCountryFn, addMarkerCountryGroupFn 
+  addMarkerCountryFn, addMarkerCountryGroupFn
 } from '../Markers/AddMarkers';
 import { popupWorld } from '../Markers/Markers';
 
@@ -332,7 +332,9 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
   
         // Add Solution/Problem
         window.handleAddProblem = (name) => {
+          markerProblemIndex[0] = globalStore.listMarkerProblem.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').length + 1;
           globalStore.addMarkerProblemToList(markerProblemIndex[0]);
+          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerFnIndex[0], 'problem');
           addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType, globalStore.setShapeOfMarkerPl);
 
           markerProblemIndex[0]++;

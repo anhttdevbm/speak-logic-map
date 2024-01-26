@@ -68,6 +68,20 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
                     const randomLng = Math.random() * (maxLng - minLng) + minLng;
                     globalStore.setMapLayer(randomLat, randomLng, 'Person ' + key, 'person');
                 }
+            } else if (type === 'problem-view') {
+                let indexList = globalStore.listMarkerProblem.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
+                let lastIndex = indexList[indexList.length - 1]
+                for (let i = 1; i <= numberPerson; i++) {
+                    let key = lastIndex + i;
+                    globalStore.addMarkerProblemToNearLast(key);
+                    const minLat = -90;
+                    const maxLat = 90;
+                    const minLng = -180;
+                    const maxLng = 180;
+                    const randomLat = Math.random() * (maxLat - minLat) + minLat;
+                    const randomLng = Math.random() * (maxLng - minLng) + minLng;
+                    globalStore.setMapLayer(randomLat, randomLng, 'Problem ' + key, 'problem');
+                }
             }
         }
     }
