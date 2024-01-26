@@ -221,9 +221,11 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
         currentName = e.target._icon.innerText
     ) => {
 
-        if (name === 'Function') {
-            index = markerFnIndex;
-        }
+        index = [e.target.options?.target?.index];
+
+        // if (name === 'Function') {
+        //     index = markerFnIndex;
+        // }
 
         if (!name || color) {
             e.target.options.solution && delete e.target.options.solution;
