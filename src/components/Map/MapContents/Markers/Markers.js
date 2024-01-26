@@ -39,7 +39,12 @@ import {
     addRelateMarker,
     addMarkerGivenSet,
     addMarkerWelcomeSign,
-    addPersonInMobility, addInputTextPallet, addMarkerPrincipleLine, addInputImagePallet, checkMarkerExist
+    addPersonInMobility,
+    addInputTextPallet,
+    addMarkerPrincipleLine,
+    addInputImagePallet,
+    checkMarkerExist,
+    addSoluOrProbFn
 } from './AddMarkers'
 import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
 
@@ -644,6 +649,11 @@ const Markers = ({setModal, setModalType}) => {
                                 setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
                                 globalStore.updateMapLayerById, globalStore.removeMapLayerById);
                         }
+                    } else if (fn.type === 'problem' && fn.name !== "" && !fn.mobility && globalStore.moreName === '') {
+                        let index = fn.name.replace("Problem ", "");
+                        if (!checkMarkerExist(map, index, 'problem', fn.lat, fn.lng)) {
+                            addSoluOrProbFn(map, fn.lat, fn.lng, globalStore.lock, index, 'Problem', setModal, setModalType, globalStore.setShapeOfMarkerPl);
+                        }
                     }
                 })
             }
@@ -703,9 +713,9 @@ const Markers = ({setModal, setModalType}) => {
                     if (globalStore.moreName === 'world-as-function') {
                         globalStore.setShowErrorInsertPerson(true);
                     } else {
-                        let index = markerPersonIndex[0];
-                        globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + index, 'person')
-                        globalStore.addMarkerPopulationToList(index)
+                        markerPersonIndex[0] = globalStore.listMarkerPopulation.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').length + 1;
+                        globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Person ' + markerPersonIndex[0], 'person')
+                        globalStore.addMarkerPopulationToList(markerPersonIndex[0])
                         markerPersonIndex[0]++;
                     }
                     globalStore.addIconHandle('');
@@ -713,6 +723,7 @@ const Markers = ({setModal, setModalType}) => {
                     if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
                         globalStore.setShowErrorInsertFunction(true);
                     } else {
+                        markerFnIndex[0] = globalStore.listMarkerFunction.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').length + 1;
                         globalStore.addMarkerFnToList(markerFnIndex[0])
                         globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function');
                         markerFnIndex[0]++;

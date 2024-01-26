@@ -53,6 +53,7 @@ export class GlobalStore {
     showModalInsertCountry: boolean = false;
     showModalInsertNumberFunctionMoreView: boolean = false;
     showModalInsertNumberPersonMoreView: boolean = false;
+    showModalInsertNumberProblemMoreView: boolean = false;
     showModalInsertNumberPerson: boolean = false;
     listMarkerFunction: any[] = [];
     listMarkerPopulation: any[] = [];
@@ -63,6 +64,7 @@ export class GlobalStore {
     numberPersonInHorizontalLine = 0;
     numberFunctionMoreView = 0;
     numberPersonMoreView = 0;
+    numberProblemMoreView = 0;
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
@@ -130,6 +132,9 @@ export class GlobalStore {
 
     setNumberPersonMoreView = (value: number) => {
         this.numberPersonMoreView = value;
+    }
+    setNumberProblemMoreView = (value: number) => {
+        this.numberProblemMoreView = value;
     }
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
@@ -553,6 +558,10 @@ export class GlobalStore {
         this.showModalInsertNumberFunctionMoreView = !this.showModalInsertNumberFunctionMoreView;
     }
 
+    toggleModalInsertNumberProblemMoreView = (): void => {
+        this.showModalInsertNumberProblemMoreView = !this.showModalInsertNumberProblemMoreView;
+    }
+
     toggleModalNumberPersonMoreView = (): void => {
         this.showModalInsertNumberPersonMoreView = !this.showModalInsertNumberPersonMoreView;
     }
@@ -611,6 +620,14 @@ export class GlobalStore {
             let newElement = {key: index, value: 'Person  ' + index};
             let positionBeforeEnd = this.listMarkerPopulation.length - 2;
             this.listMarkerPopulation.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
+    addMarkerProblemToNearLast = (index: number): void => {
+        if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
+            let newElement = {key: index, value: 'Problem  ' + index};
+            let positionBeforeEnd = this.listMarkerProblem.length - 2;
+            this.listMarkerProblem.splice(positionBeforeEnd, 0, newElement);
         }
     }
 

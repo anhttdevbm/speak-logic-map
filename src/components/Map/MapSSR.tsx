@@ -275,6 +275,15 @@ const MapSSR: React.FC = (): JSX.Element => {
                     />
                 </ModalWrap>
             )}
+            {globalStore.moreName === 'world-problem-view' && globalStore.showModalInsertNumberProblemMoreView && (
+                <ModalWrap>
+                    <InsertPersonM
+                        type={'problem-view'}
+                        setToggleModal={globalStore.toggleModalInsertNumberProblemMoreView}
+                        setAction={globalStore.setNumberProblemMoreView}
+                    />
+                </ModalWrap>
+            )}
             {
                 globalStore.showModalInsertNumberPerson &&
                 <ModalWrap>
