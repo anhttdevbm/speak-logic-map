@@ -55,9 +55,9 @@ export class GlobalStore {
     showModalInsertNumberPersonMoreView: boolean = false;
     showModalInsertNumberProblemMoreView: boolean = false;
     showModalInsertNumberPerson: boolean = false;
-    listMarkerFunction: any[] = [];
-    listMarkerPopulation: any[] = [];
-    listMarkerProblem: any[] = [];
+    listMarkerFunction: any[] = [{key: 'plus', value: 'plus', shape: ''}];
+    listMarkerPopulation: any[] = [{key: 'plus', value: 'plus', shape: ''}];
+    listMarkerProblem: any[] = [{key: 'plus', value: 'plus', shape: ''}];
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     listPrincipleLine: any[] = [];
@@ -689,7 +689,10 @@ export class GlobalStore {
     }
 
     addMarkerProblemToList = (index: number): void => {
-        this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle'})
+        if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
+            this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle'})
+        }
+        this.listMarkerProblem = this.listMarkerProblem.sort(this.customSort);
     }
 
     setMapElementSelected = (value: any): void => {
