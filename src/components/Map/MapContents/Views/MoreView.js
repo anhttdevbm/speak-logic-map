@@ -8,7 +8,13 @@ import {
 import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {
-    markerFnIcon, markerGivenSetIcon, markerPersonIcon, markerPlusMoreViewIcon, markerPopulationCountry,markerThreeDotsIcon
+    markerFnIcon,
+    markerGivenSetIcon,
+    markerPersonIcon,
+    markerPlusMoreViewIcon,
+    markerPopulationCountry,
+    markerProblemCountry,
+    markerThreeDotsIcon
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import * as turf from '@turf/turf';
@@ -243,6 +249,49 @@ const MoreView = ({selectedData}) => {
                         .addTo(map);
                     functionsLayer.push(functionMarker);
                 }
+            } else if (globalStore.moreName === 'problem-view-with-country') {
+                const latListt = [40.5, 2, -35];
+                const lngListt = [-99, -30, 41, 88];
+                if (globalStore.map) {
+                    const numberProblemOfEachCountry = getNumberProblemOfCountry();
+                    if (numberProblemOfEachCountry.length > 0) {
+                        addItemDotDot(numberProblemOfEachCountry).forEach((country, index) => {
+                            const lat = latListt[Math.floor(index / latListt.length)];
+                            const lng = lngListt[index % latListt.length];
+                            let functionMarker;
+                            if (country.country?.codeName !== '') {
+                                functionMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: country.country?.codeName,
+                                    },
+                                    icon: markerProblemCountry(
+                                        `${styles['population-country-icon']}`,
+                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
+                                        country.numberPerson)
+                                })
+                                    .addTo(map);
+                            } else {
+                                functionMarker = addIconDotDot(lat, lng)
+                            }
+                            functionsLayer.push(functionMarker);
+                        })
+                    }
+                } else {
+                    const lat = latListt[0];
+                    const lng = lngListt[0];
+                    let country = selectedData[0].features[0].properties;
+                    let functionMarker = L.marker([lat, lng], {
+                        options: {
+                            type: country.NAME,
+                        },
+                        icon: markerProblemCountry(
+                            `${styles['population-country-icon']}`,
+                            country.NAME.includes(" ") ? country.CODE : country.NAME,
+                            country.numberPerson)
+                    })
+                        .addTo(map);
+                    functionsLayer.push(functionMarker);
+                }
             } else if (globalStore.moreName === 'population-view-principle-line') {
                 const latListt = [40.5, -1, -42];
                 const lngListt = [-99, -30, 41, 88];
@@ -409,6 +458,46 @@ const MoreView = ({selectedData}) => {
             for (let i = 0; i < globalStore.mapLayer.length; i++) {
                 let personName = globalStore.mapLayer[i].name
                 if (personName?.startsWith('Person')) {
+                    let lat = globalStore.mapLayer[i].lat;
+                    let lng = globalStore.mapLayer[i].lng;
+
+                    const point = turf.point([Number(lng), Number(lat)]);
+                    countryStore.countries.forEach(country => {
+                        let countryName = country.name
+
+                        if (country.data[0].features[0].geometry.type === "MultiPolygon") {
+                            country.data[0].features[0].geometry.coordinates.forEach(coordinate => {
+                                const polygon = turf.polygon(coordinate)
+                                if (turf.booleanPointInPolygon(point, polygon)) {
+                                    result.push({
+                                        country: countryName,
+                                        personName: personName
+                                    })
+                                }
+                            })
+                        } else {
+                            const polygon = turf.polygon(country.data[0].features[0].geometry.coordinates);
+                            if (turf.booleanPointInPolygon(point, polygon)) {
+                                result.push({
+                                    country: countryName,
+                                    personName: personName
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+
+        }
+        return countNumberPersonOfEachCountry(result);
+    }
+
+    const getNumberProblemOfCountry = () => {
+        let result = []
+        if (globalStore.mapLayer.length > 0) {
+            for (let i = 0; i < globalStore.mapLayer.length; i++) {
+                let personName = globalStore.mapLayer[i].name
+                if (personName?.startsWith('Problem')) {
                     let lat = globalStore.mapLayer[i].lat;
                     let lng = globalStore.mapLayer[i].lng;
 

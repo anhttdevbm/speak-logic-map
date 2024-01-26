@@ -379,7 +379,14 @@ const Options: React.FC = (): JSX.Element => {
                             </ul>
                         </li>
                         <li onClick={() => toggleMoreView('world-problem-view')}>
-                            World Problem View
+                            Problem View
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.moreName !== 'world-problem-view' ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
+                        <li onClick={() => toggleMoreView('problem-view-with-country')}>
+                            Problem View with Country
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
                 ${globalStore.moreName !== 'world-problem-view' ? styles['hide'] : styles['show']}
