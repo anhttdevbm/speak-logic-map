@@ -789,7 +789,7 @@ const Markers = ({setModal, setModalType}) => {
                             globalStore.resetNumberPersonMobility();
                         }
                     }
-                    globalStore.addIconHandle('');
+                    // globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'scroll-feature') {
                     if (globalStore.moreName === 'world-as-function') {
                         globalStore.setShowErrorInsertPerson(true);
