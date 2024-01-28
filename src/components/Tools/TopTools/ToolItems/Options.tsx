@@ -389,7 +389,7 @@ const Options: React.FC = (): JSX.Element => {
                             Problem View with Country
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${globalStore.moreName !== 'world-problem-view' ? styles['hide'] : styles['show']}
+                ${globalStore.moreName !== 'problem-view-with-country' ? styles['hide'] : styles['show']}
               `}/>
                         </li>
                     </ul>

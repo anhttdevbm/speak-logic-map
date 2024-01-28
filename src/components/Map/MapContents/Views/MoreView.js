@@ -207,7 +207,7 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 })
             } else if (globalStore.moreName === 'population-view-with-country') {
-                const latListt = [40.5, 2, -35];
+                const latListt = [42.5, 10, -27];
                 const lngListt = [-99, -30, 41, 88];
                 if (globalStore.map) {
                     const numberPersonOfEachCountry = getNumberPopulationOfCountry();
@@ -251,7 +251,7 @@ const MoreView = ({selectedData}) => {
                 }
             } else if (globalStore.moreName === 'problem-view-with-country') {
                 const latListt = [40.5, 2, -35];
-                const lngListt = [-99, -30, 41, 88];
+                const lngListt = [-110, -30, 41, 88];
                 if (globalStore.map) {
                     const numberProblemOfEachCountry = getNumberProblemOfCountry();
                     if (numberProblemOfEachCountry.length > 0) {
@@ -423,7 +423,8 @@ const MoreView = ({selectedData}) => {
         globalStore.numberPersonMoreView, globalStore.numberProblemMoreView]);
 
     const addItemDotDot = (listCountry) => {
-        if (globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+        if (globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line'
+            || globalStore.moreName === 'problem-view-with-country') {
             let listCountryIncludedPlus = listCountry.filter(item => item.country.codeName === '');
             if (listCountryIncludedPlus.length === 0) {
                 listCountry.push({country: {fullName: '', codeName: ''}, numberPerson: 0});

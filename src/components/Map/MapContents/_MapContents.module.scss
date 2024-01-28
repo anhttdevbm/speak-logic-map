@@ -882,6 +882,23 @@ $time-animation: var(--time-animation);
   font-weight: 400;
 }
 
+.rect-problem-icon {
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+  //text-align: center;
+  float: left;
+  background-color: #eb5757!important;
+  height: 40px;
+  width: 80px;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 400;
+  margin-right: 5px;
+  //margin-left: 5px;
+  padding-top: 12px;
+}
+
 .ellipse-fn-icon {
   display: flex;
   justify-content: center;

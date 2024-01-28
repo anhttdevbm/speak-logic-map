@@ -368,7 +368,7 @@ export const markerMapCountryIcon = (className: string, name: string, code: stri
 export const markerPopulationCountry = (className: string, name: string, numberPerson: number): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [180, 100],
+        iconSize: [180, 80],
         iconAnchor: [20, 30],
         html: numberPerson == 1 ? (
             `<div>
@@ -394,22 +394,22 @@ export const markerPopulationCountry = (className: string, name: string, numberP
 export const markerProblemCountry = (className: string, name: string, numberPerson: number): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [180, 100],
+        iconSize: [230, 80],
         iconAnchor: [20, 30],
         html: numberPerson == 1 ? (
             `<div>
                 <div>
-                    <div class="${styles["rect-house-icon"]}">Problem 1</div>
-                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                    <div class="${styles["rect-problem-icon"]}">Problem</div>
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="position: relative; top: 5px" alt="Dot" width="5" height="5" />
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`
         ) : (
             `<div>
-                <div style="margin-left: 20px">
-                    <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
-                    <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
-                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                <div>
+                    <div class="${styles["rect-problem-icon"]}">Problem</div>
+                    <div class="${styles["rect-problem-icon"]}">Problem</div>
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="position: relative; top: 5px" alt="Dot" width="5" height="5" />
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`
