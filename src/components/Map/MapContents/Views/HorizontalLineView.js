@@ -80,7 +80,8 @@ const HorizontalLineView = () => {
             if (globalStore.listPrincipleLine.length > 0) {
                 for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
                     let principleLine = globalStore.listPrincipleLine[i];
-                    if (principleLine.position.length > 0 && principleLine.numberPerson > 0) {
+                    if (principleLine.position?.length > 0 && principleLine.numberPerson > 0) {
+                        const id = principleLine.id;
                         const latHorizontalLine = principleLine.position[0];
                         const lngHorizontalLine = principleLine.position[1];
                         const leftHorizontalLine = globalStore.map
@@ -105,10 +106,19 @@ const HorizontalLineView = () => {
                             weight: 3,
                             color: 'black',
                             status: 'add',
-                            type: 'vertical-principle-line'
+                            type: 'vertical-principle-line',
+                            draggable: true
                         })
                             .on('contextmenu', e => removeHorizontalIconPopup(map, e, globalStore.removeHorizontalIcon));
                         horizontalLine.addTo(map);
+
+                        horizontalLine.on("dragend", function (event) {
+                            let latlngs = event.target?._latlngs[0];
+                            let lat = latlngs[0]?.lat;
+                            let lng = (latlngs[0]?.lng + latlngs[1]?.lng) / 2;
+                            globalStore.updatePositionListPrincipleLineById([lat, lng], id);
+                            globalStore.toggleStatusDragPrincipleLine();
+                        })
 
                         countriesLayer.push(horizontalLine)
 
@@ -147,7 +157,8 @@ const HorizontalLineView = () => {
                     map.removeLayer(layer);
                 });
             };
-        }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson, globalStore.chooseGivenSet, distance]
+        }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson,
+        globalStore.chooseGivenSet, distance, globalStore.statusDragPrincipleLine]
     );
 
     return null

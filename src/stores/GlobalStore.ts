@@ -61,6 +61,7 @@ export class GlobalStore {
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     listPrincipleLine: any[] = [];
+    statusDragPrincipleLine: boolean = false;
     numberPersonInHorizontalLine = 0;
     numberFunctionMoreView = 0;
     numberPersonMoreView = 0;
@@ -853,6 +854,10 @@ export class GlobalStore {
         this.mapLayer = this.mapLayer.filter((item: any) => item.type !== type && item.name !== name);
     }
 
+    toggleStatusDragPrincipleLine = () => {
+        this.statusDragPrincipleLine = !this.statusDragPrincipleLine;
+    }
+
     setListPrincipleLine = (position: any[], numberPerson: number) => {
         let id = this.listPrincipleLine.length + 1;
         this.listPrincipleLine.push({
@@ -862,6 +867,14 @@ export class GlobalStore {
             addGivenSetStatus: false,
             haveGivenSet: this.chooseGivenSet
         });
+    }
+
+    updatePositionListPrincipleLineById = (position: any[], id: any) => {
+        for (let i = 0; i < this.listPrincipleLine.length; i++) {
+            if (this.listPrincipleLine[i].id === id) {
+                this.listPrincipleLine[i].position = position;
+            }
+        }
     }
 
     setNumberPersonForPrincipleLine = (id: number, numberPerson: number) => {
