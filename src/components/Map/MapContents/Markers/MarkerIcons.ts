@@ -255,7 +255,7 @@ export const markerGivenSetPersonWaveIcon = (className: string, name: string): L
 export const markerVerticalPersonIcon = (className: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 100],
+        iconSize: [40, 100],
         iconAnchor: [50, 25],
         html: `<div>
                     <img src=${ICON_VERTICAL_PERSON.src} alt="House" width="100" height="100" />

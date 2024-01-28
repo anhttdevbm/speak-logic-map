@@ -114,7 +114,7 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
           <div onclick="edittingItem('green')">
             ${type ? 'Normal': 'Positive'}
           </div>
-          <div onclick="edittingItem('${type ? "yellow" : "red"}')">
+          <div onclick="edittingItem('red')">
             ${type ? 'Abnormal' : 'Negative'}
           </div>
         </div>
