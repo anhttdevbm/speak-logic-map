@@ -35,28 +35,30 @@ const MoreView = ({selectedData}) => {
         setZoom(map.getZoom());
     });
 
-    useEffect(() => {
-        if (globalStore.clear) {
-            map.eachLayer(layer => {
-                if (
-                    layer.options.target?.status === 'add' || layer.options.status === 'add' ||
-                    layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
-                    layer.options.type?.status === 'add'
-                ) {
-                    map.removeLayer(layer);
-                    if (globalStore.moreName === 'world-as-function') {
-                        globalStore.resetListMarkerFunction();
-                    } else if (globalStore.moreName === 'population-view') {
-                        globalStore.resetListMarkerPopulation();
-                    } else if (globalStore.moreName === 'world-problem-view') {
-                        globalStore.resetListMarkerProblem();
-                    }
-                }
-            });
-
-            globalStore.toggleClear();
-        }
-    }, [globalStore.clear]);
+    // useEffect(() => {
+    //     if (globalStore.clear) {
+    //         debugger
+    //         if (globalStore.moreName === 'world-as-function') {
+    //             globalStore.resetListMarkerFunction();
+    //         } else if (globalStore.moreName === 'population-view') {
+    //             globalStore.resetListMarkerPopulation();
+    //         } else if (globalStore.moreName === 'world-problem-view') {
+    //             globalStore.resetListMarkerProblem();
+    //         }
+    //         map.eachLayer(layer => {
+    //             console.log('layer1', layer)
+    //             if (
+    //                 layer.options.target?.status === 'add' || layer.options.status === 'add' ||
+    //                 layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
+    //                 layer.options.type?.status === 'add'
+    //             ) {
+    //                 map.removeLayer(layer);
+    //             }
+    //         });
+    //
+    //         globalStore.toggleClear();
+    //     }
+    // }, [globalStore.clear]);
 
     useEffect(() => {
         let world = {};
@@ -92,16 +94,16 @@ const MoreView = ({selectedData}) => {
                     } else {
                         let numberPersonPerRow = Math.floor(globalStore.listMarkerFunction.length / 3) + 1;
                         lat = latList[Math.floor(index / numberPersonPerRow)];
-                        lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
+                        lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
                     }
                     let functionMarker;
                     if (fn.key === 'dot') {
                         functionMarker = addIconDotDot(lat, lng);
                     } else if (fn.key === 'plus') {
                         functionMarker = L.marker([lat, lng], {
-                            options: {
-                                type: fn.value,
-                            },
+                            // options: {
+                            //     type: fn.value,
+                            // },
                             icon: markerPlusMoreViewIcon(
                                 `${styles['plus-icon-more-view']}`)
                         })
@@ -111,8 +113,9 @@ const MoreView = ({selectedData}) => {
                             .addTo(map);
                     } else {
                         functionMarker = L.marker([lat, lng], {
-                            options: {
+                            target: {
                                 type: fn.value,
+                                status: 'add'
                             },
                             icon: markerFnIcon(
                                 fn.shape === 'rectangle'
@@ -135,7 +138,7 @@ const MoreView = ({selectedData}) => {
                     } else {
                         let numberPersonPerRow = Math.floor(globalStore.listMarkerProblem.length / 3) + 1;
                         lat = latList[Math.floor(index / numberPersonPerRow)];
-                        lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
+                        lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
                     }
                     let functionMarker;
                     if (pl.key === 'dot') {
@@ -178,7 +181,7 @@ const MoreView = ({selectedData}) => {
                     } else {
                         let numberPersonPerRow = Math.floor(globalStore.listMarkerPopulation.length / 3) + 1;
                         lat = latList[Math.floor(index / numberPersonPerRow)];
-                        lng = -99 + 215/numberPersonPerRow * ((index) % numberPersonPerRow);
+                        lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
                     }
                     let functionMarker;
                     if (person.key === 'dot') {
@@ -312,7 +315,11 @@ const MoreView = ({selectedData}) => {
                         .addTo(map)
 
                     //Draw line
-                    const horizontalLine = L.polyline(horizontalLineLatLngs, {weight: 3, color: 'black', status: 'add'});
+                    const horizontalLine = L.polyline(horizontalLineLatLngs, {
+                        weight: 3,
+                        color: 'black',
+                        status: 'add'
+                    });
                     horizontalLine.addTo(map);
                     functionsLayer.push(iconPrinciple);
                     functionsLayer.push(horizontalLine);
@@ -326,7 +333,11 @@ const MoreView = ({selectedData}) => {
                             const lng = lngListt[index % latListt.length];
                             let functionMarker;
                             if (country.country?.codeName !== '') {
-                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat, lng]], {weight: 2, color: 'black', status: 'add'}).addTo(map);
+                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat, lng]], {
+                                    weight: 2,
+                                    color: 'black',
+                                    status: 'add'
+                                }).addTo(map);
                                 functionMarker = L.marker([lat, lng], {
                                     options: {
                                         type: country.country?.codeName,
@@ -431,11 +442,14 @@ const MoreView = ({selectedData}) => {
             }
             return listCountry;
         }
-        let listCountryIncludedDot = listCountry.filter(item => item.key === 'dot');
-        let listCountryIncludedPlus = listCountry.filter(item => item.key === 'plus');
-        if (listCountryIncludedDot.length === 0) {
-            listCountry.push({key: 'dot', value: 'dot'});
+        if (listCountry.slice(0, -1).length !== 0) {
+            let listCountryIncludedDot = listCountry.filter(item => item.key === 'dot');
+            if (listCountryIncludedDot.length === 0) {
+                listCountry.push({key: 'dot', value: 'dot'});
+            }
         }
+        let listCountryIncludedPlus = listCountry.filter(item => item.key === 'plus');
+
         if (listCountryIncludedPlus.length === 0) {
             listCountry.push({key: 'plus', value: 'plus'});
         }
@@ -444,8 +458,9 @@ const MoreView = ({selectedData}) => {
 
     const addIconDotDot = (lat, lng) => {
         return L.marker([lat, lng], {
-            options: {
-                type: 'room',
+            target: {
+                type: 'dot',
+                status: 'add'
             },
             icon: markerThreeDotsIcon(
                 globalStore.moreName === 'population-view-with-country' ? `${styles['dot-population-country-icon']}` : `${styles['dot-icon']}`),

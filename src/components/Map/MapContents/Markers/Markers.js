@@ -234,9 +234,10 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.resetListLinePallet();
 
             map.eachLayer(layer => {
-                if (layer.options?.icon || layer.options.target?.status === 'add' || layer.options.status === 'add' ||
+                if (layer.options.target?.status === 'add' || layer.options.status === 'add' ||
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
-                    layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform' || layer.options.patterns?.length > 0) {
+                    layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform' ||
+                    layer.options.patterns?.length > 0 || layer.options.target?.type === 'dot') {
                     map.removeLayer(layer);
                     markerFnIndex[0] = 1;
                     markerPersonIndex[0] = 1;
@@ -247,6 +248,7 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.valueOfImage = '';
                 }
             });
+            globalStore.toggleClear();
         }
     }, [globalStore.clear]);
 

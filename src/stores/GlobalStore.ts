@@ -605,7 +605,7 @@ export class GlobalStore {
     }
 
     resetListMarkerFunction = (): void => {
-        this.listMarkerFunction = [];
+        this.listMarkerFunction = [this.listMarkerFunction.pop()];
     }
 
     addMarkerFnToNearLast = (index: number): void => {
@@ -633,11 +633,11 @@ export class GlobalStore {
     }
 
     resetListMarkerPopulation = (): void => {
-        this.listMarkerPopulation = [];
+        this.listMarkerPopulation = [this.listMarkerPopulation.pop()];
     }
 
     resetListMarkerProblem = (): void => {
-        this.listMarkerProblem = [];
+        this.listMarkerProblem = [this.listMarkerProblem.pop()];
     }
 
     setShapeOfMarkerFn = (name: number, shape: string): void => {
