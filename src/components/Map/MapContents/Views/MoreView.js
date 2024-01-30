@@ -75,10 +75,10 @@ const MoreView = ({selectedData}) => {
 
             map.eachLayer(layer => map.removeLayer(layer));
 
-            const firstLat = -50;
-            const firstLng = -120;
-            const latList = [40.5, 3, -35];
-            const lngList = [-99, -52, -4, 41, 88]
+            let firstLat = -50;
+            let firstLng = -120;
+            let latList = [40.5, 3, -35];
+            let lngList = [-99, -52, -4, 41, 88]
             // Add the floor-plan boundary
             let bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
             fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
@@ -296,14 +296,34 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 }
             } else if (globalStore.moreName === 'population-view-principle-line') {
-                const latListt = [40.5, -1, -42];
-                const lngListt = [-99, -30, 41, 88];
+                // const latListt = [40.5, -1, -42];
+                // const lngListt = [-99, -30, 41, 88];
+                firstLat = -25;
+                firstLng = -180;
+                const numberPersonOfEachCountry = getNumberPopulationOfCountry();
+                if (numberPersonOfEachCountry.length < 4) {
+                    latList = [12.5, 15];
+                    lngList = [-155, -70, 14, 98];
+                }
+                if (numberPersonOfEachCountry.length >= 4 && numberPersonOfEachCountry.length < 8) {
+                    latList = [12.5, 15];
+                    lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
+                } else {
+                    latList = [12.5, 15];
+                    for (let i = 0; i < numberPersonOfEachCountry.length; i++) {
+                        let res = -155 + 320 / numberPersonOfEachCountry.length * ((i) % numberPersonOfEachCountry.length)
+                        lngList.push(res);
+                    }
+                }
+                map.removeLayer(fpBoundary);
+                bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                fpBoundary.addTo(map);
                 if (globalStore.map) {
-                    const numberPersonOfEachCountry = getNumberPopulationOfCountry();
                     const latHorizontalLine = 60;
                     const lngHorizontalLine = 0;
-                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 120]
-                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 120];
+                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 180]
+                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 180];
                     const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
                     // Draw icon principle line
                     let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
@@ -329,15 +349,15 @@ const MoreView = ({selectedData}) => {
                     //Draw population with country
                     if (numberPersonOfEachCountry.length > 0) {
                         addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
-                            const lat = latListt[Math.floor(index / latListt.length)];
-                            const lng = lngListt[index % latListt.length];
+                            const lat = latList[Math.floor(index / lngList.length)];
+                            const lng = lngList[index % lngList.length];
                             let functionMarker;
                             if (country.country?.codeName !== '') {
-                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat, lng]], {
+                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat+2, lng]], {
                                     weight: 2,
                                     color: 'black',
                                     status: 'add'
-                                }).addTo(map);
+                                }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
                                 functionMarker = L.marker([lat, lng], {
                                     options: {
                                         type: country.country?.codeName,

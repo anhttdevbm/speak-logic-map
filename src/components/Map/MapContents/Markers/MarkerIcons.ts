@@ -67,7 +67,7 @@ export const markerThreeDotsIcon = (className: string): L.DivIcon => {
         className: className,
         iconSize: [10, 10],
         iconAnchor: [20, 30],
-        html: `<img src=${ICON_THREE_DOTs_ICON.src} alt="Group" width="10" height="10"/>`
+        html: `<img src=${ICON_THREE_DOTs_ICON.src} style="top: 32px; position: relative" alt="Group" width="10" height="10"/>`
     });
 }
 
@@ -374,7 +374,7 @@ export const markerPopulationCountry = (className: string, name: string, numberP
             `<div>
                 <div>
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%); left: 20px" alt="Person" width="40" height="40" />
-                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="bottom: 15px; position: relative" alt="Dot" width="10" height="10" />
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`
@@ -383,7 +383,7 @@ export const markerPopulationCountry = (className: string, name: string, numberP
                 <div style="margin-left: 20px">
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
-                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="bottom: 15px; position: relative" alt="Dot" width="10" height="10" />
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`
