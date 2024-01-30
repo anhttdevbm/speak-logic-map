@@ -662,7 +662,7 @@ export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) 
 }
 
 function makeHtml(id) {
-    return '<textarea type="text" value="" id="input_' + id + '" />'
+    return '<textarea style="font-size: 20px; border: 1px solid gray; border-radius: 5px" type="text" value="" id="input_' + id + '" />'
 }
 
 export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
