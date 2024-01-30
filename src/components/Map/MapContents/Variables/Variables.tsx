@@ -29,13 +29,11 @@ window.UnT = [1];
 window.HnT = [1];
 
 export const handleName = (name: string, index: number[], currentName: string) => {
-  if (name && index) {
-    return `${name} ${index[0]++}`;
-  }
-  else if (name) {
-    return name;
-  }
-  else if (!name && !index) {
-    return currentName; 
-  }
+    if (name && index) {
+        return `${name} ${index[0]++}`;
+    } else if (name) {
+        return name;
+    } else {
+        return currentName;
+    }
 }
