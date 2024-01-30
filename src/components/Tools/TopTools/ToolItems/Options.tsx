@@ -315,10 +315,10 @@ const Options: React.FC = (): JSX.Element => {
                 ${globalStore.rectName !== 'rect-name' ? styles['hide'] : styles['show']}
               `}/>
                         </li>
-                        <li className={`${!globalStore.rectangularView}`}>
+                        <li className={`${!globalStore.rectangularView} ${styles['hoverable']} `}>
                             Show country with distance
                             <RightArrowIcon className={`${styles['sub-icon']}`}/>
-                            <ul className={`${styles['minor-list']}`}>
+                            <ul className={`${styles['minor-list']} ${styles['hover-content']}`}>
                                 <li onClick={() => globalStore.toggleRectDistanceType('rect-distance')}>
                                     Show distance between country
                                     <CheckIcon className={`
