@@ -41,7 +41,7 @@ const HorizontalLineView = () => {
     }, []);
 
     useEffect(() => {
-        setDistance(globalStore.map ? 100 : 10)
+        setDistance(globalStore.map ? 100 : 20)
     }, [globalStore.map]);
 
     useEffect(() => {
@@ -123,10 +123,16 @@ const HorizontalLineView = () => {
                         countriesLayer.push(horizontalLine)
 
                         const dental = (2 * distance) / (principleLine.numberPerson + 1);
+                        console.log('dental', dental)
+                        console.log('firse', latHorizontalLine, lngHorizontalLine - distance)
+                        console.log('last', latHorizontalLine, lngHorizontalLine + distance)
+
 
                         for (let i = 0; i < principleLine.numberPerson; i++) {
-                            const lng = lngHorizontalLine - distance + (i + 1) * dental;
-                            let countryMarker = L.marker([latHorizontalLine, lng], {
+                            const latLngValid = findLatLngPoint([latHorizontalLine, (lngHorizontalLine - distance) + dental * (i)],
+                                [latHorizontalLine, (lngHorizontalLine - distance) + dental * (i + 2)]);
+                            console.log('latLngValid', latLngValid)
+                            let countryMarker = L.marker([latHorizontalLine, latLngValid.lng], {
                                 options: {
                                     type: 'person-principle-line',
                                     status: 'add',
@@ -158,8 +164,18 @@ const HorizontalLineView = () => {
                 });
             };
         }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson,
-        globalStore.chooseGivenSet, distance, globalStore.statusDragPrincipleLine]
+            globalStore.chooseGivenSet, distance, globalStore.statusDragPrincipleLine]
     );
+
+    const findLatLngPoint = (latLngElementSelected, latLngElementRelate) => {
+        console.log('atLngElementSelected, latLngElementRelate', latLngElementSelected, latLngElementRelate)
+        let pointElementSelected = map.latLngToContainerPoint(latLngElementSelected);
+        let pointElementRelate = map.latLngToContainerPoint(latLngElementRelate);
+        let centerX = (pointElementSelected.x + pointElementRelate.x) / 2;
+        let centerY = (pointElementSelected.y + pointElementRelate.y) / 2;
+        let centerPoint = {x: centerX, y: centerY};
+        return map.containerPointToLatLng(centerPoint);
+    }
 
     return null
 }
