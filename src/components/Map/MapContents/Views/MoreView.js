@@ -316,17 +316,20 @@ const MoreView = ({selectedData}) => {
                     }
                 }
                 map.removeLayer(fpBoundary);
-                bounds = [[firstLat, firstLng], [-firstLat, -firstLng]];
+                bounds = [[80, firstLng], [-25, -firstLng]];
                 fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                 fpBoundary.addTo(map);
                 if (globalStore.map) {
                     const latHorizontalLine = 60;
                     const lngHorizontalLine = 0;
-                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 180]
-                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 180];
+                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 170]
+                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 170];
                     const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
                     // Draw icon principle line
                     let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
+                        target: {
+                            status: 'add'
+                        },
                         options: {
                             type: 'Main set',
                         },
@@ -338,7 +341,9 @@ const MoreView = ({selectedData}) => {
                     const horizontalLine = L.polyline(horizontalLineLatLngs, {
                         weight: 3,
                         color: 'black',
-                        status: 'add'
+                        target: {
+                            status: 'add'
+                        },
                     });
                     horizontalLine.addTo(map);
                     functionsLayer.push(iconPrinciple);
