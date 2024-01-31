@@ -151,6 +151,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Show Function
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func']}">
           <div 
             onclick="changeShape('circle')"
@@ -504,6 +507,9 @@ export const worldPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']} map-element">
         Map Element
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div 
             onclick="handleSelectMapElement('Personal Responsibility')"
@@ -657,6 +663,9 @@ export const countryModePopupHTML = (): string => {
         class="${styles["menu-geojson"]} ${styles["on-hover-function"]}"
       >
         Function
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles["hover-func"]}">
           <div onclick="handleAddFunction(event, 'Natural function', natural)">
             Natural function
