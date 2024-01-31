@@ -103,7 +103,7 @@ const HorizontalLineView = () => {
 
                         const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
                         const horizontalLine = L.polyline(horizontalLineLatLngs, {
-                            weight: 3,
+                            weight: 1.2,
                             color: 'black',
                             status: 'add',
                             type: 'vertical-principle-line',
