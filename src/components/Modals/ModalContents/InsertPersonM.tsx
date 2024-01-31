@@ -26,7 +26,7 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
             type: 'warning',
             duration: 3,
             description:
-                'Number person for each principle line can not equal 0.',
+                'Number person for each principle line can not equal 0 or less 0.',
         });
     }
 
@@ -35,7 +35,7 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
     }
 
     const handleSetNumberCountry = () => {
-        if (numberPerson === 0) {
+        if (numberPerson === 0 || numberPerson < 0) {
             openNotification();
         } else {
             setAction(markerPrincipleLineIndex[0], numberPerson);

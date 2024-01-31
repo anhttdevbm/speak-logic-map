@@ -470,7 +470,8 @@ const MoreView = ({selectedData}) => {
         if (listCountry.slice(0, -1).length !== 0) {
             let listCountryIncludedDot = listCountry.filter(item => item.key === 'dot');
             if (listCountryIncludedDot.length === 0) {
-                listCountry.push({key: 'dot', value: 'dot'});
+                // listCountry.push({key: 'dot', value: 'dot'});
+                listCountry.splice(listCountry.length - 1, 0, {key: 'dot', value: 'dot'});
             }
         }
         let listCountryIncludedPlus = listCountry.filter(item => item.key === 'plus');

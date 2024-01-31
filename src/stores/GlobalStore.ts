@@ -611,7 +611,9 @@ export class GlobalStore {
     addMarkerFnToNearLast = (index: number): void => {
         if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
             let newElement = {key: index, value: 'Function ' + index, shape: 'rectangle'};
-            let positionBeforeEnd = this.listMarkerFunction.length - 2;
+            let positionBeforeEnd = this.listMarkerFunction.filter(item => item.key === 'dot').length === 0
+                ? this.listMarkerFunction.length - 1
+                : this.listMarkerFunction.length - 2;
             this.listMarkerFunction.splice(positionBeforeEnd, 0, newElement);
         }
     }
