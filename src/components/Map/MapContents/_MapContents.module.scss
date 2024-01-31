@@ -205,6 +205,13 @@ $time-animation: var(--time-animation);
   min-width: 180px;
 }
 
+.sub-icon {
+  margin-left: 2rem;
+  display: block!important;
+  opacity: 1 !important;
+  transition: all 200ms ease;
+}
+
 .popup-interact-function {
   .row {
     font-size: 0.813rem;
@@ -394,8 +401,8 @@ $time-animation: var(--time-animation);
       justify-content: center;
       position: absolute;
       z-index: 10000;
-      top: 20px;
-      left: 90%;
+      top: 0;
+      left: 100%;
       // right: -150%;
       display: none;
       min-width: 175px;
@@ -416,12 +423,12 @@ $time-animation: var(--time-animation);
       justify-content: center;
       position: absolute;
       z-index: 10000;
-      top: 20px;
-      left: 90%;
+      top: 0;
+      left: 100%;
       // right: -150%;
       display: none;
       min-width: 175px;
-      padding: 14px;
+      padding: 0 14px;
       background: #ffffff;
       box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
       border-radius: 2px;
@@ -458,12 +465,11 @@ $time-animation: var(--time-animation);
       justify-content: center;
       position: absolute;
       z-index: 10000;
-      top: 20px;
-      // right: -150%;
-      left: 90%;
+      top: 0;
+      left: 100%;
       display: none;
       min-width: 175px;
-      padding: 14px;
+      padding: 0 14px;
       background: #ffffff;
       box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
       border-radius: 2px;

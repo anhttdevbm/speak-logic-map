@@ -1,6 +1,7 @@
 import { defaultFunction, defaultFunctionPerson, defaultPerson, markerFnIndex } from '../Variables/Variables';
 import styles from '../_MapContents.module.scss';
 import ICON_USER from '@/assets/icons/Black_Icon/64X64/Person-01.png';
+import ARROW_ICON from '@/assets/icons/arrow-icon.png';
 
 // Right-click menu on Function Marker
 export const fnPopupHTML = (name: string, type: boolean, error: string, hasBoundary: boolean, isFlashing: boolean): string => {
@@ -10,6 +11,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
     >
       <div class="${styles['row']} ${styles['on-hover-rename']}">
         Function Type
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles["hover-func"]}">
           <div 
             class="${name.startsWith('Function') && styles['disable']}" 
@@ -74,6 +78,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Add
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div class="${styles['upload-file-wrapper']}">
             Image
@@ -92,6 +99,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Replace Function with
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div class="${styles['upload-file-wrapper']}">
             Image
@@ -110,6 +120,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Function Execution
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div onclick="edittingItem('green')">
             ${type ? 'Normal': 'Positive'}
@@ -193,6 +206,9 @@ export const personPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']}">
         Mobility
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
          <div class="${styles['hover-func-block']}">
           <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
             Show Move With Path
@@ -210,6 +226,9 @@ export const personPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']}">
         Relationship
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
          <div class="${styles['hover-func-block']}">
           <div onclick="addRelatePerson('Person')" class="${styles['upload-file-wrapper']}">
             Person and Person
