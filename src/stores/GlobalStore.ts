@@ -621,7 +621,9 @@ export class GlobalStore {
     addMarkerPersonToNearLast = (index: number): void => {
         if (this.listMarkerPopulation.filter(item => item.key == index).length === 0) {
             let newElement = {key: index, value: 'Person  ' + index};
-            let positionBeforeEnd = this.listMarkerPopulation.length - 2;
+            let positionBeforeEnd = this.listMarkerPopulation.filter(item => item.key === 'dot').length === 0
+                ? this.listMarkerPopulation.length - 1
+                : this.listMarkerPopulation.length - 2;
             this.listMarkerPopulation.splice(positionBeforeEnd, 0, newElement);
         }
     }
@@ -629,7 +631,9 @@ export class GlobalStore {
     addMarkerProblemToNearLast = (index: number): void => {
         if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
             let newElement = {key: index, value: 'Problem  ' + index};
-            let positionBeforeEnd = this.listMarkerProblem.length - 2;
+            let positionBeforeEnd = this.listMarkerProblem.filter(item => item.key === 'dot').length === 0
+                ? this.listMarkerProblem.length - 1
+                : this.listMarkerProblem.length - 2;
             this.listMarkerProblem.splice(positionBeforeEnd, 0, newElement);
         }
     }
