@@ -123,9 +123,9 @@ const HorizontalLineView = () => {
                         countriesLayer.push(horizontalLine)
 
                         const dental = (2 * distance) / (principleLine.numberPerson + 1);
-                        console.log('dental', dental)
-                        console.log('firse', latHorizontalLine, lngHorizontalLine - distance)
-                        console.log('last', latHorizontalLine, lngHorizontalLine + distance)
+                        // console.log('dental', dental)
+                        // console.log('firse', latHorizontalLine, lngHorizontalLine - distance)
+                        // console.log('last', latHorizontalLine, lngHorizontalLine + distance)
 
 
                         for (let i = 0; i < principleLine.numberPerson; i++) {
