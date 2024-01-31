@@ -67,6 +67,15 @@ export const markerThreeDotsIcon = (className: string): L.DivIcon => {
         className: className,
         iconSize: [10, 10],
         iconAnchor: [20, 30],
+        html: `<img src=${ICON_THREE_DOTs_ICON.src} style="top: 12px; position: relative" alt="Group" width="10" height="10"/>`
+    });
+}
+
+export const markerThreeDotsIconPrincipleLine = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [10, 10],
+        iconAnchor: [20, 30],
         html: `<img src=${ICON_THREE_DOTs_ICON.src} style="top: 32px; position: relative" alt="Group" width="10" height="10"/>`
     });
 }

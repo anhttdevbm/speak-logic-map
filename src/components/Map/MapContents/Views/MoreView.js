@@ -14,7 +14,7 @@ import {
     markerPlusMoreViewIcon,
     markerPopulationCountry,
     markerProblemCountry,
-    markerThreeDotsIcon
+    markerThreeDotsIcon, markerThreeDotsIconPrincipleLine
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import * as turf from '@turf/turf';
@@ -255,46 +255,48 @@ const MoreView = ({selectedData}) => {
             } else if (globalStore.moreName === 'problem-view-with-country') {
                 const latListt = [40.5, 2, -35];
                 const lngListt = [-110, -30, 41, 88];
-                if (globalStore.map) {
-                    const numberProblemOfEachCountry = getNumberProblemOfCountry();
-                    if (numberProblemOfEachCountry.length > 0) {
-                        addItemDotDot(numberProblemOfEachCountry).forEach((country, index) => {
-                            const lat = latListt[Math.floor(index / latListt.length)];
-                            const lng = lngListt[index % latListt.length];
-                            let functionMarker;
-                            if (country.country?.codeName !== '') {
-                                functionMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: country.country?.codeName,
-                                    },
-                                    icon: markerProblemCountry(
-                                        `${styles['population-country-icon']}`,
-                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
-                                        country.numberPerson)
-                                })
-                                    .addTo(map);
-                            } else {
-                                functionMarker = addIconDotDot(lat, lng)
-                            }
-                            functionsLayer.push(functionMarker);
-                        })
-                    }
-                } else {
-                    const lat = latListt[0];
-                    const lng = lngListt[0];
-                    let country = selectedData[0].features[0].properties;
-                    let functionMarker = L.marker([lat, lng], {
-                        options: {
-                            type: country.NAME,
-                        },
-                        icon: markerProblemCountry(
-                            `${styles['population-country-icon']}`,
-                            country.NAME.includes(" ") ? country.CODE : country.NAME,
-                            country.numberPerson)
+                // if (globalStore.map) {
+                const numberProblemOfEachCountry = getNumberProblemOfCountry();
+                if (numberProblemOfEachCountry.length > 0) {
+                    addItemDotDot(numberProblemOfEachCountry).forEach((country, index) => {
+                        const lat = latListt[Math.floor(index / latListt.length)];
+                        const lng = lngListt[index % latListt.length];
+                        let functionMarker;
+                        if (country.country?.codeName !== '') {
+                            functionMarker = L.marker([lat, lng], {
+                                target: {status: 'add'},
+                                options: {
+                                    type: country.country?.codeName,
+                                },
+                                icon: markerProblemCountry(
+                                    `${styles['population-country-icon']}`,
+                                    country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
+                                    country.numberPerson)
+                            })
+                                .addTo(map);
+                        } else {
+                            functionMarker = addIconDotDotPrincipleLine(lat, lng)
+                        }
+                        functionsLayer.push(functionMarker);
                     })
-                        .addTo(map);
-                    functionsLayer.push(functionMarker);
                 }
+                // } else {
+                //     const lat = latListt[0];
+                //     const lng = lngListt[0];
+                //     let country = selectedData[0].features[0].properties;
+                //     let functionMarker = L.marker([lat, lng], {
+                //         target: {status: 'add'},
+                //         options: {
+                //             type: country.NAME,
+                //         },
+                //         icon: markerProblemCountry(
+                //             `${styles['population-country-icon']}`,
+                //             country.NAME.includes(" ") ? country.CODE : country.NAME,
+                //             country.numberPerson)
+                //     })
+                //         .addTo(map);
+                //     functionsLayer.push(functionMarker);
+                // }
             } else if (globalStore.moreName === 'population-view-principle-line') {
                 // const latListt = [40.5, -1, -42];
                 // const lngListt = [-99, -30, 41, 88];
@@ -320,66 +322,66 @@ const MoreView = ({selectedData}) => {
                 fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                 fpBoundary.addTo(map);
                 // if (globalStore.map) {
-                    const latHorizontalLine = 60;
-                    const lngHorizontalLine = 0;
-                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 170]
-                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 170];
-                    const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                    // Draw icon principle line
-                    let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
-                        target: {
-                            status: 'add'
-                        },
-                        options: {
-                            type: 'Main set',
-                        },
-                        icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
-                    }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                        .addTo(map)
+                const latHorizontalLine = 60;
+                const lngHorizontalLine = 0;
+                const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 170]
+                const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 170];
+                const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
+                // Draw icon principle line
+                let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
+                    target: {
+                        status: 'add'
+                    },
+                    options: {
+                        type: 'Main set',
+                    },
+                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+                }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
+                    .addTo(map)
 
-                    //Draw line
-                    const horizontalLine = L.polyline(horizontalLineLatLngs, {
-                        weight: 3,
-                        color: 'black',
-                        target: {
-                            status: 'add'
-                        },
-                    });
-                    horizontalLine.addTo(map);
-                    functionsLayer.push(iconPrinciple);
-                    functionsLayer.push(horizontalLine);
+                //Draw line
+                const horizontalLine = L.polyline(horizontalLineLatLngs, {
+                    weight: 3,
+                    color: 'black',
+                    target: {
+                        status: 'add'
+                    },
+                });
+                horizontalLine.addTo(map);
+                functionsLayer.push(iconPrinciple);
+                functionsLayer.push(horizontalLine);
 
-                    //Draw vertical line
+                //Draw vertical line
 
-                    //Draw population with country
-                    if (numberPersonOfEachCountry.length > 0) {
-                        addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
-                            const lat = latList[Math.floor(index / lngList.length)];
-                            const lng = lngList[index % lngList.length];
-                            let functionMarker;
-                            if (country.country?.codeName !== '') {
-                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat+2, lng]], {
-                                    weight: 2,
-                                    color: 'black',
-                                    status: 'add'
-                                }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
-                                functionMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: country.country?.codeName,
-                                    },
-                                    icon: markerPopulationCountry(
-                                        `${styles['population-country-icon']}`,
-                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
-                                        country.numberPerson)
-                                })
-                                    .addTo(map);
-                                functionsLayer.push(verticalLine);
-                            } else {
-                                functionMarker = addIconDotDot(lat, lng)
-                            }
-                            functionsLayer.push(functionMarker);
-                        })
-                    }
+                //Draw population with country
+                if (numberPersonOfEachCountry.length > 0) {
+                    addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
+                        const lat = latList[Math.floor(index / lngList.length)];
+                        const lng = lngList[index % lngList.length];
+                        let functionMarker;
+                        if (country.country?.codeName !== '') {
+                            let verticalLine = L.polyline([[latHorizontalLine, lng], [lat + 2, lng]], {
+                                weight: 2,
+                                color: 'black',
+                                status: 'add'
+                            }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
+                            functionMarker = L.marker([lat, lng], {
+                                options: {
+                                    type: country.country?.codeName,
+                                },
+                                icon: markerPopulationCountry(
+                                    `${styles['population-country-icon']}`,
+                                    country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
+                                    country.numberPerson)
+                            })
+                                .addTo(map);
+                            functionsLayer.push(verticalLine);
+                        } else {
+                            functionMarker = addIconDotDotPrincipleLine(lat, lng)
+                        }
+                        functionsLayer.push(functionMarker);
+                    })
+                }
                 // } else {
                 //     const lat = latList[0];
                 //     const lng = lngList[0];
@@ -494,6 +496,18 @@ const MoreView = ({selectedData}) => {
             .addTo(map);
     }
 
+    const addIconDotDotPrincipleLine = (lat, lng) => {
+        return L.marker([lat, lng], {
+            target: {
+                type: 'dot',
+                status: 'add'
+            },
+            icon: markerThreeDotsIconPrincipleLine(
+                globalStore.moreName === 'population-view-with-country' ? `${styles['dot-population-country-icon']}` : `${styles['dot-icon']}`),
+        })
+            .addTo(map);
+    }
+
     const getNumberPopulationOfCountry = () => {
         let result = []
         if (globalStore.mapLayer.length > 0) {
@@ -535,7 +549,7 @@ const MoreView = ({selectedData}) => {
     }
 
     const getNumberProblemOfCountry = () => {
-        let result = []
+        let result = [];
         if (globalStore.mapLayer.length > 0) {
             for (let i = 0; i < globalStore.mapLayer.length; i++) {
                 let personName = globalStore.mapLayer[i].name
