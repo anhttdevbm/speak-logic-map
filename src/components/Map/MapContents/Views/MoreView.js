@@ -162,8 +162,8 @@ const MoreView = ({selectedData}) => {
                             },
                             icon: markerFnIcon(
                                 pl.shape === 'rectangle'
-                                    ? `${styles['rect-house-icon']} ${styles['fn--red']}` : pl.shape === 'ellipse'
-                                        ? `${styles['ellipse-fn-icon']} ${styles['fn--red']}` : `${styles['rect-house-icon']} ${styles['fn--red']}`,
+                                    ? `${styles['rect-house-icon']} ${styles['fn--red-important']}` : pl.shape === 'ellipse'
+                                        ? `${styles['ellipse-fn-icon']} ${styles['fn--red-important']}` : `${styles['rect-house-icon']} ${styles['fn--red-important']}`,
                                 pl.value)
                         })
                             .addTo(map);

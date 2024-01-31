@@ -156,12 +156,17 @@ $time-animation: var(--time-animation);
 }
 
 .fn--green {
-  background-color: #27ae60;
+  background-color: #08af53;
   color: white;
 }
 
 .fn--red {
-  background-color: #eb5757!important;
+  background-color: #f85151;
+  color: white;
+}
+
+.fn--red-important {
+  background-color: #f85151!important;
   color: white;
 }
 
@@ -894,7 +899,7 @@ $time-animation: var(--time-animation);
   //align-items: center;
   //text-align: center;
   float: left;
-  background-color: #eb5757!important;
+  background-color: #f85151!important;
   height: 40px;
   width: 80px;
   color: white;
