@@ -656,9 +656,11 @@ export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) 
         iconAnchor: [0, 0]
     });
     L.marker([lat, lng], {
-        icon: divIcon
+        icon: divIcon,
+        target: {status: 'add', type: 'input-text'},
+        draggable: !isLocked,
     }).addTo(map);
-    togglePalletOption('')
+    togglePalletOption('');
 }
 
 function makeHtml(id) {

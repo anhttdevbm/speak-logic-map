@@ -319,7 +319,7 @@ const MoreView = ({selectedData}) => {
                 bounds = [[80, firstLng], [-25, -firstLng]];
                 fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                 fpBoundary.addTo(map);
-                if (globalStore.map) {
+                // if (globalStore.map) {
                     const latHorizontalLine = 60;
                     const lngHorizontalLine = 0;
                     const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 170]
@@ -380,22 +380,22 @@ const MoreView = ({selectedData}) => {
                             functionsLayer.push(functionMarker);
                         })
                     }
-                } else {
-                    const lat = latListt[0];
-                    const lng = lngListt[0];
-                    let country = selectedData[0].features[0].properties;
-                    let functionMarker = L.marker([lat, lng], {
-                        options: {
-                            type: country.NAME,
-                        },
-                        icon: markerPopulationCountry(
-                            `${styles['population-country-icon']}`,
-                            country.NAME.includes(" ") ? country.CODE : country.NAME,
-                            country.numberPerson)
-                    })
-                        .addTo(map);
-                    functionsLayer.push(functionMarker);
-                }
+                // } else {
+                //     const lat = latList[0];
+                //     const lng = lngList[0];
+                //     let country = selectedData[0].features[0].properties;
+                //     let functionMarker = L.marker([lat, lng], {
+                //         options: {
+                //             type: country.NAME,
+                //         },
+                //         icon: markerPopulationCountry(
+                //             `${styles['population-country-icon']}`,
+                //             country.NAME.includes(" ") ? country.CODE : country.NAME,
+                //             country.numberPerson)
+                //     })
+                //         .addTo(map);
+                //     functionsLayer.push(functionMarker);
+                // }
             }
 
         } else if (globalStore.moreName === '') {
