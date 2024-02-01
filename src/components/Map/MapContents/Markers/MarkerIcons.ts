@@ -237,8 +237,8 @@ export const markerMapElementIcon = (className: string, name: string): L.DivIcon
 export const markerGivenSetIcon = (className: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 100],
-        iconAnchor: [50, 25],
+        iconSize: [138, 144],
+        iconAnchor: [0, 20],
         html: `<div>
                     <img src=${ICON_MAIN_SET.src} alt="House" width="150" height="150" />
                </div>`,

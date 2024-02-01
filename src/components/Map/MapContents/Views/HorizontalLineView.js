@@ -30,7 +30,8 @@ const HorizontalLineView = () => {
     ]
 
     const [zoom, setZoom] = useState(map.getZoom());
-    const [distance, setDistance] = useState(100);
+    const [distance, setDistance] = useState(300);
+    const [distancePerson, setDistancePerson] = useState(95);
 
     map.on('zoomend', () => {
         setZoom(map.getZoom());
@@ -41,7 +42,7 @@ const HorizontalLineView = () => {
     }, []);
 
     useEffect(() => {
-        setDistance(globalStore.map ? 100 : 20)
+        setDistance(globalStore.map ? 300 : 70)
     }, [globalStore.map]);
 
     useEffect(() => {
@@ -60,9 +61,19 @@ const HorizontalLineView = () => {
         }
     }, [globalStore.clear]);
 
-    const convertLatLng = (lat, lng, delta, index) => {
-
+    const convertLatLng = (lat, lng, delta) => {
+        let point = map.latLngToContainerPoint(L.latLng([lat, lng]));
+        return map.containerPointToLatLng({
+            x: point.x - delta,
+            y: point.y,
+        })
     }
+
+    useEffect(() => {
+        for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
+            globalStore.setStatusGivenSetForPrincipleLine(globalStore.listPrincipleLine[i].id, false);
+        }
+    }, [globalStore.map])
 
     useEffect(() => {
             let world = {};
@@ -84,10 +95,8 @@ const HorizontalLineView = () => {
                         const id = principleLine.id;
                         const latHorizontalLine = principleLine.position[0];
                         const lngHorizontalLine = principleLine.position[1];
-                        const leftHorizontalLine = globalStore.map
-                            ? [latHorizontalLine, lngHorizontalLine - distance]
-                            : [latHorizontalLine, lngHorizontalLine - distance - distance]
-                        const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + distance];
+                        const leftHorizontalLine = [convertLatLng(latHorizontalLine, lngHorizontalLine, distance).lat, convertLatLng(latHorizontalLine, lngHorizontalLine, distance).lng];
+                        const rightHorizontalLine = [convertLatLng(latHorizontalLine, lngHorizontalLine, -distance).lat, convertLatLng(latHorizontalLine, lngHorizontalLine, -distance).lng];
 
                         if (principleLine.haveGivenSet && !principleLine.addGivenSetStatus) {
                             L.marker([latHorizontalLine, lngHorizontalLine], {
@@ -103,8 +112,8 @@ const HorizontalLineView = () => {
                             globalStore.setStatusGivenSetForPrincipleLine(principleLine.id, true)
                         }
 
-                        const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                        const horizontalLine = L.polyline(horizontalLineLatLngs, {
+                        const horizontalLineLatLngs = [leftHorizontalLine, rightHorizontalLine]
+                        const horizontalLine = L.polyline([horizontalLineLatLngs], {
                             weight: 1.2,
                             color: 'black',
                             status: 'add',
@@ -122,14 +131,12 @@ const HorizontalLineView = () => {
                             globalStore.toggleStatusDragPrincipleLine();
                         })
 
-                        countriesLayer.push(horizontalLine)
+                        countriesLayer.push(horizontalLine);
 
-                        const dental = (2 * distance) / (principleLine.numberPerson + 1);
+                        let listPositionPerson = findListPositionLatLng(L.latLng(leftHorizontalLine), L.latLng(rightHorizontalLine), principleLine.numberPerson + 2);
 
                         for (let i = 0; i < principleLine.numberPerson; i++) {
-                            const latLngValid = findLatLngPoint([latHorizontalLine, (lngHorizontalLine - distance) + dental * (i)],
-                                [latHorizontalLine, (lngHorizontalLine - distance) + dental * (i + 2)]);
-                            let countryMarker = L.marker([latHorizontalLine, latLngValid.lng], {
+                            let countryMarker = L.marker([listPositionPerson[i].lat, listPositionPerson[i].lng], {
                                 options: {
                                     type: 'person-principle-line',
                                     status: 'add',
@@ -161,17 +168,19 @@ const HorizontalLineView = () => {
                 });
             };
         }, [globalStore.map, globalStore.listPrincipleLine, globalStore.showModalInsertNumberPerson,
-            globalStore.chooseGivenSet, distance, globalStore.statusDragPrincipleLine]
+            distance, globalStore.statusDragPrincipleLine]
     );
 
-    const findLatLngPoint = (latLngElementSelected, latLngElementRelate) => {
-        console.log('atLngElementSelected, latLngElementRelate', latLngElementSelected, latLngElementRelate)
-        let pointElementSelected = map.latLngToContainerPoint(latLngElementSelected);
-        let pointElementRelate = map.latLngToContainerPoint(latLngElementRelate);
-        let centerX = (pointElementSelected.x + pointElementRelate.x) / 2;
-        let centerY = (pointElementSelected.y + pointElementRelate.y) / 2;
-        let centerPoint = {x: centerX, y: centerY};
-        return map.containerPointToLatLng(centerPoint);
+    const findListPositionLatLng = (latLngHorFirst, latLngHorLast, n) => {
+        let pointFirst = map.latLngToContainerPoint(latLngHorFirst);
+        let pointLast = map.latLngToContainerPoint(latLngHorLast);
+        let listPositionLatLng = [];
+        for (let i = 1; i < n-1; i++) {
+            let centerX = pointFirst.x + i * (pointLast.x - pointFirst.x) / (n-1);
+            let centerY = pointFirst.y + i * (pointLast.y - pointFirst.y) / (n-1);
+            listPositionLatLng.push(map.containerPointToLatLng({x: centerX, y: centerY}))
+        }
+        return listPositionLatLng;
     }
 
     return null
