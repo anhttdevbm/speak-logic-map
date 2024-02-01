@@ -5,7 +5,7 @@ import {addSelectedItem} from './HandleSelectItem';
 import {
     markerCountryFnIcon,
     markerDistancePointIcon,
-    markerFnIcon,
+    markerFnIcon, markerGivenSetPersonWaveIcon,
     markerHouseIcon,
     markerMapElementIcon,
     markerNavigationSignIcon,
@@ -623,7 +623,9 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
                 [lat, lng]
             ],
             {
-                color: typeMobility === 'path' ? 'black' : "transparent",
+                color: (typeMobility === 'path' || typeMobility === 'path-given-set')
+                    ? 'black'
+                    : "transparent",
                 status: 'add',
                 type: 'person-mobility'
             },
@@ -634,18 +636,21 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
             {
                 removeOnEnd: false,
                 showMarker: true,
-                icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+                icon: (typeMobility === 'path' || typeMobility === 'no-path')
+                    ? markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+                    : markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
             }
         )
             .arrowheads({
                 size: '5%',
-                color: typeMobility === 'path' ? 'black' : "transparent",
+                color: (typeMobility === 'path' || typeMobility === 'path-given-set')
+                    ? 'black'
+                    : "transparent",
                 type: 'arrow',
                 status: 'add'
             })
             .addTo(map)
     }
-    ;
 }
 
 export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {

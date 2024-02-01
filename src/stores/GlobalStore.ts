@@ -13,7 +13,7 @@ export class GlobalStore {
     grid: boolean = true;
     mainLand: boolean = false;
     simulation: boolean = false;
-    position: 'top' | 'down' | 'left' | 'right' = 'left';
+    position: 'top' | 'down' | 'left' | 'right' = 'right';
     sunMoon: 'sun' | 'moon' | '' = '';
     addIcon: string = "";
     click: boolean = true;
@@ -77,7 +77,7 @@ export class GlobalStore {
     mapElementRelate = '';
     listMapElementRelate: any[] = [];
     positionOfMapElementSelected: any[] = [];
-    typeMobility: 'path' | 'no-path' | '' = 'path';
+    typeMobility: 'path' | 'no-path' | 'path-given-set' | 'path-no-given-set' | '' = 'path';
     numberPersonMobility: any = 0;
     positionOfPreviewPerson: any = [];
     showErrorInsertFunction: boolean = false;
@@ -535,7 +535,7 @@ export class GlobalStore {
         }
     }
 
-    setTypeMobility = (value: 'path' | 'no-path'): void => {
+    setTypeMobility = (value: 'path' | 'no-path' | 'path-given-set' | 'path-no-given-set' | ''): void => {
         if (value === this.typeMobility) {
             this.typeMobility = '';
         } else {

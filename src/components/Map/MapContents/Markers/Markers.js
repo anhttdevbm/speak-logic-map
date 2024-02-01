@@ -586,7 +586,7 @@ const Markers = ({setModal, setModalType}) => {
                     } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
                         globalStore.setShowErrorInsertFunction(true);
                     } else {
-                        globalStore.setTypeMobility('path');
+                        // globalStore.setTypeMobility('path');
                         addPersonInMobility(map, latlng.lat, latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                     }
                     globalStore.addIconHandle('');
@@ -785,10 +785,11 @@ const Markers = ({setModal, setModalType}) => {
                     } else {
                         globalStore.resetPositionScroll();
                         if (globalStore.numberPersonMobility < 2) {
-                            globalStore.setTypeMobility('path');
+                            // globalStore.setTypeMobility('path');
                             addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                         } else {
                             globalStore.resetNumberPersonMobility();
+                            addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                         }
                     }
                     // globalStore.addIconHandle('');
