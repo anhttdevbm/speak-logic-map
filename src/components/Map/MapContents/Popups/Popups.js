@@ -236,6 +236,11 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
             e.target.options.solution = 'solution';
         } else if (color === 'red') {
             e.target.options.problem = 'problem';
+            if (currentName.includes('Natural')) {
+                color = 'orange'
+            } else if (currentName.includes('Non-natural')) {
+                color = 'red'
+            }
         }
 
         if (!currentName.startsWith(name)) {
