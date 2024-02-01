@@ -248,21 +248,6 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.valueOfImage = '';
                 }
             });
-            map.eachLayer(layer => {
-                if (layer.options.target?.status === 'add' || layer.options.status === 'add' ||
-                    layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
-                    layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform' ||
-                    layer.options.patterns?.length > 0 || layer.options.target?.type === 'dot') {
-                    map.removeLayer(layer);
-                    // markerFnIndex[0] = 1;
-                    // markerPersonIndex[0] = 1;
-                    // markerProblemIndex[0] = 1;
-                    // markerHouseIndex[0] = 1;
-                    // markerCountryFnIndex[0] = 1;
-                    // markerPrincipleLineIndex[0] = 0;
-                    // globalStore.valueOfImage = '';
-                }
-            });
             globalStore.toggleClear();
         }
     }, [globalStore.clear]);

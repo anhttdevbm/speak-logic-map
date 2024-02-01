@@ -306,8 +306,7 @@ const MoreView = ({selectedData}) => {
                 if (numberPersonOfEachCountry.length < 4) {
                     latList = [12.5, 15];
                     lngList = [-155, -70, 14, 98];
-                }
-                if (numberPersonOfEachCountry.length >= 4 && numberPersonOfEachCountry.length < 8) {
+                } else if (numberPersonOfEachCountry.length >= 4 && numberPersonOfEachCountry.length < 8) {
                     latList = [12.5, 15];
                     lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
                 } else {
@@ -322,83 +321,69 @@ const MoreView = ({selectedData}) => {
                 bounds = [[80, firstLng], [-25, -firstLng]];
                 fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                 fpBoundary.addTo(map);
-                // if (globalStore.map) {
-                const latHorizontalLine = 60;
-                const lngHorizontalLine = 0;
-                const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 170]
-                const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 170];
-                const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
-                // Draw icon principle line
-                let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
-                    target: {
-                        status: 'add'
-                    },
-                    options: {
-                        type: 'Main set',
-                    },
-                    icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
-                }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                    .addTo(map)
-
-                //Draw line
-                const horizontalLine = L.polyline(horizontalLineLatLngs, {
-                    weight: 2,
-                    color: 'black',
-                    target: {
-                        status: 'add'
-                    },
-                });
-                horizontalLine.addTo(map);
-                functionsLayer.push(iconPrinciple);
-                functionsLayer.push(horizontalLine);
-
-                //Draw vertical line
-
-                //Draw population with country
                 if (numberPersonOfEachCountry.length > 0) {
-                    addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
-                        const lat = latList[Math.floor(index / lngList.length)];
-                        const lng = lngList[index % lngList.length];
-                        let functionMarker;
-                        if (country.country?.codeName !== '') {
-                            let verticalLine = L.polyline([[latHorizontalLine, lng], [lat + 2, lng]], {
-                                weight: 2,
-                                color: 'black',
-                                status: 'add'
-                            }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
-                            functionMarker = L.marker([lat, lng], {
-                                options: {
-                                    type: country.country?.codeName,
-                                },
-                                icon: markerPopulationCountry(
-                                    `${styles['population-country-icon']}`,
-                                    country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
-                                    country.numberPerson)
-                            })
-                                .addTo(map);
-                            functionsLayer.push(verticalLine);
-                        } else {
-                            functionMarker = addIconDotDotPrincipleLine(lat, lng)
-                        }
-                        functionsLayer.push(functionMarker);
-                    })
+                    // if (globalStore.map) {
+                    const latHorizontalLine = 60;
+                    const lngHorizontalLine = 0;
+                    const leftHorizontalLine = [latHorizontalLine, lngHorizontalLine - 170]
+                    const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 170];
+                    const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
+                    // Draw icon principle line
+                    let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
+                        target: {
+                            status: 'add'
+                        },
+                        options: {
+                            type: 'Main set',
+                        },
+                        icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+                    }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
+                        .addTo(map)
+
+                    //Draw line
+                    const horizontalLine = L.polyline(horizontalLineLatLngs, {
+                        weight: 2,
+                        color: 'black',
+                        target: {
+                            status: 'add'
+                        },
+                    });
+                    horizontalLine.addTo(map);
+                    functionsLayer.push(iconPrinciple);
+                    functionsLayer.push(horizontalLine);
+
+                    //Draw vertical line
+
+                    //Draw population with country
+                    if (numberPersonOfEachCountry.length > 0) {
+                        addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
+                            const lat = latList[Math.floor(index / lngList.length)];
+                            const lng = lngList[index % lngList.length];
+                            let functionMarker;
+                            if (country.country?.codeName !== '') {
+                                let verticalLine = L.polyline([[latHorizontalLine, lng], [lat + 2, lng]], {
+                                    weight: 2,
+                                    color: 'black',
+                                    status: 'add'
+                                }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
+                                functionMarker = L.marker([lat, lng], {
+                                    options: {
+                                        type: country.country?.codeName,
+                                    },
+                                    icon: markerPopulationCountry(
+                                        `${styles['population-country-icon']}`,
+                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
+                                        country.numberPerson)
+                                })
+                                    .addTo(map);
+                                functionsLayer.push(verticalLine);
+                            } else {
+                                functionMarker = addIconDotDotPrincipleLine(lat, lng)
+                            }
+                            functionsLayer.push(functionMarker);
+                        })
+                    }
                 }
-                // } else {
-                //     const lat = latList[0];
-                //     const lng = lngList[0];
-                //     let country = selectedData[0].features[0].properties;
-                //     let functionMarker = L.marker([lat, lng], {
-                //         options: {
-                //             type: country.NAME,
-                //         },
-                //         icon: markerPopulationCountry(
-                //             `${styles['population-country-icon']}`,
-                //             country.NAME.includes(" ") ? country.CODE : country.NAME,
-                //             country.numberPerson)
-                //     })
-                //         .addTo(map);
-                //     functionsLayer.push(functionMarker);
-                // }
             }
 
         } else if (globalStore.moreName === '') {
