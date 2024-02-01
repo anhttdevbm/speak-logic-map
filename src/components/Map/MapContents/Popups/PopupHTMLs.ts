@@ -117,6 +117,10 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
           </div>
         </div>
       </div>
+      
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Replace Function by Problem
+      </div>
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Function Execution

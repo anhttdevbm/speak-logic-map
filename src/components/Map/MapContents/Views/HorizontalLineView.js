@@ -137,6 +137,9 @@ const HorizontalLineView = () => {
 
                         for (let i = 0; i < principleLine.numberPerson; i++) {
                             let countryMarker = L.marker([listPositionPerson[i].lat, listPositionPerson[i].lng], {
+                                target: {
+                                    status: 'add',
+                                },
                                 options: {
                                     type: 'person-principle-line',
                                     status: 'add',
