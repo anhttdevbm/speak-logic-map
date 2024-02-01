@@ -48,6 +48,7 @@ export class GlobalStore {
     showRoomDistance: boolean = false;
     showFloorPlanDistance: boolean = false;
     showBoatWave: boolean = false;
+    showGivenSet: boolean = false;
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
@@ -336,6 +337,9 @@ export class GlobalStore {
 
     toggleBoatWave = (): void => {
         this.showBoatWave = !this.showBoatWave;
+    }
+    toggleShowGivenSet = (): void => {
+        this.showGivenSet = !this.showGivenSet;
     }
 
     toggleRectangularView = (value: 'rect-country' | 'rect-world' | ''): void => {
@@ -871,7 +875,7 @@ export class GlobalStore {
             position: position,
             numberPerson: numberPerson,
             addGivenSetStatus: false,
-            haveGivenSet: this.chooseGivenSet
+            haveGivenSet: this.showGivenSet
         });
     }
 

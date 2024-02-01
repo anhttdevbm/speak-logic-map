@@ -396,6 +396,20 @@ const Options: React.FC = (): JSX.Element => {
                 </li>
 
                 <li>
+                    Principle Setting
+                    <RightArrowIcon className={`${styles['sub-icon']}`}/>
+                    <ul className={`${styles['minor-list']}`}>
+                        <li onClick={() => globalStore.toggleShowGivenSet()}>
+                            Show Given Set
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${!globalStore.showGivenSet ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
                     Show Sun/Moon
                     <RightArrowIcon className={`${styles['sub-icon']}`}/>
                     <ul className={`${styles['minor-list']}`}>
