@@ -301,7 +301,7 @@ const MoreView = ({selectedData}) => {
                 // const latListt = [40.5, -1, -42];
                 // const lngListt = [-99, -30, 41, 88];
                 firstLat = -25;
-                firstLng = -180;
+                firstLng = -190;
                 const numberPersonOfEachCountry = getNumberPopulationOfCountry();
                 if (numberPersonOfEachCountry.length < 4) {
                     latList = [12.5, 15];
@@ -312,8 +312,9 @@ const MoreView = ({selectedData}) => {
                     lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
                 } else {
                     latList = [12.5, 15];
+                    lngList = [];
                     for (let i = 0; i < numberPersonOfEachCountry.length; i++) {
-                        let res = -155 + 320 / numberPersonOfEachCountry.length * ((i) % numberPersonOfEachCountry.length)
+                        let res = -155 + (310 / (numberPersonOfEachCountry.length - 1)) * i;
                         lngList.push(res);
                     }
                 }
@@ -341,7 +342,7 @@ const MoreView = ({selectedData}) => {
 
                 //Draw line
                 const horizontalLine = L.polyline(horizontalLineLatLngs, {
-                    weight: 3,
+                    weight: 2,
                     color: 'black',
                     target: {
                         status: 'add'

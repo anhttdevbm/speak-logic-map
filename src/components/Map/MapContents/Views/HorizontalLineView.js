@@ -91,9 +91,11 @@ const HorizontalLineView = () => {
 
                         if (principleLine.haveGivenSet && !principleLine.addGivenSetStatus) {
                             L.marker([latHorizontalLine, lngHorizontalLine], {
+                                target: {
+                                    status: 'add'
+                                },
                                 options: {
                                     type: 'the-given-set',
-                                    status: 'add'
                                 },
                                 icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
                             }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
@@ -123,15 +125,10 @@ const HorizontalLineView = () => {
                         countriesLayer.push(horizontalLine)
 
                         const dental = (2 * distance) / (principleLine.numberPerson + 1);
-                        // console.log('dental', dental)
-                        // console.log('firse', latHorizontalLine, lngHorizontalLine - distance)
-                        // console.log('last', latHorizontalLine, lngHorizontalLine + distance)
-
 
                         for (let i = 0; i < principleLine.numberPerson; i++) {
                             const latLngValid = findLatLngPoint([latHorizontalLine, (lngHorizontalLine - distance) + dental * (i)],
                                 [latHorizontalLine, (lngHorizontalLine - distance) + dental * (i + 2)]);
-                            console.log('latLngValid', latLngValid)
                             let countryMarker = L.marker([latHorizontalLine, latLngValid.lng], {
                                 options: {
                                     type: 'person-principle-line',
