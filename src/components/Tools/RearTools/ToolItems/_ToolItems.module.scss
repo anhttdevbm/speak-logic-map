@@ -32,27 +32,6 @@
   }
 }
 
-.mobility-btn{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 50%;
-  margin-right: 0.4rem;
-
-  &:hover {
-    background-color: rgba(61, 61, 61, 0.2);
-  }
-}
-
-.sub-icon {
-  margin-left: 2rem;
-  display: block!important;
-  opacity: 1 !important;
-  transition: all 200ms ease;
-}
-
 .item-btn {
   position: relative;
   z-index: 99;
