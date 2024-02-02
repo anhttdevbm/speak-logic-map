@@ -237,7 +237,8 @@ const Markers = ({setModal, setModalType}) => {
                 if (layer.options.target?.status === 'add' || layer.options.status === 'add' ||
                     layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
                     layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform' ||
-                    layer.options.patterns?.length > 0 || layer.options.target?.type === 'dot') {
+                    layer.options.patterns?.length > 0 || layer.options.target?.type === 'dot' ||
+                    (layer.options.type === 'arrow' && layer.options.status === 'add')) {
                     map.removeLayer(layer);
                     markerFnIndex[0] = 1;
                     markerPersonIndex[0] = 1;
@@ -248,6 +249,11 @@ const Markers = ({setModal, setModalType}) => {
                     globalStore.valueOfImage = '';
                 }
             });
+            map.eachLayer(layer => {
+                if (layer.options.type === 'arrow' && layer.options.status === 'add') {
+                    map.removeLayer(layer);
+                }
+            })
             globalStore.toggleClear();
         }
     }, [globalStore.clear]);
@@ -784,14 +790,14 @@ const Markers = ({setModal, setModalType}) => {
                         globalStore.setShowErrorInsertFunction(true);
                     } else {
                         globalStore.resetPositionScroll();
-                        if (globalStore.numberPersonMobility < 2) {
+                        // if (globalStore.numberPersonMobility < 2) {
                             globalStore.setTypeMobility('path');
                             addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
-                        } else {
-                            globalStore.resetNumberPersonMobility();
-                        }
+                        // } else {
+                        //     globalStore.resetNumberPersonMobility();
+                        // }
                     }
-                    // globalStore.addIconHandle('');
+                    globalStore.addIconHandle('');
                 } else if (globalStore.addIcon === 'scroll-feature') {
                     if (globalStore.moreName === 'world-as-function') {
                         globalStore.setShowErrorInsertPerson(true);

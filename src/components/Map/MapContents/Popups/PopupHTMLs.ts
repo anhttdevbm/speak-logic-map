@@ -285,6 +285,42 @@ export const personPopupHTML = (): string => {
   `;
 }
 
+// Right-click menu on Person Marker
+export const personMobilityPopupHTML = (): string => {
+    return `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Mobility
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
+         <div class="${styles['hover-func-block']}">
+          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path
+          </div>
+          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path
+          </div>
+          <div onclick="showMoveWithPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path With The Given Set
+          </div>
+          <div onclick="showMoveWithoutPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path With The Given Set
+          </div>
+        </div>
+      </div>
+      <div 
+        onclick="deleteItem()" 
+        class="${styles['row']}"
+      >
+        Delete
+      </div>
+    </div>
+  `;
+}
+
 export const rectPopupHTML = (listCountry: any): string => {
     return `
     <div className={styles.rectIcon}>

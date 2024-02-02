@@ -32,7 +32,7 @@ import {
     videoBoundPopupHTML,
     mapElementPopupHTML,
     rectIconPopupHTML,
-    givenSetPopupHTML, boatPopupHTML, floorPopupHTML
+    givenSetPopupHTML, boatPopupHTML, floorPopupHTML, personMobilityPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -500,7 +500,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
     clearAllPopups(map);
     const popup = L.popup([e.latlng.lat, e.latlng.lng], {
         content: personPopupHTML(),
-        offset: L.point(0, e.latlng.lat < 20 ? -10 : 200)
+        offset: L.point(130, e.latlng.lat < 20 ? -10 : 200)
     });
     popup.addTo(map);
 
@@ -719,6 +719,186 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
         }
         removeItemArrow(map, index);
         removeMapLayerById('person', 'Person '+ index);
+    }
+}
+
+export const personMobilityPopup = (map, marker, setModal, setModalType, isLocked, e) => {
+    clearAllPopups(map);
+    const popup = L.popup([e.latlng.lat, e.latlng.lng], {
+        content: personMobilityPopupHTML(),
+        offset: L.point(120, 80)
+    });
+    popup.addTo(map);
+
+    let path = null;
+    let index = marker.options?.target?.index;
+
+    window.showMoveWithPath = () => {
+        map.removeLayer(popup);
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            map.removeLayer(e.target);
+
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
+
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'black',
+                    status: 'add'
+                },
+                {
+                    auto: true,
+                    duration: 3000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                .addTo(map);
+            map.off('click');
+        });
+    }
+
+    window.showMoveWithoutPath = () => {
+        map.removeLayer(popup);
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            map.removeLayer(e.target);
+
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
+
+
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'transparent',
+                    status: 'add'
+                },
+                {
+                    auto: true,
+                    duration: 3000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+                }
+            )
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                .addTo(map);
+            map.off('click');
+        });
+    }
+
+    window.showMoveWithPathGivenSet = () => {
+        map.removeLayer(popup);
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            map.removeLayer(e.target);
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+            removeItemArrow(map, index);
+
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'black',
+                    status: 'add'
+                },
+                {
+                    auto: true,
+                    duration: 3000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
+                }
+            )
+                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                .addTo(map);
+            map.off('click');
+        });
+    }
+
+    window.showMoveWithoutPathGivenSet = () => {
+        map.removeLayer(popup);
+        map.on('click', function (eventClick) {
+            let clickedLatLng = eventClick.latlng;
+            let currentLatLng = marker.getLatLng();
+
+            map.removeLayer(e.target);
+            removeItemArrow(map, index);
+            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                target: {
+                    type: 'person',
+                    index: index,
+                    status: 'add',
+                }
+            });
+
+            path = L.motion.polyline(
+                [currentLatLng, clickedLatLng],
+                {
+                    color: 'transparent',
+                    status: 'add'
+                },
+                {
+                    auto: true,
+                    duration: 3000
+                },
+                {
+                    removeOnEnd: false,
+                    showMarker: true,
+                    icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
+                }
+            )
+                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                .addTo(map);
+            map.off('click');
+        });
+    }
+
+    window.deleteItem = () => {
+        map.removeLayer(e.target);
+        map.removeLayer(popup);
+        if (path) {
+            map.removeLayer(path);
+        }
+        removeItemArrow(map, index);
     }
 }
 

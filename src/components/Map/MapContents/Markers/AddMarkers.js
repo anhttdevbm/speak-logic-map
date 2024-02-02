@@ -21,13 +21,17 @@ import {
     fnProblemPopup,
     functionPopup,
     givenSetPopup,
-    mapElementPopup,
+    mapElementPopup, personMobilityPopup,
     personPopup,
     routePopup,
     stopFnPopup,
     tempFnPopup
 } from '../Popups/Popups';
-import {groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML} from '../Popups/PopupHTMLs'
+import {
+    groupFnLayoutPopupHTML,
+    housePopupHTML,
+    welcomeSignPopupHTML
+} from '../Popups/PopupHTMLs'
 
 import {
     arcRouteInit,
@@ -589,63 +593,63 @@ export const addRelateMarker = (map, lat, lng, isLocked) => {
         .addTo(map)
 }
 
-export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
-                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility) => {
-    setNumberPersonMobility();
-    if (numberPersonMobility % 2 === 0) {
-        setPositionOfPreviewPerson(lat, lng);
-        L.marker([lat, lng], {
-            target: {status: 'add', type: 'person-mobility'},
-            icon: markerPersonWaveIcon(null, 'Person', null),
-            draggable: !isLocked,
-        })
-            .on('contextmenu', e => {
-                const housePopup = L.popup()
-                    .setLatLng([lat, lng])
-                    .setContent(housePopupHTML())
-                    .addTo(map);
+function randomIntFromInterval(min, max) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
-                window.deleteHouse = () => {
-                    map.removeLayer(e.target);
-                    map.removeLayer(housePopup);
-                }
-            })
-            .addTo(map);
-    } else {
-        map.eachLayer(layer => {
-            if (layer.options.target?.type === 'person-mobility') {
-                map.removeLayer(layer);
-            }
-        });
-        L.motion.polyline(
-            [
-                positionOfPreviewPerson,
-                [lat, lng]
-            ],
-            {
-                color: typeMobility === 'path' ? 'black' : "transparent",
-                status: 'add',
-                type: 'person-mobility'
-            },
-            {
-                auto: true,
-                duration: 3000
-            },
-            {
-                removeOnEnd: false,
-                showMarker: true,
-                icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
-            }
-        )
-            .arrowheads({
-                size: '5%',
-                color: typeMobility === 'path' ? 'black' : "transparent",
-                type: 'arrow',
-                status: 'add'
-            })
-            .addTo(map)
-    }
-    ;
+export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
+                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility, setModal, setModalType) => {
+    let marker = L.marker([lat, lng], {
+        target: {status: 'add', type: 'person-mobility', index: randomIntFromInterval(0, 99)},
+        icon: markerPersonWaveIcon(null, 'Person', null),
+        draggable: !isLocked,
+    })
+        .on('contextmenu', e => personMobilityPopup(map, marker, setModal, setModalType, isLocked, e))
+        .addTo(map);
+    // setNumberPersonMobility();
+    // if (numberPersonMobility % 2 === 0) {
+    //     setPositionOfPreviewPerson(lat, lng);
+    //     let marker = L.marker([lat, lng], {
+    //         target: {status: 'add', type: 'person-mobility'},
+    //         icon: markerPersonWaveIcon(null, 'Person', null),
+    //         draggable: !isLocked,
+    //     })
+    //         .on('contextmenu', e => personMobilityPopup(map, marker, setModal, setModalType, isLocked, e))
+    //         .addTo(map);
+    // } else {
+    //     map.eachLayer(layer => {
+    //         if (layer.options.target?.type === 'person-mobility') {
+    //             map.removeLayer(layer);
+    //         }
+    //     });
+    //     L.motion.polyline(
+    //         [
+    //             positionOfPreviewPerson,
+    //             [lat, lng]
+    //         ],
+    //         {
+    //             color: typeMobility === 'path' ? 'black' : "transparent",
+    //             status: 'add',
+    //             type: 'person-mobility'
+    //         },
+    //         {
+    //             auto: true,
+    //             duration: 3000
+    //         },
+    //         {
+    //             removeOnEnd: false,
+    //             showMarker: true,
+    //             icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+    //         }
+    //     )
+    //         .arrowheads({
+    //             size: '5%',
+    //             color: typeMobility === 'path' ? 'black' : "transparent",
+    //             type: 'arrow',
+    //             status: 'add'
+    //         })
+    //         .addTo(map)
+    // }
 }
 
 export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {
