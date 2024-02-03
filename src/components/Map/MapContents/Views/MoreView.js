@@ -85,14 +85,15 @@ const MoreView = ({selectedData}) => {
             fpBoundary.addTo(map);
 
             if (globalStore.moreName === 'world-as-function' && globalStore.listMarkerFunction.length > 0) {
-                addItemDotDot(globalStore.listMarkerFunction).forEach((fn, index) => {
+                let listMarkerFnValid = globalStore.listMarkerFunction.filter(item => !(item.isShow === false));
+                addItemDotDot(listMarkerFnValid).forEach((fn, index) => {
                     let lat = 0;
                     let lng = 0;
-                    if (globalStore.listMarkerFunction.length < 16) {
+                    if (listMarkerFnValid.length < 16) {
                         lat = latList[Math.floor(index / lngList.length)];
                         lng = lngList[index % lngList.length];
                     } else {
-                        let numberPersonPerRow = Math.floor(globalStore.listMarkerFunction.length / 3) + 1;
+                        let numberPersonPerRow = Math.floor(listMarkerFnValid.length / 3) + 1;
                         lat = latList[Math.floor(index / numberPersonPerRow)];
                         lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
                     }
@@ -129,14 +130,15 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 })
             } else if (globalStore.moreName === 'world-problem-view' && globalStore.listMarkerProblem.length > 0) {
-                addItemDotDot(globalStore.listMarkerProblem).forEach((pl, index) => {
+                let listMarkerPlValid = globalStore.listMarkerProblem.filter(item => item.isShow);
+                addItemDotDot(listMarkerPlValid).forEach((pl, index) => {
                     let lat = 0;
                     let lng = 0;
-                    if (globalStore.listMarkerProblem.length < 16) {
+                    if (listMarkerPlValid.length < 16) {
                         lat = latList[Math.floor(index / lngList.length)];
                         lng = lngList[index % lngList.length];
                     } else {
-                        let numberPersonPerRow = Math.floor(globalStore.listMarkerProblem.length / 3) + 1;
+                        let numberPersonPerRow = Math.floor(listMarkerPlValid.length / 3) + 1;
                         lat = latList[Math.floor(index / numberPersonPerRow)];
                         lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
                     }
@@ -172,14 +174,15 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 })
             } else if (globalStore.moreName === 'population-view' && globalStore.listMarkerPopulation.length > 0) {
-                addItemDotDot(globalStore.listMarkerPopulation).forEach((person, index) => {
+                let listMarkerPlValid = globalStore.listMarkerProblem.filter(item => !(item.isShow === false));
+                addItemDotDot(listMarkerPlValid).forEach((person, index) => {
                     let lat = 0;
                     let lng = 0;
-                    if (globalStore.listMarkerPopulation.length < 16) {
+                    if (listMarkerPlValid.length < 16) {
                         lat = latList[Math.floor(index / lngList.length)];
                         lng = lngList[index % lngList.length];
                     } else {
-                        let numberPersonPerRow = Math.floor(globalStore.listMarkerPopulation.length / 3) + 1;
+                        let numberPersonPerRow = Math.floor(listMarkerPlValid.length / 3) + 1;
                         lat = latList[Math.floor(index / numberPersonPerRow)];
                         lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
                     }

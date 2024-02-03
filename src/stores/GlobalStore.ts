@@ -84,6 +84,7 @@ export class GlobalStore {
     showErrorInsertPerson: boolean = false;
     showErrorInsertRelationship: boolean = false;
     statusMovePallet: boolean = false;
+    statusDisplayItem: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -356,7 +357,7 @@ export class GlobalStore {
         // if (value === this.rectName) {
         //     this.rectName = '';
         // } else {
-            this.rectName = value;
+        this.rectName = value;
         // }
     }
 
@@ -364,7 +365,7 @@ export class GlobalStore {
         // if (value === this.rectViewSetting) {
         //     this.rectViewSetting = '';
         // } else {
-            this.rectViewSetting = value;
+        this.rectViewSetting = value;
         // }
     }
 
@@ -603,9 +604,27 @@ export class GlobalStore {
 
     addMarkerFnToList = (index: number): void => {
         if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
-            this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
+            this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle', isShow: true})
+        } else {
+            this.updateStatusDisplayListMarkerFunctionByName('Function ' + index, true);
         }
         this.listMarkerFunction = this.listMarkerFunction.sort(this.customSort);
+    }
+
+    updateNameItemListMarkerFunctionByName = (name: any, newName: any) => {
+        for (let i = 0; i < this.listMarkerFunction.length; i++) {
+            if (this.listMarkerFunction[i].value === name) {
+                this.listMarkerFunction[i].value = newName;
+            }
+        }
+    }
+    updateStatusDisplayListMarkerFunctionByName = (name: any, status: boolean) => {
+        for (let i = 0; i < this.listMarkerFunction.length; i++) {
+            if (this.listMarkerFunction[i].value === name) {
+                this.listMarkerFunction[i].isShow = status;
+                this.statusDisplayItem = !this.statusDisplayItem;
+            }
+        }
     }
 
     resetListMarkerFunction = (): void => {
@@ -639,6 +658,15 @@ export class GlobalStore {
                 ? this.listMarkerProblem.length - 1
                 : this.listMarkerProblem.length - 2;
             this.listMarkerProblem.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
+    updateStatusDisplayListMarkerProblemByName = (name: any, status: boolean) => {
+        for (let i = 0; i < this.listMarkerProblem.length; i++) {
+            if (this.listMarkerProblem[i].value === name) {
+                this.listMarkerProblem[i].isShow = status;
+                this.statusDisplayItem = !this.statusDisplayItem;
+            }
         }
     }
 
@@ -701,7 +729,9 @@ export class GlobalStore {
 
     addMarkerProblemToList = (index: number): void => {
         if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
-            this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle'})
+            this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle', isShow: true})
+        } else {
+            this.updateStatusDisplayListMarkerProblemByName('Problem ' + index, true);
         }
         this.listMarkerProblem = this.listMarkerProblem.sort(this.customSort);
     }
@@ -822,8 +852,31 @@ export class GlobalStore {
 
     setMapLayer = (lat: any, lng: any, name: any, type: any) => {
         let id = this.mapLayer.length + 1;
-        if (this.mapLayer.filter(item => item.value === name && item.type === type).length === 0) {
-            this.mapLayer.push({id: id, lat: lat, lng: lng, name: name, type: type})
+        if (this.mapLayer.filter(item => item.lat === lat && item.lng === lng && item.type === type).length === 0) {
+            this.mapLayer.push({id: id, lat: lat, lng: lng, name: name, type: type, isShow: true})
+        } else {
+            for (let i = 0; i < this.mapLayer.length; i++) {
+                if (this.mapLayer[i].lat === lat && this.mapLayer[i].lng === lng && this.mapLayer[i].type === type) {
+                    this.mapLayer[i].isShow = true;
+                }
+            }
+        }
+    }
+
+    updateNameItemMapLayerByNameAndType = (name: any, type: any, newName: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].name === name && this.mapLayer[i].type === type) {
+                this.mapLayer[i].name = newName;
+            }
+        }
+    }
+
+
+    updateStatusDisplayMapLayerByNameAndType = (name: any, type: any, status: boolean) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].name === name && this.mapLayer[i].type === type) {
+                this.mapLayer[i].isShow = status;
+            }
         }
     }
 

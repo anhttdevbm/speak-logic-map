@@ -118,7 +118,7 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
         </div>
       </div>
       
-      <div class="${styles['row']} ${styles['on-hover']}">
+      <div class="${styles['row']} ${styles['on-hover']}" onclick="edittingItem('red','Problem')">
         Replace Function by Problem
       </div>
 
@@ -435,6 +435,9 @@ export const problemPopupHTML = (hasBoundary: boolean): string => {
             class="${styles['black']} ${styles['color-rectangle']}"
           ></div>
         </div>
+      </div>
+      <div class="${styles['row']} ${styles['on-hover']}" onclick="replaceProblemToFn()">
+        Replace Problem by Function
       </div>
       <div 
         onclick="deleteItem()"

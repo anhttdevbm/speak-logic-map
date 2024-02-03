@@ -143,10 +143,11 @@ export const boatPopup = (map, e, isMap, toggleBoatView, setMapElementRelate, se
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on function marker
-export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById) => {
+export const functionPopup = (map, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList,
+                              setShapeOfMarkerPl, removeMapLayerById, updateStatusDisplayMapLayerByNameAndType,
+                              updateStatusDisplayListMarkerFunctionByName, setMapLayer, updateNameItemMapLayerByNameAndType,
+                              updateNameItemListMarkerFunctionByName) => {
     clearAllPopups(map);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    // console.log(e.target)
 
     let type = false;
 
@@ -241,6 +242,23 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
             } else if (currentName.includes('Non-natural')) {
                 color = 'red'
             }
+        }
+
+        if (name === 'Problem') {
+            if (Number(index[0]) <= markerProblemIndex[0] - 1) {
+                addMarkerProblemToList(index[0]);
+                setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + index[0], 'problem')
+                markerProblemIndex[0] = index[0];
+            } else {
+                addMarkerProblemToList(markerProblemIndex[0]);
+                setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerProblemIndex[0], 'problem')
+                markerProblemIndex[0]++;
+            }
+            updateStatusDisplayListMarkerFunctionByName(currentName, false);
+            updateStatusDisplayMapLayerByNameAndType(currentName, 'function', false);
+        } else {
+            updateNameItemListMarkerFunctionByName(currentName, name + ' ' + index[0]);
+            updateNameItemMapLayerByNameAndType(currentName, 'function', name + ' ' + index[0]);
         }
 
         if (!currentName.startsWith(name)) {
@@ -475,7 +493,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     window.deleteItem = () => {
         map.removeLayer(e.target);
         map.removeLayer(popup);
-        removeMapLayerById('function', 'Function '+ e.target.options.target.index);
+        removeMapLayerById('function', 'Function ' + e.target.options.target.index);
     }
 
     window.changeToStopFunction = () => {
@@ -539,7 +557,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
 
             let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
                 target: {
@@ -566,7 +584,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -581,7 +599,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
 
             let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
                 target: {
@@ -609,12 +627,12 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index  })
+                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
         });
     }
 
@@ -650,12 +668,12 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
         });
     }
 
@@ -691,12 +709,12 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
-            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person '+ index, true);
+            updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
         });
     }
 
@@ -718,7 +736,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             map.removeLayer(path);
         }
         removeItemArrow(map, index);
-        removeMapLayerById('person', 'Person '+ index);
+        removeMapLayerById('person', 'Person ' + index);
     }
 }
 
@@ -766,7 +784,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -807,7 +825,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -846,7 +864,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                .arrowheads({ size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -885,7 +903,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                .arrowheads({ size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index })
+                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -912,7 +930,8 @@ const removeItemArrow = (map, index) => {
 
 // ---------------------------------------------------------------------------------------------------------
 // Popup shown when right-click on problem/solution marker
-export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerPl) => {
+export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerPl, addMarkerFnToList, setMapLayer,
+                               updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType) => {
     clearAllPopups(map);
 
     let hasBoundary = e.target.options.boundary;
@@ -962,6 +981,48 @@ export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerP
             e.target._icon.classList.remove(styles["circle-fn-1"]);
             e.target._icon.classList.remove(styles["rectangle-fn"]);
         }
+        map.removeLayer(popup);
+    }
+
+    window.replaceProblemToFn = () => {
+        let index = [e.target.options?.type?.index];
+        let currentName = e.target._icon.innerText;
+        let name = 'Function';
+        if (Number(index[0]) <= markerFnIndex[0] - 1) {
+            addMarkerFnToList(index[0]);
+            setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + index[0], 'function')
+            markerFnIndex[0] = index[0];
+        } else {
+            addMarkerFnToList(markerFnIndex[0]);
+            setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function')
+            markerFnIndex[0]++;
+        }
+        updateStatusDisplayListMarkerProblemByName(currentName, false);
+        updateStatusDisplayMapLayerByNameAndType(currentName, 'problem', false);
+
+        if (e.target._icon.classList.contains(styles['circle-fn'])) {
+            e.target.setIcon(
+                markerFnCircleIcon(
+                    `${styles['circle-fn']} ${styles['fn--black']}`,
+                    handleName(name, index, currentName)
+                )
+            );
+        } else if (e.target._icon.classList.contains(styles['rectangle-fn'])) {
+            e.target.setIcon(
+                markerFnIcon(
+                    `${styles['rectangle-fn']} ${styles['fn--black']}`,
+                    handleName(name, index, currentName)
+                )
+            );
+        } else if (e.target._icon.classList.contains(styles['ellipse-fn'])) {
+            e.target.setIcon(
+                markerFnIcon(
+                    `${styles['ellipse-fn']} ${styles['fn--black']}`,
+                    handleName(name, index, currentName)
+                )
+            )
+        }
+
         map.removeLayer(popup);
     }
 }
@@ -1524,7 +1585,7 @@ export const floorPopup = (map, e, lat, lng) => {
         map.removeLayer(popup);
 
         e.target.bindPopup(
-            (e) => imgBoundPopupHTML(objectUrl,  undefined,'Floor'),
+            (e) => imgBoundPopupHTML(objectUrl, undefined, 'Floor'),
             {
                 offset: L.point(0, 60),
                 autoClose: false,

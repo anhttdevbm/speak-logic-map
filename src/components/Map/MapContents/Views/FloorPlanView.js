@@ -10,12 +10,7 @@ import styles from '../_MapContents.module.scss';
 import {addStaticDistance} from '../Markers/AddMarkers';
 import * as turf from '@turf/turf';
 import {addSelectedItem} from '../Markers/HandleSelectItem';
-import {
-    addMarkerFn, addMarkerPerson, addSoluOrProbFn,
-    addMarkerCountryFn, addMarkerCountryGroupFn
-} from '../Markers/AddMarkers';
 import {floorPopup, roomPopup} from "@/components/Map/MapContents/Popups/Popups";
-import {getGeoMainLand} from "@/utils/get_geo_mainland";
 
 const FloorPlanView = ({selectedData}) => {
     const map = useMap();
