@@ -93,9 +93,9 @@ const MoreView = ({selectedData}) => {
                         lat = latList[Math.floor(index / lngList.length)];
                         lng = lngList[index % lngList.length];
                     } else {
-                        let numberPersonPerRow = Math.floor(listMarkerFnValid.length / 3) + 1;
-                        lat = latList[Math.floor(index / numberPersonPerRow)];
-                        lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
+                        let numberItemPerRow = Math.floor(listMarkerFnValid.length / 3) + 1;
+                        lat = latList[Math.floor(index / numberItemPerRow)];
+                        lng = -99 + 215 / numberItemPerRow * ((index) % numberItemPerRow);
                     }
                     let functionMarker;
                     if (fn.key === 'dot') {
@@ -130,7 +130,7 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 })
             } else if (globalStore.moreName === 'world-problem-view' && globalStore.listMarkerProblem.length > 0) {
-                let listMarkerPlValid = globalStore.listMarkerProblem.filter(item => item.isShow);
+                let listMarkerPlValid = globalStore.listMarkerProblem.filter(item => !(item.isShow === false));
                 addItemDotDot(listMarkerPlValid).forEach((pl, index) => {
                     let lat = 0;
                     let lng = 0;
@@ -138,9 +138,9 @@ const MoreView = ({selectedData}) => {
                         lat = latList[Math.floor(index / lngList.length)];
                         lng = lngList[index % lngList.length];
                     } else {
-                        let numberPersonPerRow = Math.floor(listMarkerPlValid.length / 3) + 1;
-                        lat = latList[Math.floor(index / numberPersonPerRow)];
-                        lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
+                        let numberItemPerRow = Math.floor(listMarkerPlValid.length / 3) + 1;
+                        lat = latList[Math.floor(index / numberItemPerRow)];
+                        lng = -99 + 215 / numberItemPerRow * ((index) % numberItemPerRow);
                     }
                     let functionMarker;
                     if (pl.key === 'dot') {
@@ -174,17 +174,16 @@ const MoreView = ({selectedData}) => {
                     functionsLayer.push(functionMarker);
                 })
             } else if (globalStore.moreName === 'population-view' && globalStore.listMarkerPopulation.length > 0) {
-                let listMarkerPlValid = globalStore.listMarkerProblem.filter(item => !(item.isShow === false));
-                addItemDotDot(listMarkerPlValid).forEach((person, index) => {
+                addItemDotDot(globalStore.listMarkerPopulation).forEach((person, index) => {
                     let lat = 0;
                     let lng = 0;
-                    if (listMarkerPlValid.length < 16) {
+                    if (globalStore.listMarkerPopulation.length < 16) {
                         lat = latList[Math.floor(index / lngList.length)];
                         lng = lngList[index % lngList.length];
                     } else {
-                        let numberPersonPerRow = Math.floor(listMarkerPlValid.length / 3) + 1;
-                        lat = latList[Math.floor(index / numberPersonPerRow)];
-                        lng = -99 + 215 / numberPersonPerRow * ((index) % numberPersonPerRow);
+                        let numberItemPerRow = Math.floor(globalStore.listMarkerPopulation.length / 3) + 1;
+                        lat = latList[Math.floor(index / numberItemPerRow)];
+                        lng = -99 + 215 / numberItemPerRow * ((index) % numberItemPerRow);
                     }
                     let functionMarker;
                     if (person.key === 'dot') {
@@ -216,37 +215,37 @@ const MoreView = ({selectedData}) => {
                 const latListt = [42.5, 10, -27];
                 let lngListt = [-79, 0, 79];
                 // if (globalStore.map) {
-                    const numberPersonOfEachCountry = getNumberPopulationOfCountry();
-                    if (numberPersonOfEachCountry.length > 8) {
-                        lngListt = [];
-                        let numberPersonPerRow = Math.floor(numberPersonOfEachCountry.length / 3) + 1;
-                        for (let i = 0; i < numberPersonPerRow; i++) {
-                            let res = -79 + 210 / numberPersonPerRow * ((i) % numberPersonPerRow)
-                            lngListt.push(res);
+                const numberPersonOfEachCountry = getNumberPopulationOfCountry();
+                if (numberPersonOfEachCountry.length > 8) {
+                    lngListt = [];
+                    let numberItemPerRow = Math.floor(numberPersonOfEachCountry.length / 3) + 1;
+                    for (let i = 0; i < numberItemPerRow; i++) {
+                        let res = -79 + 210 / numberItemPerRow * ((i) % numberItemPerRow)
+                        lngListt.push(res);
+                    }
+                }
+                if (numberPersonOfEachCountry.length > 0) {
+                    addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
+                        const lat = latListt[Math.floor(index / lngListt.length)];
+                        const lng = lngListt[index % lngListt.length];
+                        let functionMarker;
+                        if (country.country?.codeName !== '') {
+                            functionMarker = L.marker([lat, lng], {
+                                options: {
+                                    type: country.country?.codeName,
+                                },
+                                icon: markerPopulationCountry(
+                                    `${styles['population-country-icon']}`,
+                                    country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
+                                    country.numberPerson)
+                            })
+                                .addTo(map);
+                        } else {
+                            functionMarker = addIconDotDot(lat, lng)
                         }
-                    }
-                    if (numberPersonOfEachCountry.length > 0) {
-                        addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
-                            const lat = latListt[Math.floor(index / lngListt.length)];
-                            const lng = lngListt[index % lngListt.length];
-                            let functionMarker;
-                            if (country.country?.codeName !== '') {
-                                functionMarker = L.marker([lat, lng], {
-                                    options: {
-                                        type: country.country?.codeName,
-                                    },
-                                    icon: markerPopulationCountry(
-                                        `${styles['population-country-icon']}`,
-                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
-                                        country.numberPerson)
-                                })
-                                    .addTo(map);
-                            } else {
-                                functionMarker = addIconDotDot(lat, lng)
-                            }
-                            functionsLayer.push(functionMarker);
-                        })
-                    }
+                        functionsLayer.push(functionMarker);
+                    })
+                }
                 // } else {
                 //     const lat = latListt[0];
                 //     const lng = lngListt[0];
@@ -264,14 +263,25 @@ const MoreView = ({selectedData}) => {
                 //     functionsLayer.push(functionMarker);
                 // }
             } else if (globalStore.moreName === 'problem-view-with-country') {
-                const latListt = [40.5, 2, -35];
-                const lngListt = [-110, -30, 41, 88];
-                // if (globalStore.map) {
+                map.removeLayer(fpBoundary);
+                bounds = [[firstLat, -140], [-firstLat, 140]];
+                fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
+                fpBoundary.addTo(map);
+                const latListt = [43.5, 10, -26];
+                let lngListt = [-99, -10, 79];
                 const numberProblemOfEachCountry = getNumberProblemOfCountry();
+                if (numberProblemOfEachCountry.length > 8) {
+                    lngListt = [];
+                    let numberItemPerRow = Math.floor(numberProblemOfEachCountry.length / 3) + 1;
+                    for (let i = 0; i < numberItemPerRow; i++) {
+                        let res = -99 + 240 / numberItemPerRow * ((i) % numberItemPerRow)
+                        lngListt.push(res);
+                    }
+                }
                 if (numberProblemOfEachCountry.length > 0) {
                     addItemDotDot(numberProblemOfEachCountry).forEach((country, index) => {
-                        const lat = latListt[Math.floor(index / latListt.length)];
-                        const lng = lngListt[index % latListt.length];
+                        const lat = latListt[Math.floor(index / lngListt.length)];
+                        const lng = lngListt[index % lngListt.length];
                         let functionMarker;
                         if (country.country?.codeName !== '') {
                             functionMarker = L.marker([lat, lng], {
