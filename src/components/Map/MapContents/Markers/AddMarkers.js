@@ -78,14 +78,18 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
         setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
     .on('click', e => addSelectedItem(e, map, isLocked))
     .addTo(map);
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updateMapLayerById(latLng.lat, latLng.lng, 'person', `Person ${index}`, false)
+    })
 }
 
 
 export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
                             setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById, updateStatusDisplayMapLayerByNameAndType,
                             updateStatusDisplayListMarkerFunctionByName, setMapLayer, updateNameItemMapLayerByNameAndType,
-                            updateNameItemListMarkerFunctionByName) => {
-    return L.marker([lat, lng], {
+                            updateNameItemListMarkerFunctionByName, updateMapLayerById) => {
+    let marker = L.marker([lat, lng], {
         target: {
             type: 'function',
             shape: 'rectangle',
@@ -106,6 +110,11 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
         .on('click', e => addSelectedItem(e, container, isLocked))
         // .on('dblclick', e => toggleBoundaryFn(e))
         .addTo(container);
+
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updateMapLayerById(latLng.lat, latLng.lng, 'function', `Function ${index}`, false)
+    })
 }
 
 export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
