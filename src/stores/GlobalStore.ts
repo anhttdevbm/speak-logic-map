@@ -36,7 +36,7 @@ export class GlobalStore {
     rectDistanceType: 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
-    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
+    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | 'pallet1' | 'pallet2' | 'pallet3' | 'pallet4' | '' = '';
     listLinePallet: any[] = [];
     listRectPolygonPallet: any[] = [];
     listCirclePolygonPallet: any[] = [];
@@ -421,7 +421,7 @@ export class GlobalStore {
         }
     }
 
-    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | ''): void => {
+    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | 'pallet1' | 'pallet2' | 'pallet3' | 'pallet4' | ''): void => {
         if (value === this.palletOption) {
             this.palletOption = '';
         } else {

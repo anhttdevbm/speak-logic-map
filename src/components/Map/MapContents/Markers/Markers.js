@@ -267,6 +267,10 @@ const Markers = ({setModal, setModalType}) => {
         const rectEvent = document.getElementById("rectangle-event");
         const ellipseEvent = document.getElementById("ellipse-event");
         const imageEvent = document.getElementById("image-event");
+        const pallet1Event = document.getElementById("pallet1-event");
+        const pallet2Event = document.getElementById("pallet2-event");
+        const pallet3Event = document.getElementById("pallet3-event");
+        const pallet4Event = document.getElementById("pallet4-event");
         let restrictPopup = 0;
         areaSelection = new DrawAreaSelection({
             onPolygonReady: (polygon) => {
@@ -323,6 +327,13 @@ const Markers = ({setModal, setModalType}) => {
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
             refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
             globalStore.togglePalletOption('image')
+        }
+
+        const insertPalletLineToMap = (value) => {
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption(value)
         }
 
         const drawLine = () => {
@@ -411,6 +422,10 @@ const Markers = ({setModal, setModalType}) => {
         rectEvent?.addEventListener("click", drawRectangle);
         ellipseEvent?.addEventListener("click", drawCircle);
         imageEvent?.addEventListener("click", insertImageToMap);
+        pallet1Event?.addEventListener("click", insertPalletLineToMap('pallet1'));
+        pallet2Event?.addEventListener("click", insertPalletLineToMap('pallet2'));
+        pallet3Event?.addEventListener("click", insertPalletLineToMap('pallet3'));
+        pallet4Event?.addEventListener("click", insertPalletLineToMap('pallet4'));
 
         return () => {
             getButton?.removeEventListener("click", showScanSelection);
@@ -419,6 +434,10 @@ const Markers = ({setModal, setModalType}) => {
             rectEvent?.removeEventListener("click", drawRectangle);
             ellipseEvent?.removeEventListener("click", drawCircle);
             imageEvent?.removeEventListener("click", insertImageToMap);
+            pallet1Event?.removeEventListener("click", insertPalletLineToMap('pallet1'));
+            pallet2Event?.removeEventListener("click", insertPalletLineToMap('pallet2'));
+            pallet3Event?.removeEventListener("click", insertPalletLineToMap('pallet3'));
+            pallet4Event?.removeEventListener("click", insertPalletLineToMap('pallet4'));
         };
         // }
     }, [globalStore.map]);
@@ -798,8 +817,8 @@ const Markers = ({setModal, setModalType}) => {
                     } else {
                         globalStore.resetPositionScroll();
                         // if (globalStore.numberPersonMobility < 2) {
-                            globalStore.setTypeMobility('path');
-                            addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
+                        globalStore.setTypeMobility('path');
+                        addPersonInMobility(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                         // } else {
                         //     globalStore.resetNumberPersonMobility();
                         // }
@@ -815,12 +834,6 @@ const Markers = ({setModal, setModalType}) => {
                         globalStore.resetDataScroll();
                     }
                     globalStore.addIconHandle('');
-                } else if (globalStore.palletOption === 'text') {
-                    addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
-                } else if (globalStore.palletOption === 'image') {
-                    globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
-                    addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
-                        globalStore.setValueOfImage)
                 } else if (globalStore.addIcon === 'horizontal-line') {
                     if (globalStore.moreName === 'world-as-function') {
                         globalStore.setShowErrorInsertPerson(true);
@@ -859,6 +872,15 @@ const Markers = ({setModal, setModalType}) => {
                     }
                 }
             }
+
+            if (globalStore.palletOption === 'text') {
+                addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
+            } else if (globalStore.palletOption === 'image') {
+                globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
+                addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
+                    globalStore.setValueOfImage)
+            }
+
         }
     })
 
