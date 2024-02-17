@@ -187,7 +187,7 @@ const PalletGeoJsonContainer = () => {
                     });
                     L.polyline(latlngs, {
                         draggable: true,
-                        color: 'rgb(51, 136, 255)',
+                        color: 'black',
                         status: 'add',
                         type: 'line-pallet',
                     }).addTo(map);
