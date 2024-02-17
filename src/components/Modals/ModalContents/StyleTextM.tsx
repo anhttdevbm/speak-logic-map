@@ -63,7 +63,7 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                         </Row>
                         <Row key={`fonts`} className={`${styles['option']}`}>
                             <Col span={8}>
-                                <label style={{width: '150%'}}>Fonts</label>
+                                <label style={{width: '150%'}}>Size</label>
                             </Col>
                             <Col span={16}>
                                 <Input
@@ -75,7 +75,7 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                         </Row>
                         <Row key={`fonts`} className={`${styles['option']}`}>
                             <Col span={8}>
-                                <label style={{width: '150%'}}>Fonts</label>
+                                <label style={{width: '150%'}}>Color</label>
                             </Col>
                             <Col span={16}>
                                 <Input

@@ -43,8 +43,8 @@ export class GlobalStore {
     clear: boolean = false;
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
-    showDialogEditTextStyle: boolean = true;
-    showDialogEditShapeStyle: boolean = false;
+    showDialogEditTextStyle: boolean = false;
+    showDialogEditShapeStyle: boolean = true;
     inAreaSelection: boolean = false;
     showHouseDistance: boolean = false;
     showRoomDistance: boolean = false;
@@ -108,6 +108,14 @@ export class GlobalStore {
             color: color,
             style: style,
             textAlign: textAlign
+        }
+    }
+
+    setStyleShape = (background: string, borderSize: number, borderColor: string) => {
+        this.styleText = {
+            background: background,
+            borderSize: borderSize,
+            borderColor: borderColor,
         }
     }
 

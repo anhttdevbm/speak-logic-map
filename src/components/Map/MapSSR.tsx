@@ -41,6 +41,7 @@ import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 import {FeatureCollection} from "geojson";
 import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
 import StyleTextM from "@/components/Modals/ModalContents/StyleTextM";
+import StyleShapeM from "@/components/Modals/ModalContents/StyleShapeM";
 import {notification} from "antd";
 import PalletGeoJsonContainer from './MapContents/Views/PalletGeoJsonContainer'
 import PalletLineView from './MapContents/Views/PalletLineView'
@@ -315,6 +316,16 @@ const MapSSR: React.FC = (): JSX.Element => {
                     <StyleTextM
                         setToggleModal={globalStore.toggleShowDialogEditTextStyle}
                         setStyleText={globalStore.setStyleText}
+                    />
+                </ModalWrap>
+            }
+
+            {
+                globalStore.showDialogEditShapeStyle &&
+                <ModalWrap>
+                    <StyleShapeM
+                        setToggleModal={globalStore.toggleShowDialogEditShapeStyle}
+                        setStyleShape={globalStore.setStyleShape}
                     />
                 </ModalWrap>
             }
