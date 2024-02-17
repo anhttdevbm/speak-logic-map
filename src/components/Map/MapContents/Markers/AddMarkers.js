@@ -65,19 +65,19 @@ export const checkMarkerExist = (map, index, type, lat, lng) => {
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected,
                                 resetNumberPersonMobility, updateMapLayerById, removeMapLayerById) => {
-  let marker = L.marker([lat, lng], {
-    target: {
-      type: 'person',
-      index: index,
-      status: 'add',
-    },
-    draggable: !isLocked,
-    icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
-  })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
-        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
-    .on('click', e => addSelectedItem(e, map, isLocked))
-    .addTo(map);
+    let marker = L.marker([lat, lng], {
+        target: {
+            type: 'person',
+            index: index,
+            status: 'add',
+        },
+        draggable: !isLocked,
+        icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
+    })
+        .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
+            setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
+        .on('click', e => addSelectedItem(e, map, isLocked))
+        .addTo(map);
     marker.on('dragend', function (event) {
         let latLng = event.target._latlng;
         updateMapLayerById(latLng.lat, latLng.lng, 'person', `Person ${index}`, false)

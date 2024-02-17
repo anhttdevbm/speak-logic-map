@@ -71,6 +71,14 @@ export class GlobalStore {
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     positionOfImagePallet: any[] = [];
+    positionOfPallet1: any[] = [];
+    positionOfPallet2: any[] = [];
+    positionOfPallet3: any[] = [];
+    positionOfPallet4: any[] = [];
+    listPositionOfPallet1: any[] = [];
+    listPositionOfPallet2: any[] = [];
+    listPositionOfPallet3: any[] = [];
+    listPositionOfPallet4: any[] = [];
     valueOfImage: string = '';
     mapElementSelected = '';
     listMapElementSelected: any[] = [];
@@ -146,6 +154,43 @@ export class GlobalStore {
 
     setPositionOfImagePallet = (lat: number, lng: number) => {
         this.positionOfImagePallet = [lat, lng];
+    }
+
+    setPositionOfPallet = (lat: number, lng: number, positionOfPallet: any[], listPositionOfPallet: any[]) => {
+        positionOfPallet.push([lat, lng]);
+        if (positionOfPallet.length === 2) {
+            listPositionOfPallet.push(positionOfPallet);
+        }
+    }
+
+    resetPositionOfPallet1 = () => {
+        this.positionOfPallet1 = [];
+    }
+
+    resetPositionOfPallet2 = () => {
+        this.positionOfPallet2 = [];
+    }
+
+    resetPositionOfPallet3 = () => {
+        this.positionOfPallet3 = [];
+    }
+
+    resetPositionOfPallet4 = () => {
+        this.positionOfPallet4 = [];
+    }
+
+    resetPositionOfAllPallet = () => {
+        this.positionOfPallet1 = [];
+        this.positionOfPallet2 = [];
+        this.positionOfPallet3 = [];
+        this.positionOfPallet4 = [];
+    }
+
+    resetListPositionOfAllPallet = () => {
+        this.listPositionOfPallet1 = [];
+        this.listPositionOfPallet2 = [];
+        this.listPositionOfPallet3 = [];
+        this.listPositionOfPallet4 = [];
     }
     setValueOfImage = (value: string) => {
         this.valueOfImage = value;

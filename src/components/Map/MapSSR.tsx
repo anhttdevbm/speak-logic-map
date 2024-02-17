@@ -42,6 +42,7 @@ import {FeatureCollection} from "geojson";
 import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
 import {notification} from "antd";
 import PalletGeoJsonContainer from './MapContents/Views/PalletGeoJsonContainer'
+import PalletLineView from './MapContents/Views/PalletLineView'
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -247,7 +248,12 @@ const MapSSR: React.FC = (): JSX.Element => {
 
                 {(globalStore.listRectPolygonPallet?.length > 0
                     || globalStore.listCirclePolygonPallet?.length > 0
-                    || globalStore.listLinePallet?.length > 0) && <PalletGeoJsonContainer />}
+                    || globalStore.listLinePallet?.length > 0) && <PalletGeoJsonContainer/>}
+
+                {(globalStore.listPositionOfPallet1?.length > 0
+                    || globalStore.listPositionOfPallet2?.length > 0
+                    || globalStore.listPositionOfPallet3?.length > 0
+                    || globalStore.listPositionOfPallet3?.length > 0) && <PalletLineView/>}
 
 
             </MapContainer>

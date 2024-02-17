@@ -44,7 +44,7 @@ import {
     addMarkerPrincipleLine,
     addInputImagePallet,
     checkMarkerExist,
-    addSoluOrProbFn
+    addSoluOrProbFn, addPallet1, addPallet2, addPallet3, addPallet4
 } from './AddMarkers'
 import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
 
@@ -232,6 +232,8 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.resetListRectPolygonPallet();
             globalStore.resetListCirclePolygonPallet();
             globalStore.resetListLinePallet();
+            globalStore.resetPositionOfAllPallet();
+            globalStore.resetListPositionOfAllPallet();
 
             map.eachLayer(layer => {
                 if (layer.options.target?.status === 'add' || layer.options.status === 'add' ||
@@ -329,11 +331,32 @@ const Markers = ({setModal, setModalType}) => {
             globalStore.togglePalletOption('image')
         }
 
-        const insertPalletLineToMap = (value) => {
+        const insertPalletLine1ToMap = () => {
             refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
             refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
             refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
-            globalStore.togglePalletOption(value)
+            globalStore.togglePalletOption('pallet1')
+        }
+
+        const insertPalletLine2ToMap = () => {
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption('pallet2')
+        }
+
+        const insertPalletLine3ToMap = () => {
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption('pallet3')
+        }
+
+        const insertPalletLine4ToMap = () => {
+            refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
+            refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
+            refreshLayerAndControlLine(map, drawnItemsLine, drawControlLine)
+            globalStore.togglePalletOption('pallet4')
         }
 
         const drawLine = () => {
@@ -422,10 +445,10 @@ const Markers = ({setModal, setModalType}) => {
         rectEvent?.addEventListener("click", drawRectangle);
         ellipseEvent?.addEventListener("click", drawCircle);
         imageEvent?.addEventListener("click", insertImageToMap);
-        pallet1Event?.addEventListener("click", insertPalletLineToMap('pallet1'));
-        pallet2Event?.addEventListener("click", insertPalletLineToMap('pallet2'));
-        pallet3Event?.addEventListener("click", insertPalletLineToMap('pallet3'));
-        pallet4Event?.addEventListener("click", insertPalletLineToMap('pallet4'));
+        pallet1Event?.addEventListener("click", insertPalletLine1ToMap);
+        pallet2Event?.addEventListener("click", insertPalletLine2ToMap);
+        pallet3Event?.addEventListener("click", insertPalletLine3ToMap);
+        pallet4Event?.addEventListener("click", insertPalletLine4ToMap);
 
         return () => {
             getButton?.removeEventListener("click", showScanSelection);
@@ -434,10 +457,10 @@ const Markers = ({setModal, setModalType}) => {
             rectEvent?.removeEventListener("click", drawRectangle);
             ellipseEvent?.removeEventListener("click", drawCircle);
             imageEvent?.removeEventListener("click", insertImageToMap);
-            pallet1Event?.removeEventListener("click", insertPalletLineToMap('pallet1'));
-            pallet2Event?.removeEventListener("click", insertPalletLineToMap('pallet2'));
-            pallet3Event?.removeEventListener("click", insertPalletLineToMap('pallet3'));
-            pallet4Event?.removeEventListener("click", insertPalletLineToMap('pallet4'));
+            pallet1Event?.removeEventListener("click", insertPalletLine1ToMap);
+            pallet2Event?.removeEventListener("click", insertPalletLine2ToMap);
+            pallet3Event?.removeEventListener("click", insertPalletLine3ToMap);
+            pallet4Event?.removeEventListener("click", insertPalletLine4ToMap);
         };
         // }
     }, [globalStore.map]);
@@ -879,6 +902,42 @@ const Markers = ({setModal, setModalType}) => {
                 globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
                 addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
                     globalStore.setValueOfImage)
+            } else if (globalStore.palletOption === 'pallet1') {
+                globalStore.resetPositionOfPallet2();
+                globalStore.resetPositionOfPallet3();
+                globalStore.resetPositionOfPallet4();
+                globalStore.setPositionOfPallet(e.latlng.lat, e.latlng.lng, globalStore.positionOfPallet1, globalStore.listPositionOfPallet1);
+                if (globalStore.positionOfPallet1.length === 2) {
+                    globalStore.resetPositionOfPallet1();
+                    globalStore.togglePalletOption('');
+                }
+            } else if (globalStore.palletOption === 'pallet2') {
+                globalStore.resetPositionOfPallet1();
+                globalStore.resetPositionOfPallet3();
+                globalStore.resetPositionOfPallet4();
+                globalStore.setPositionOfPallet(e.latlng.lat, e.latlng.lng, globalStore.positionOfPallet2, globalStore.listPositionOfPallet2);
+                if (globalStore.positionOfPallet2.length === 2) {
+                    globalStore.resetPositionOfPallet2();
+                    globalStore.togglePalletOption('');
+                }
+            } else if (globalStore.palletOption === 'pallet3') {
+                globalStore.resetPositionOfPallet1();
+                globalStore.resetPositionOfPallet2();
+                globalStore.resetPositionOfPallet4();
+                globalStore.setPositionOfPallet(e.latlng.lat, e.latlng.lng, globalStore.positionOfPallet3, globalStore.listPositionOfPallet3);
+                if (globalStore.positionOfPallet3.length === 2) {
+                    globalStore.resetPositionOfPallet3();
+                    globalStore.togglePalletOption('');
+                }
+            } else if (globalStore.palletOption === 'pallet4') {
+                globalStore.resetPositionOfPallet1();
+                globalStore.resetPositionOfPallet2();
+                globalStore.resetPositionOfPallet3();
+                globalStore.setPositionOfPallet(e.latlng.lat, e.latlng.lng, globalStore.positionOfPallet4, globalStore.listPositionOfPallet4);
+                if (globalStore.positionOfPallet4.length === 2) {
+                    globalStore.resetPositionOfPallet4();
+                    globalStore.togglePalletOption('');
+                }
             }
 
         }
