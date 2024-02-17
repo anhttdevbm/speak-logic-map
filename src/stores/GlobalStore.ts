@@ -43,6 +43,8 @@ export class GlobalStore {
     clear: boolean = false;
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
+    showDialogEditTextStyle: boolean = true;
+    showDialogEditShapeStyle: boolean = false;
     inAreaSelection: boolean = false;
     showHouseDistance: boolean = false;
     showRoomDistance: boolean = false;
@@ -93,9 +95,20 @@ export class GlobalStore {
     showErrorInsertRelationship: boolean = false;
     statusMovePallet: boolean = false;
     statusDisplayItem: boolean = false;
+    styleText: any = {};
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setStyleText = (font: string, size: number, color: string, style: string, textAlign: string) => {
+        this.styleText = {
+            font: font,
+            size: size,
+            color: color,
+            style: style,
+            textAlign: textAlign
+        }
     }
 
     toggleStatusMovePallet = () => {
@@ -318,6 +331,14 @@ export class GlobalStore {
 
     toggleShowDialogSettingDistance = (): void => {
         this.showDialogSettingDistance = !this.showDialogSettingDistance;
+    }
+
+    toggleShowDialogEditTextStyle = (): void => {
+        this.showDialogEditTextStyle = !this.showDialogEditTextStyle;
+    }
+
+    toggleShowDialogEditShapeStyle = (): void => {
+        this.showDialogEditShapeStyle = !this.showDialogEditShapeStyle;
     }
 
     setSunMoon = (value: 'sun' | 'moon' | ''): void => {

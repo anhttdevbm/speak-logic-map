@@ -40,6 +40,7 @@ import TextPopupPallet from '../Pallet/PalletItem/TextPopupPallet'
 import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 import {FeatureCollection} from "geojson";
 import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
+import StyleTextM from "@/components/Modals/ModalContents/StyleTextM";
 import {notification} from "antd";
 import PalletGeoJsonContainer from './MapContents/Views/PalletGeoJsonContainer'
 import PalletLineView from './MapContents/Views/PalletLineView'
@@ -308,6 +309,16 @@ const MapSSR: React.FC = (): JSX.Element => {
                     />
                 </ModalWrap>
             }
+            {
+                globalStore.showDialogEditTextStyle &&
+                <ModalWrap>
+                    <StyleTextM
+                        setToggleModal={globalStore.toggleShowDialogEditTextStyle}
+                        setStyleText={globalStore.setStyleText}
+                    />
+                </ModalWrap>
+            }
+
         </>
     )
 }

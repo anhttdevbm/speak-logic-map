@@ -672,7 +672,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
 export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {
     let divIcon = L.divIcon({
         html: makeHtml(2),
-        className: 'divIcon',
+        className: 'input-text-pallet',
         iconSize: [200, 50],
         iconAnchor: [0, 0]
     });
@@ -685,7 +685,8 @@ export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) 
 }
 
 function makeHtml(id) {
-    return '<textarea style="font-size: 20px; border: 1px solid gray; border-radius: 5px" type="text" value="" id="input_' + id + '" />'
+    return '<textarea class="input-text-pallet" style="border: 1px solid gray; border-radius: 5px" ' +
+        'type="text" value="" id="input_' + id + '" rows="4"/>'
 }
 
 export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
