@@ -9,7 +9,7 @@ import ICON_THREE_DOTs_ICON from '@/assets/icons/three-dots-icon.png';
 import ICON_HOUSE from '@/assets/icons/Black_Icon/64X64/House.png';
 import ICON_BOAT from '@/assets/icons/Black_Icon/64X64/Boat_View.png';
 import ICON_MAIN_SET from '@/assets/icons/icon-given-set.png';
-import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person-2.png';
+import ICON_VERTICAL_PERSON from '@/assets/icons/icon-vertical-person-3.png';
 import ICON_VERTICAL_ARROW from '@/assets/icons/vertical-arrow.png';
 import ICON_RELATE from '@/assets/icons/Black_Icon/64X64/Relate.png';
 import ICON_PLUS from '@/assets/icons/plus-icon.png';
@@ -67,7 +67,16 @@ export const markerThreeDotsIcon = (className: string): L.DivIcon => {
         className: className,
         iconSize: [10, 10],
         iconAnchor: [20, 30],
-        html: `<img src=${ICON_THREE_DOTs_ICON.src} alt="Group" width="10" height="10"/>`
+        html: `<img src=${ICON_THREE_DOTs_ICON.src} style="top: 12px; position: relative" alt="Group" width="10" height="10"/>`
+    });
+}
+
+export const markerThreeDotsIconPrincipleLine = (className: string): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [10, 10],
+        iconAnchor: [20, 30],
+        html: `<img src=${ICON_THREE_DOTs_ICON.src} style="top: 32px; position: relative" alt="Group" width="10" height="10"/>`
     });
 }
 
@@ -228,8 +237,8 @@ export const markerMapElementIcon = (className: string, name: string): L.DivIcon
 export const markerGivenSetIcon = (className: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 100],
-        iconAnchor: [50, 25],
+        iconSize: [138, 144],
+        iconAnchor: [0, 20],
         html: `<div>
                     <img src=${ICON_MAIN_SET.src} alt="House" width="150" height="150" />
                </div>`,
@@ -255,10 +264,10 @@ export const markerGivenSetPersonWaveIcon = (className: string, name: string): L
 export const markerVerticalPersonIcon = (className: string): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [200, 100],
+        iconSize: [40, 100],
         iconAnchor: [50, 25],
         html: `<div>
-                    <img src=${ICON_VERTICAL_PERSON.src} alt="House" width="100" height="100" />
+                    <img style="margin-top: 2px" src=${ICON_VERTICAL_PERSON.src} alt="House" width="100" height="100" />
                </div>`,
     })
 }
@@ -368,13 +377,13 @@ export const markerMapCountryIcon = (className: string, name: string, code: stri
 export const markerPopulationCountry = (className: string, name: string, numberPerson: number): L.DivIcon => {
     return L.divIcon({
         className: className,
-        iconSize: [180, 100],
+        iconSize: [180, 80],
         iconAnchor: [20, 30],
         html: numberPerson == 1 ? (
             `<div>
                 <div>
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%); left: 20px" alt="Person" width="40" height="40" />
-                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="bottom: 15px; position: relative" alt="Dot" width="10" height="10" />
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`
@@ -383,7 +392,33 @@ export const markerPopulationCountry = (className: string, name: string, numberP
                 <div style="margin-left: 20px">
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
                     <img src="${ICON_PERSON.src}" style="transform: translateX(-50%);" alt="Person" width="40" height="40" />
-                    <img src="${ICON_THREE_DOTs_ICON.src}" style="transform: translateX(-50%);" alt="Dot" width="10" height="10" />
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="bottom: 15px; position: relative" alt="Dot" width="10" height="10" />
+                </div>
+                <div class="${styles["marker-house-name-rect"]}">${name}</div>
+            </div>`
+        ),
+    })
+}
+
+export const markerProblemCountry = (className: string, name: string, numberPerson: number): L.DivIcon => {
+    return L.divIcon({
+        className: className,
+        iconSize: [230, 80],
+        iconAnchor: [20, 30],
+        html: numberPerson == 1 ? (
+            `<div>
+                <div>
+                    <div class="${styles["rect-problem-icon"]}">Problem</div>
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="position: relative; top: 5px" alt="Dot" width="5" height="5" />
+                </div>
+                <div class="${styles["marker-house-name-rect"]}">${name}</div>
+            </div>`
+        ) : (
+            `<div>
+                <div>
+                    <div class="${styles["rect-problem-icon"]}">Problem</div>
+                    <div class="${styles["rect-problem-icon"]}">Problem</div>
+                    <img src="${ICON_THREE_DOTs_ICON.src}" style="position: relative; top: 5px" alt="Dot" width="5" height="5" />
                 </div>
                 <div class="${styles["marker-house-name-rect"]}">${name}</div>
             </div>`

@@ -27,8 +27,8 @@ export class GlobalStore {
     mapView: 'map-world' | 'map-countries' | '' = 'map-world';
     tableView: 'table-world' | 'table-countries' | '' = '';
     moreView: 'more-world' | 'more-countries' | '' = '';
-    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | 'population-view-principle-line' | '' = '';
-    countryName: 'location' | 'l' | '' = '';
+    moreName: 'world-as-function' | 'population-view' | 'population-view-with-country' | 'world-problem-view' | 'problem-view-with-country' | 'population-view-principle-line' | '' = '';
+    countryName: 'location' | 'l' | 'house-distance' | '' = '';
     roomName: 'room' | 'r' | '' = '';
     fpRoomName: 'room' | 'r' | '' = '';
     rectName: 'rect-map' | 'rect-name' | 'rect-house' | 'rect-house-no-border' | '' = '';
@@ -36,33 +36,49 @@ export class GlobalStore {
     rectDistanceType: 'rect-distance' | 'rect-shot-distance' | '' = '';
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
-    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | '' = '';
+    palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | 'pallet1' | 'pallet2' | 'pallet3' | 'pallet4' | '' = '';
+    listLinePallet: any[] = [];
+    listRectPolygonPallet: any[] = [];
+    listCirclePolygonPallet: any[] = [];
     clear: boolean = false;
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
     inAreaSelection: boolean = false;
+    showHouseDistance: boolean = false;
     showRoomDistance: boolean = false;
     showFloorPlanDistance: boolean = false;
     showBoatWave: boolean = false;
+    showGivenSet: boolean = false;
     countryQuantity: number = 0;
     listCountryInRect: CountryName[] = [];
     showModalInsertCountry: boolean = false;
     showModalInsertNumberFunctionMoreView: boolean = false;
     showModalInsertNumberPersonMoreView: boolean = false;
+    showModalInsertNumberProblemMoreView: boolean = false;
     showModalInsertNumberPerson: boolean = false;
-    listMarkerFunction: any[] = [];
-    listMarkerPopulation: any[] = [];
-    listMarkerProblem: any[] = [];
+    listMarkerFunction: any[] = [{key: 'plus', value: 'plus', shape: ''}];
+    listMarkerPopulation: any[] = [{key: 'plus', value: 'plus', shape: ''}];
+    listMarkerProblem: any[] = [{key: 'plus', value: 'plus', shape: ''}];
     positionOfScroll: any[] = [];
     positionOfHorizontalLine: any[] = [];
     listPrincipleLine: any[] = [];
+    statusDragPrincipleLine: boolean = false;
     numberPersonInHorizontalLine = 0;
     numberFunctionMoreView = 0;
     numberPersonMoreView = 0;
+    numberProblemMoreView = 0;
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
     positionOfImagePallet: any[] = [];
+    positionOfPallet1: any[] = [];
+    positionOfPallet2: any[] = [];
+    positionOfPallet3: any[] = [];
+    positionOfPallet4: any[] = [];
+    listPositionOfPallet1: any[] = [];
+    listPositionOfPallet2: any[] = [];
+    listPositionOfPallet3: any[] = [];
+    listPositionOfPallet4: any[] = [];
     valueOfImage: string = '';
     mapElementSelected = '';
     listMapElementSelected: any[] = [];
@@ -75,9 +91,15 @@ export class GlobalStore {
     showErrorInsertFunction: boolean = false;
     showErrorInsertPerson: boolean = false;
     showErrorInsertRelationship: boolean = false;
+    statusMovePallet: boolean = false;
+    statusDisplayItem: boolean = false;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    toggleStatusMovePallet = () => {
+        this.statusMovePallet = !this.statusMovePallet;
     }
 
     setShowErrorInsertFunction = (value: boolean) => {
@@ -122,6 +144,9 @@ export class GlobalStore {
     setNumberPersonMoreView = (value: number) => {
         this.numberPersonMoreView = value;
     }
+    setNumberProblemMoreView = (value: number) => {
+        this.numberProblemMoreView = value;
+    }
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
         this.positionOfTextPallet = [lat, lng];
@@ -129,6 +154,43 @@ export class GlobalStore {
 
     setPositionOfImagePallet = (lat: number, lng: number) => {
         this.positionOfImagePallet = [lat, lng];
+    }
+
+    setPositionOfPallet = (lat: number, lng: number, positionOfPallet: any[], listPositionOfPallet: any[]) => {
+        positionOfPallet.push([lat, lng]);
+        if (positionOfPallet.length === 2) {
+            listPositionOfPallet.push(positionOfPallet);
+        }
+    }
+
+    resetPositionOfPallet1 = () => {
+        this.positionOfPallet1 = [];
+    }
+
+    resetPositionOfPallet2 = () => {
+        this.positionOfPallet2 = [];
+    }
+
+    resetPositionOfPallet3 = () => {
+        this.positionOfPallet3 = [];
+    }
+
+    resetPositionOfPallet4 = () => {
+        this.positionOfPallet4 = [];
+    }
+
+    resetPositionOfAllPallet = () => {
+        this.positionOfPallet1 = [];
+        this.positionOfPallet2 = [];
+        this.positionOfPallet3 = [];
+        this.positionOfPallet4 = [];
+    }
+
+    resetListPositionOfAllPallet = () => {
+        this.listPositionOfPallet1 = [];
+        this.listPositionOfPallet2 = [];
+        this.listPositionOfPallet3 = [];
+        this.listPositionOfPallet4 = [];
     }
     setValueOfImage = (value: string) => {
         this.valueOfImage = value;
@@ -233,7 +295,7 @@ export class GlobalStore {
         }
     }
 
-    toggleCountryName = (value: 'location' | 'l' | ''): void => {
+    toggleCountryName = (value: 'location' | 'l' | 'house-distance' | ''): void => {
         this.countryName = value;
     }
 
@@ -274,6 +336,10 @@ export class GlobalStore {
 
     toggleRoomName = (value: 'room' | 'r' | ''): void => {
         this.roomName = value;
+    }
+
+    toggleHouseDistance = (): void => {
+        this.showHouseDistance = !this.showHouseDistance;
     }
 
     toggleRoomDistance = (): void => {
@@ -318,6 +384,9 @@ export class GlobalStore {
     toggleBoatWave = (): void => {
         this.showBoatWave = !this.showBoatWave;
     }
+    toggleShowGivenSet = (): void => {
+        this.showGivenSet = !this.showGivenSet;
+    }
 
     toggleRectangularView = (value: 'rect-country' | 'rect-world' | ''): void => {
         if (value === this.rectangularView) {
@@ -333,7 +402,7 @@ export class GlobalStore {
         // if (value === this.rectName) {
         //     this.rectName = '';
         // } else {
-            this.rectName = value;
+        this.rectName = value;
         // }
     }
 
@@ -341,7 +410,7 @@ export class GlobalStore {
         // if (value === this.rectViewSetting) {
         //     this.rectViewSetting = '';
         // } else {
-            this.rectViewSetting = value;
+        this.rectViewSetting = value;
         // }
     }
 
@@ -397,11 +466,118 @@ export class GlobalStore {
         }
     }
 
-    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | ''): void => {
+    togglePalletOption = (value: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | 'pallet1' | 'pallet2' | 'pallet3' | 'pallet4' | ''): void => {
         if (value === this.palletOption) {
             this.palletOption = '';
         } else {
             this.palletOption = value;
+        }
+    }
+
+    setListLinePallet = (bound: any[]): void => {
+        let id = this.listLinePallet.length + 1;
+        this.listLinePallet.push({
+            id: id,
+            type: 'line-pallet',
+            latlng: bound,
+            status: false
+        })
+    }
+
+    setStatusLinePallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listLinePallet.length; i++) {
+            if (this.listLinePallet[i].id === id) {
+                this.listLinePallet[i].status = status;
+            }
+        }
+    }
+
+    updateLatlngLinePallet = (id: any, latlng: any) => {
+        for (let i = 0; i < this.listLinePallet.length; i++) {
+            if (this.listLinePallet[i].id === id) {
+                this.listLinePallet[i].latlng = latlng;
+            }
+        }
+    }
+
+    resetListLinePallet = () => {
+        this.listLinePallet = [];
+    }
+    setListRectPolygonPallet = (bound: any, latlngs: any, geoJson: any): void => {
+        let id = this.listRectPolygonPallet.length + 1;
+        if (this.listRectPolygonPallet.filter(item => JSON.stringify(item.bound) === JSON.stringify(bound)).length === 0) {
+            this.listRectPolygonPallet.push({
+                id: id,
+                type: 'rect-polygon',
+                bound: bound,
+                latlngs: latlngs,
+                geoJson: geoJson,
+                status: false
+            })
+        }
+    }
+
+    getRectPolygonPalletById = (id: any) => {
+        return this.listRectPolygonPallet.filter(item => item.id === id)[0];
+    }
+
+    setStatusRectPolygonPallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listRectPolygonPallet.length; i++) {
+            if (this.listRectPolygonPallet[i].id === id) {
+                this.listRectPolygonPallet[i].status = status;
+            }
+        }
+    }
+
+    updateBoundRectPolygonPallet = (id: any, bound: any, latlngs: any, geoJson: any) => {
+        for (let i = 0; i < this.listRectPolygonPallet.length; i++) {
+            if (this.listRectPolygonPallet[i].id === id) {
+                this.listRectPolygonPallet[i].bound = bound;
+                this.listRectPolygonPallet[i].latlngs = latlngs;
+                this.listRectPolygonPallet[i].geoJson = geoJson;
+            }
+        }
+    }
+
+    resetListRectPolygonPallet = () => {
+        this.listRectPolygonPallet = [];
+    }
+
+    resetListCirclePolygonPallet = () => {
+        this.listCirclePolygonPallet = [];
+    }
+
+    setListCirclePolygonPallet = (bound: any[], radius: any, geoJson: any): void => {
+        let id = this.listCirclePolygonPallet.length + 1;
+        if (this.listCirclePolygonPallet.filter(item => JSON.stringify(item.bound) === JSON.stringify(bound) && item.radius === radius).length === 0) {
+            this.listCirclePolygonPallet.push({
+                id: id,
+                type: 'circle-polygon',
+                bound: bound,
+                radius: radius,
+                geoJson: geoJson,
+                status: false
+            })
+        }
+    }
+
+    getCirclePolygonPalletById = (id: any) => {
+        return this.listCirclePolygonPallet.filter(item => item.id === id)[0];
+    }
+
+    updateBoundCirclePolygonPallet = (id: any, bound: any) => {
+        for (let i = 0; i < this.listCirclePolygonPallet.length; i++) {
+            if (this.listCirclePolygonPallet[i].id === id) {
+                this.listCirclePolygonPallet[i].bound = bound;
+            }
+        }
+    }
+
+    setStatusCirclePolygonPallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listCirclePolygonPallet.length; i++) {
+            if (this.listCirclePolygonPallet[i].id === id) {
+                this.listCirclePolygonPallet[i].status = status;
+            }
         }
     }
 
@@ -431,6 +607,10 @@ export class GlobalStore {
 
     toggleModalNumberFunctionMoreView = (): void => {
         this.showModalInsertNumberFunctionMoreView = !this.showModalInsertNumberFunctionMoreView;
+    }
+
+    toggleModalInsertNumberProblemMoreView = (): void => {
+        this.showModalInsertNumberProblemMoreView = !this.showModalInsertNumberProblemMoreView;
     }
 
     toggleModalNumberPersonMoreView = (): void => {
@@ -469,19 +649,39 @@ export class GlobalStore {
 
     addMarkerFnToList = (index: number): void => {
         if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
-            this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle'})
+            this.listMarkerFunction.push({key: index, value: 'Function ' + index, shape: 'rectangle', isShow: true})
+        } else {
+            this.updateStatusDisplayListMarkerFunctionByName('Function ' + index, true);
         }
         this.listMarkerFunction = this.listMarkerFunction.sort(this.customSort);
     }
 
+    updateNameItemListMarkerFunctionByName = (name: any, newName: any) => {
+        for (let i = 0; i < this.listMarkerFunction.length; i++) {
+            if (this.listMarkerFunction[i].value === name) {
+                this.listMarkerFunction[i].value = newName;
+            }
+        }
+    }
+    updateStatusDisplayListMarkerFunctionByName = (name: any, status: boolean) => {
+        for (let i = 0; i < this.listMarkerFunction.length; i++) {
+            if (this.listMarkerFunction[i].value === name) {
+                this.listMarkerFunction[i].isShow = status;
+                this.statusDisplayItem = !this.statusDisplayItem;
+            }
+        }
+    }
+
     resetListMarkerFunction = (): void => {
-        this.listMarkerFunction = [];
+        this.listMarkerFunction = [this.listMarkerFunction.pop()];
     }
 
     addMarkerFnToNearLast = (index: number): void => {
         if (this.listMarkerFunction.filter(item => item.key == index).length === 0) {
             let newElement = {key: index, value: 'Function ' + index, shape: 'rectangle'};
-            let positionBeforeEnd = this.listMarkerFunction.length - 2;
+            let positionBeforeEnd = this.listMarkerFunction.filter(item => item.key === 'dot').length === 0
+                ? this.listMarkerFunction.length - 1
+                : this.listMarkerFunction.length - 2;
             this.listMarkerFunction.splice(positionBeforeEnd, 0, newElement);
         }
     }
@@ -489,17 +689,38 @@ export class GlobalStore {
     addMarkerPersonToNearLast = (index: number): void => {
         if (this.listMarkerPopulation.filter(item => item.key == index).length === 0) {
             let newElement = {key: index, value: 'Person  ' + index};
-            let positionBeforeEnd = this.listMarkerPopulation.length - 2;
+            let positionBeforeEnd = this.listMarkerPopulation.filter(item => item.key === 'dot').length === 0
+                ? this.listMarkerPopulation.length - 1
+                : this.listMarkerPopulation.length - 2;
             this.listMarkerPopulation.splice(positionBeforeEnd, 0, newElement);
         }
     }
 
+    addMarkerProblemToNearLast = (index: number): void => {
+        if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
+            let newElement = {key: index, value: 'Problem  ' + index};
+            let positionBeforeEnd = this.listMarkerProblem.filter(item => item.key === 'dot').length === 0
+                ? this.listMarkerProblem.length - 1
+                : this.listMarkerProblem.length - 2;
+            this.listMarkerProblem.splice(positionBeforeEnd, 0, newElement);
+        }
+    }
+
+    updateStatusDisplayListMarkerProblemByName = (name: any, status: boolean) => {
+        for (let i = 0; i < this.listMarkerProblem.length; i++) {
+            if (this.listMarkerProblem[i].value === name) {
+                this.listMarkerProblem[i].isShow = status;
+                this.statusDisplayItem = !this.statusDisplayItem;
+            }
+        }
+    }
+
     resetListMarkerPopulation = (): void => {
-        this.listMarkerPopulation = [];
+        this.listMarkerPopulation = [this.listMarkerPopulation.pop()];
     }
 
     resetListMarkerProblem = (): void => {
-        this.listMarkerProblem = [];
+        this.listMarkerProblem = [this.listMarkerProblem.pop()];
     }
 
     setShapeOfMarkerFn = (name: number, shape: string): void => {
@@ -552,7 +773,12 @@ export class GlobalStore {
     }
 
     addMarkerProblemToList = (index: number): void => {
-        this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle'})
+        if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
+            this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle', isShow: true})
+        } else {
+            this.updateStatusDisplayListMarkerProblemByName('Problem ' + index, true);
+        }
+        this.listMarkerProblem = this.listMarkerProblem.sort(this.customSort);
     }
 
     setMapElementSelected = (value: any): void => {
@@ -669,15 +895,47 @@ export class GlobalStore {
         this.positionOfMapElementSelected = [lat, lng];
     }
 
-    setMapLayer = (lat: any, lng: any, value: any, type: 'person' | 'function') => {
+    setMapLayer = (lat: any, lng: any, name: any, type: any) => {
         let id = this.mapLayer.length + 1;
-        if (this.mapLayer.filter(item => item.value === value && item.type === type).length === 0) {
-            this.mapLayer.push({id: id, lat: lat, lng: lng, name: value, type: type})
+        if (this.mapLayer.filter(item => item.lat === lat && item.lng === lng && item.type === type).length === 0) {
+            this.mapLayer.push({id: id, lat: lat, lng: lng, name: name, type: type, isShow: true})
+        } else {
+            for (let i = 0; i < this.mapLayer.length; i++) {
+                if (this.mapLayer[i].lat === lat && this.mapLayer[i].lng === lng && this.mapLayer[i].type === type) {
+                    this.mapLayer[i].isShow = true;
+                }
+            }
+        }
+    }
+
+    updateNameItemMapLayerByNameAndType = (name: any, type: any, newName: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].name === name && this.mapLayer[i].type === type) {
+                this.mapLayer[i].name = newName;
+            }
+        }
+    }
+
+
+    updateStatusDisplayMapLayerByNameAndType = (name: any, type: any, status: boolean) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].name === name && this.mapLayer[i].type === type) {
+                this.mapLayer[i].isShow = status;
+            }
         }
     }
 
     resetMapLayer = () => {
         this.mapLayer = [];
+    }
+
+    updateLatLngMapLayerById = (lat: any, lng: any, id: any) => {
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].id === id) {
+                this.mapLayer[i].lat = lat;
+                this.mapLayer[i].lng = lng;
+            }
+        }
     }
 
     updateMapLayerById = (lat: any, lng: any, type: 'person' | 'function', name: any, mobility: boolean) => {
@@ -704,19 +962,41 @@ export class GlobalStore {
         this.mapLayer = this.mapLayer.filter((item: any) => item.type !== type && item.name !== name);
     }
 
+    toggleStatusDragPrincipleLine = () => {
+        this.statusDragPrincipleLine = !this.statusDragPrincipleLine;
+    }
+
     setListPrincipleLine = (position: any[], numberPerson: number) => {
         let id = this.listPrincipleLine.length + 1;
         this.listPrincipleLine.push({
             id: id,
             position: position,
-            numberPerson: numberPerson
+            numberPerson: numberPerson,
+            addGivenSetStatus: false,
+            haveGivenSet: this.showGivenSet
         });
+    }
+
+    updatePositionListPrincipleLineById = (position: any[], id: any) => {
+        for (let i = 0; i < this.listPrincipleLine.length; i++) {
+            if (this.listPrincipleLine[i].id === id) {
+                this.listPrincipleLine[i].position = position;
+            }
+        }
     }
 
     setNumberPersonForPrincipleLine = (id: number, numberPerson: number) => {
         for (let i = 0; i < this.listPrincipleLine.length; i++) {
             if (this.listPrincipleLine[i].id === id) {
                 this.listPrincipleLine[i].numberPerson = numberPerson
+            }
+        }
+    }
+
+    setStatusGivenSetForPrincipleLine = (id: number, addGivenSetStatus: boolean) => {
+        for (let i = 0; i < this.listPrincipleLine.length; i++) {
+            if (this.listPrincipleLine[i].id === id) {
+                this.listPrincipleLine[i].addGivenSetStatus = addGivenSetStatus
             }
         }
     }

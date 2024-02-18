@@ -22,7 +22,7 @@ import { groupPopup, clearAllPopups } from '../Popups/Popups';
 import { groupFnLayoutPopupHTML, groupPersonLayoutPopupHTML, countryModePopupHTML } from '../Popups/PopupHTMLs';
 import { 
   addMarkerFn, addMarkerPerson, addSoluOrProbFn, 
-  addMarkerCountryFn, addMarkerCountryGroupFn 
+  addMarkerCountryFn, addMarkerCountryGroupFn
 } from '../Markers/AddMarkers';
 import { popupWorld } from '../Markers/Markers';
 
@@ -69,17 +69,17 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
 
   const data = selectedData[0];
 
-  console.log(selectedData)
+  // console.log(selectedData)
 
   geoJson = JSON.parse(JSON.stringify(data));
 
   const geoJsonMainLand = getGeoMainLand(data);
 
-  console.log('geoJsonMainLand', geoJsonMainLand)
+  // console.log('geoJsonMainLand', geoJsonMainLand)
 
   const geoBounds = L.geoJSON(geoJsonMainLand).getBounds();
 
-  console.log('geoBounds', geoBounds)
+  // console.log('geoBounds', geoBounds)
 
   const centroid = turf.centroid(geoJsonMainLand);
 
@@ -332,8 +332,12 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
   
         // Add Solution/Problem
         window.handleAddProblem = (name) => {
+          markerProblemIndex[0] = globalStore.listMarkerProblem.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').length + 1;
           globalStore.addMarkerProblemToList(markerProblemIndex[0]);
-          addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType, globalStore.setShapeOfMarkerPl);
+          globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerProblemIndex[0], 'problem');
+          addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType,
+              globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
+              globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType);
 
           markerProblemIndex[0]++;
           map.removeLayer(countryPopup);

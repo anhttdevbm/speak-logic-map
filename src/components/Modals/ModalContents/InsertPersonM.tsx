@@ -26,7 +26,7 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
             type: 'warning',
             duration: 3,
             description:
-                'Number person for each principle line can not equal 0.',
+                'Number person for each principle line can not equal 0 or less 0.',
         });
     }
 
@@ -35,14 +35,14 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
     }
 
     const handleSetNumberCountry = () => {
-        if (numberPerson === 0) {
+        if (numberPerson === 0 || numberPerson < 0) {
             openNotification();
         } else {
             setAction(markerPrincipleLineIndex[0], numberPerson);
             setToggleModal();
             if (type === 'function') {
                 let indexList = globalStore.listMarkerFunction.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
-                let lastIndex = indexList[indexList.length - 1]
+                let lastIndex = indexList.length === 0 ? 0 : indexList[indexList.length - 1]
                 for (let i = 1; i <= numberPerson; i++) {
                     let key = lastIndex + i
                     globalStore.addMarkerFnToNearLast(key);
@@ -56,7 +56,7 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
                 }
             } else if (type === 'population-view') {
                 let indexList = globalStore.listMarkerPopulation.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
-                let lastIndex = indexList[indexList.length - 1]
+                let lastIndex = indexList.length === 0 ? 0 : indexList[indexList.length - 1]
                 for (let i = 1; i <= numberPerson; i++) {
                     let key = lastIndex + i;
                     globalStore.addMarkerPersonToNearLast(key);
@@ -67,6 +67,20 @@ const InsertPersonM: React.FC<Props> = ({type, setToggleModal, setAction}: Props
                     const randomLat = Math.random() * (maxLat - minLat) + minLat;
                     const randomLng = Math.random() * (maxLng - minLng) + minLng;
                     globalStore.setMapLayer(randomLat, randomLng, 'Person ' + key, 'person');
+                }
+            } else if (type === 'problem-view') {
+                let indexList = globalStore.listMarkerProblem.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').sort((a, b) => a - b);
+                let lastIndex = indexList.length === 0 ? 0 : indexList[indexList.length - 1]
+                for (let i = 1; i <= numberPerson; i++) {
+                    let key = lastIndex + i;
+                    globalStore.addMarkerProblemToNearLast(key);
+                    const minLat = -90;
+                    const maxLat = 90;
+                    const minLng = -180;
+                    const maxLng = 180;
+                    const randomLat = Math.random() * (maxLat - minLat) + minLat;
+                    const randomLng = Math.random() * (maxLng - minLng) + minLng;
+                    globalStore.setMapLayer(randomLat, randomLng, 'Problem ' + key, 'problem');
                 }
             }
         }

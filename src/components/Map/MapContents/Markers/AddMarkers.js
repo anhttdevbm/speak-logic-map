@@ -21,13 +21,17 @@ import {
     fnProblemPopup,
     functionPopup,
     givenSetPopup,
-    mapElementPopup,
+    mapElementPopup, personMobilityPopup,
     personPopup,
     routePopup,
     stopFnPopup,
     tempFnPopup
 } from '../Popups/Popups';
-import {groupFnLayoutPopupHTML, housePopupHTML, welcomeSignPopupHTML} from '../Popups/PopupHTMLs'
+import {
+    groupFnLayoutPopupHTML,
+    housePopupHTML,
+    welcomeSignPopupHTML
+} from '../Popups/PopupHTMLs'
 
 import {
     arcRouteInit,
@@ -61,25 +65,31 @@ export const checkMarkerExist = (map, index, type, lat, lng) => {
 
 export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setModalType, setPersonToListMapElementSelected,
                                 resetNumberPersonMobility, updateMapLayerById, removeMapLayerById) => {
-  let marker = L.marker([lat, lng], {
-    target: {
-      type: 'person',
-      index: index,
-      status: 'add',
-    },
-    draggable: !isLocked,
-    icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
-  })
-    .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
-        setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
-    .on('click', e => addSelectedItem(e, map, isLocked))
-    .addTo(map);
+    let marker = L.marker([lat, lng], {
+        target: {
+            type: 'person',
+            index: index,
+            status: 'add',
+        },
+        draggable: !isLocked,
+        icon: markerPersonIcon(`${styles['icon-mobility']} ${styles['person']}`, `Person ${index}`, null)
+    })
+        .on('contextmenu', e => personPopup(map, marker, setModal, setModalType, isLocked, e,
+            setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
+        .on('click', e => addSelectedItem(e, map, isLocked))
+        .addTo(map);
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updateMapLayerById(latLng.lat, latLng.lng, 'person', `Person ${index}`, false)
+    })
 }
 
 
 export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
-                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById) => {
-    return L.marker([lat, lng], {
+                            setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById, updateStatusDisplayMapLayerByNameAndType,
+                            updateStatusDisplayListMarkerFunctionByName, setMapLayer, updateNameItemMapLayerByNameAndType,
+                            updateNameItemListMarkerFunctionByName, updateMapLayerById) => {
+    let marker = L.marker([lat, lng], {
         target: {
             type: 'function',
             shape: 'rectangle',
@@ -93,10 +103,18 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
         draggable: !isLocked,
     })
         .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn,
-            addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById))
+            addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById, updateStatusDisplayMapLayerByNameAndType,
+            updateStatusDisplayListMarkerFunctionByName, setMapLayer, updateNameItemMapLayerByNameAndType,
+            updateNameItemListMarkerFunctionByName
+        ))
         .on('click', e => addSelectedItem(e, container, isLocked))
         // .on('dblclick', e => toggleBoundaryFn(e))
         .addTo(container);
+
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updateMapLayerById(latLng.lat, latLng.lng, 'function', `Function ${index}`, false)
+    })
 }
 
 export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
@@ -114,7 +132,8 @@ export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModa
         ),
         draggable: !isLocked,
     })
-        .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl))
+        .on('contextmenu', e => functionPopup(container, setModal, setModalType, isLocked, e, setShapeOfMarkerFn,
+            addMarkerProblemToList, setShapeOfMarkerPl))
         .on('click', e => addSelectedItem(e, container, isLocked))
         // .on('dblclick', e => toggleBoundaryFn(e))
         .addTo(container);
@@ -218,7 +237,8 @@ export const addHouseMarker = (map, lat, lng, isLocked) => {
         .addTo(map)
 }
 
-export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl) => {
+export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl, addMarkerFnToList, setMapLayer,
+                                updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType) => {
     const formattedName = String(name).toLowerCase();
     const first = formattedName[0].toUpperCase();
     const remain = formattedName.slice(1, formattedName.length);
@@ -232,7 +252,8 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
         ),
     })
         .addTo(map)
-        .on('contextmenu', e => fnProblemPopup(map, e, setModal, setModalType, setShapeOfMarkerPl))
+        .on('contextmenu', e => fnProblemPopup(map, e, setModal, setModalType, setShapeOfMarkerPl, addMarkerFnToList, setMapLayer,
+            updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType))
         .on('dblclick', e => {
             if (e.target.options.type.title === 'problem') {
                 e.target.options.type.title = 'solution';
@@ -589,63 +610,63 @@ export const addRelateMarker = (map, lat, lng, isLocked) => {
         .addTo(map)
 }
 
-export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
-                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility) => {
-    setNumberPersonMobility();
-    if (numberPersonMobility % 2 === 0) {
-        setPositionOfPreviewPerson(lat, lng);
-        L.marker([lat, lng], {
-            target: {status: 'add', type: 'person-mobility'},
-            icon: markerPersonWaveIcon(null, 'Person', null),
-            draggable: !isLocked,
-        })
-            .on('contextmenu', e => {
-                const housePopup = L.popup()
-                    .setLatLng([lat, lng])
-                    .setContent(housePopupHTML())
-                    .addTo(map);
+function randomIntFromInterval(min, max) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
-                window.deleteHouse = () => {
-                    map.removeLayer(e.target);
-                    map.removeLayer(housePopup);
-                }
-            })
-            .addTo(map);
-    } else {
-        map.eachLayer(layer => {
-            if (layer.options.target?.type === 'person-mobility') {
-                map.removeLayer(layer);
-            }
-        });
-        L.motion.polyline(
-            [
-                positionOfPreviewPerson,
-                [lat, lng]
-            ],
-            {
-                color: typeMobility === 'path' ? 'black' : "transparent",
-                status: 'add',
-                type: 'person-mobility'
-            },
-            {
-                auto: true,
-                duration: 3000
-            },
-            {
-                removeOnEnd: false,
-                showMarker: true,
-                icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
-            }
-        )
-            .arrowheads({
-                size: '5%',
-                color: typeMobility === 'path' ? 'black' : "transparent",
-                type: 'arrow',
-                status: 'add'
-            })
-            .addTo(map)
-    }
-    ;
+export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobility, setNumberPersonMobility,
+                                    setPositionOfPreviewPerson, positionOfPreviewPerson, typeMobility, setModal, setModalType) => {
+    let marker = L.marker([lat, lng], {
+        target: {status: 'add', type: 'person-mobility', index: randomIntFromInterval(0, 99)},
+        icon: markerPersonWaveIcon(null, 'Person', null),
+        draggable: !isLocked,
+    })
+        .on('contextmenu', e => personMobilityPopup(map, marker, setModal, setModalType, isLocked, e))
+        .addTo(map);
+    // setNumberPersonMobility();
+    // if (numberPersonMobility % 2 === 0) {
+    //     setPositionOfPreviewPerson(lat, lng);
+    //     let marker = L.marker([lat, lng], {
+    //         target: {status: 'add', type: 'person-mobility'},
+    //         icon: markerPersonWaveIcon(null, 'Person', null),
+    //         draggable: !isLocked,
+    //     })
+    //         .on('contextmenu', e => personMobilityPopup(map, marker, setModal, setModalType, isLocked, e))
+    //         .addTo(map);
+    // } else {
+    //     map.eachLayer(layer => {
+    //         if (layer.options.target?.type === 'person-mobility') {
+    //             map.removeLayer(layer);
+    //         }
+    //     });
+    //     L.motion.polyline(
+    //         [
+    //             positionOfPreviewPerson,
+    //             [lat, lng]
+    //         ],
+    //         {
+    //             color: typeMobility === 'path' ? 'black' : "transparent",
+    //             status: 'add',
+    //             type: 'person-mobility'
+    //         },
+    //         {
+    //             auto: true,
+    //             duration: 3000
+    //         },
+    //         {
+    //             removeOnEnd: false,
+    //             showMarker: true,
+    //             icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+    //         }
+    //     )
+    //         .arrowheads({
+    //             size: '5%',
+    //             color: typeMobility === 'path' ? 'black' : "transparent",
+    //             type: 'arrow',
+    //             status: 'add'
+    //         })
+    //         .addTo(map)
+    // }
 }
 
 export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {
@@ -656,13 +677,15 @@ export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) 
         iconAnchor: [0, 0]
     });
     L.marker([lat, lng], {
-        icon: divIcon
+        icon: divIcon,
+        target: {status: 'add', type: 'input-text'},
+        draggable: !isLocked,
     }).addTo(map);
-    togglePalletOption('')
+    togglePalletOption('');
 }
 
 function makeHtml(id) {
-    return '<input type="text" value="" id="input_' + id + '" />'
+    return '<textarea style="font-size: 20px; border: 1px solid gray; border-radius: 5px" type="text" value="" id="input_' + id + '" />'
 }
 
 export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {

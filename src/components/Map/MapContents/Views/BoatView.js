@@ -7,10 +7,6 @@ import { useEffect, useState } from 'react';
 import { useCountryStore, useGlobalStore } from '@/providers/RootStoreProvider';
 import {
   markerBoatIconWithName,
-  markerBoatWorldIcon,
-  markerHouseIconWithName,
-  markerRoomIcon,
-  markerThreeDotsIcon
 } from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import { addMarkerFn, addStaticDistance, createFnMarker } from '../Markers/AddMarkers';
@@ -20,7 +16,6 @@ import * as turf from '@turf/turf';
 import IMG_WORLD_FLAG from '@/assets/images/world-flag.png';
 import IMG_WAVE from '@/assets/images/wave.png';
 import { countryFlagList } from '@/utils/country_flag_list';
-import {countryMapList} from "@/utils/country_map_list";
 
 const BoatView = ({selectedData, setModal, setModalType}) => {
   const map = useMap();

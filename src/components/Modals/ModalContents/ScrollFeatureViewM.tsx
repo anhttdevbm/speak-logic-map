@@ -202,7 +202,6 @@ const ScrollFeatureViewM = () => {
                 if (functionName != null && functionName === 'function') {
                     let lat = globalStore.mapLayer[i].lat;
                     let lng = globalStore.mapLayer[i].lng;
-                    debugger
                     const point = turf.point([Number(lng), Number(lat)]);
                     if (countryStoreData.data[0].features[0].geometry.type === "MultiPolygon") {
                         countryStoreData.data[0].features[0].geometry.coordinates.forEach((coordinate: any) => {

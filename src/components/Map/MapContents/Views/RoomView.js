@@ -181,7 +181,7 @@ const RoomView = ({selectedData}) => {
           for (let j = i + 1; j < roomList.length; j++) {
             setTimeout(() => {
               addStaticDistance(map, roomList[i]._latlng.lat, roomList[i]._latlng.lng, roomList[j]._latlng.lat, roomList[j]._latlng.lng, true, 'room-distance')
-            }, 1000)
+            }, 0.001)
           }
         }
       }

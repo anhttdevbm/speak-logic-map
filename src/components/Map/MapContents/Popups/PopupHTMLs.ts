@@ -1,6 +1,7 @@
 import { defaultFunction, defaultFunctionPerson, defaultPerson, markerFnIndex } from '../Variables/Variables';
 import styles from '../_MapContents.module.scss';
 import ICON_USER from '@/assets/icons/Black_Icon/64X64/Person-01.png';
+import ARROW_ICON from '@/assets/icons/arrow-icon.png';
 
 // Right-click menu on Function Marker
 export const fnPopupHTML = (name: string, type: boolean, error: string, hasBoundary: boolean, isFlashing: boolean): string => {
@@ -10,6 +11,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
     >
       <div class="${styles['row']} ${styles['on-hover-rename']}">
         Function Type
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles["hover-func"]}">
           <div 
             class="${name.startsWith('Function') && styles['disable']}" 
@@ -74,6 +78,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Add
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div class="${styles['upload-file-wrapper']}">
             Image
@@ -92,6 +99,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Replace Function with
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div class="${styles['upload-file-wrapper']}">
             Image
@@ -107,14 +117,21 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
           </div>
         </div>
       </div>
+      
+      <div class="${styles['row']} ${styles['on-hover']}" onclick="edittingItem('red','Problem')">
+        Replace Function by Problem
+      </div>
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Function Execution
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div onclick="edittingItem('green')">
             ${type ? 'Normal': 'Positive'}
           </div>
-          <div onclick="edittingItem('${type ? "yellow" : "red"}')">
+          <div onclick="edittingItem('red')">
             ${type ? 'Abnormal' : 'Negative'}
           </div>
         </div>
@@ -138,6 +155,9 @@ export const fnPopupHTML = (name: string, type: boolean, error: string, hasBound
 
       <div class="${styles['row']} ${styles['on-hover']}">
         Show Function
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func']}">
           <div 
             onclick="changeShape('circle')"
@@ -193,6 +213,9 @@ export const personPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']}">
         Mobility
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
          <div class="${styles['hover-func-block']}">
           <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
             Show Move With Path
@@ -210,6 +233,9 @@ export const personPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']}">
         Relationship
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
          <div class="${styles['hover-func-block']}">
           <div onclick="addRelatePerson('Person')" class="${styles['upload-file-wrapper']}">
             Person and Person
@@ -247,6 +273,42 @@ export const personPopupHTML = (): string => {
             onclick="addRelatePerson('Function Boundary')"
             class="${styles['upload-file-wrapper']}"
           >Function Boundary</div>
+        </div>
+      </div>
+      <div 
+        onclick="deleteItem()" 
+        class="${styles['row']}"
+      >
+        Delete
+      </div>
+    </div>
+  `;
+}
+
+// Right-click menu on Person Marker
+export const personMobilityPopupHTML = (): string => {
+    return `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div class="${styles['row']} ${styles['on-hover']}">
+        Mobility
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
+         <div class="${styles['hover-func-block']}">
+          <div onclick="showMoveWithPath()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path
+          </div>
+          <div onclick="showMoveWithoutPath()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path
+          </div>
+          <div onclick="showMoveWithPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move With Path With The Given Set
+          </div>
+          <div onclick="showMoveWithoutPathGivenSet()" class="${styles['upload-file-wrapper']}">
+            Show Move Without Path With The Given Set
+          </div>
         </div>
       </div>
       <div 
@@ -374,6 +436,9 @@ export const problemPopupHTML = (hasBoundary: boolean): string => {
           ></div>
         </div>
       </div>
+      <div class="${styles['row']} ${styles['on-hover']}" onclick="replaceProblemToFn()">
+        Replace Problem by Function
+      </div>
       <div 
         onclick="deleteItem()"
         class="${styles['row']}"
@@ -485,6 +550,9 @@ export const worldPopupHTML = (): string => {
       </div>
       <div class="${styles['row']} ${styles['on-hover']} map-element">
         Map Element
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func-block']}">
           <div 
             onclick="handleSelectMapElement('Personal Responsibility')"
@@ -638,6 +706,9 @@ export const countryModePopupHTML = (): string => {
         class="${styles["menu-geojson"]} ${styles["on-hover-function"]}"
       >
         Function
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles["hover-func"]}">
           <div onclick="handleAddFunction(event, 'Natural function', natural)">
             Natural function

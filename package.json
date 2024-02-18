@@ -24,6 +24,7 @@
     "leaflet-draw": "^1.0.4",
     "leaflet-ellipse": "^0.9.1",
     "leaflet-image-transform": "^0.0.1",
+    "leaflet-path-drag": "^1.8.0-beta.3",
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet-textpath": "^1.2.3",
     "leaflet.motion": "^0.3.2",

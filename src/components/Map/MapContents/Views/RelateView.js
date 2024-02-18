@@ -95,6 +95,9 @@ const RelateView = ({setModal, setModalType}) => {
                         .addTo(map);
 
                     L.marker([latCenter, lngElementSelected + 100], {
+                        target: {
+                            status: 'add'
+                        },
                         options: {
                             type: 'Relationship',
                         },

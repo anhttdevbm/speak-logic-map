@@ -58,7 +58,7 @@ const Options: React.FC = (): JSX.Element => {
               `}/>
                         </li>
                         <li onClick={() => globalStore.changePosition('down')}>
-                            Down
+                            Bottom
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
                 ${globalStore.position !== 'down' ? styles['hide'] : styles['show']}
@@ -120,6 +120,13 @@ const Options: React.FC = (): JSX.Element => {
                     House View
                     <RightArrowIcon className={`${styles['sub-icon']}`}/>
                     <ul className={`${styles['minor-list']}`}>
+                        <li onClick={() => globalStore.toggleHouseDistance()}>
+                            Show Distance between Houses (Very Lag)
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${!globalStore.showHouseDistance ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
                         <li onClick={() => globalStore.toggleCountryName('location')}>
                             Replace Name with &quot;Location + Index&quot;
                             <CheckIcon className={`
@@ -308,10 +315,10 @@ const Options: React.FC = (): JSX.Element => {
                 ${globalStore.rectName !== 'rect-name' ? styles['hide'] : styles['show']}
               `}/>
                         </li>
-                        <li className={`${!globalStore.rectangularView}`}>
+                        <li className={`${!globalStore.rectangularView} ${styles['hoverable']} `}>
                             Show country with distance
                             <RightArrowIcon className={`${styles['sub-icon']}`}/>
-                            <ul className={`${styles['minor-list']}`}>
+                            <ul className={`${styles['minor-list']} ${styles['hover-content']}`}>
                                 <li onClick={() => globalStore.toggleRectDistanceType('rect-distance')}>
                                     Show distance between country
                                     <CheckIcon className={`
@@ -372,10 +379,31 @@ const Options: React.FC = (): JSX.Element => {
                             </ul>
                         </li>
                         <li onClick={() => toggleMoreView('world-problem-view')}>
-                            World Problem View
+                            Problem View
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
                 ${globalStore.moreName !== 'world-problem-view' ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
+                        <li onClick={() => toggleMoreView('problem-view-with-country')}>
+                            Problem View with Country
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.moreName !== 'problem-view-with-country' ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    Principle Setting
+                    <RightArrowIcon className={`${styles['sub-icon']}`}/>
+                    <ul className={`${styles['minor-list']}`}>
+                        <li onClick={() => globalStore.toggleShowGivenSet()}>
+                            Show Given Set
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${!globalStore.showGivenSet ? styles['hide'] : styles['show']}
               `}/>
                         </li>
                     </ul>

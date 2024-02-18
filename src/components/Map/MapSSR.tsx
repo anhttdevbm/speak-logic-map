@@ -41,6 +41,8 @@ import InsertPersonM from "@/components/Modals/ModalContents/InsertPersonM";
 import {FeatureCollection} from "geojson";
 import ChangeUnitDistanceM from "@/components/Modals/ModalContents/ChangeUnitDistanceM";
 import {notification} from "antd";
+import PalletGeoJsonContainer from './MapContents/Views/PalletGeoJsonContainer'
+import PalletLineView from './MapContents/Views/PalletLineView'
 
 const bounds = new L.LatLngBounds(
     new L.LatLng(85, -180),
@@ -244,6 +246,15 @@ const MapSSR: React.FC = (): JSX.Element => {
                 {(globalStore.listMapElementSelected?.length > 0 && globalStore.listMapElementRelate?.length > 0)
                     && <RelateView setModal={setModal} setModalType={setModalType}/>}
 
+                {(globalStore.listRectPolygonPallet?.length > 0
+                    || globalStore.listCirclePolygonPallet?.length > 0
+                    || globalStore.listLinePallet?.length > 0) && <PalletGeoJsonContainer/>}
+
+                {(globalStore.listPositionOfPallet1?.length > 0
+                    || globalStore.listPositionOfPallet2?.length > 0
+                    || globalStore.listPositionOfPallet3?.length > 0
+                    || globalStore.listPositionOfPallet3?.length > 0) && <PalletLineView/>}
+
 
             </MapContainer>
 
@@ -267,6 +278,15 @@ const MapSSR: React.FC = (): JSX.Element => {
                         type={'population-view'}
                         setToggleModal={globalStore.toggleModalNumberPersonMoreView}
                         setAction={globalStore.setNumberPersonMoreView}
+                    />
+                </ModalWrap>
+            )}
+            {globalStore.moreName === 'world-problem-view' && globalStore.showModalInsertNumberProblemMoreView && (
+                <ModalWrap>
+                    <InsertPersonM
+                        type={'problem-view'}
+                        setToggleModal={globalStore.toggleModalInsertNumberProblemMoreView}
+                        setAction={globalStore.setNumberProblemMoreView}
                     />
                 </ModalWrap>
             )}

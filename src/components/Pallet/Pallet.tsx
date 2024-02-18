@@ -41,25 +41,29 @@ const Pallet: React.FC = (): JSX.Element => {
                     <AIcon/>
                     <span>Text</span>
                 </div>
-                <div id="line-event"
-                     className={`${styles['pallet-item']} ${globalStore.palletOption === 'line' ? styles['active'] : null}`}>
+                <div className={`${styles['pallet-item']}`}>
                     <ExtenderIcon className={`${styles['extend-icon']}`}/>
                     <LineIcon/>
                     <span>Line</span>
                     <div className={`${styles['extend-options']}`}>
-                        <div id="line-event" className={`${styles['pallet-item']}`}>
-                            <LineIcon />
+                        <div id="line-event"
+                             className={`${styles['pallet-item']} ${globalStore.palletOption === 'line' ? styles['active'] : null}`}>
+                            <LineIcon/>
                         </div>
-                        <div className={`${styles['pallet-item']}`}>
+                        <div id="pallet1-event"
+                             className={`${styles['pallet-item']} ${globalStore.palletOption === 'pallet1' ? styles['active'] : null}`}>
                             <PalletIcon/>
                         </div>
-                        <div className={`${styles['pallet-item']}`}>
+                        <div id="pallet2-event"
+                             className={`${styles['pallet-item']} ${globalStore.palletOption === 'pallet2' ? styles['active'] : null}`}>
                             <PalletIcon2/>
                         </div>
-                        <div className={`${styles['pallet-item']}`}>
+                        <div id="pallet3-event"
+                             className={`${styles['pallet-item']} ${globalStore.palletOption === 'pallet3' ? styles['active'] : null}`}>
                             <PalletIcon3/>
                         </div>
-                        <div className={`${styles['pallet-item']}`}>
+                        <div id="pallet4-event"
+                             className={`${styles['pallet-item']} ${globalStore.palletOption === 'pallet4' ? styles['active'] : null}`}>
                             <PalletIcon4/>
                         </div>
                     </div>
@@ -76,7 +80,7 @@ const Pallet: React.FC = (): JSX.Element => {
                 </div>
                 <div id="image-event"
                      className={`${styles['pallet-item']} ${globalStore.palletOption === 'image' ? styles['active'] : null}`}>
-                    <FileImageOutlined rev={undefined} />
+                    <FileImageOutlined rev={undefined}/>
                     <span>Image</span>
                 </div>
             </div>
