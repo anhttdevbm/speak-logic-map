@@ -8,7 +8,7 @@ import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {markerHouseIconWithName, markerHouseWorldIcon} from '../Markers/MarkerIcons';
 import {getGeoMainLand} from '@/utils/get_geo_mainland';
 import * as turf from '@turf/turf';
-import {addStaticDistance} from "@/components/Map/MapContents/Markers/AddMarkers";
+import {addShotDistance, addStaticDistance} from "@/components/Map/MapContents/Markers/AddMarkers";
 
 const HouseView = ({selectedData}) => {
     const map = useMap();
@@ -153,7 +153,22 @@ const HouseView = ({selectedData}) => {
     }, [countryStore.countries, globalStore.countryQuantity, globalStore.map, globalStore.houseView, globalStore.countryName, selectedData]);
 
     useEffect(() => {
-        if (globalStore.showHouseDistance && globalStore.map && globalStore.houseView === 'house-countries') {
+        map.eachLayer(layer => {
+            if (layer.options.options?.type === 'house-distance') {
+                map.removeLayer(layer.parentLine);
+                map.removeLayer(layer.parentLine_1);
+                map.removeLayer(layer.parentArc);
+                if (layer.parentArcArrow) {
+                    map.removeLayer(layer.parentArcArrow);
+                }
+                if (layer.parentArcArrow_1) {
+                    map.removeLayer(layer.parentArcArrow_1);
+                }
+                map.removeLayer(layer);
+            }
+        })
+
+        if (globalStore.showHouseDistance !== '' && globalStore.map && globalStore.houseView === 'house-countries') {
             const houseList = [];
             map.eachLayer(layer => {
                 if (layer.options?.target?.type === 'house') {
@@ -165,28 +180,33 @@ const HouseView = ({selectedData}) => {
                 for (let i = 0; i < houseList.length - 1; i++) {
                     for (let j = i + 1; j < houseList.length; j++) {
                         setTimeout(() => {
-                            addStaticDistance(map, houseList[i]._latlng.lat, houseList[i]._latlng.lng, houseList[j]._latlng.lat,
-                                houseList[j]._latlng.lng, true, 'house-distance')
-                        }, 1000)
+                            if (globalStore.showHouseDistance === 'house-view-distance')
+                                addStaticDistance(map, houseList[i]._latlng.lat, houseList[i]._latlng.lng, houseList[j]._latlng.lat,
+                                    houseList[j]._latlng.lng, true, 'house-distance')
+                            else if (globalStore.showHouseDistance === 'house-view-shot')
+                                addShotDistance(map, houseList[i]._latlng.lat, houseList[i]._latlng.lng, houseList[j]._latlng.lat,
+                                    houseList[j]._latlng.lng, true, 'house-distance')
+                        }, 10)
                     }
                 }
             }
-        } else {
-            map.eachLayer(layer => {
-                if (layer.options.options?.type === 'house-distance') {
-                    map.removeLayer(layer.parentLine);
-                    map.removeLayer(layer.parentLine_1);
-                    map.removeLayer(layer.parentArc);
-                    if (layer.parentArcArrow) {
-                        map.removeLayer(layer.parentArcArrow);
-                    }
-                    if (layer.parentArcArrow_1) {
-                        map.removeLayer(layer.parentArcArrow_1);
-                    }
-                    map.removeLayer(layer);
-                }
-            })
         }
+        // else {
+        //     map.eachLayer(layer => {
+        //         if (layer.options.options?.type === 'house-distance') {
+        //             map.removeLayer(layer.parentLine);
+        //             map.removeLayer(layer.parentLine_1);
+        //             map.removeLayer(layer.parentArc);
+        //             if (layer.parentArcArrow) {
+        //                 map.removeLayer(layer.parentArcArrow);
+        //             }
+        //             if (layer.parentArcArrow_1) {
+        //                 map.removeLayer(layer.parentArcArrow_1);
+        //             }
+        //             map.removeLayer(layer);
+        //         }
+        //     })
+        // }
     }, [globalStore.showHouseDistance, globalStore.map, globalStore.houseView])
 
     return null;
