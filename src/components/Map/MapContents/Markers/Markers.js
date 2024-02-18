@@ -675,6 +675,7 @@ const Markers = ({setModal, setModalType}) => {
                     }
                 }
             } else {
+                removeLayerFnAndPl();
                 globalStore.mapLayer.forEach(fn => {
                     if (fn.type === 'function'
                         && fn.isShow
@@ -709,7 +710,8 @@ const Markers = ({setModal, setModalType}) => {
                         if (!checkMarkerExist(map, index, 'problem', fn.lat, fn.lng)) {
                             addSoluOrProbFn(map, fn.lat, fn.lng, globalStore.lock, index, 'Problem', setModal, setModalType,
                                 globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
-                                globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType);
+                                globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType,
+                                globalStore.updateMapLayerById);
                         }
                     }
                 })
@@ -717,6 +719,14 @@ const Markers = ({setModal, setModalType}) => {
         }
     }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView,
         globalStore.positionOfHorizontalLine, globalStore.mapLayer, globalStore.statusDisplayItem]);
+
+    const removeLayerFnAndPl = () => {
+        map.eachLayer(layer => {
+            if (layer.options.target?.type === 'function' || layer.options.target?.type === 'problem') {
+                map.removeLayer(layer);
+            }
+        });
+    }
 
     useEffect(() => {
         if (globalStore.positionOfImagePallet.length > 0 && globalStore.valueOfImage && globalStore.valueOfImage !== '') {

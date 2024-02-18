@@ -243,6 +243,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
                 color = 'red'
             }
         }
+        map.removeLayer(popup);
 
         if (name === 'Problem') {
             if (Number(index[0]) <= markerProblemIndex[0] - 1) {
@@ -259,36 +260,34 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
         } else {
             updateNameItemListMarkerFunctionByName(currentName, name + ' ' + index[0]);
             updateNameItemMapLayerByNameAndType(currentName, 'function', name + ' ' + index[0]);
-        }
 
-        if (!currentName.startsWith(name)) {
-            stopFnRunningFeatures(e);
+            if (!currentName.startsWith(name)) {
+                stopFnRunningFeatures(e);
 
-            if (e.target._icon.classList.contains(styles['circle-fn'])) {
-                e.target.setIcon(
-                    markerFnCircleIcon(
-                        `${styles['circle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
-                        handleName(name, index, currentName)
+                if (e.target._icon.classList.contains(styles['circle-fn'])) {
+                    e.target.setIcon(
+                        markerFnCircleIcon(
+                            `${styles['circle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
+                            handleName(name, index, currentName)
+                        )
+                    );
+                } else if (e.target._icon.classList.contains(styles['rectangle-fn'])) {
+                    e.target.setIcon(
+                        markerFnIcon(
+                            `${styles['rectangle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
+                            handleName(name, index, currentName)
+                        )
+                    );
+                } else if (e.target._icon.classList.contains(styles['ellipse-fn'])) {
+                    e.target.setIcon(
+                        markerFnIcon(
+                            `${styles['ellipse-fn']} ${color ? styles['fn--' + color] : currentColor}`,
+                            handleName(name, index, currentName)
+                        )
                     )
-                );
-            } else if (e.target._icon.classList.contains(styles['rectangle-fn'])) {
-                e.target.setIcon(
-                    markerFnIcon(
-                        `${styles['rectangle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
-                        handleName(name, index, currentName)
-                    )
-                );
-            } else if (e.target._icon.classList.contains(styles['ellipse-fn'])) {
-                e.target.setIcon(
-                    markerFnIcon(
-                        `${styles['ellipse-fn']} ${color ? styles['fn--' + color] : currentColor}`,
-                        handleName(name, index, currentName)
-                    )
-                )
+                }
             }
         }
-
-        map.removeLayer(popup);
     };
 
     window.fnAddImg = (event) => {

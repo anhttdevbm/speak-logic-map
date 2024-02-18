@@ -47,6 +47,7 @@ import {unitDistance} from "@/components/Map/MapContents/Variables/Variables";
 
 export const checkMarkerExist = (map, index, type, lat, lng) => {
     let existArr = [];
+    console.log('index, type, lat, lng', index, type, lat, lng)
     map.eachLayer(layer => {
         if (layer.options.target?.status === 'add'
             && layer.options.target?.type === type
@@ -238,14 +239,20 @@ export const addHouseMarker = (map, lat, lng, isLocked) => {
 }
 
 export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl, addMarkerFnToList, setMapLayer,
-                                updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType) => {
+                                updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType,
+                                updateMapLayerById) => {
     const formattedName = String(name).toLowerCase();
     const first = formattedName[0].toUpperCase();
     const remain = formattedName.slice(1, formattedName.length);
 
-    L.marker([lat, lng], {
+    let marker = L.marker([lat, lng], {
         draggable: !isLocked,
         type: {index: index, title: 'problem', status: 'add'},
+        target: {
+            type: 'problem',
+            index: index,
+            status: 'add',
+        },
         icon: markerFnIcon(
             `${styles['rectangle-fn']} ${formattedName === 'solution' ? styles['fn--green'] : styles['fn--red']}`,
             `${name ? `${first}${remain} ${index}` : `Function ${index}`}`
@@ -267,6 +274,11 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
                 e.target._icon.classList.add(styles["fn--red"]);
             }
         });
+
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updateMapLayerById(latLng.lat, latLng.lng, 'problem', `Problem ${index}`, false)
+    })
 }
 
 export const addStopFn = (map, lat, lng, isLocked, index) => {
