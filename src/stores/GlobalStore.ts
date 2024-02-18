@@ -44,7 +44,7 @@ export class GlobalStore {
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
     inAreaSelection: boolean = false;
-    showHouseDistance: boolean = false;
+    showHouseDistance: 'house-view-shot' | 'house-view-distance' | '' = '';
     showRoomDistance: boolean = false;
     showFloorPlanDistance: 'plan-view-shot' | 'plan-view-distance' | '' = '';
     showBoatWave: boolean = false;
@@ -338,8 +338,13 @@ export class GlobalStore {
         this.roomName = value;
     }
 
-    toggleHouseDistance = (): void => {
-        this.showHouseDistance = !this.showHouseDistance;
+    toggleHouseDistance = (value: 'house-view-shot' | 'house-view-distance' | ''): void => {
+        if (value === this.showHouseDistance) {
+            this.showHouseDistance = '';
+        } else {
+            this.showHouseDistance = value;
+        }
+
     }
 
     toggleRoomDistance = (): void => {
