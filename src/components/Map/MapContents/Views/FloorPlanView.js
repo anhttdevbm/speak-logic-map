@@ -7,7 +7,7 @@ import {useEffect, useState} from 'react';
 import {useCountryStore, useGlobalStore} from '@/providers/RootStoreProvider';
 import {markerRoomIcon} from '../Markers/MarkerIcons';
 import styles from '../_MapContents.module.scss';
-import {addStaticDistance} from '../Markers/AddMarkers';
+import {addShotDistance, addStaticDistance} from '../Markers/AddMarkers';
 import * as turf from '@turf/turf';
 import {addSelectedItem} from '../Markers/HandleSelectItem';
 import {floorPopup, roomPopup} from "@/components/Map/MapContents/Popups/Popups";
@@ -180,16 +180,31 @@ const FloorPlanView = ({selectedData}) => {
     //
 
     useEffect(() => {
-        const latList = [81.5, 79, 75.8, 71.6, 66.4, 59.5, 51, 40.5, 28, 14, -1, -16, -29.7, -42, -52.2, -60.5, -67, -72.3, -76.3, -79.4, -81.8];
-        const lngList = [-156.5, -128, -99, -70, -42, -14, 14, 41, 69.5, 98, 127, 155.5]
-        if (globalStore.showFloorPlanDistance && globalStore.map && globalStore.floorPlanView) {
-            const roomList = [];
-            map.eachLayer(layer => {
-                // console.log(layer)
-                if (layer.options.options?.type === 'room') {
-                    roomList.push(layer);
+        map.eachLayer(layer => {
+            if (layer.options.options?.type === 'room-distance') {
+                map.removeLayer(layer.parentLine);
+                map.removeLayer(layer.parentLine_1);
+                map.removeLayer(layer.parentArc);
+                if (layer.parentArcArrow) {
+                    map.removeLayer(layer.parentArcArrow);
                 }
-            })
+                if (layer.parentArcArrow_1) {
+                    map.removeLayer(layer.parentArcArrow_1);
+                }
+                map.removeLayer(layer);
+            }
+        })
+
+        if (globalStore.showFloorPlanDistance !== '' && globalStore.map && globalStore.floorPlanView) {
+            const latList = [81.5, 79, 75.8, 71.6, 66.4, 59.5, 51, 40.5, 28, 14, -1, -16, -29.7, -42, -52.2, -60.5, -67, -72.3, -76.3, -79.4, -81.8];
+            const lngList = [-156.5, -128, -99, -70, -42, -14, 14, 41, 69.5, 98, 127, 155.5]
+            const roomList = [];
+            // map.eachLayer(layer => {
+            //     // console.log(layer)
+            //     if (layer.options.options?.type === 'room') {
+            //         roomList.push(layer);
+            //     }
+            // })
             let latI = 0;
             let lngI = 0;
             let indexLng = 0;
@@ -197,35 +212,25 @@ const FloorPlanView = ({selectedData}) => {
                 if (!country.name.codeName.includes('-99')) {
                     const lat = latList[index % latList.length];
                     const lng = lngList[Math.floor(index / latList.length)];
-                    console.log(country.name.codeName + ' - ' + lat + ' - ' + lng);
                     //distance row
                     if (latI !== 0 && lngI !== 0 && lng !== -81.8) {
-                        addStaticDistance(map, latI, lngI, lat, lngI, true, 'room-distance');
+                        if (globalStore.showFloorPlanDistance === 'plan-view-distance')
+                            addStaticDistance(map, latI, lngI, lat, lngI, true, 'room-distance');
+                        else if (globalStore.showFloorPlanDistance === 'plan-view-shot')
+                            addShotDistance(map, latI, lngI, lat, lngI, true, 'room-distance');
                     }
                     //distance colum
                     if (lng !== -156.5) {
                         indexLng = lngList.indexOf(lng);
                         if (indexLng > 0) {
-                            addStaticDistance(map, lat, lng, lat, lngList[indexLng - 1], true, 'room-distance');
+                            if (globalStore.showFloorPlanDistance === 'plan-view-distance')
+                                addStaticDistance(map, lat, lng, lat, lngList[indexLng - 1], true, 'room-distance');
+                            else if (globalStore.showFloorPlanDistance === 'plan-view-shot')
+                                addShotDistance(map, lat, lng, lat, lngList[indexLng - 1], true, 'room-distance');
                         }
                     }
                     latI = lat;
                     lngI = lng;
-                }
-            })
-        } else {
-            map.eachLayer(layer => {
-                if (layer.options.options?.type === 'room-distance') {
-                    map.removeLayer(layer.parentLine);
-                    map.removeLayer(layer.parentLine_1);
-                    map.removeLayer(layer.parentArc);
-                    if (layer.parentArcArrow) {
-                        map.removeLayer(layer.parentArcArrow);
-                    }
-                    if (layer.parentArcArrow_1) {
-                        map.removeLayer(layer.parentArcArrow_1);
-                    }
-                    map.removeLayer(layer);
                 }
             })
         }

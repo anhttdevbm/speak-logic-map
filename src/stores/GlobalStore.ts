@@ -46,7 +46,7 @@ export class GlobalStore {
     inAreaSelection: boolean = false;
     showHouseDistance: boolean = false;
     showRoomDistance: boolean = false;
-    showFloorPlanDistance: boolean = false;
+    showFloorPlanDistance: 'plan-view-shot' | 'plan-view-distance' | '' = '';
     showBoatWave: boolean = false;
     showGivenSet: boolean = false;
     countryQuantity: number = 0;
@@ -346,11 +346,15 @@ export class GlobalStore {
         this.showRoomDistance = !this.showRoomDistance;
     }
 
-    toggleFloorDistance = () => {
-        this.showFloorPlanDistance = !this.showFloorPlanDistance;
+    toggleFloorDistance = (value: 'plan-view-shot' | 'plan-view-distance' | '') => {
+        if (value === this.showFloorPlanDistance) {
+            this.showFloorPlanDistance = '';
+        } else {
+            this.showFloorPlanDistance = value;
+        }
     }
     clearFloorDistance = () => {
-        this.showFloorPlanDistance = false;
+        this.showFloorPlanDistance = '';
     }
 
     toggleFloorPlanView = (value: 'floorplan-countries' | ''): void => {

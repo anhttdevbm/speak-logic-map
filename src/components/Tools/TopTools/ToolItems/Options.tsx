@@ -188,13 +188,22 @@ const Options: React.FC = (): JSX.Element => {
                     Floor Plan View
                     <RightArrowIcon className={`${styles['sub-icon']}`}/>
                     <ul className={`${styles['minor-list']}`}>
-                        <li onClick={() => globalStore.toggleFloorDistance()}>
+                        <li onClick={() => globalStore.toggleFloorDistance('plan-view-distance')}>
                             Show Distance between Floors (Very Lag)
                             <CheckIcon className={`
                 ${styles['sub-icon']} 
-                ${!globalStore.showRoomDistance ? styles['hide'] : styles['show']}
+                ${globalStore.showFloorPlanDistance != 'plan-view-distance' ? styles['hide'] : styles['show']}
               `}/>
                         </li>
+
+                        <li onClick={() => globalStore.toggleFloorDistance('plan-view-shot')}>
+                            Show shot distance between Floors (Very Lag)
+                            <CheckIcon className={`
+                ${styles['sub-icon']} 
+                ${globalStore.showFloorPlanDistance != 'plan-view-shot' ? styles['hide'] : styles['show']}
+              `}/>
+                        </li>
+
                         <li onClick={() => globalStore.toggleFPRoomName('room')}>
                             Replace Name with &quot;Room + Index&quot;
                             <CheckIcon className={`
