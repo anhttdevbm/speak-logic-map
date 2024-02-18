@@ -25,7 +25,7 @@ import {
     personPopup,
     routePopup,
     stopFnPopup,
-    tempFnPopup
+    tempFnPopup, textPalletPopup
 } from '../Popups/Popups';
 import {
     groupFnLayoutPopupHTML,
@@ -669,18 +669,20 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
     // }
 }
 
-export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) => {
+export const addInputTextPallet = (map, lat, lng, index, isLocked, togglePalletOption, toggleShowDialogEditTextStyle) => {
     let divIcon = L.divIcon({
-        html: makeHtml(2),
+        html: makeHtml(index),
         className: 'input-text-pallet',
         iconSize: [200, 50],
         iconAnchor: [0, 0]
     });
     L.marker([lat, lng], {
         icon: divIcon,
-        target: {status: 'add', type: 'input-text'},
+        target: {status: 'add', type: 'input-text', index: index},
         draggable: !isLocked,
-    }).addTo(map);
+    })
+        .on('contextmenu', e => textPalletPopup(map, e, toggleShowDialogEditTextStyle))
+        .addTo(map);
     togglePalletOption('');
 }
 

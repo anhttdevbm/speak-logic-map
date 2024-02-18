@@ -24,7 +24,7 @@ import {
     selectedList,
     markerProblemIndex,
     markerHouseIndex, markerCountryFnIndex,
-    markerFnIndex, markerPrincipleLineIndex
+    markerFnIndex, markerPrincipleLineIndex, markerTextPalletIndex
 } from '../Variables/Variables';
 
 import {
@@ -897,7 +897,9 @@ const Markers = ({setModal, setModalType}) => {
             }
 
             if (globalStore.palletOption === 'text') {
-                addInputTextPallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption)
+                markerTextPalletIndex[0]++
+                addInputTextPallet(map, e.latlng.lat, e.latlng.lng, markerTextPalletIndex[0], globalStore.lock,
+                    globalStore.togglePalletOption, globalStore.toggleShowDialogEditTextStyle)
             } else if (globalStore.palletOption === 'image') {
                 globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
                 addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,

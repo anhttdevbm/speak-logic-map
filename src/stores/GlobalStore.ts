@@ -44,7 +44,7 @@ export class GlobalStore {
     blankMap: boolean = false;
     showDialogSettingDistance: boolean = false;
     showDialogEditTextStyle: boolean = false;
-    showDialogEditShapeStyle: boolean = true;
+    showDialogEditShapeStyle: boolean = false;
     inAreaSelection: boolean = false;
     showHouseDistance: boolean = false;
     showRoomDistance: boolean = false;

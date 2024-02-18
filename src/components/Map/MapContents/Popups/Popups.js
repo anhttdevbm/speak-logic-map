@@ -32,7 +32,7 @@ import {
     videoBoundPopupHTML,
     mapElementPopupHTML,
     rectIconPopupHTML,
-    givenSetPopupHTML, boatPopupHTML, floorPopupHTML, personMobilityPopupHTML
+    givenSetPopupHTML, boatPopupHTML, floorPopupHTML, personMobilityPopupHTML, textPalletPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -1950,5 +1950,19 @@ export const removeHorizontalIconPopup = (map, e, removeHorizontalIcon) => {
     window.deleteRectIcon = () => {
         removeHorizontalIcon()
         map.removeLayer(popup);
+    }
+}
+
+export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(textPalletPopupHTML())
+        .addTo(map)
+
+    window.editTextStyle = () => {
+        map.removeLayer(popup);
+        toggleShowDialogEditTextStyle();
     }
 }

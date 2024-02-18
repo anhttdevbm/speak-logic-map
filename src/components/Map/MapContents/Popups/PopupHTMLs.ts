@@ -1085,3 +1085,18 @@ export const rectIconPopupHTML = (): string => {
     </div>
   `
 }
+
+export const textPalletPopupHTML = (): string => {
+    return  `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div 
+        onclick="editTextStyle()"
+        class="${styles['row']}"
+      >
+        Edit Text Style
+      </div>
+    </div>
+  `
+}
