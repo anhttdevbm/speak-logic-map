@@ -1972,6 +1972,22 @@ export const imagePalletPopup = (map, e, removeImagePalletById) => {
     }
 }
 
+export const textPalletPopup = (map, e) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(imagePalletPopupHTML)
+        .addTo(map)
+
+    let id = e.target.options.index
+
+    window.deleteImagePallet = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+    }
+}
+
 export const annotationPalletPopup = (map, e, removePolygonPalletById) => {
     clearAllPopups(map);
     const popup = L.popup();

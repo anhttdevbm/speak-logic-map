@@ -16,6 +16,7 @@ import {
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
+    annotationPalletPopup,
     distancePopup,
     fnCountryPopup,
     fnProblemPopup,
@@ -25,7 +26,7 @@ import {
     personPopup,
     routePopup,
     stopFnPopup,
-    tempFnPopup
+    tempFnPopup, textPalletPopup
 } from '../Popups/Popups';
 import {
     groupFnLayoutPopupHTML,
@@ -692,7 +693,9 @@ export const addInputTextPallet = (map, lat, lng, isLocked, togglePalletOption) 
         icon: divIcon,
         target: {status: 'add', type: 'input-text'},
         draggable: !isLocked,
-    }).addTo(map);
+    })
+        .on('contextmenu', e => textPalletPopup(map, e))
+        .addTo(map);
     togglePalletOption('');
 }
 
