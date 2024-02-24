@@ -173,7 +173,7 @@ const PalletGeoJsonContainer = () => {
                         status: 'add',
                         type: 'line-pallet',
                     })
-                        .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeRectPolygonPalletById))
+                        .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeLinePalletById))
                         .addTo(map);
                     globalStore.setStatusLinePallet(id, true)
                 }

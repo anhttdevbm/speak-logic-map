@@ -779,6 +779,31 @@ const Markers = ({setModal, setModalType}) => {
         return false;
     }
 
+    const checkEventClickInPallet1 = (lat, lng, list) => {
+        for (let i = 0; i < list.length; i++) {
+            let position = list[i].position;
+            let latLng1 = position[0];
+            let latLng2 = position[1];
+            let bound1 = L.polyline([[latLng1[0], latLng2[1]], latLng1]).getBounds();
+            let bound2 = L.polyline([[latLng1[0], latLng2[1]], latLng2]).getBounds();
+            if (checkBoundContainMarker(bound1, lat, lng) && checkBoundContainMarker(bound2, lat, lng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkEventClickInPolyline = (lat, lng, list) => {
+        for (let i = 0; i < list.length; i++) {
+            let latLng = list[i].latlng || list[i].position;
+            let bound = L.polyline(latLng).getBounds();
+            if (checkBoundContainMarker(bound, lat, lng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const checkMarkerInCircle = (radius, lat, lng, currentLat, currentLng) => {
         const distance = computeDistanceBetweenTwoPoint(lat, lng, currentLat, currentLng);
         return distance < radius;
@@ -786,8 +811,8 @@ const Markers = ({setModal, setModalType}) => {
 
     const checkEventClickInCircle = (currentLat, currentLng) => {
         for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
-            if (checkMarkerInCircle(globalStore.listCirclePolygonPallet[i].radius, globalStore.listCirclePolygonPallet[i].lat,
-                globalStore.listCirclePolygonPallet[i].lng, currentLat, currentLng)) {
+            if (checkMarkerInCircle(globalStore.listCirclePolygonPallet[i].radius, globalStore.listCirclePolygonPallet[i].bound.lat,
+                globalStore.listCirclePolygonPallet[i].bound.lng, currentLat, currentLng)) {
                 return true;
             }
         }
@@ -803,6 +828,11 @@ const Markers = ({setModal, setModalType}) => {
                 && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listRectPolygonPallet)
                 && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfImagePallet)
                 && !checkEventClickInCircle(e.latlng.lat, e.latlng.lng)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listLinePallet)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet1)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet2)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet3)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet4)
             ) {
                 worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setListMapElementRelate, globalStore.setListMapElementSelected);
             } else if (globalStore.boatView) {

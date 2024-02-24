@@ -1980,11 +1980,17 @@ export const annotationPalletPopup = (map, e, removePolygonPalletById) => {
         .setContent(annotationPalletPopupHTML)
         .addTo(map);
 
-    let id = e.target.options.index
+    let id = e.target.options.index;
+    let type = e.target.options.type;
 
     window.deleteAnnotation = () => {
         map.removeLayer(popup);
         map.removeLayer(e.target);
+        map.eachLayer(layer => {
+            if (layer.options.index === id && layer.options.type === type) {
+                map.removeLayer(layer)
+            }
+        });
         removePolygonPalletById(id)
     }
 

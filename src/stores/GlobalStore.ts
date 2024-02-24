@@ -178,7 +178,10 @@ export class GlobalStore {
     setPositionOfPallet = (lat: number, lng: number, positionOfPallet: any[], listPositionOfPallet: any[]) => {
         positionOfPallet.push([lat, lng]);
         if (positionOfPallet.length === 2) {
-            listPositionOfPallet.push(positionOfPallet);
+            listPositionOfPallet.push({
+                id: listPositionOfPallet.length + 1,
+                position: positionOfPallet
+            });
         }
     }
 
@@ -571,6 +574,22 @@ export class GlobalStore {
 
     removeRectPolygonPalletById = (id: any) => {
         this.listRectPolygonPallet = this.listRectPolygonPallet.filter(item => item.id != id);
+    }
+
+    removeLinePalletById = (id: any) => {
+        this.listLinePallet = this.listLinePallet.filter(item => item.id != id);
+    }
+    removeLinePallet1ById = (id: any) => {
+        this.listPositionOfPallet1 = this.listPositionOfPallet1.filter(item => item.id != id);
+    }
+    removeLinePallet2ById = (id: any) => {
+        this.listPositionOfPallet2 = this.listPositionOfPallet2.filter(item => item.id != id);
+    }
+    removeLinePallet3ById = (id: any) => {
+        this.listPositionOfPallet3= this.listPositionOfPallet3.filter(item => item.id != id);
+    }
+    removeLinePallet4ById = (id: any) => {
+        this.listPositionOfPallet4 = this.listPositionOfPallet4.filter(item => item.id != id);
     }
 
     removeCirclePolygonPalletById = (id: any) => {
