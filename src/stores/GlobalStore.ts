@@ -37,6 +37,7 @@ export class GlobalStore {
     boatName: 'boat' | 'b' | '' = '';
     boundaryMessage: 'problem' | 'natural' | '' = '';
     palletOption: 'pointer' | 'text' | 'line' | 'rectangle' | 'circle' | 'image' | 'pallet1' | 'pallet2' | 'pallet3' | 'pallet4' | '' = '';
+    itemAnnotationStyle: any;
     listLinePallet: any[] = [];
     listRectPolygonPallet: any[] = [];
     listCirclePolygonPallet: any[] = [];
@@ -579,6 +580,41 @@ export class GlobalStore {
                 color: 'rgb(51, 136, 255)',
                 weight: 3,
             })
+        }
+    }
+
+    setItemAnnotationStyling = (id: any, type: any) => {
+        this.itemAnnotationStyle = {
+            id: id,
+            type: type
+        }
+    }
+
+    updateRectPolygonPalletByIdAndType = (id: any, type: any, fillColor: any, color: any, weight: any): void => {
+        if (type === 'rect-polygon') {
+            for (let i = 0; i < this.listRectPolygonPallet.length; i++) {
+                if (this.listRectPolygonPallet[i].id === id) {
+                    this.listRectPolygonPallet[i].fillColor = fillColor;
+                    this.listRectPolygonPallet[i].color = color;
+                    this.listRectPolygonPallet[i].weight = weight;
+                }
+            }
+        } else if (type === 'circle-polygon') {
+            for (let i = 0; i < this.listCirclePolygonPallet.length; i++) {
+                if (this.listCirclePolygonPallet[i].id === id) {
+                    this.listCirclePolygonPallet[i].fillColor = fillColor;
+                    this.listCirclePolygonPallet[i].color = color;
+                    this.listCirclePolygonPallet[i].weight = weight;
+                }
+            }
+        } else {
+            for (let i = 0; i < this.listLinePallet.length; i++) {
+                if (this.listLinePallet[i].id === id) {
+                    this.listLinePallet[i].fillColor = fillColor;
+                    this.listLinePallet[i].color = color;
+                    this.listLinePallet[i].weight = weight;
+                }
+            }
         }
     }
 

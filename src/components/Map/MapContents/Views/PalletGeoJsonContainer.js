@@ -15,6 +15,11 @@ const PalletGeoJsonContainer = () => {
     const globalStore = useGlobalStore();
 
     useEffect(() => {
+        map.eachLayer(layer => {
+            if (layer.options?.type === 'rect-polygon' || layer.options?.type === 'circle-polygon') {
+                map.removeLayer(layer);
+            }
+        })
         for (let i = 0; i < globalStore.listRectPolygonPallet.length; i++) {
             globalStore.setStatusRectPolygonPallet(globalStore.listRectPolygonPallet[i].id, false)
         }
@@ -24,7 +29,7 @@ const PalletGeoJsonContainer = () => {
         for (let i = 0; i < globalStore.listLinePallet.length; i++) {
             globalStore.setStatusLinePallet(globalStore.listLinePallet[i].id, false)
         }
-    }, [globalStore.map]);
+    }, [globalStore.map, globalStore.showDialogEditShapeStyle]);
 
     const handleFeature = (layer, id) => {
         if (layer._bounds) {
@@ -94,7 +99,8 @@ const PalletGeoJsonContainer = () => {
                             if (type === 'rect-polygon') {
                                 handleFeature(layer, id);
                             }
-                            layer.on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeRectPolygonPalletById, globalStore.toggleShowDialogEditShapeStyle))
+                            layer.on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeRectPolygonPalletById,
+                                globalStore.toggleShowDialogEditShapeStyle, globalStore.setItemAnnotationStyling))
                         }
                     })
                         .addTo(map);
@@ -103,7 +109,7 @@ const PalletGeoJsonContainer = () => {
             }
         }
 
-    }, [globalStore.listRectPolygonPallet.length])
+    }, [globalStore.listRectPolygonPallet.length, globalStore.showDialogEditShapeStyle])
 
     useEffect(() => {
         if (globalStore.listCirclePolygonPallet.length > 0) {
@@ -115,6 +121,9 @@ const PalletGeoJsonContainer = () => {
                 let type = circlePolygonPallet.type;
                 let lat = circlePolygonPallet.bound?.lat;
                 let lng = circlePolygonPallet.bound?.lng;
+                let fillColor = globalStore.listCirclePolygonPallet[i].fillColor;
+                let color = globalStore.listCirclePolygonPallet[i].color;
+                let weight = globalStore.listCirclePolygonPallet[i].weight;
                 if (!status && lat && lat && type === 'circle-polygon') {
                     let circle = L.circle([lat, lng], {
                         radius: radius,
@@ -123,7 +132,13 @@ const PalletGeoJsonContainer = () => {
                         type: 'circle-polygon',
                         index: id,
                     })
-                        .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeCirclePolygonPalletById, globalStore.toggleShowDialogEditShapeStyle))
+                        .setStyle({
+                            fillColor: fillColor,
+                            color: color,
+                            weight: weight
+                        })
+                        .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeCirclePolygonPalletById,
+                            globalStore.toggleShowDialogEditShapeStyle, globalStore.setItemAnnotationStyling))
                         .addTo(map);
 
                     circle.on('dragend', function (event) {

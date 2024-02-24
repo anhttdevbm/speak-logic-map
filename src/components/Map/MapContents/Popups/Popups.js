@@ -1994,7 +1994,7 @@ export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle) => {
     }
 }
 
-export const annotationPalletPopup = (map, e, removePolygonPalletById, toggleShowDialogEditShapeStyle) => {
+export const annotationPalletPopup = (map, e, removePolygonPalletById, toggleShowDialogEditShapeStyle, setItemAnnotationStyling) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
@@ -2019,5 +2019,6 @@ export const annotationPalletPopup = (map, e, removePolygonPalletById, toggleSho
     window.editStyleAnnotation = () => {
         map.removeLayer(popup);
         toggleShowDialogEditShapeStyle();
+        setItemAnnotationStyling(id, type)
     }
 }
