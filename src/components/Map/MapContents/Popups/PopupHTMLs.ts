@@ -1095,7 +1095,7 @@ export const annotationPalletPopupHTML = (): string => {
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
       <div 
-        onclick="editStyleAnnotion()"
+        onclick="editStyleAnnotation()"
         class="${styles['row']}"
       >
         Edit style

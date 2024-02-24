@@ -1972,7 +1972,7 @@ export const imagePalletPopup = (map, e, removeImagePalletById) => {
     }
 }
 
-export const annotationPalletPopup = (map, e, removeRectPolygonPalletById) => {
+export const annotationPalletPopup = (map, e, removePolygonPalletById) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
@@ -1985,10 +1985,10 @@ export const annotationPalletPopup = (map, e, removeRectPolygonPalletById) => {
     window.deleteAnnotation = () => {
         map.removeLayer(popup);
         map.removeLayer(e.target);
-        removeRectPolygonPalletById(id)
+        removePolygonPalletById(id)
     }
 
-    window.editStyleAnnotion = () => {
+    window.editStyleAnnotation = () => {
         map.removeLayer(popup);
     }
 }

@@ -54,6 +54,7 @@ import {
     addSoluOrProbFn, addPallet1, addPallet2, addPallet3, addPallet4
 } from './AddMarkers'
 import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
+import {checkBoundContainMarker, computeDistanceBetweenTwoPoint} from "@/components/Map/MapContents/CommonUtil";
 
 
 // Toggle boundary of selected item
@@ -769,14 +770,24 @@ const Markers = ({setModal, setModalType}) => {
         refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
     }, [globalStore.listRectPolygonPallet.length, globalStore.listCirclePolygonPallet.length])
 
-    const checkBoundContainMarker = (bound, lat, lng) => {
-        let pointToCheck = L.latLng(lat, lng);
-        return bound.contains(pointToCheck);
-    }
-
     const checkEventClickInBound = (lat, lng, list) => {
         for (let i = 0; i < list.length; i++) {
             if (checkBoundContainMarker(list[i].bound, lat, lng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkMarkerInCircle = (radius, lat, lng, currentLat, currentLng) => {
+        const distance = computeDistanceBetweenTwoPoint(lat, lng, currentLat, currentLng);
+        return distance < radius;
+    }
+
+    const checkEventClickInCircle = (currentLat, currentLng) => {
+        for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
+            if (checkMarkerInCircle(globalStore.listCirclePolygonPallet[i].radius, globalStore.listCirclePolygonPallet[i].lat,
+                globalStore.listCirclePolygonPallet[i].lng, currentLat, currentLng)) {
                 return true;
             }
         }
@@ -791,7 +802,7 @@ const Markers = ({setModal, setModalType}) => {
             if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView
                 && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listRectPolygonPallet)
                 && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfImagePallet)
-                && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listCirclePolygonPallet)
+                && !checkEventClickInCircle(e.latlng.lat, e.latlng.lng)
             ) {
                 worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setListMapElementRelate, globalStore.setListMapElementSelected);
             } else if (globalStore.boatView) {

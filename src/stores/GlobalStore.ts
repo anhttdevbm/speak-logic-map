@@ -573,6 +573,10 @@ export class GlobalStore {
         this.listRectPolygonPallet = this.listRectPolygonPallet.filter(item => item.id != id);
     }
 
+    removeCirclePolygonPalletById = (id: any) => {
+        this.listCirclePolygonPallet = this.listCirclePolygonPallet.filter(item => item.id != id);
+    }
+
     resetListRectPolygonPallet = () => {
         this.listRectPolygonPallet = [];
     }
