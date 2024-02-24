@@ -70,7 +70,9 @@ export class GlobalStore {
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
+    listPositionOfTextPallet: any[] = [];
     positionOfImagePallet: any[] = [];
+    listPositionOfImagePallet: any[] = [];
     positionOfPallet1: any[] = [];
     positionOfPallet2: any[] = [];
     positionOfPallet3: any[] = [];
@@ -152,8 +154,25 @@ export class GlobalStore {
         this.positionOfTextPallet = [lat, lng];
     }
 
-    setPositionOfImagePallet = (lat: number, lng: number) => {
+    setPositionOfImagePallet = (lat: number, lng: number, id: any, bound: any) => {
         this.positionOfImagePallet = [lat, lng];
+        this.listPositionOfImagePallet.push({
+            id: id,
+            position: this.positionOfImagePallet,
+            bound: bound
+        })
+    }
+
+    updateValueImagePalletById = (id: any, value: any) => {
+        for (let i = 0; i < this.listPositionOfImagePallet.length; i++) {
+            if (this.listPositionOfImagePallet[i].id == id) {
+                this.listPositionOfImagePallet[i].valueImage = value;
+            }
+        }
+    }
+
+    removeImagePalletById = (id: any) => {
+        this.listPositionOfImagePallet = this.listPositionOfImagePallet.filter(item => item.id != id);
     }
 
     setPositionOfPallet = (lat: number, lng: number, positionOfPallet: any[], listPositionOfPallet: any[]) => {
@@ -184,6 +203,7 @@ export class GlobalStore {
         this.positionOfPallet2 = [];
         this.positionOfPallet3 = [];
         this.positionOfPallet4 = [];
+        this.positionOfImagePallet = [];
     }
 
     resetListPositionOfAllPallet = () => {
@@ -191,6 +211,7 @@ export class GlobalStore {
         this.listPositionOfPallet2 = [];
         this.listPositionOfPallet3 = [];
         this.listPositionOfPallet4 = [];
+        this.listPositionOfImagePallet = [];
     }
     setValueOfImage = (value: string) => {
         this.valueOfImage = value;
@@ -546,6 +567,10 @@ export class GlobalStore {
                 this.listRectPolygonPallet[i].geoJson = geoJson;
             }
         }
+    }
+
+    removeRectPolygonPalletById = (id: any) => {
+        this.listRectPolygonPallet = this.listRectPolygonPallet.filter(item => item.id != id);
     }
 
     resetListRectPolygonPallet = () => {

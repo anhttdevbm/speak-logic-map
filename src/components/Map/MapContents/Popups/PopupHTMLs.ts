@@ -1074,13 +1074,34 @@ export const givenSetPopupHTML = (): string => {
   `;
 }
 
-export const rectIconPopupHTML = (): string => {
+export const imagePalletPopupHTML = (): string => {
     return  `
     <div 
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
       <div 
-        onclick="deleteRectIcon()"
+        onclick="deleteImagePallet()"
+        class="${styles['row']}"
+      >
+        Delete Item
+      </div>
+    </div>
+  `
+}
+
+export const annotationPalletPopupHTML = (): string => {
+    return  `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div 
+        onclick="editStyleAnnotion()"
+        class="${styles['row']}"
+      >
+        Edit style
+      </div>
+      <div 
+        onclick="deleteAnnotation()"
         class="${styles['row']}"
       >
         Delete Item

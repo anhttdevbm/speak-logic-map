@@ -700,7 +700,7 @@ function makeHtml(id) {
     return '<textarea style="font-size: 20px; border: 1px solid gray; border-radius: 5px" type="text" value="" id="input_' + id + '" />'
 }
 
-export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
+export const addInputImagePallet = (map, lat, lng, id, isLocked, togglePalletOption, updateValueImagePalletById, setValueOfImage) => {
     let divIcon = L.divIcon({
         html: inputImageHtml(),
         className: 'divIcon',
@@ -718,6 +718,7 @@ export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption,
 
         const objectUrl = URL.createObjectURL(event.target.files[0]);
 
+        updateValueImagePalletById(id, objectUrl);
         setValueOfImage(objectUrl);
         map.removeLayer(marker);
     }

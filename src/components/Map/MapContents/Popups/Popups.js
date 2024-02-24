@@ -32,7 +32,12 @@ import {
     videoBoundPopupHTML,
     mapElementPopupHTML,
     rectIconPopupHTML,
-    givenSetPopupHTML, boatPopupHTML, floorPopupHTML, personMobilityPopupHTML
+    givenSetPopupHTML,
+    boatPopupHTML,
+    floorPopupHTML,
+    personMobilityPopupHTML,
+    annotationPalletPopupHTML,
+    imagePalletPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -1950,15 +1955,40 @@ export const removeHorizontalIconPopup = (map, e, removeHorizontalIcon) => {
     }
 }
 
-export const imagePalletPopup = (map, e) => {
+export const imagePalletPopup = (map, e, removeImagePalletById) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
         .setLatLng([e.latlng.lat, e.latlng.lng])
-        .setContent(rectIconPopupHTML())
+        .setContent(imagePalletPopupHTML)
         .addTo(map)
 
-    window.deleteRectIcon = () => {
+    let id = e.target.options.index
+
+    window.deleteImagePallet = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+        removeImagePalletById(id);
+    }
+}
+
+export const annotationPalletPopup = (map, e, removeRectPolygonPalletById) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(annotationPalletPopupHTML)
+        .addTo(map);
+
+    let id = e.target.options.index
+
+    window.deleteAnnotation = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+        removeRectPolygonPalletById(id)
+    }
+
+    window.editStyleAnnotion = () => {
         map.removeLayer(popup);
     }
 }

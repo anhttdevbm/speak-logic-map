@@ -6,6 +6,8 @@ import {observer} from "mobx-react-lite";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
 import {markerNavigationSignIcon} from "@/components/Map/MapContents/Markers/MarkerIcons";
 import {addHouseMarker} from "@/components/Map/MapContents/Markers/AddMarkers";
+import {annotationPalletPopup, imagePalletPopup} from "@/components/Map/MapContents/Popups/Popups";
+import {addSelectedItem} from "@/components/Map/MapContents/Markers/HandleSelectItem";
 
 const PalletGeoJsonContainer = () => {
     const map = useMap();
@@ -105,12 +107,15 @@ const PalletGeoJsonContainer = () => {
                     L.geoJSON(geoJson, {
                         status: 'add',
                         type: 'rect-polygon',
+                        index: id,
                         onEachFeature(feature, layer) {
                             if (type === 'rect-polygon') {
                                 handleFeature(layer, id);
                             }
+                            layer.on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeRectPolygonPalletById))
                         }
-                    }).addTo(map);
+                    })
+                        .addTo(map);
                     globalStore.setStatusRectPolygonPallet(id, true)
                 }
             }
@@ -134,7 +139,9 @@ const PalletGeoJsonContainer = () => {
                         draggable: true,
                         status: 'add',
                         type: 'circle-polygon',
-                    }).addTo(map);
+                    })
+                        .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeRectPolygonPalletById))
+                        .addTo(map);
 
                     circle.on('dragend', function (event) {
                         circle.setRadius(radius);
@@ -190,7 +197,9 @@ const PalletGeoJsonContainer = () => {
                         color: 'black',
                         status: 'add',
                         type: 'line-pallet',
-                    }).addTo(map);
+                    })
+                        .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeRectPolygonPalletById))
+                        .addTo(map);
                     globalStore.setStatusLinePallet(id, true)
                 }
             }
