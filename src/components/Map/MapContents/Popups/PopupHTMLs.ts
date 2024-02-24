@@ -420,7 +420,10 @@ export const problemPopupHTML = (hasBoundary: boolean): string => {
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
       <div class="${[styles['row']]} ${styles['on-hover']}">
-        Show Function
+        Show Problem as
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func']}">
           <div
             onclick="changeShapeProblem('circle')"
@@ -1071,13 +1074,34 @@ export const givenSetPopupHTML = (): string => {
   `;
 }
 
-export const rectIconPopupHTML = (): string => {
+export const imagePalletPopupHTML = (): string => {
     return  `
     <div 
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
       <div 
-        onclick="deleteRectIcon()"
+        onclick="deleteImagePallet()"
+        class="${styles['row']}"
+      >
+        Delete Item
+      </div>
+    </div>
+  `
+}
+
+export const annotationPalletPopupHTML = (): string => {
+    return  `
+    <div 
+      class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
+    >
+      <div 
+        onclick="editStyleAnnotation()"
+        class="${styles['row']}"
+      >
+        Edit style
+      </div>
+      <div 
+        onclick="deleteAnnotation()"
         class="${styles['row']}"
       >
         Delete Item
@@ -1096,6 +1120,12 @@ export const textPalletPopupHTML = (): string => {
         class="${styles['row']}"
       >
         Edit Text Style
+      </div>
+      <div 
+        onclick="deleteAnnotation()"
+        class="${styles['row']}"
+      >
+        Delete Item
       </div>
     </div>
   `

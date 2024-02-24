@@ -46,9 +46,9 @@ export class GlobalStore {
     showDialogEditTextStyle: boolean = false;
     showDialogEditShapeStyle: boolean = false;
     inAreaSelection: boolean = false;
-    showHouseDistance: boolean = false;
+    showHouseDistance: 'house-view-shot' | 'house-view-distance' | '' = '';
     showRoomDistance: boolean = false;
-    showFloorPlanDistance: boolean = false;
+    showFloorPlanDistance: 'plan-view-shot' | 'plan-view-distance' | '' = '';
     showBoatWave: boolean = false;
     showGivenSet: boolean = false;
     countryQuantity: number = 0;
@@ -72,7 +72,9 @@ export class GlobalStore {
     chooseGivenSet = false;
     dataScroll: any = null;
     positionOfTextPallet: any[] = [];
+    listPositionOfTextPallet: any[] = [];
     positionOfImagePallet: any[] = [];
+    listPositionOfImagePallet: any[] = [];
     positionOfPallet1: any[] = [];
     positionOfPallet2: any[] = [];
     positionOfPallet3: any[] = [];
@@ -173,14 +175,34 @@ export class GlobalStore {
         this.positionOfTextPallet = [lat, lng];
     }
 
-    setPositionOfImagePallet = (lat: number, lng: number) => {
+    setPositionOfImagePallet = (lat: number, lng: number, id: any, bound: any) => {
         this.positionOfImagePallet = [lat, lng];
+        this.listPositionOfImagePallet.push({
+            id: id,
+            position: this.positionOfImagePallet,
+            bound: bound
+        })
+    }
+
+    updateValueImagePalletById = (id: any, value: any) => {
+        for (let i = 0; i < this.listPositionOfImagePallet.length; i++) {
+            if (this.listPositionOfImagePallet[i].id == id) {
+                this.listPositionOfImagePallet[i].valueImage = value;
+            }
+        }
+    }
+
+    removeImagePalletById = (id: any) => {
+        this.listPositionOfImagePallet = this.listPositionOfImagePallet.filter(item => item.id != id);
     }
 
     setPositionOfPallet = (lat: number, lng: number, positionOfPallet: any[], listPositionOfPallet: any[]) => {
         positionOfPallet.push([lat, lng]);
         if (positionOfPallet.length === 2) {
-            listPositionOfPallet.push(positionOfPallet);
+            listPositionOfPallet.push({
+                id: listPositionOfPallet.length + 1,
+                position: positionOfPallet
+            });
         }
     }
 
@@ -205,6 +227,7 @@ export class GlobalStore {
         this.positionOfPallet2 = [];
         this.positionOfPallet3 = [];
         this.positionOfPallet4 = [];
+        this.positionOfImagePallet = [];
     }
 
     resetListPositionOfAllPallet = () => {
@@ -212,6 +235,7 @@ export class GlobalStore {
         this.listPositionOfPallet2 = [];
         this.listPositionOfPallet3 = [];
         this.listPositionOfPallet4 = [];
+        this.listPositionOfImagePallet = [];
     }
     setValueOfImage = (value: string) => {
         this.valueOfImage = value;
@@ -367,19 +391,28 @@ export class GlobalStore {
         this.roomName = value;
     }
 
-    toggleHouseDistance = (): void => {
-        this.showHouseDistance = !this.showHouseDistance;
+    toggleHouseDistance = (value: 'house-view-shot' | 'house-view-distance' | ''): void => {
+        if (value === this.showHouseDistance) {
+            this.showHouseDistance = '';
+        } else {
+            this.showHouseDistance = value;
+        }
+
     }
 
     toggleRoomDistance = (): void => {
         this.showRoomDistance = !this.showRoomDistance;
     }
 
-    toggleFloorDistance = () => {
-        this.showFloorPlanDistance = !this.showFloorPlanDistance;
+    toggleFloorDistance = (value: 'plan-view-shot' | 'plan-view-distance' | '') => {
+        if (value === this.showFloorPlanDistance) {
+            this.showFloorPlanDistance = '';
+        } else {
+            this.showFloorPlanDistance = value;
+        }
     }
     clearFloorDistance = () => {
-        this.showFloorPlanDistance = false;
+        this.showFloorPlanDistance = '';
     }
 
     toggleFloorPlanView = (value: 'floorplan-countries' | ''): void => {
@@ -541,7 +574,10 @@ export class GlobalStore {
                 bound: bound,
                 latlngs: latlngs,
                 geoJson: geoJson,
-                status: false
+                status: false,
+                fillColor: 'rgb(51, 136, 255)',
+                color: 'rgb(51, 136, 255)',
+                weight: 3,
             })
         }
     }
@@ -568,6 +604,30 @@ export class GlobalStore {
         }
     }
 
+    removeRectPolygonPalletById = (id: any) => {
+        this.listRectPolygonPallet = this.listRectPolygonPallet.filter(item => item.id != id);
+    }
+
+    removeLinePalletById = (id: any) => {
+        this.listLinePallet = this.listLinePallet.filter(item => item.id != id);
+    }
+    removeLinePallet1ById = (id: any) => {
+        this.listPositionOfPallet1 = this.listPositionOfPallet1.filter(item => item.id != id);
+    }
+    removeLinePallet2ById = (id: any) => {
+        this.listPositionOfPallet2 = this.listPositionOfPallet2.filter(item => item.id != id);
+    }
+    removeLinePallet3ById = (id: any) => {
+        this.listPositionOfPallet3= this.listPositionOfPallet3.filter(item => item.id != id);
+    }
+    removeLinePallet4ById = (id: any) => {
+        this.listPositionOfPallet4 = this.listPositionOfPallet4.filter(item => item.id != id);
+    }
+
+    removeCirclePolygonPalletById = (id: any) => {
+        this.listCirclePolygonPallet = this.listCirclePolygonPallet.filter(item => item.id != id);
+    }
+
     resetListRectPolygonPallet = () => {
         this.listRectPolygonPallet = [];
     }
@@ -585,7 +645,10 @@ export class GlobalStore {
                 bound: bound,
                 radius: radius,
                 geoJson: geoJson,
-                status: false
+                status: false,
+                fillColor: 'rgb(51, 136, 255)',
+                color: 'rgb(51, 136, 255)',
+                weight: 3,
             })
         }
     }
@@ -879,6 +942,14 @@ export class GlobalStore {
         this.listMapElementSelected.map(item => {
             if (item.id === id) {
                 item.position = [lat, lng];
+            }
+        })
+    }
+
+    changeRelateNameOfMapElementSelected = (name: string, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.relateName = name;
             }
         })
     }

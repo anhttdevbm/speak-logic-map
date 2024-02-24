@@ -32,7 +32,13 @@ import {
     videoBoundPopupHTML,
     mapElementPopupHTML,
     rectIconPopupHTML,
-    givenSetPopupHTML, boatPopupHTML, floorPopupHTML, personMobilityPopupHTML, textPalletPopupHTML
+    givenSetPopupHTML,
+    boatPopupHTML,
+    floorPopupHTML,
+    personMobilityPopupHTML,
+    annotationPalletPopupHTML,
+    imagePalletPopupHTML,
+    textPalletPopupHTML
 } from './PopupHTMLs';
 
 import {removeTempList, setupGroup, setupMainSet, showDistance} from '../Markers/HandleSelectItem';
@@ -243,6 +249,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
                 color = 'red'
             }
         }
+        map.removeLayer(popup);
 
         if (name === 'Problem') {
             if (Number(index[0]) <= markerProblemIndex[0] - 1) {
@@ -259,36 +266,34 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
         } else {
             updateNameItemListMarkerFunctionByName(currentName, name + ' ' + index[0]);
             updateNameItemMapLayerByNameAndType(currentName, 'function', name + ' ' + index[0]);
-        }
 
-        if (!currentName.startsWith(name)) {
-            stopFnRunningFeatures(e);
+            if (!currentName.startsWith(name)) {
+                stopFnRunningFeatures(e);
 
-            if (e.target._icon.classList.contains(styles['circle-fn'])) {
-                e.target.setIcon(
-                    markerFnCircleIcon(
-                        `${styles['circle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
-                        handleName(name, index, currentName)
+                if (e.target._icon.classList.contains(styles['circle-fn'])) {
+                    e.target.setIcon(
+                        markerFnCircleIcon(
+                            `${styles['circle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
+                            handleName(name, index, currentName)
+                        )
+                    );
+                } else if (e.target._icon.classList.contains(styles['rectangle-fn'])) {
+                    e.target.setIcon(
+                        markerFnIcon(
+                            `${styles['rectangle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
+                            handleName(name, index, currentName)
+                        )
+                    );
+                } else if (e.target._icon.classList.contains(styles['ellipse-fn'])) {
+                    e.target.setIcon(
+                        markerFnIcon(
+                            `${styles['ellipse-fn']} ${color ? styles['fn--' + color] : currentColor}`,
+                            handleName(name, index, currentName)
+                        )
                     )
-                );
-            } else if (e.target._icon.classList.contains(styles['rectangle-fn'])) {
-                e.target.setIcon(
-                    markerFnIcon(
-                        `${styles['rectangle-fn']} ${color ? styles['fn--' + color] : currentColor}`,
-                        handleName(name, index, currentName)
-                    )
-                );
-            } else if (e.target._icon.classList.contains(styles['ellipse-fn'])) {
-                e.target.setIcon(
-                    markerFnIcon(
-                        `${styles['ellipse-fn']} ${color ? styles['fn--' + color] : currentColor}`,
-                        handleName(name, index, currentName)
-                    )
-                )
+                }
             }
         }
-
-        map.removeLayer(popup);
     };
 
     window.fnAddImg = (event) => {
@@ -584,7 +589,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -627,7 +632,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -668,7 +673,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -709,7 +714,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -784,7 +789,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -825,7 +830,6 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -864,7 +868,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -903,7 +907,6 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -1953,16 +1956,68 @@ export const removeHorizontalIconPopup = (map, e, removeHorizontalIcon) => {
     }
 }
 
+export const imagePalletPopup = (map, e, removeImagePalletById) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(imagePalletPopupHTML)
+        .addTo(map)
+
+    let id = e.target.options.index
+
+    window.deleteImagePallet = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+        removeImagePalletById(id);
+    }
+}
+
 export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
         .setLatLng([e.latlng.lat, e.latlng.lng])
-        .setContent(textPalletPopupHTML())
+        .setContent(textPalletPopupHTML)
         .addTo(map)
+
+    let id = e.target.options.index
+
+    window.deleteAnnotation = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+    }
 
     window.editTextStyle = () => {
         map.removeLayer(popup);
         toggleShowDialogEditTextStyle();
+    }
+}
+
+export const annotationPalletPopup = (map, e, removePolygonPalletById, toggleShowDialogEditShapeStyle) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(annotationPalletPopupHTML)
+        .addTo(map);
+
+    let id = e.target.options.index;
+    let type = e.target.options.type;
+
+    window.deleteAnnotation = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+        map.eachLayer(layer => {
+            if (layer.options.index === id && layer.options.type === type) {
+                map.removeLayer(layer)
+            }
+        });
+        removePolygonPalletById(id)
+    }
+
+    window.editStyleAnnotation = () => {
+        map.removeLayer(popup);
+        toggleShowDialogEditShapeStyle();
     }
 }

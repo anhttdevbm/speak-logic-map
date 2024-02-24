@@ -17,7 +17,14 @@ import * as turf from '@turf/turf';
 
 import styles from '../_MapContents.module.scss';
 
-import {boatPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
+import {
+    annotationPalletPopup,
+    boatPopup,
+    imagePalletPopup,
+    personMobilityPopup,
+    worldPopup,
+    wrappingPopup
+} from '../Popups/Popups'
 
 import {
     markerPersonIndex, markerGivenSet,
@@ -47,6 +54,7 @@ import {
     addSoluOrProbFn, addPallet1, addPallet2, addPallet3, addPallet4
 } from './AddMarkers'
 import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
+import {checkBoundContainMarker, computeDistanceBetweenTwoPoint} from "@/components/Map/MapContents/CommonUtil";
 
 
 // Toggle boundary of selected item
@@ -675,6 +683,7 @@ const Markers = ({setModal, setModalType}) => {
                     }
                 }
             } else {
+                removeLayerFnAndPl();
                 globalStore.mapLayer.forEach(fn => {
                     if (fn.type === 'function'
                         && fn.isShow
@@ -709,7 +718,8 @@ const Markers = ({setModal, setModalType}) => {
                         if (!checkMarkerExist(map, index, 'problem', fn.lat, fn.lng)) {
                             addSoluOrProbFn(map, fn.lat, fn.lng, globalStore.lock, index, 'Problem', setModal, setModalType,
                                 globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
-                                globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType);
+                                globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType,
+                                globalStore.updateMapLayerById);
                         }
                     }
                 })
@@ -718,42 +728,112 @@ const Markers = ({setModal, setModalType}) => {
     }, [globalStore.click, globalStore.addIcon, globalStore.mapView, globalStore.tableView, globalStore.rectangularView,
         globalStore.positionOfHorizontalLine, globalStore.mapLayer, globalStore.statusDisplayItem]);
 
+    const removeLayerFnAndPl = () => {
+        map.eachLayer(layer => {
+            if (layer.options.target?.type === 'function' || layer.options.target?.type === 'problem') {
+                map.removeLayer(layer);
+            }
+        });
+    }
+
     useEffect(() => {
-        if (globalStore.positionOfImagePallet.length > 0 && globalStore.valueOfImage && globalStore.valueOfImage !== '') {
-            let value = globalStore.valueOfImage;
+        for (let i = 0; i < globalStore.listPositionOfImagePallet.length; i++) {
+            let imagePalletObj = globalStore.listPositionOfImagePallet[i];
+            if (imagePalletObj.position.length > 0 && imagePalletObj.valueImage && imagePalletObj.valueImage !== '') {
+                let value = imagePalletObj.valueImage;
 
-            let imageBounds = [globalStore.positionOfImagePallet, [globalStore.positionOfImagePallet[0] - 20, globalStore.positionOfImagePallet[1] + 50]];
-            let bounds = L.latLngBounds(imageBounds);
+                let imageBounds = [imagePalletObj.position, [imagePalletObj.position[0] - 20, imagePalletObj.position[1] + 50]];
+                let bounds = L.latLngBounds(imageBounds);
 
-            let latLngs = [
-                bounds.getSouthWest(),
-                bounds.getNorthWest(),
-                bounds.getNorthEast(),
-                bounds.getSouthEast()
-            ];
-            let imageTransform = L.imageOverlay.transform(value, latLngs, {
-                draggable: true,
-                scalable: true,
-                rotatable: false,
-                keepRatio: false,
-                fit: true,
-                attribution: 'imageTransform'
-            });
-            imageTransform.addTo(map);
+                let latLngs = [
+                    bounds.getSouthWest(),
+                    bounds.getNorthWest(),
+                    bounds.getNorthEast(),
+                    bounds.getSouthEast()
+                ];
+                let imageTransform = L.imageOverlay.transform(value, latLngs, {
+                    draggable: true,
+                    scalable: true,
+                    rotatable: false,
+                    keepRatio: false,
+                    fit: true,
+                    attribution: 'imageTransform',
+                    index: imagePalletObj.id
+                }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById));
+                imageTransform.addTo(map);
+            }
         }
-    }, [globalStore.valueOfImage]);
+    }, [globalStore.listRectPolygonPallet.length, globalStore.valueOfImage]);
 
     useEffect(() => {
         refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
         refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
     }, [globalStore.listRectPolygonPallet.length, globalStore.listCirclePolygonPallet.length])
 
+    const checkEventClickInBound = (lat, lng, list) => {
+        for (let i = 0; i < list.length; i++) {
+            if (checkBoundContainMarker(list[i].bound, lat, lng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkEventClickInPallet1 = (lat, lng, list) => {
+        for (let i = 0; i < list.length; i++) {
+            let position = list[i].position;
+            let latLng1 = position[0];
+            let latLng2 = position[1];
+            let bound1 = L.polyline([[latLng1[0], latLng2[1]], latLng1]).getBounds();
+            let bound2 = L.polyline([[latLng1[0], latLng2[1]], latLng2]).getBounds();
+            if (checkBoundContainMarker(bound1, lat, lng) && checkBoundContainMarker(bound2, lat, lng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkEventClickInPolyline = (lat, lng, list) => {
+        for (let i = 0; i < list.length; i++) {
+            let latLng = list[i].latlng || list[i].position;
+            let bound = L.polyline(latLng).getBounds();
+            if (checkBoundContainMarker(bound, lat, lng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkMarkerInCircle = (radius, lat, lng, currentLat, currentLng) => {
+        const distance = computeDistanceBetweenTwoPoint(lat, lng, currentLat, currentLng);
+        return distance < radius;
+    }
+
+    const checkEventClickInCircle = (currentLat, currentLng) => {
+        for (let i = 0; i < globalStore.listCirclePolygonPallet.length; i++) {
+            if (checkMarkerInCircle(globalStore.listCirclePolygonPallet[i].radius, globalStore.listCirclePolygonPallet[i].bound.lat,
+                globalStore.listCirclePolygonPallet[i].bound.lng, currentLat, currentLng)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     useMapEvents({
 
         // Open right-click menu on map
         contextmenu(e) {
-            if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView) {
+            if (globalStore.map && !globalStore.boatView && !globalStore.roomView && !globalStore.floorPlanView
+                && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listRectPolygonPallet)
+                && !checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfImagePallet)
+                && !checkEventClickInCircle(e.latlng.lat, e.latlng.lng)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listLinePallet)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet1)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet2)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet3)
+                && !checkEventClickInPolyline(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfPallet4)
+            ) {
                 worldPopup(map, e, globalStore.map, globalStore.toggleHouseView, globalStore.setListMapElementRelate, globalStore.setListMapElementSelected);
             } else if (globalStore.boatView) {
                 boatPopup(map, e, globalStore.map, globalStore.toggleBoatView, globalStore.setListMapElementRelate, globalStore.setListMapElementSelected);
@@ -901,9 +981,11 @@ const Markers = ({setModal, setModalType}) => {
                 addInputTextPallet(map, e.latlng.lat, e.latlng.lng, markerTextPalletIndex[0], globalStore.lock,
                     globalStore.togglePalletOption, globalStore.toggleShowDialogEditTextStyle)
             } else if (globalStore.palletOption === 'image') {
-                globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng);
-                addInputImagePallet(map, e.latlng.lat, e.latlng.lng, globalStore.lock, globalStore.togglePalletOption,
-                    globalStore.setValueOfImage)
+                let id = globalStore.listPositionOfImagePallet.length + 1;
+                let bound = L.latLngBounds([[e.latlng.lat, e.latlng.lng], [e.latlng.lat - 20, e.latlng.lng + 50]])
+                globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng, id, bound);
+                addInputImagePallet(map, e.latlng.lat, e.latlng.lng, id, globalStore.lock, globalStore.togglePalletOption,
+                    globalStore.updateValueImagePalletById, globalStore.setValueOfImage)
             } else if (globalStore.palletOption === 'pallet1') {
                 globalStore.resetPositionOfPallet2();
                 globalStore.resetPositionOfPallet3();

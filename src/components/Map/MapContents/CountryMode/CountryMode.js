@@ -337,7 +337,8 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
           globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerProblemIndex[0], 'problem');
           addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType,
               globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
-              globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType);
+              globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType,
+              globalStore.updateMapLayerById);
 
           markerProblemIndex[0]++;
           map.removeLayer(countryPopup);

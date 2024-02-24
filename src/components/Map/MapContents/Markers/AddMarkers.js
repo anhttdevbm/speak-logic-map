@@ -16,6 +16,7 @@ import {
 } from './MarkerIcons';
 import styles from '../_MapContents.module.scss';
 import {
+    annotationPalletPopup,
     distancePopup,
     fnCountryPopup,
     fnProblemPopup,
@@ -238,14 +239,20 @@ export const addHouseMarker = (map, lat, lng, isLocked) => {
 }
 
 export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl, addMarkerFnToList, setMapLayer,
-                                updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType) => {
+                                updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType,
+                                updateMapLayerById) => {
     const formattedName = String(name).toLowerCase();
     const first = formattedName[0].toUpperCase();
     const remain = formattedName.slice(1, formattedName.length);
 
-    L.marker([lat, lng], {
+    let marker = L.marker([lat, lng], {
         draggable: !isLocked,
         type: {index: index, title: 'problem', status: 'add'},
+        target: {
+            type: 'problem',
+            index: index,
+            status: 'add',
+        },
         icon: markerFnIcon(
             `${styles['rectangle-fn']} ${formattedName === 'solution' ? styles['fn--green'] : styles['fn--red']}`,
             `${name ? `${first}${remain} ${index}` : `Function ${index}`}`
@@ -267,6 +274,11 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
                 e.target._icon.classList.add(styles["fn--red"]);
             }
         });
+
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updateMapLayerById(latLng.lat, latLng.lng, 'problem', `Problem ${index}`, false)
+    })
 }
 
 export const addStopFn = (map, lat, lng, isLocked, index) => {
@@ -691,7 +703,7 @@ function makeHtml(id) {
         'type="text" value="" id="input_' + id + '" rows="4"/>'
 }
 
-export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption, setValueOfImage) => {
+export const addInputImagePallet = (map, lat, lng, id, isLocked, togglePalletOption, updateValueImagePalletById, setValueOfImage) => {
     let divIcon = L.divIcon({
         html: inputImageHtml(),
         className: 'divIcon',
@@ -709,6 +721,7 @@ export const addInputImagePallet = (map, lat, lng, isLocked, togglePalletOption,
 
         const objectUrl = URL.createObjectURL(event.target.files[0]);
 
+        updateValueImagePalletById(id, objectUrl);
         setValueOfImage(objectUrl);
         map.removeLayer(marker);
     }
