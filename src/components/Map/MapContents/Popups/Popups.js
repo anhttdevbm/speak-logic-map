@@ -583,7 +583,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -626,7 +626,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -667,7 +667,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -708,7 +708,7 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
                     setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
@@ -783,7 +783,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -824,7 +824,6 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -863,7 +862,7 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
+                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
@@ -902,7 +901,6 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                .arrowheads({size: '5%', color: 'transparent', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
                 .addTo(map);
             map.off('click');
