@@ -17,7 +17,7 @@ import * as turf from '@turf/turf';
 
 import styles from '../_MapContents.module.scss';
 
-import {boatPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
+import {boatPopup, imagePalletPopup, personMobilityPopup, worldPopup, wrappingPopup} from '../Popups/Popups'
 
 import {
     markerPersonIndex, markerGivenSet,

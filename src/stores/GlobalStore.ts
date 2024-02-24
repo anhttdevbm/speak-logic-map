@@ -863,6 +863,14 @@ export class GlobalStore {
         })
     }
 
+    changeRelateNameOfMapElementSelected = (name: string, id: any): void => {
+        this.listMapElementSelected.map(item => {
+            if (item.id === id) {
+                item.relateName = name;
+            }
+        })
+    }
+
     changeStatusOfMapElementSelected = (status: any, id: any): void => {
         this.listMapElementSelected.map(item => {
             if (item.id === id) {

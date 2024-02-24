@@ -1951,3 +1951,16 @@ export const removeHorizontalIconPopup = (map, e, removeHorizontalIcon) => {
         map.removeLayer(popup);
     }
 }
+
+export const imagePalletPopup = (map, e) => {
+    clearAllPopups(map);
+    const popup = L.popup();
+    popup
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent(rectIconPopupHTML())
+        .addTo(map)
+
+    window.deleteRectIcon = () => {
+        map.removeLayer(popup);
+    }
+}
