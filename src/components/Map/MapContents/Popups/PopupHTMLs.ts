@@ -420,7 +420,10 @@ export const problemPopupHTML = (hasBoundary: boolean): string => {
       class="${styles['popup-wrap']} ${styles['popup-interact-function']}"
     >
       <div class="${[styles['row']]} ${styles['on-hover']}">
-        Show Function
+        Show Problem as
+        <div class="${styles["sub-icon"]}" style="float: right">
+            <img src="${ARROW_ICON.src}" alt="Arrow" width="15" height="15" />
+        </div>
         <div class="${styles['hover-func']}">
           <div
             onclick="changeShapeProblem('circle')"
