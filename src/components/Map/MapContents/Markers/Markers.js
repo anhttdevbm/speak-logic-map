@@ -85,7 +85,7 @@ const Markers = ({setModal, setModalType}) => {
             const root = document.documentElement;
             root?.style.setProperty("--time-animation", simulationSettingStore.transitionTime ? simulationSettingStore.transitionTime / 1000 + 's' : '10s')
             map.eachLayer(layer => {
-                if (layer.options.target?.type === 'function') {
+                if (layer.options.target?.type === 'function' || layer.options.target?.type === 'problem') {
                     if (!listNameFunction.includes(layer.options?.icon?.options?.html)) {
                         listNameFunction.push(layer.options?.icon?.options?.html);
                         listLayer.push(layer);
@@ -117,7 +117,7 @@ const Markers = ({setModal, setModalType}) => {
             }
         } else {
             map.eachLayer(layer => {
-                if (layer.options.target?.type === 'function') {
+                if (layer.options.target?.type === 'function' || layer.options.target?.type === 'problem') {
                     layer._icon.classList.remove(styles[`simulation-animate0`]);
                     layer._icon.classList.remove(styles[`simulation-animate1`]);
                     layer._icon.classList.remove(styles[`simulation-animate-boundary`]);
