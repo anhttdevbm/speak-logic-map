@@ -19,6 +19,7 @@ import {
     removeRectIconPopup,
     removeVerticalPersonIconPopup
 } from "@/components/Map/MapContents/Popups/Popups";
+import {addInputTextPallet} from "@/components/Map/MapContents/Markers/AddMarkers";
 
 const PalletLineView = () => {
     const map = useMap();
@@ -32,7 +33,6 @@ const PalletLineView = () => {
 
     const [zoom, setZoom] = useState(map.getZoom());
     const [distance, setDistance] = useState(300);
-    const [distancePerson, setDistancePerson] = useState(95);
 
     map.on('zoomend', () => {
         setZoom(map.getZoom());
@@ -72,10 +72,19 @@ const PalletLineView = () => {
     }
 
     useEffect(() => {
+        map.eachLayer(layer => {
+            if (layer.options.target?.type === 'input-text') {
+                map.removeLayer(layer);
+            }
+        })
         for (let i = 0; i < globalStore.listPrincipleLine.length; i++) {
             globalStore.setStatusGivenSetForPrincipleLine(globalStore.listPrincipleLine[i].id, false);
         }
-    }, [globalStore.map])
+
+        for (let i = 0; i < globalStore.listPositionOfTextPallet.length; i++) {
+            globalStore.setStatusTextPallet(globalStore.listPositionOfTextPallet[i].id, false)
+        }
+    }, [globalStore.map, globalStore.showDialogEditTextStyle])
 
     useEffect(() => {
         for (let i = 0; i < globalStore.listPositionOfPallet1.length; i++) {
@@ -90,8 +99,13 @@ const PalletLineView = () => {
         for (let i = 0; i < globalStore.listPositionOfPallet4.length; i++) {
             addPallet4(globalStore.listPositionOfPallet4[i].position, globalStore.listPositionOfPallet4[i].id);
         }
+        for (let i = 0; i < globalStore.listPositionOfTextPallet.length; i++) {
+            if (!globalStore.listPositionOfTextPallet[i].status) {
+                addTextPallet(globalStore.listPositionOfTextPallet[i].position, globalStore.listPositionOfTextPallet[i].id, globalStore.listPositionOfTextPallet[i].style);
+            }
+        }
     }, [globalStore.map, globalStore.listPositionOfPallet4.length, globalStore.listPositionOfPallet1.length, globalStore.listPositionOfPallet2.length,
-        globalStore.listPositionOfPallet3.length]);
+        globalStore.listPositionOfPallet3.length, globalStore.listPositionOfTextPallet.length, globalStore.showDialogEditTextStyle]);
 
     const addPallet1 = (positionOfPallet1, id) => {
         let latLng1 = positionOfPallet1[0];
@@ -181,7 +195,6 @@ const PalletLineView = () => {
     const addPallet4 = (positionOfPallet4, id) => {
         let latLng1 = positionOfPallet4[0];
         let latLng2 = positionOfPallet4[1];
-        debugger
         let centerLatLng = findLatLngPoint(latLng2, [latLng1[0], latLng2[1]], map)
         L.polyline([[centerLatLng.lat, centerLatLng.lng], latLng2], {
             weight: 2,
@@ -212,6 +225,12 @@ const PalletLineView = () => {
             .arrowheads({size: '15px', color: 'red', type: 'arrow', status: 'add'})
             .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeLinePallet4ById))
             .addTo(map);
+    }
+
+    const addTextPallet = (positionText, id, style) => {
+        addInputTextPallet(map, positionText[0], positionText[1], id, globalStore.lock, globalStore.toggleShowDialogEditTextStyle,
+            style, globalStore.setItemAnnotationStyling)
+        globalStore.setStatusTextPallet(id, true);
     }
 
     return null

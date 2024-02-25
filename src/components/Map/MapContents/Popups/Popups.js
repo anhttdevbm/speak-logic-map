@@ -1973,7 +1973,7 @@ export const imagePalletPopup = (map, e, removeImagePalletById) => {
     }
 }
 
-export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle) => {
+export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
@@ -1981,7 +1981,7 @@ export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle) => {
         .setContent(textPalletPopupHTML)
         .addTo(map)
 
-    let id = e.target.options.index
+    let id = e.target.options?.target?.index
 
     window.deleteAnnotation = () => {
         map.removeLayer(popup);
@@ -1991,6 +1991,7 @@ export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle) => {
     window.editTextStyle = () => {
         map.removeLayer(popup);
         toggleShowDialogEditTextStyle();
+        setItemAnnotationStyling(id, 'text-pallet')
     }
 }
 

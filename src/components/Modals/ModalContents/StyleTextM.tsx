@@ -1,27 +1,24 @@
-import {CloseIcon, SimulationSettingIcon} from '@/components/Icons/Icons';
-import {useSimulationSettingStore} from '@/providers/RootStoreProvider';
-import {SimulationSettingInterface} from '@/stores/SimulationSettingStore';
-import {toTitleCase} from '@/utils/format_string_to_title';
+import {CloseIcon} from '@/components/Icons/Icons';
+import {useGlobalStore} from '@/providers/RootStoreProvider';
 import React, {memo, useState} from 'react';
-import {Checkbox, Col, Input, Radio, Row, Select} from 'antd';
+import {Checkbox, Col, Input, Radio, Row} from 'antd';
 import styles from './_ModalContents.module.scss';
 import TextArea from "antd/es/input/TextArea";
 
 interface Props {
     setToggleModal: any,
-    setStyleText: any
+    setStyleText: any,
+    initValue: any,
 }
 
-const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX.Element => {
-    const simulationSettingStore = useSimulationSettingStore();
-    const [setting, setSetting] = useState<SimulationSettingInterface>(simulationSettingStore);
+const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText, initValue}: Props): JSX.Element => {
+    const globalStore = useGlobalStore();
 
-    const [font, setFont] = useState<any>("Times New Roman");
-    const [size, setSize] = useState<any>(18);
-    const [color, setColor] = useState<any>("#000000");
-    const [style, setStyle] = useState<any[]>([]);
-    const [alignHorz, setAlignHorz] = useState<any>("left");
-    const [alignVert, setAlignVert] = useState<any>("middle");
+    const [font, setFont] = useState<any>(initValue?.style?.fontFamily);
+    const [size, setSize] = useState<any>(initValue?.style?.fontSize);
+    const [color, setColor] = useState<any>(initValue?.style?.fontColor);
+    const [style, setStyle] = useState<any[]>(initValue?.style?.fontStyle);
+    const [alignHorz, setAlignHorz] = useState<any>(initValue?.style?.textAlign);
     const [text, setText] = useState<any>("AaBbCcXxYyZaAaBbCcXxYyZaAaBbCcXxYyZaAaBbCcXxYyZa");
 
     const closeModal = (): void => {
@@ -29,7 +26,9 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
     }
 
     const saveGlobalSetting = () => {
+        let id = globalStore.itemAnnotationStyle.id;
         setStyleText(font, size, color, style, alignHorz);
+        globalStore.updateStyleTextPalletById(id, globalStore.styleText);
         setToggleModal();
     }
 
@@ -43,9 +42,9 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
             <div className={`${styles['main']}`}>
                 <div className={`${styles['main-content']}`}>
                     {/*FONT*/}
-                    <div key={`font`} className={`${styles['option-wrap']}`} style={{padding: '0.5rem!important'}}>
+                    <div className={`${styles['option-wrap']}`} style={{padding: '0.5rem!important'}}>
                         <h5>Font</h5>
-                        <Row key={`fonts`} className={`${styles['option']}`}>
+                        <Row className={`${styles['option']}`}>
                             <Col span={8}>
                                 <label style={{width: '150%'}}>Fonts</label>
                             </Col>
@@ -61,7 +60,7 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                                 </select>
                             </Col>
                         </Row>
-                        <Row key={`fonts`} className={`${styles['option']}`}>
+                        <Row className={`${styles['option']}`}>
                             <Col span={8}>
                                 <label style={{width: '150%'}}>Size</label>
                             </Col>
@@ -73,13 +72,13 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                                 />
                             </Col>
                         </Row>
-                        <Row key={`fonts`} className={`${styles['option']}`}>
+                        <Row className={`${styles['option']}`}>
                             <Col span={8}>
                                 <label style={{width: '150%'}}>Color</label>
                             </Col>
                             <Col span={16}>
                                 <Input
-                                    defaultValue={font}
+                                    value={color}
                                     type="color"
                                     onChange={(e) => setColor(e.target.value)}
                                 />
@@ -88,12 +87,12 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                     </div>
 
                     {/*Style*/}
-                    <div key={`style`} className={`${styles['option-wrap']}`} style={{padding: '0.5rem!important'}}>
+                    <div className={`${styles['option-wrap']}`} style={{padding: '0.5rem!important'}}>
                         <h5>Style</h5>
-                        <Row key={`fonts`} className={`${styles['option']}`}>
+                        <Row className={`${styles['option']}`}>
                             <Col span={8}></Col>
                             <Col span={16}>
-                                <Checkbox.Group style={{width: '100%'}} onChange={(e) => setStyle(e)}>
+                                <Checkbox.Group value={style} style={{width: '100%'}} onChange={(e) => setStyle(e)}>
                                     <Row>
                                         <Col span={7}>
                                             <Checkbox value="bold">Bold</Checkbox>
@@ -108,7 +107,7 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                                 </Checkbox.Group>
                             </Col>
                         </Row>
-                        <Row key={`fonts`} className={`${styles['option']}`}>
+                        <Row className={`${styles['option']}`}>
                             <Col span={8}></Col>
                             <Col span={16}>
                                 <TextArea
@@ -130,10 +129,10 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                     </div>
 
                     {/*Text Alignment*/}
-                    <div key={`text-alignment`} className={`${styles['option-wrap']}`}
+                    <div className={`${styles['option-wrap']}`}
                          style={{padding: '0.5rem!important'}}>
                         <h5>Text Alignment</h5>
-                        <Row key={`fonts`} className={`${styles['option']}`}>
+                        <Row className={`${styles['option']}`}>
                             <Col span={8}>
                                 {/*<label style={{width: '150%'}}>Horz</label>*/}
                             </Col>
@@ -145,7 +144,7 @@ const StyleTextM: React.FC<Props> = ({setToggleModal, setStyleText}: Props): JSX
                                 </Radio.Group>
                             </Col>
                         </Row>
-                        {/*<Row key={`fonts`} className={`${styles['option']}`}>*/}
+                        {/*<Row className={`${styles['option']}`}>*/}
                         {/*    <Col span={8}>*/}
                         {/*        <label style={{width: '150%'}}>Vert</label>*/}
                         {/*    </Col>*/}

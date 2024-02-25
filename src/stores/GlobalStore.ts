@@ -104,12 +104,12 @@ export class GlobalStore {
         makeAutoObservable(this);
     }
 
-    setStyleText = (font: string, size: number, color: string, style: string, textAlign: string) => {
+    setStyleText = (font: string, size: number, color: string, style: string, textAlign: string, textDecoration: string, fontWeight: string) => {
         this.styleText = {
-            font: font,
-            size: size,
-            color: color,
-            style: style,
+            fontFamily: font,
+            fontSize: size,
+            fontColor: color,
+            fontStyle: style,
             textAlign: textAlign
         }
     }
@@ -174,6 +174,39 @@ export class GlobalStore {
 
     setPositionOfTextPallet = (lat: number, lng: number) => {
         this.positionOfTextPallet = [lat, lng];
+        let id = this.listPositionOfTextPallet.length + 1;
+        this.listPositionOfTextPallet.push({
+            id: id,
+            position: this.positionOfTextPallet,
+            status: false,
+            style: {
+                fontFamily: 'arial',
+                fontSize: 13,
+                fontColor: 'black',
+                fontStyle: ['underline', 'bold', 'italic'],
+                textAlign: 'left',
+            }
+        })
+    }
+
+    setStatusTextPallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listPositionOfTextPallet.length; i++) {
+            if (this.listPositionOfTextPallet[i].id === id) {
+                this.listPositionOfTextPallet[i].status = status;
+            }
+        }
+    }
+
+    updateStyleTextPalletById = (id: any, style: any) => {
+        for (let i = 0; i < this.listPositionOfTextPallet.length; i++) {
+            if (this.listPositionOfTextPallet[i].id == id) {
+                this.listPositionOfTextPallet[i].style = style;
+            }
+        }
+    }
+
+    getTextPalletById = (id: any) => {
+        return this.listPositionOfTextPallet.filter(item => item.id === id)[0];
     }
 
     setPositionOfImagePallet = (lat: number, lng: number, id: any, bound: any) => {
@@ -229,6 +262,7 @@ export class GlobalStore {
         this.positionOfPallet3 = [];
         this.positionOfPallet4 = [];
         this.positionOfImagePallet = [];
+        this.positionOfTextPallet = [];
     }
 
     resetListPositionOfAllPallet = () => {
@@ -237,6 +271,7 @@ export class GlobalStore {
         this.listPositionOfPallet3 = [];
         this.listPositionOfPallet4 = [];
         this.listPositionOfImagePallet = [];
+        this.listPositionOfTextPallet = [];
     }
     setValueOfImage = (value: string) => {
         this.valueOfImage = value;
@@ -545,6 +580,10 @@ export class GlobalStore {
             latlng: bound,
             status: false
         })
+    }
+
+    getLinePalletById = (id: any) => {
+        return this.listLinePallet.filter(item => item.id === id)[0];
     }
 
     setStatusLinePallet = (id: any, status: boolean) => {

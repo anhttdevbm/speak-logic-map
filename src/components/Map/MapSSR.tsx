@@ -182,8 +182,8 @@ const MapSSR: React.FC = (): JSX.Element => {
                 {
                     globalStore.dataScroll && <ScrollFeature/>
                 }
-                {globalStore.positionOfTextPallet.length > 0 &&
-                    <TextPopupPallet position={globalStore.positionOfTextPallet}/>}
+                {/*{globalStore.positionOfTextPallet.length > 0 &&*/}
+                {/*    <TextPopupPallet position={globalStore.positionOfTextPallet}/>}*/}
                 <Markers setModal={setModal} setModalType={setModalType}/>
                 {modal && modalType && (
                     <ModalWrap setToggleModal={setModal}>
@@ -255,7 +255,8 @@ const MapSSR: React.FC = (): JSX.Element => {
                 {(globalStore.listPositionOfPallet1?.length > 0
                     || globalStore.listPositionOfPallet2?.length > 0
                     || globalStore.listPositionOfPallet3?.length > 0
-                    || globalStore.listPositionOfPallet3?.length > 0) && <PalletLineView/>}
+                    || globalStore.listPositionOfPallet4?.length > 0
+                    || globalStore.listPositionOfTextPallet?.length > 0) && <PalletLineView/>}
 
 
             </MapContainer>
@@ -316,16 +317,23 @@ const MapSSR: React.FC = (): JSX.Element => {
                     <StyleTextM
                         setToggleModal={globalStore.toggleShowDialogEditTextStyle}
                         setStyleText={globalStore.setStyleText}
+                        initValue={globalStore.getTextPalletById(globalStore.itemAnnotationStyle.id)}
                     />
                 </ModalWrap>
             }
 
             {
-                globalStore.showDialogEditShapeStyle &&
+                globalStore.showDialogEditShapeStyle && globalStore.itemAnnotationStyle.id &&
                 <ModalWrap>
                     <StyleShapeM
                         setToggleModal={globalStore.toggleShowDialogEditShapeStyle}
                         setStyleShape={globalStore.setStyleShape}
+                        initValue={globalStore.itemAnnotationStyle.type === 'rect-polygon'
+                            ? globalStore.getRectPolygonPalletById(globalStore.itemAnnotationStyle.id)
+                            : globalStore.itemAnnotationStyle.type === 'circle-polygon'
+                                ? globalStore.getCirclePolygonPalletById(globalStore.itemAnnotationStyle.id)
+                                : globalStore.getLinePalletById(globalStore.itemAnnotationStyle.id)
+                        }
                     />
                 </ModalWrap>
             }

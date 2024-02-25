@@ -18,10 +18,8 @@ import * as turf from '@turf/turf';
 import styles from '../_MapContents.module.scss';
 
 import {
-    annotationPalletPopup,
     boatPopup,
     imagePalletPopup,
-    personMobilityPopup,
     worldPopup,
     wrappingPopup
 } from '../Popups/Popups'
@@ -40,18 +38,15 @@ import {
     addHouseMarker,
     addRoute,
     addDistance,
-    addMarkerScrollFeature,
     addMarkerMapElement,
     addMarkerFnEllipse,
     addRelateMarker,
     addMarkerGivenSet,
     addMarkerWelcomeSign,
     addPersonInMobility,
-    addInputTextPallet,
-    addMarkerPrincipleLine,
     addInputImagePallet,
     checkMarkerExist,
-    addSoluOrProbFn, addPallet1, addPallet2, addPallet3, addPallet4
+    addSoluOrProbFn
 } from './AddMarkers'
 import {countryModePopupHTML} from "@/components/Map/MapContents/Popups/PopupHTMLs";
 import {checkBoundContainMarker, computeDistanceBetweenTwoPoint} from "@/components/Map/MapContents/CommonUtil";
@@ -978,8 +973,8 @@ const Markers = ({setModal, setModalType}) => {
 
             if (globalStore.palletOption === 'text') {
                 markerTextPalletIndex[0]++
-                addInputTextPallet(map, e.latlng.lat, e.latlng.lng, markerTextPalletIndex[0], globalStore.lock,
-                    globalStore.togglePalletOption, globalStore.toggleShowDialogEditTextStyle)
+                globalStore.setPositionOfTextPallet(e.latlng.lat, e.latlng.lng)
+                globalStore.togglePalletOption('');
             } else if (globalStore.palletOption === 'image') {
                 let id = globalStore.listPositionOfImagePallet.length + 1;
                 let bound = L.latLngBounds([[e.latlng.lat, e.latlng.lng], [e.latlng.lat - 20, e.latlng.lng + 50]])
