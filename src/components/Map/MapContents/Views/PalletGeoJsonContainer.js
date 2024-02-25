@@ -49,7 +49,7 @@ const PalletGeoJsonContainer = () => {
                             let lng = globalStore.mapLayer[i].lng;
                             let point3 = L.latLng(lat, lng);
                             if (checkBoundContainMarker(bound, lat, lng)) {
-                                let point4 = findLastPoint(point1, point2, point3);
+                                let point4 = findLastPoint(map, point1, point2, point3);
                                 globalStore.updateLatLngMapLayerById(point4.lat, point4.lng, id);
                                 map.eachLayer(layer => {
                                     if (layer.options?.type?.type === 'the-given-set' && layer.options?.type?.type === type && layer.options?.type?.index.toString() === name.toString()) {
@@ -125,8 +125,8 @@ const PalletGeoJsonContainer = () => {
                 let color = globalStore.listCirclePolygonPallet[i].color;
                 let weight = globalStore.listCirclePolygonPallet[i].weight;
                 if (!status && lat && lat && type === 'circle-polygon') {
-                    let circle = L.circle([lat, lng], {
-                        radius: radius,
+                    let circle = L.circleMarker([lat, lng], {
+                        radius: radius/10000,
                         draggable: true,
                         status: 'add',
                         type: 'circle-polygon',
@@ -142,7 +142,7 @@ const PalletGeoJsonContainer = () => {
                         .addTo(map);
 
                     circle.on('dragend', function (event) {
-                        circle.setRadius(radius);
+                        circle.setRadius(radius/10000);
                         let newCenter = event.target.getLatLng();
                         console.log('event', event)
                         let currentCenter = globalStore.getCirclePolygonPalletById(id).bound;
@@ -156,7 +156,7 @@ const PalletGeoJsonContainer = () => {
                             const distance = computeDistanceBetweenTwoPoint(lat, lng, currentCenter.lat, currentCenter.lng)
                             console.log(distance, radius)
                             if (distance < radius) {
-                                let point4 = findLastPoint(currentCenter, newCenter, point3);
+                                let point4 = findLastPoint(map, currentCenter, newCenter, point3);
                                 map.eachLayer(layer => {
                                     if (layer.options?.type?.type === 'the-given-set' && layer.options?.type?.type === type && layer.options?.type?.index.toString() === name.toString()) {
                                         layer.setLatLng(point4)

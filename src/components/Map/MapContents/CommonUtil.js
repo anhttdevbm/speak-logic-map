@@ -1,6 +1,6 @@
 import L from "leaflet";
 
-export const findLastPoint = (point1, point2, point3) => {
+export const findLastPoint = (map, point1, point2, point3) => {
     let pointA = map.latLngToContainerPoint(point1);
     let pointB = map.latLngToContainerPoint(point2);
     let pointC = map.latLngToContainerPoint(point3);
