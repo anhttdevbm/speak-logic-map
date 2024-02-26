@@ -681,9 +681,10 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
     // }
 }
 
-export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDialogEditTextStyle, style, setItemAnnotationStyling) => {
+export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDialogEditTextStyle, style, setItemAnnotationStyling,
+                                   setValueTextPallet, valueText) => {
     let divIcon = L.divIcon({
-        html: makeHtml(index, style.fontFamily, style.fontSize, style.fontColor, style.fontStyle, style.textAlign,"DUYEN"),
+        html: makeHtml(index, valueText, style.fontFamily, style.fontSize, style.fontColor, style.fontStyle, style.textAlign),
         className: 'input-text-pallet',
         iconSize: [200, 50],
         iconAnchor: [0, 0]
@@ -693,18 +694,18 @@ export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDia
         target: {status: 'add', type: 'input-text', index: index},
         draggable: !isLocked,
     })
-        .on('contextmenu', e => textPalletPopup(map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling))
+        .on('contextmenu', e => textPalletPopup(map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet))
         .addTo(map);
 }
 
-function makeHtml(id, fontFamily, fontSize, fontColor, style, textAlign, value) {
+function makeHtml(id, valueText, fontFamily, fontSize, fontColor, style, textAlign) {
     let textDecoration = style.includes('underline') ? 'underline' : 'none'
     let fontStyle = style.includes('italic') ? 'italic' : 'normal'
     let fontWeight = style.includes('bold') ? 600 : 'normal'
     let styleTextarea = `border: 1px solid gray; border-radius: 5px; font-size: ${fontSize}; font-weight: ${fontWeight};
     color: ${fontColor}; font-family: ${fontFamily}; font-style: ${fontStyle}; text-decoration: ${textDecoration}; text-align: ${textAlign};`
     return '<textarea class="input-text-pallet" style="' + styleTextarea + '" ' +
-        'type="text" value="' + value + '" id="input_' + id + '" rows="4"/>'
+        'type="text" id="input_text_' + id + '" rows="4">' + valueText + '</textarea>'
 }
 
 export const addInputImagePallet = (map, lat, lng, id, isLocked, togglePalletOption, updateValueImagePalletById, setValueOfImage) => {

@@ -106,7 +106,8 @@ const PalletLineView = () => {
         }
         for (let i = 0; i < globalStore.listPositionOfTextPallet.length; i++) {
             if (!globalStore.listPositionOfTextPallet[i].status) {
-                addTextPallet(globalStore.listPositionOfTextPallet[i].position, globalStore.listPositionOfTextPallet[i].id, globalStore.listPositionOfTextPallet[i].style);
+                addTextPallet(globalStore.listPositionOfTextPallet[i].position, globalStore.listPositionOfTextPallet[i].id,
+                    globalStore.listPositionOfTextPallet[i].style, globalStore.listPositionOfTextPallet[i].valueText);
             }
         }
         addImagePallet();
@@ -234,9 +235,9 @@ const PalletLineView = () => {
             .addTo(map);
     }
 
-    const addTextPallet = (positionText, id, style) => {
+    const addTextPallet = (positionText, id, style, valueText) => {
         addInputTextPallet(map, positionText[0], positionText[1], id, globalStore.lock, globalStore.toggleShowDialogEditTextStyle,
-            style, globalStore.setItemAnnotationStyling)
+            style, globalStore.setItemAnnotationStyling, globalStore.setValueTextPallet, valueText ? valueText : '');
         globalStore.setStatusTextPallet(id, true);
     }
 

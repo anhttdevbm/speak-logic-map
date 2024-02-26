@@ -1973,7 +1973,7 @@ export const imagePalletPopup = (map, e, removeImagePalletById) => {
     }
 }
 
-export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling) => {
+export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
@@ -1991,7 +1991,9 @@ export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAn
     window.editTextStyle = () => {
         map.removeLayer(popup);
         toggleShowDialogEditTextStyle();
-        setItemAnnotationStyling(id, 'text-pallet')
+        setItemAnnotationStyling(id, 'text-pallet');
+        let valueText = document.getElementById(`input_text_${id}`).value;
+        setValueTextPallet(id, valueText);
     }
 }
 

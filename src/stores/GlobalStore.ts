@@ -183,7 +183,7 @@ export class GlobalStore {
                 fontFamily: 'arial',
                 fontSize: 13,
                 fontColor: 'black',
-                fontStyle: ['underline', 'bold', 'italic'],
+                fontStyle: [],
                 textAlign: 'left',
             }
         })
@@ -193,6 +193,14 @@ export class GlobalStore {
         for (let i = 0; i < this.listPositionOfTextPallet.length; i++) {
             if (this.listPositionOfTextPallet[i].id === id) {
                 this.listPositionOfTextPallet[i].status = status;
+            }
+        }
+    }
+
+    setValueTextPallet = (id: any, text: string) => {
+        for (let i = 0; i < this.listPositionOfTextPallet.length; i++) {
+            if (this.listPositionOfTextPallet[i].id === id) {
+                this.listPositionOfTextPallet[i].valueText = text;
             }
         }
     }
