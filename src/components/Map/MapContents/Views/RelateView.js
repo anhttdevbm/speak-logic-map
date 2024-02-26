@@ -116,7 +116,7 @@ const RelateView = ({setModal, setModalType}) => {
                         ),
                     }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
                         .addTo(map);
-                    let lineRelate = L.polyline([[latCenter, lng], [latCenter, lng + 30]], {
+                    let lineRelate = L.polyline([[latCenter, lng], [latCenter, lng + 30 * 2 / zoom]], {
                         status: 'add',
                         weight: 2,
                         color: 'black',
