@@ -214,8 +214,17 @@ export class GlobalStore {
         this.listPositionOfImagePallet.push({
             id: id,
             position: this.positionOfImagePallet,
-            bound: bound
+            bound: bound,
+            status: false
         })
+    }
+
+    setStatusImagePallet = (id: any, status: boolean) => {
+        for (let i = 0; i < this.listPositionOfImagePallet.length; i++) {
+            if (this.listPositionOfImagePallet[i].id === id) {
+                this.listPositionOfImagePallet[i].status = status;
+            }
+        }
     }
 
     updateValueImagePalletById = (id: any, value: any) => {

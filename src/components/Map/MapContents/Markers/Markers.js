@@ -732,35 +732,6 @@ const Markers = ({setModal, setModalType}) => {
     }
 
     useEffect(() => {
-        for (let i = 0; i < globalStore.listPositionOfImagePallet.length; i++) {
-            let imagePalletObj = globalStore.listPositionOfImagePallet[i];
-            if (imagePalletObj.position.length > 0 && imagePalletObj.valueImage && imagePalletObj.valueImage !== '') {
-                let value = imagePalletObj.valueImage;
-
-                let imageBounds = [imagePalletObj.position, [imagePalletObj.position[0] - 20, imagePalletObj.position[1] + 50]];
-                let bounds = L.latLngBounds(imageBounds);
-
-                let latLngs = [
-                    bounds.getSouthWest(),
-                    bounds.getNorthWest(),
-                    bounds.getNorthEast(),
-                    bounds.getSouthEast()
-                ];
-                let imageTransform = L.imageOverlay.transform(value, latLngs, {
-                    draggable: true,
-                    scalable: true,
-                    rotatable: false,
-                    keepRatio: false,
-                    fit: true,
-                    attribution: 'imageTransform',
-                    index: imagePalletObj.id
-                }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById));
-                imageTransform.addTo(map);
-            }
-        }
-    }, [globalStore.listRectPolygonPallet.length, globalStore.valueOfImage]);
-
-    useEffect(() => {
         refreshLayerAndControlRect(map, drawnItemsRect, drawControlRect);
         refreshLayerAndControlCircle(map, drawnItemsCircle, drawControlCircle);
     }, [globalStore.listRectPolygonPallet.length, globalStore.listCirclePolygonPallet.length])
@@ -980,7 +951,7 @@ const Markers = ({setModal, setModalType}) => {
                 let bound = L.latLngBounds([[e.latlng.lat, e.latlng.lng], [e.latlng.lat - 20, e.latlng.lng + 50]])
                 globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng, id, bound);
                 addInputImagePallet(map, e.latlng.lat, e.latlng.lng, id, globalStore.lock, globalStore.togglePalletOption,
-                    globalStore.updateValueImagePalletById, globalStore.setValueOfImage)
+                    globalStore.updateValueImagePalletById, globalStore.setValueOfImage);
             } else if (globalStore.palletOption === 'pallet1') {
                 globalStore.resetPositionOfPallet2();
                 globalStore.resetPositionOfPallet3();

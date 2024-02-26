@@ -709,13 +709,16 @@ function makeHtml(id, fontFamily, fontSize, fontColor, style, textAlign, value) 
 
 export const addInputImagePallet = (map, lat, lng, id, isLocked, togglePalletOption, updateValueImagePalletById, setValueOfImage) => {
     let divIcon = L.divIcon({
-        html: inputImageHtml(),
+        html: inputImageHtml(id),
         className: 'divIcon',
         iconSize: [200, 50],
         iconAnchor: [0, 0]
     });
-    let marker = L.marker([lat, lng], {
-        icon: divIcon
+    L.marker([lat, lng], {
+        icon: divIcon,
+        index: id,
+        status: 'add',
+        type: 'input-image'
     }).addTo(map);
     togglePalletOption('');
     window.changeFileImage = (event) => {
@@ -725,12 +728,18 @@ export const addInputImagePallet = (map, lat, lng, id, isLocked, togglePalletOpt
 
         const objectUrl = URL.createObjectURL(event.target.files[0]);
 
+        let id = event.target.id;
+
         updateValueImagePalletById(id, objectUrl);
         setValueOfImage(objectUrl);
-        map.removeLayer(marker);
+        map.eachLayer(layer => {
+            if (layer.options?.type === 'input-image' && layer.options?.index.toString() === id.toString()) {
+                map.removeLayer(layer);
+            }
+        })
     }
 }
 
-function inputImageHtml() {
-    return '<input id="input_image_html" type="file" accept="image/png, image/jpg, image/jpeg" onChange="changeFileImage(event)" />'
+function inputImageHtml(id) {
+    return '<input id="' + id + '" type="file" accept="image/png, image/jpg, image/jpeg" onChange="changeFileImage(event)" />'
 }

@@ -13,13 +13,13 @@ import {
 import styles from "@/components/Map/MapContents/_MapContents.module.scss";
 import {
     annotationPalletPopup,
-    givenSetPopup,
+    givenSetPopup, imagePalletPopup,
     mainsetPopup,
     removeHorizontalIconPopup,
     removeRectIconPopup,
     removeVerticalPersonIconPopup
 } from "@/components/Map/MapContents/Popups/Popups";
-import {addInputTextPallet} from "@/components/Map/MapContents/Markers/AddMarkers";
+import {addInputImagePallet, addInputTextPallet} from "@/components/Map/MapContents/Markers/AddMarkers";
 
 const PalletLineView = () => {
     const map = useMap();
@@ -73,7 +73,7 @@ const PalletLineView = () => {
 
     useEffect(() => {
         map.eachLayer(layer => {
-            if (layer.options.target?.type === 'input-text') {
+            if (layer.options.target?.type === 'input-text' || layer.options?.attribution === 'imageTransform') {
                 map.removeLayer(layer);
             }
         })
@@ -84,6 +84,11 @@ const PalletLineView = () => {
         for (let i = 0; i < globalStore.listPositionOfTextPallet.length; i++) {
             globalStore.setStatusTextPallet(globalStore.listPositionOfTextPallet[i].id, false)
         }
+
+        for (let i = 0; i < globalStore.listPositionOfImagePallet.length; i++) {
+            globalStore.setStatusImagePallet(globalStore.listPositionOfImagePallet[i].id, false)
+        }
+
     }, [globalStore.map, globalStore.showDialogEditTextStyle])
 
     useEffect(() => {
@@ -104,8 +109,10 @@ const PalletLineView = () => {
                 addTextPallet(globalStore.listPositionOfTextPallet[i].position, globalStore.listPositionOfTextPallet[i].id, globalStore.listPositionOfTextPallet[i].style);
             }
         }
+        addImagePallet();
     }, [globalStore.map, globalStore.listPositionOfPallet4.length, globalStore.listPositionOfPallet1.length, globalStore.listPositionOfPallet2.length,
-        globalStore.listPositionOfPallet3.length, globalStore.listPositionOfTextPallet.length, globalStore.showDialogEditTextStyle]);
+        globalStore.listPositionOfPallet3.length, globalStore.listPositionOfTextPallet.length, globalStore.listPositionOfImagePallet.length, globalStore.valueOfImage,
+        globalStore.showDialogEditTextStyle]);
 
     const addPallet1 = (positionOfPallet1, id) => {
         let latLng1 = positionOfPallet1[0];
@@ -231,6 +238,37 @@ const PalletLineView = () => {
         addInputTextPallet(map, positionText[0], positionText[1], id, globalStore.lock, globalStore.toggleShowDialogEditTextStyle,
             style, globalStore.setItemAnnotationStyling)
         globalStore.setStatusTextPallet(id, true);
+    }
+
+    const addImagePallet = () => {
+        for (let i = 0; i < globalStore.listPositionOfImagePallet.length; i++) {
+            let imagePalletObj = globalStore.listPositionOfImagePallet[i];
+            if (imagePalletObj.position.length > 0 && !imagePalletObj.status && imagePalletObj.valueImage && imagePalletObj.valueImage !== '') {
+                let value = imagePalletObj.valueImage;
+
+                let imageBounds = [imagePalletObj.position, [imagePalletObj.position[0] - 20, imagePalletObj.position[1] + 50]];
+                let bounds = L.latLngBounds(imageBounds);
+
+                let latLngs = [
+                    bounds.getSouthWest(),
+                    bounds.getNorthWest(),
+                    bounds.getNorthEast(),
+                    bounds.getSouthEast()
+                ];
+                let imageTransform = L.imageOverlay.transform(value, latLngs, {
+                    draggable: true,
+                    scalable: true,
+                    rotatable: false,
+                    keepRatio: false,
+                    fit: true,
+                    attribution: 'imageTransform',
+                    index: imagePalletObj.id
+                }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById));
+                imageTransform.addTo(map);
+
+                globalStore.setStatusImagePallet(imagePalletObj.id, true);
+            }
+        }
     }
 
     return null

@@ -256,6 +256,7 @@ const MapSSR: React.FC = (): JSX.Element => {
                     || globalStore.listPositionOfPallet2?.length > 0
                     || globalStore.listPositionOfPallet3?.length > 0
                     || globalStore.listPositionOfPallet4?.length > 0
+                    || globalStore.listPositionOfImagePallet.length > 0
                     || globalStore.listPositionOfTextPallet?.length > 0) && <PalletLineView/>}
 
 
