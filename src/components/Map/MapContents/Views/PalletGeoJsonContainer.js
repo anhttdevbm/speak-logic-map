@@ -141,6 +141,12 @@ const PalletGeoJsonContainer = () => {
                             globalStore.toggleShowDialogEditShapeStyle, globalStore.setItemAnnotationStyling))
                         .addTo(map);
 
+                    map.eachLayer(layer => {
+                        if (layer.defaultOptions?.rotationOrigin) {
+                            map.removeLayer(layer);
+                        }
+                    })
+
                     circle.on('dragend', function (event) {
                         circle.setRadius(radius/10000);
                         let newCenter = event.target.getLatLng();
