@@ -35,7 +35,7 @@ export const markerPersonWaveIcon = (className: string, name: string, image: str
     return L.divIcon({
         className: className,
         iconSize: [40, 40],
-        iconAnchor: [20, 30],
+        iconAnchor: [10, 30],
         html: (
             `<img src="${image ? image : ICON_PERSON.src}" style="position: absolute; left: 50%; transform: translateX(-50%);" alt="Person" width="40" height="40" />
              <div class="${styles["marker-person-name"]}">${name}</div>
