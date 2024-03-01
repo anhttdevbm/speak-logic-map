@@ -323,23 +323,25 @@ const MoreView = ({selectedData}) => {
                 // const lngListt = [-99, -30, 41, 88];
                 firstLat = -25;
                 firstLng = -190;
-                const numberPersonOfEachCountry = getNumberPopulationOfCountry();
-                if (numberPersonOfEachCountry.length < 4) {
-                    latList = [12.5, 15];
-                    lngList = [-155, -70, 14, 98];
-                } else if (numberPersonOfEachCountry.length >= 4 && numberPersonOfEachCountry.length < 8) {
-                    latList = [12.5, 15];
-                    lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
+                const numberPersonOfEachCountry = globalStore.listMarkerPopulation;
+                latList = [12.5, 15];
+                // if (numberPersonOfEachCountry.length < 4) {
+                //     lngList = [-155, -70, 14, 98];
+                // } else if (numberPersonOfEachCountry.length >= 4 && numberPersonOfEachCountry.length < 8) {
+                //     lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
+                if (numberPersonOfEachCountry.length === 3) {
+                    lngList = [3];
+                } else if (numberPersonOfEachCountry.length === 4) {
+                    lngList = [-110, 110];
                 } else {
-                    latList = [12.5, 15];
                     lngList = [];
                     for (let i = 0; i < numberPersonOfEachCountry.length; i++) {
-                        let res = -155 + (310 / (numberPersonOfEachCountry.length - 1)) * i;
+                        let res = -155 + (310 / (numberPersonOfEachCountry.length - 3)) * i;
                         lngList.push(res);
                     }
                 }
                 map.removeLayer(fpBoundary);
-                bounds = [[80, firstLng], [-25, -firstLng]];
+                bounds = [[40, firstLng], [-25, -firstLng]];
                 fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                 fpBoundary.addTo(map);
                 if (numberPersonOfEachCountry.length > 0) {
@@ -377,11 +379,11 @@ const MoreView = ({selectedData}) => {
 
                     //Draw population with country
                     if (numberPersonOfEachCountry.length > 0) {
-                        addItemDotDot(numberPersonOfEachCountry).forEach((country, index) => {
+                        addItemDotDot(numberPersonOfEachCountry).forEach((person, index) => {
                             const lat = latList[Math.floor(index / lngList.length)];
                             const lng = lngList[index % lngList.length];
                             let functionMarker;
-                            if (country.country?.codeName !== '') {
+                            if (person.key !== 'dot' && person.key !== 'plus') {
                                 let verticalLine = L.polyline([[latHorizontalLine, lng], [lat + 2, lng]], {
                                     weight: 2,
                                     color: 'black',
@@ -389,17 +391,14 @@ const MoreView = ({selectedData}) => {
                                 }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
                                 functionMarker = L.marker([lat, lng], {
                                     options: {
-                                        type: country.country?.codeName,
+                                        type: person.value,
                                     },
-                                    icon: markerPopulationCountry(
-                                        `${styles['population-country-icon']}`,
-                                        country.country?.fullName.includes(" ") ? country.country?.codeName : country.country?.fullName,
-                                        country.numberPerson)
+                                    icon: markerPersonIcon(`${styles['rectangleFn']} ${styles['person-more-view-principle-line']}`, person.value, null)
                                 })
                                     .addTo(map);
                                 functionsLayer.push(verticalLine);
-                            } else {
-                                functionMarker = addIconDotDotPrincipleLine(lat, lng)
+                            } else if (person.key === 'dot') {
+                                // functionMarker = addIconDotDotPrincipleLine(lat, lng)
                             }
                             functionsLayer.push(functionMarker);
                         })
@@ -468,7 +467,7 @@ const MoreView = ({selectedData}) => {
         globalStore.numberPersonMoreView, globalStore.numberProblemMoreView]);
 
     const addItemDotDot = (listCountry) => {
-        if (globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line'
+        if (globalStore.moreName === 'population-view-with-country'
             || globalStore.moreName === 'problem-view-with-country') {
             let listCountryIncludedPlus = listCountry.filter(item => item.country.codeName === '');
             if (listCountryIncludedPlus.length === 0) {
