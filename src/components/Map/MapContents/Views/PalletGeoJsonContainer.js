@@ -8,7 +8,7 @@ import {markerNavigationSignIcon} from "@/components/Map/MapContents/Markers/Mar
 import {addHouseMarker} from "@/components/Map/MapContents/Markers/AddMarkers";
 import {annotationPalletPopup, imagePalletPopup} from "@/components/Map/MapContents/Popups/Popups";
 import {addSelectedItem} from "@/components/Map/MapContents/Markers/HandleSelectItem";
-import {computeDistanceBetweenTwoPoint, findLastPoint} from "@/components/Map/MapContents/CommonUtil";
+import {computeDistanceBetweenTwoPoint, findLastPoint, toRadians} from "@/components/Map/MapContents/CommonUtil";
 
 const PalletGeoJsonContainer = () => {
     const map = useMap();
@@ -124,9 +124,11 @@ const PalletGeoJsonContainer = () => {
                 let fillColor = globalStore.listCirclePolygonPallet[i].fillColor;
                 let color = globalStore.listCirclePolygonPallet[i].color;
                 let weight = globalStore.listCirclePolygonPallet[i].weight;
+                console.log(radius, toRadians(radius), lat, lng)
                 if (!status && lat && lat && type === 'circle-polygon') {
                     let circle = L.circleMarker([lat, lng], {
-                        radius: radius/10000,
+                        radius: toRadians(radius/900)*lat/10,
+                        // radius: radius*7/10000/lat,
                         draggable: true,
                         status: 'add',
                         type: 'circle-polygon',
