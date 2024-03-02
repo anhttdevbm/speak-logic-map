@@ -127,7 +127,7 @@ const PalletGeoJsonContainer = () => {
                 console.log(radius, toRadians(radius), lat, lng)
                 if (!status && lat && lat && type === 'circle-polygon') {
                     let circle = L.circleMarker([lat, lng], {
-                        radius: toRadians(radius/1100)*Math.abs(lat/10),
+                        radius: (radius/100000)*Math.abs(lat/10),
                         // radius: radius*7/10000/lat,
                         draggable: true,
                         status: 'add',
