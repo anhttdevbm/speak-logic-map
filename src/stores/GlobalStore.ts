@@ -956,9 +956,9 @@ export class GlobalStore {
         this.listMarkerPopulation = this.listMarkerPopulation.filter((item: any) => item.key != index)
     }
 
-    addMarkerProblemToList = (index: number): void => {
+    addMarkerProblemToList = (index: number, shape: string): void => {
         if (this.listMarkerProblem.filter(item => item.key == index).length === 0) {
-            this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: 'rectangle', isShow: true})
+            this.listMarkerProblem.push({key: index, value: 'Problem ' + index, shape: shape, isShow: true})
         } else {
             this.updateStatusDisplayListMarkerProblemByName('Problem ' + index, true);
         }
@@ -1087,14 +1087,15 @@ export class GlobalStore {
         this.positionOfMapElementSelected = [lat, lng];
     }
 
-    setMapLayer = (lat: any, lng: any, name: any, type: any) => {
+    setMapLayer = (lat: any, lng: any, name: any, type: any, shape?: any) => {
         let id = this.mapLayer.length + 1;
         if (this.mapLayer.filter(item => item.lat === lat && item.lng === lng && item.type === type).length === 0) {
-            this.mapLayer.push({id: id, lat: lat, lng: lng, name: name, type: type, isShow: true})
+            this.mapLayer.push({id: id, lat: lat, lng: lng, name: name, type: type, isShow: true, shape: shape})
         } else {
             for (let i = 0; i < this.mapLayer.length; i++) {
                 if (this.mapLayer[i].lat === lat && this.mapLayer[i].lng === lng && this.mapLayer[i].type === type) {
                     this.mapLayer[i].isShow = true;
+                    this.mapLayer[i].shape = shape;
                 }
             }
         }

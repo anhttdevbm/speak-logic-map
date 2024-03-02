@@ -543,7 +543,7 @@ const Markers = ({setModal, setModalType}) => {
                     } else {
                         let index = markerFnIndex[0];
                         globalStore.addMarkerFnToList(index)
-                        globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function');
+                        globalStore.setMapLayer(latlng.lat, latlng.lng, 'Function ' + index, 'function', 'rectangle');
                         markerFnIndex[0]++;
                     }
                     globalStore.addIconHandle('');
@@ -650,7 +650,7 @@ const Markers = ({setModal, setModalType}) => {
                             fn.name, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
                             globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById, globalStore.updateStatusDisplayMapLayerByNameAndType,
                             globalStore.updateStatusDisplayListMarkerFunctionByName, globalStore.setMapLayer, globalStore.updateNameItemMapLayerByNameAndType,
-                            globalStore.updateNameItemListMarkerFunctionByName, globalStore.updateMapLayerById);
+                            globalStore.updateNameItemListMarkerFunctionByName, globalStore.updateMapLayerById, fn.shape);
                     } else if (fn.type === 'person' && fn.isShow && fn.name !== "" && !fn.mobility) {
                         let index = fn.name.replace("Person ", "");
                         if (!checkMarkerExist(map, index, 'person', fn.lat, fn.lng)) {
@@ -699,7 +699,7 @@ const Markers = ({setModal, setModalType}) => {
                                 fn.name, null, null, globalStore.setShapeOfMarkerFn, globalStore.addMarkerProblemToList,
                                 globalStore.setShapeOfMarkerPl, globalStore.removeMapLayerById, globalStore.updateStatusDisplayMapLayerByNameAndType,
                                 globalStore.updateStatusDisplayListMarkerFunctionByName, globalStore.setMapLayer, globalStore.updateNameItemMapLayerByNameAndType,
-                                globalStore.updateNameItemListMarkerFunctionByName, globalStore.updateMapLayerById);
+                                globalStore.updateNameItemListMarkerFunctionByName, globalStore.updateMapLayerById, fn.shape);
                         }
                     } else if (fn.type === 'person' && fn.isShow && fn.name !== "" && !fn.mobility && globalStore.moreName === '') {
                         let index = fn.name.replace("Person ", "");
@@ -714,7 +714,7 @@ const Markers = ({setModal, setModalType}) => {
                             addSoluOrProbFn(map, fn.lat, fn.lng, globalStore.lock, index, 'Problem', setModal, setModalType,
                                 globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
                                 globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType,
-                                globalStore.updateMapLayerById);
+                                globalStore.updateMapLayerById, fn.shape);
                         }
                     }
                 })

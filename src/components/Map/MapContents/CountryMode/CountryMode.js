@@ -333,12 +333,12 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         // Add Solution/Problem
         window.handleAddProblem = (name) => {
           markerProblemIndex[0] = globalStore.listMarkerProblem.map(item => item.key).filter(x => x !== 'dot' && x !== 'plus').length + 1;
-          globalStore.addMarkerProblemToList(markerProblemIndex[0]);
+          globalStore.addMarkerProblemToList(markerProblemIndex[0], 'rectangle');
           globalStore.setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerProblemIndex[0], 'problem');
           addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, globalStore.lock, markerProblemIndex[0], name, setModal, setModalType,
               globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
               globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType,
-              globalStore.updateMapLayerById);
+              globalStore.updateMapLayerById, 'rectangle');
 
           markerProblemIndex[0]++;
           map.removeLayer(countryPopup);

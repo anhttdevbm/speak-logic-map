@@ -89,16 +89,17 @@ export const addMarkerPerson = (map, lat, lng, index, isLocked, setModal, setMod
 export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
                             setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, removeMapLayerById, updateStatusDisplayMapLayerByNameAndType,
                             updateStatusDisplayListMarkerFunctionByName, setMapLayer, updateNameItemMapLayerByNameAndType,
-                            updateNameItemListMarkerFunctionByName, updateMapLayerById) => {
+                            updateNameItemListMarkerFunctionByName, updateMapLayerById, shape) => {
     let marker = L.marker([lat, lng], {
         target: {
             type: 'function',
-            shape: 'rectangle',
+            shape: shape,
             index: index,
             status: 'add',
         },
         icon: markerFnIcon(
-            `${styles['rectangle-fn']} ${styles['fn--black']} ${customClass}`,
+            `${shape === 'ellipse' ? styles['ellipse-fn'] : shape === 'circle' ? styles['circle-fn'] : styles['rectangle-fn']} 
+            ${styles['fn--black']} ${customClass}`,
             `${name && customIndex ? `${name} ${customIndex[0]}` : (name ? `${name}` : `Function ${index}`)}`
         ),
         draggable: !isLocked,
@@ -119,7 +120,7 @@ export const addMarkerFn = (container, lat, lng, index, isLocked, setModal, setM
 }
 
 export const addMarkerFnEllipse = (container, lat, lng, index, isLocked, setModal, setModalType, name, customIndex, customClass,
-                                   setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl) => {
+                                   setShapeOfMarkerFn, addMarkerProblemToList, setShapeOfMarkerPl, shape) => {
     const fnMarker = L.marker([lat, lng], {
         target: {
             type: 'function',
@@ -240,7 +241,7 @@ export const addHouseMarker = (map, lat, lng, isLocked) => {
 
 export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, setModalType, setShapeOfMarkerPl, addMarkerFnToList, setMapLayer,
                                 updateStatusDisplayListMarkerProblemByName, updateStatusDisplayMapLayerByNameAndType,
-                                updateMapLayerById) => {
+                                updateMapLayerById, shape) => {
     const formattedName = String(name).toLowerCase();
     const first = formattedName[0].toUpperCase();
     const remain = formattedName.slice(1, formattedName.length);
@@ -252,9 +253,11 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
             type: 'problem',
             index: index,
             status: 'add',
+            shape: shape
         },
         icon: markerFnIcon(
-            `${styles['rectangle-fn']} ${formattedName === 'solution' ? styles['fn--green'] : styles['fn--red']}`,
+            `${shape === 'ellipse' ? styles['ellipse-fn'] : shape === 'circle' ? styles['circle-fn'] : styles['rectangle-fn']} 
+            ${formattedName === 'solution' ? styles['fn--green'] : styles['fn--red']}`,
             `${name ? `${first}${remain} ${index}` : `Function ${index}`}`
         ),
     })

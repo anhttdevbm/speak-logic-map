@@ -230,6 +230,7 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     ) => {
 
         index = [e.target.options?.target?.index];
+        let shape = e.target.options?.target?.shape
 
         // if (name === 'Function') {
         //     index = markerFnIndex;
@@ -254,12 +255,12 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
 
         if (name === 'Problem') {
             if (Number(index[0]) <= markerProblemIndex[0] - 1) {
-                addMarkerProblemToList(index[0]);
-                setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + index[0], 'problem')
+                addMarkerProblemToList(index[0], shape);
+                setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + index[0], 'problem', shape)
                 markerProblemIndex[0] = index[0];
             } else {
-                addMarkerProblemToList(markerProblemIndex[0]);
-                setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerProblemIndex[0], 'problem')
+                addMarkerProblemToList(markerProblemIndex[0], shape);
+                setMapLayer(e.latlng.lat, e.latlng.lng, 'Problem ' + markerProblemIndex[0], 'problem', shape)
                 markerProblemIndex[0]++;
             }
             updateStatusDisplayListMarkerFunctionByName(currentName, false);
@@ -489,8 +490,8 @@ export const functionPopup = (map, setModal, setModalType, isLocked, e, setShape
     // Replace problem / solution
     window.handleAddProblem = (name) => {
         stopFnRunningFeatures(e);
-        addMarkerProblemToList(markerProblemIndex[0]);
-        addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, isLocked, markerProblemIndex[0], name, setModal, setModalType, setShapeOfMarkerPl)
+        addMarkerProblemToList(markerProblemIndex[0], 'rectangle');
+        addSoluOrProbFn(map, e.latlng.lat, e.latlng.lng, isLocked, markerProblemIndex[0], name, setModal, setModalType, setShapeOfMarkerPl, 'rectangle')
         markerProblemIndex[0]++;
         map.removeLayer(e.target);
         map.removeLayer(popup);
@@ -990,15 +991,16 @@ export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerP
 
     window.replaceProblemToFn = () => {
         let index = [e.target.options?.type?.index];
+        let shape = e.target.options?.target?.shape;
         let currentName = e.target._icon.innerText;
         let name = 'Function';
         if (Number(index[0]) <= markerFnIndex[0] - 1) {
             addMarkerFnToList(index[0]);
-            setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + index[0], 'function')
+            setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + index[0], 'function', shape)
             markerFnIndex[0] = index[0];
         } else {
             addMarkerFnToList(markerFnIndex[0]);
-            setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function')
+            setMapLayer(e.latlng.lat, e.latlng.lng, 'Function ' + markerFnIndex[0], 'function', shape)
             markerFnIndex[0]++;
         }
         updateStatusDisplayListMarkerProblemByName(currentName, false);
