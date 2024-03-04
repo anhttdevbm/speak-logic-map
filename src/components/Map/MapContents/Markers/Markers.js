@@ -928,17 +928,6 @@ const Markers = ({setModal, setModalType}) => {
                         markerGivenSet[0]++;
                     }
                     globalStore.addIconHandle('');
-                } else if (globalStore.listMapElementSelected.length > 0
-                    && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
-                    for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
-                        const mapElement = globalStore.listMapElementSelected[i];
-                        if (!mapElement.status) {
-                            globalStore.changePositionOfMapElementSelected(e.latlng.lat, e.latlng.lng, mapElement.id);
-                            addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement,
-                                globalStore.setListMapElementRelate, globalStore.setPositionOfMapElementSelected);
-                            globalStore.changeStatusOfMapElementSelected(true, mapElement.id);
-                        }
-                    }
                 }
             }
 
@@ -987,6 +976,19 @@ const Markers = ({setModal, setModalType}) => {
                 if (globalStore.positionOfPallet4.length === 2) {
                     globalStore.resetPositionOfPallet4();
                     globalStore.togglePalletOption('');
+                }
+            }
+
+            if (globalStore.listMapElementSelected.length > 0
+                && globalStore.listMapElementSelected.filter(item => !item.status).length === 1) {
+                for (let i = 0; i < globalStore.listMapElementSelected.length; i++) {
+                    const mapElement = globalStore.listMapElementSelected[i];
+                    if (!mapElement.status) {
+                        globalStore.changePositionOfMapElementSelected(e.latlng.lat, e.latlng.lng, mapElement.id);
+                        addMarkerMapElement(map, e.latlng.lat, e.latlng.lng, globalStore.lock, mapElement,
+                            globalStore.setListMapElementRelate, globalStore.setPositionOfMapElementSelected);
+                        globalStore.changeStatusOfMapElementSelected(true, mapElement.id);
+                    }
                 }
             }
 
