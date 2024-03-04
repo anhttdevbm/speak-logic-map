@@ -687,7 +687,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
 export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDialogEditTextStyle, style, setItemAnnotationStyling,
                                    setValueTextPallet, valueText) => {
     let divIcon = L.divIcon({
-        html: makeHtml(index, valueText, style.fontFamily, style.fontSize, style.fontColor, style.fontStyle, style.textAlign),
+        html: makeHtml(index, valueText, style.fontFamily, Number(style.fontSize), style.fontColor, style.fontStyle, style.textAlign),
         className: 'input-text-pallet',
         iconSize: [200, 50],
         iconAnchor: [0, 0]
@@ -705,8 +705,9 @@ function makeHtml(id, valueText, fontFamily, fontSize, fontColor, style, textAli
     let textDecoration = style.includes('underline') ? 'underline' : 'none'
     let fontStyle = style.includes('italic') ? 'italic' : 'normal'
     let fontWeight = style.includes('bold') ? 600 : 'normal'
-    let styleTextarea = `border: 1px solid gray; border-radius: 5px; font-size: ${fontSize}; font-weight: ${fontWeight};
-    color: ${fontColor}; font-family: ${fontFamily}; font-style: ${fontStyle}; text-decoration: ${textDecoration}; text-align: ${textAlign};`
+    let styleTextarea = `border: 1px solid gray; border-radius: 5px; font-size: ${fontSize}px; font-weight: ${fontWeight};
+    color: ${fontColor}; font-family: ${fontFamily}; font-style: ${fontStyle}; text-decoration: ${textDecoration}; text-align: ${textAlign};
+    min-width: 250px;min-height: 100px;`
     return '<textarea class="input-text-pallet" style="' + styleTextarea + '" ' +
         'type="text" id="input_text_' + id + '" rows="4">' + valueText + '</textarea>'
 }
