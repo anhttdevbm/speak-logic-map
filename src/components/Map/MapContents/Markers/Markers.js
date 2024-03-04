@@ -240,7 +240,7 @@ const Markers = ({setModal, setModalType}) => {
 
             map.eachLayer(layer => {
                 if (layer.options.target?.status === 'add' || layer.options.status === 'add' ||
-                    layer.options.type === 'distance' || layer.options.group?.status === 'add' ||
+                    layer.options.type === 'distance' || layer.options.type === 'map-element-relate' || layer.options.group?.status === 'add' ||
                     layer.options.type?.status === 'add' || layer.options?.attribution === 'imageTransform' ||
                     layer.options.patterns?.length > 0 || layer.options.target?.type === 'dot' ||
                     (layer.options.type === 'arrow' && layer.options.status === 'add')) {

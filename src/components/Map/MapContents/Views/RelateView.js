@@ -179,6 +179,7 @@ const RelateView = ({setModal, setModalType}) => {
                             options: {
                                 type: 'Relationship',
                             },
+                            type: 'map-element-relate',
                             icon: mapElementRelate === 'Person'
                                 ? markerPersonIcon(``, `Person ${index}`, null)
                                 : markerMapElementIcon(`${styles['rectangle-fn']} ${styles['map-element']}`, mapElementRelate),
