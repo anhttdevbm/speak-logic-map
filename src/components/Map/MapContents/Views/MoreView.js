@@ -319,32 +319,26 @@ const MoreView = ({selectedData}) => {
                 //     functionsLayer.push(functionMarker);
                 // }
             } else if (globalStore.moreName === 'population-view-principle-line') {
-                // const latListt = [40.5, -1, -42];
-                // const lngListt = [-99, -30, 41, 88];
-                firstLat = -25;
                 firstLng = -190;
                 const numberPersonOfEachCountry = globalStore.listMarkerPopulation;
-                latList = [12.5, 15];
-                // if (numberPersonOfEachCountry.length < 4) {
-                //     lngList = [-155, -70, 14, 98];
-                // } else if (numberPersonOfEachCountry.length >= 4 && numberPersonOfEachCountry.length < 8) {
-                //     lngList = [-155, -112, -70, -28, 14, 56, 98, 140];
-                if (numberPersonOfEachCountry.length === 3) {
+                const numberPerson = globalStore.listMarkerPopulation.filter(item => item.key !== 'dot' && item.key !== 'plus');
+                latList = [35.5, 40];
+                if (numberPerson.length === 1) {
                     lngList = [3];
-                } else if (numberPersonOfEachCountry.length === 4) {
+                } else if (numberPerson.length === 2) {
                     lngList = [-110, 110];
                 } else {
                     lngList = [];
-                    for (let i = 0; i < numberPersonOfEachCountry.length; i++) {
-                        let res = -155 + (310 / (numberPersonOfEachCountry.length - 3)) * i;
+                    for (let i = 0; i < numberPerson.length; i++) {
+                        let res = -155 + (310 / (numberPerson.length - 1)) * i;
                         lngList.push(res);
                     }
                 }
                 map.removeLayer(fpBoundary);
-                bounds = [[40, firstLng], [-25, -firstLng]];
+                bounds = [[65, firstLng], [5, -firstLng]];
                 fpBoundary = L.rectangle(bounds, {weight: 2, opacity: 1, fillOpacity: 0, color: 'black'});
                 fpBoundary.addTo(map);
-                if (numberPersonOfEachCountry.length > 0) {
+                if (numberPerson.length > 0) {
                     // if (globalStore.map) {
                     const latHorizontalLine = 60;
                     const lngHorizontalLine = 0;
@@ -352,16 +346,33 @@ const MoreView = ({selectedData}) => {
                     const rightHorizontalLine = [latHorizontalLine, lngHorizontalLine + 170];
                     const horizontalLineLatLngs = [[leftHorizontalLine, rightHorizontalLine],]
                     // Draw icon principle line
-                    let iconPrinciple = L.marker([latHorizontalLine, lngHorizontalLine], {
+                    // let iconPrinciple = L.marker([latHorizontalLine + 5, lngHorizontalLine], {
+                    //     target: {
+                    //         status: 'add'
+                    //     },
+                    //     options: {
+                    //         type: 'Main set',
+                    //     },
+                    //     icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
+                    // }).addTo(map)
+
+                    let iconPrinciple = L.marker([latHorizontalLine + 15, lngHorizontalLine + 3], {
                         target: {
                             status: 'add'
                         },
-                        options: {
-                            type: 'Main set',
-                        },
-                        icon: markerGivenSetIcon(`${styles['main-set-icon']}`),
-                    }).on('contextmenu', e => givenSetPopup(map, e, globalStore.resetPositionOfHorizontalLine))
-                        .addTo(map)
+                        type: 'more-view-main-set',
+                        icon: markerFnIcon(
+                            `${styles['rectangle-fn']} ${styles['the-given-set']}`,
+                            `The Given Set`
+                        ),
+                    }).addTo(map);
+                    let verticalLineTheGivenSet = L.polyline([[latHorizontalLine + 15, lngHorizontalLine + 3], [latHorizontalLine, lngHorizontalLine + 3]],
+                        {
+                            weight: 2,
+                            color: 'black',
+                            status: 'add',
+                            type: 'vertical-line-the-given-set'
+                        }).arrowheads({size: '15px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
 
                     //Draw line
                     const horizontalLine = L.polyline(horizontalLineLatLngs, {
@@ -374,6 +385,7 @@ const MoreView = ({selectedData}) => {
                     horizontalLine.addTo(map);
                     functionsLayer.push(iconPrinciple);
                     functionsLayer.push(horizontalLine);
+                    functionsLayer.push(verticalLineTheGivenSet);
 
                     //Draw vertical line
 
@@ -388,7 +400,7 @@ const MoreView = ({selectedData}) => {
                                     weight: 2,
                                     color: 'black',
                                     status: 'add'
-                                }).arrowheads({size: '25px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
+                                }).arrowheads({size: '15px', color: 'black', type: 'arrow', status: 'add'}).addTo(map);
                                 functionMarker = L.marker([lat, lng], {
                                     options: {
                                         type: person.value,
