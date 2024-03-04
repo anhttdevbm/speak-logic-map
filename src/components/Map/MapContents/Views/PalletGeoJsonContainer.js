@@ -185,7 +185,7 @@ const PalletGeoJsonContainer = () => {
             }
         }
 
-    }, [globalStore.listCirclePolygonPallet.length]);
+    }, [globalStore.listCirclePolygonPallet.length, globalStore.showDialogEditShapeStyle]);
 
     useEffect(() => {
         if (globalStore.listLinePallet.length > 0) {
@@ -211,7 +211,7 @@ const PalletGeoJsonContainer = () => {
             }
         }
 
-    }, [globalStore.listLinePallet.length]);
+    }, [globalStore.listLinePallet.length, globalStore.showDialogEditShapeStyle]);
 
 };
 
