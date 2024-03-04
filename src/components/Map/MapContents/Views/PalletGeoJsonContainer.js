@@ -150,7 +150,7 @@ const PalletGeoJsonContainer = () => {
                     })
 
                     circle.on('dragend', function (event) {
-                        circle.setRadius(radius/10000);
+                        circle.setRadius((radius/100000)*Math.abs(lat/10));
                         let newCenter = event.target.getLatLng();
                         console.log('event', event)
                         let currentCenter = globalStore.getCirclePolygonPalletById(id).bound;
