@@ -25,6 +25,7 @@ import {
   addMarkerCountryFn, addMarkerCountryGroupFn
 } from '../Markers/AddMarkers';
 import { popupWorld } from '../Markers/Markers';
+import {checkBoundContainMarker} from "@/components/Map/MapContents/CommonUtil";
 
 let y = 1;
 const countryFnMinWidth = 160;
@@ -266,6 +267,15 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
     map.removeLayer(countryPopup);
   }
 
+  const checkEventClickInBound = (lat, lng, list) => {
+    for (let i = 0; i < list.length; i++) {
+      if (checkBoundContainMarker(list[i].bound, lat, lng)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // Change the map to selected location only
   useEffect(() => {
     if (!globalStore.boatView && !globalStore.houseView &&
@@ -345,14 +355,16 @@ const CountryMode = ({ setModal, setModalType, setPopulateCountry, selectedData 
         }
   
         // Country Mode Popup
-  
-        setTimeout(() => {
-          clearAllPopups(map);
-          countryPopup
-          .setLatLng([e.latlng.lat, e.latlng.lng])
-          .setContent(countryModePopupHTML())
-          .addTo(map);
-        }, 10);
+        if (!checkEventClickInBound(e.latlng.lat, e.latlng.lng, globalStore.listPositionOfImagePallet)) {
+
+          setTimeout(() => {
+            clearAllPopups(map);
+            countryPopup
+                .setLatLng([e.latlng.lat, e.latlng.lng])
+                .setContent(countryModePopupHTML())
+                .addTo(map);
+          }, 10);
+        }
       }
   
       // Add GeoJSON border

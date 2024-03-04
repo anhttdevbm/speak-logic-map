@@ -4,22 +4,10 @@ import {observer} from 'mobx-react-lite';
 import {useMap} from 'react-leaflet';
 import {useEffect, useState} from 'react';
 import {useGlobalStore} from '@/providers/RootStoreProvider';
-import {allLayer} from "@/components/Map/MapContents/Variables/Variables";
 import {
-    markerGivenSetIcon,
-    markerRectHouseIcon,
-    markerVerticalPersonIcon
-} from "@/components/Map/MapContents/Markers/MarkerIcons";
-import styles from "@/components/Map/MapContents/_MapContents.module.scss";
-import {
-    annotationPalletPopup,
-    givenSetPopup, imagePalletPopup,
-    mainsetPopup,
-    removeHorizontalIconPopup,
-    removeRectIconPopup,
-    removeVerticalPersonIconPopup
+    annotationPalletPopup, imagePalletPopup,
 } from "@/components/Map/MapContents/Popups/Popups";
-import {addInputImagePallet, addInputTextPallet} from "@/components/Map/MapContents/Markers/AddMarkers";
+import {addInputTextPallet} from "@/components/Map/MapContents/Markers/AddMarkers";
 
 const PalletLineView = () => {
     const map = useMap();

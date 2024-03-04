@@ -4,10 +4,7 @@ import {useMap} from "react-leaflet";
 import "leaflet-path-drag";
 import {observer} from "mobx-react-lite";
 import {useGlobalStore} from "@/providers/RootStoreProvider";
-import {markerNavigationSignIcon} from "@/components/Map/MapContents/Markers/MarkerIcons";
-import {addHouseMarker} from "@/components/Map/MapContents/Markers/AddMarkers";
-import {annotationPalletPopup, imagePalletPopup} from "@/components/Map/MapContents/Popups/Popups";
-import {addSelectedItem} from "@/components/Map/MapContents/Markers/HandleSelectItem";
+import {annotationPalletPopup} from "@/components/Map/MapContents/Popups/Popups";
 import {computeDistanceBetweenTwoPoint, findLastPoint, toRadians} from "@/components/Map/MapContents/CommonUtil";
 
 const PalletGeoJsonContainer = () => {
