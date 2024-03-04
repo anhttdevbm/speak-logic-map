@@ -249,13 +249,13 @@ export const markerGivenSetPersonWaveIcon = (className: string, name: string): L
     return L.divIcon({
         className: className,
         iconSize: [40, 40],
-        iconAnchor: [20, 30],
+        iconAnchor: [10, 30],
         html: (
             `<div>
-                <img src=${ICON_MAIN_SET.src} style="margin-top: -130px; margin-left: -54px" alt="House" width="150" height="150" />
+                <img src=${ICON_MAIN_SET.src} style="margin-top: -140px; margin-left: -54px; position: relative; bottom: 15px" alt="House" width="150" height="150" />
                 <img src="${ICON_PERSON.src}" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%);" alt="Person" width="40" height="40" />
                 <div class="${styles["marker-person-name"]}">${name}</div>
-                <img src="${ICON_WAVE.src}" style="margin-top: 10px; margin-left: -30px" width="100" height="100" alt="wave"/>
+                <img src="${ICON_WAVE.src}" style="margin-top: 15px; margin-left: -30px" width="100" height="100" alt="wave"/>
             </div>`
         ),
     })

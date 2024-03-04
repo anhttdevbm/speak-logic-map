@@ -6,9 +6,18 @@ import 'leaflet-arrowheads';
 import 'leaflet-polylinedecorator';
 
 import {
-    markerFnIcon, markerFnCircleIcon, markerPersonIcon,
-    markerCustomImgIcon, markerCustomAudioIcon, markerCustomVideoIcon,
-    markerCountryFnIcon, markerRoomIcon, markerGivenSetIcon, markerPersonWaveIcon, markerGivenSetPersonWaveIcon
+    markerFnIcon,
+    markerFnCircleIcon,
+    markerPersonIcon,
+    markerCustomImgIcon,
+    markerCustomAudioIcon,
+    markerCustomVideoIcon,
+    markerCountryFnIcon,
+    markerRoomIcon,
+    markerGivenSetIcon,
+    markerPersonWaveIcon,
+    markerGivenSetPersonWaveIcon,
+    markerPersonWaveIconMobility
 } from '../Markers/MarkerIcons';
 
 import {handleName, markerFnIndex, markerProblemIndex, selectedList} from '../Variables/Variables';
@@ -566,13 +575,6 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             map.removeLayer(e.target);
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
 
-            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
-                target: {
-                    type: 'person',
-                    index: index,
-                    status: 'add',
-                }
-            });
             removeItemArrow(map, index);
 
             path = L.motion.polyline(
@@ -586,15 +588,27 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     duration: 3000
                 },
                 {
-                    removeOnEnd: false,
-                    showMarker: true,
+                    removeOnEnd: true,
+                    showMarker: false,
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
                 }
             )
                 .arrowheads({size: '7px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
-                .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
-                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
+
+            setTimeout(() => {
+                let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                    target: {
+                        type: 'person',
+                        index: index,
+                        status: 'add',
+                    },
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index, null)
+                }).on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
+                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
+                    .addTo(map);
+            }, 3000);
+
             map.off('click');
         });
     }
@@ -650,13 +664,19 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
-            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
-                target: {
-                    type: 'person',
-                    index: index,
-                    status: 'add',
-                }
-            });
+
+            setTimeout(() => {
+                let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                    target: {
+                        type: 'person',
+                        index: index,
+                        status: 'add',
+                    },
+                    icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
+                }).on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
+                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
+                    .addTo(map);
+            }, 3000);
             removeItemArrow(map, index);
 
             path = L.motion.polyline(
@@ -670,14 +690,12 @@ export const personPopup = (map, marker, setModal, setModalType, isLocked, e, se
                     duration: 3000
                 },
                 {
-                    removeOnEnd: false,
-                    showMarker: true,
+                    removeOnEnd: true,
+                    showMarker: false,
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person ' + index)
                 }
             )
                 .arrowheads({size: '7px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
-                .on('contextmenu', e => personPopup(map, newMarker, setModal, setModalType, isLocked, e,
-                    setPersonToListMapElementSelected, resetNumberPersonMobility, updateMapLayerById, removeMapLayerById))
                 .addTo(map);
             map.off('click');
             updateMapLayerById(clickedLatLng.lat, clickedLatLng.lng, 'person', 'Person ' + index, true);
@@ -765,14 +783,6 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
-
-            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
-                target: {
-                    type: 'person',
-                    index: index,
-                    status: 'add',
-                }
-            });
             removeItemArrow(map, index);
 
             path = L.motion.polyline(
@@ -786,14 +796,27 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     duration: 3000
                 },
                 {
-                    removeOnEnd: false,
-                    showMarker: true,
+                    removeOnEnd: true,
+                    showMarker: false,
                     icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
                 }
             )
-                // .arrowheads({size: '5px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
-                .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                .arrowheads({size: '7px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .addTo(map);
+
+            setTimeout(() => {
+                let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                    target: {
+                        type: 'person',
+                        index: index,
+                        status: 'add',
+                    },
+                    icon: markerPersonWaveIcon(`${styles['icon-mobility']}`, 'Person', null)
+
+                }).on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                    .addTo(map);
+            }, 3000);
+
             map.off('click');
         });
     }
@@ -845,13 +868,18 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
             let currentLatLng = marker.getLatLng();
 
             map.removeLayer(e.target);
-            let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
-                target: {
-                    type: 'person',
-                    index: index,
-                    status: 'add',
-                }
-            });
+
+            setTimeout(() => {
+                let newMarker = L.marker([clickedLatLng.lat, clickedLatLng.lng], {
+                    target: {
+                        type: 'person',
+                        index: index,
+                        status: 'add',
+                    },
+                    icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
+                }).on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                    .addTo(map);
+            }, 3000);
             removeItemArrow(map, index);
 
             path = L.motion.polyline(
@@ -865,13 +893,12 @@ export const personMobilityPopup = (map, marker, setModal, setModalType, isLocke
                     duration: 3000
                 },
                 {
-                    removeOnEnd: false,
-                    showMarker: true,
+                    removeOnEnd: true,
+                    showMarker: false,
                     icon: markerGivenSetPersonWaveIcon(`${styles['icon-mobility']}`, 'Person')
                 }
             )
-                // .arrowheads({size: '5%', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
-                .on('contextmenu', e => personMobilityPopup(map, newMarker, setModal, setModalType, isLocked, e))
+                .arrowheads({size: '7px', color: 'black', type: 'arrow', status: 'add', index: 'arrow' + index})
                 .addTo(map);
             map.off('click');
         });
