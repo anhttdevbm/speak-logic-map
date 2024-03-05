@@ -632,8 +632,8 @@ export class GlobalStore {
                 latlngs: latlngs,
                 geoJson: geoJson,
                 status: false,
-                fillColor: 'rgb(51, 136, 255)',
-                color: 'rgb(51, 136, 255)',
+                fillColor: '#3388ff',
+                color: '#3388ff',
                 weight: 3,
             })
         }
@@ -738,8 +738,8 @@ export class GlobalStore {
                 radius: radius,
                 geoJson: geoJson,
                 status: false,
-                fillColor: 'rgb(51, 136, 255)',
-                color: 'rgb(51, 136, 255)',
+                fillColor: '#3388ff',
+                color: '#3388ff',
                 weight: 3,
             })
         }
