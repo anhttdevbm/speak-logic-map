@@ -434,7 +434,6 @@ const Markers = ({setModal, setModalType}) => {
 
                 map.on(L.Draw.Event.CREATED, (event) => {
                     const layer = event.layer;
-                    console.log('test', layer)
                     globalStore.setListCirclePolygonPallet(layer._latlng, layer._mRadius, layer.toGeoJSON());
                     globalStore.togglePalletOption('');
                     map.removeControl(drawControlCircle);
@@ -646,6 +645,7 @@ const Markers = ({setModal, setModalType}) => {
                 }
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
+                removeLayerFnAndPl();
                 globalStore.mapLayer.forEach(fn => {
                     if (fn.type === 'function' && fn.isShow && fn.name !== "" && !checkMarkerExist(map, fn.name.replace("Function ", ""), 'function', fn.lat, fn.lng)) {
                         addMarkerFn(map, fn.lat, fn.lng, fn.name.slice(-1), globalStore.lock, setModal, setModalType,
@@ -660,15 +660,18 @@ const Markers = ({setModal, setModalType}) => {
                                 setModalType, globalStore.setPersonToListMapElementSelected, globalStore.resetNumberPersonMobility,
                                 globalStore.updateMapLayerById, globalStore.removeMapLayerById);
                         }
+                    } else if (fn.type === 'problem' && fn.isShow && fn.name !== "" && globalStore.moreName === '') {
+                        let index = fn.name.replace("Problem ", "");
+                        if (!checkMarkerExist(map, index, 'problem', fn.lat, fn.lng)) {
+                            addSoluOrProbFn(map, fn.lat, fn.lng, globalStore.lock, index, 'Problem', setModal, setModalType,
+                                globalStore.setShapeOfMarkerPl, globalStore.addMarkerFnToList, globalStore.setMapLayer,
+                                globalStore.updateStatusDisplayListMarkerProblemByName, globalStore.updateStatusDisplayMapLayerByNameAndType,
+                                globalStore.updateMapLayerById, fn.shape);
+                        }
                     }
                 })
             }
         } else {
-            // if (globalStore.addIcon === 'horizontal-line') {
-            //     if (globalStore.positionOfHorizontalLine.length > 0) {
-            //         globalStore.toggleModalInsertNumberPerson();
-            //     }
-            // } else
             if (globalStore.addIcon === 'main-set') {
                 if (globalStore.moreName === 'world-as-function') {
                     globalStore.setShowErrorInsertPerson(true);

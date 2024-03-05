@@ -97,7 +97,7 @@ export class GlobalStore {
     showErrorInsertPerson: boolean = false;
     showErrorInsertRelationship: boolean = false;
     statusMovePallet: boolean = false;
-    statusDisplayItem: boolean = false;
+    statusDisplayItem: number = 0;
     styleText: any = {};
 
     constructor() {
@@ -851,7 +851,7 @@ export class GlobalStore {
         for (let i = 0; i < this.listMarkerFunction.length; i++) {
             if (this.listMarkerFunction[i].value === name) {
                 this.listMarkerFunction[i].isShow = status;
-                this.statusDisplayItem = !this.statusDisplayItem;
+                this.statusDisplayItem ++;
             }
         }
     }
@@ -894,7 +894,7 @@ export class GlobalStore {
         for (let i = 0; i < this.listMarkerProblem.length; i++) {
             if (this.listMarkerProblem[i].value === name) {
                 this.listMarkerProblem[i].isShow = status;
-                this.statusDisplayItem = !this.statusDisplayItem;
+                this.statusDisplayItem ++;
             }
         }
     }

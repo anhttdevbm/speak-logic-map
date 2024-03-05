@@ -256,7 +256,7 @@ export const addSoluOrProbFn = (map, lat, lng, isLocked, index, name, setModal, 
             shape: shape
         },
         icon: markerFnIcon(
-            `${shape === 'ellipse' ? styles['ellipse-fn'] : shape === 'circle' ? styles['circle-fn'] : styles['rectangle-fn']} 
+            `${shape === 'ellipse' ? styles['ellipse-fn'] : shape === 'circle' ? styles['circle-fn-1'] : styles['rectangle-fn']} 
             ${formattedName === 'solution' ? styles['fn--green'] : styles['fn--red']}`,
             `${name ? `${first}${remain} ${index}` : `Function ${index}`}`
         ),

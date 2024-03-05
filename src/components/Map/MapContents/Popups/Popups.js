@@ -997,6 +997,7 @@ export const fnProblemPopup = (map, e, setModal, setModalType, setShapeOfMarkerP
 
     window.changeShapeProblem = (shape) => {
         let name = e.target.options.icon.options?.html;
+        e.target.options.target.shape = shape;
         if (shape === "circle") {
             setShapeOfMarkerPl(name, shape);
             e.target._icon.classList.add(styles["circle-fn-1"]);
