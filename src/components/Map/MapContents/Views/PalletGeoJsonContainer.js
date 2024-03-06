@@ -200,6 +200,7 @@ const PalletGeoJsonContainer = () => {
                         color: 'black',
                         status: 'add',
                         type: 'line-pallet',
+                        index: id
                     })
                         .on('contextmenu', e => annotationPalletPopup(map, e, globalStore.removeLinePalletById))
                         .addTo(map);

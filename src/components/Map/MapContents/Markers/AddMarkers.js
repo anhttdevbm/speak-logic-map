@@ -685,7 +685,7 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
 }
 
 export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDialogEditTextStyle, style, setItemAnnotationStyling,
-                                   setValueTextPallet, valueText) => {
+                                   setValueTextPallet, valueText, removeTextPalletById) => {
     let divIcon = L.divIcon({
         html: makeHtml(index, valueText, style.fontFamily, Number(style.fontSize), style.fontColor, style.fontStyle, style.textAlign),
         className: 'input-text-pallet',
@@ -697,7 +697,7 @@ export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDia
         target: {status: 'add', type: 'input-text', index: index},
         draggable: !isLocked,
     })
-        .on('contextmenu', e => textPalletPopup(map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet))
+        .on('contextmenu', e => textPalletPopup(map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet, removeTextPalletById))
         .addTo(map);
 }
 

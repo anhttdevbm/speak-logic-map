@@ -942,7 +942,9 @@ const Markers = ({setModal, setModalType}) => {
                 globalStore.togglePalletOption('');
             } else if (globalStore.palletOption === 'image') {
                 let id = globalStore.listPositionOfImagePallet.length + 1;
-                let bound = L.latLngBounds([[e.latlng.lat, e.latlng.lng], [e.latlng.lat - 20, e.latlng.lng + 50]])
+                let zoom = map.getZoom();
+                console.log('zoom')
+                let bound = L.latLngBounds([[e.latlng.lat, e.latlng.lng], [e.latlng.lat - 40/zoom, e.latlng.lng + 100/zoom]])
                 globalStore.setPositionOfImagePallet(e.latlng.lat, e.latlng.lng, id, bound);
                 addInputImagePallet(map, e.latlng.lat, e.latlng.lng, id, globalStore.lock, globalStore.togglePalletOption,
                     globalStore.updateValueImagePalletById, globalStore.setValueOfImage);

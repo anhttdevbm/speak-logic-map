@@ -225,7 +225,7 @@ const PalletLineView = () => {
 
     const addTextPallet = (positionText, id, style, valueText) => {
         addInputTextPallet(map, positionText[0], positionText[1], id, globalStore.lock, globalStore.toggleShowDialogEditTextStyle,
-            style, globalStore.setItemAnnotationStyling, globalStore.setValueTextPallet, valueText ? valueText : '');
+            style, globalStore.setItemAnnotationStyling, globalStore.setValueTextPallet, valueText ? valueText : '', globalStore.removeTextPalletById);
         globalStore.setStatusTextPallet(id, true);
     }
 
@@ -254,6 +254,20 @@ const PalletLineView = () => {
                     index: imagePalletObj.id
                 }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById));
                 imageTransform.addTo(map);
+
+                L.polygon(latLngs, {
+                    draggable: true,
+                    scalable: true,
+                    rotatable: false,
+                    keepRatio: false,
+                    fit: true,
+                    attribution: 'imageTransform',
+                    index: imagePalletObj.id
+                }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById))
+
+                // imageTransform._onScaleEnd(function(event) {
+                //     console.log('Image dragged to:', event.target.getLatLng());
+                // });
 
                 globalStore.setStatusImagePallet(imagePalletObj.id, true);
             }

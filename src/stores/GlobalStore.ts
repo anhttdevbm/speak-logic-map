@@ -247,6 +247,10 @@ export class GlobalStore {
         this.listPositionOfImagePallet = this.listPositionOfImagePallet.filter(item => item.id != id);
     }
 
+    removeTextPalletById = (id: any) => {
+        this.listPositionOfTextPallet = this.listPositionOfTextPallet.filter(item => item.id != id);
+    }
+
     setPositionOfPallet = (lat: number, lng: number, positionOfPallet: any[], listPositionOfPallet: any[]) => {
         positionOfPallet.push([lat, lng]);
         if (positionOfPallet.length === 2) {

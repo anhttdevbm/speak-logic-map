@@ -2004,7 +2004,7 @@ export const imagePalletPopup = (map, e, removeImagePalletById) => {
     }
 }
 
-export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet) => {
+export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet, removeTextPalletById) => {
     clearAllPopups(map);
     const popup = L.popup();
     popup
@@ -2017,6 +2017,7 @@ export const textPalletPopup = (map, e, toggleShowDialogEditTextStyle, setItemAn
     window.deleteAnnotation = () => {
         map.removeLayer(popup);
         map.removeLayer(e.target);
+        removeTextPalletById(id);
     }
 
     window.editTextStyle = () => {
