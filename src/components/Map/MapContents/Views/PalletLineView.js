@@ -255,20 +255,6 @@ const PalletLineView = () => {
                 }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById));
                 imageTransform.addTo(map);
 
-                L.polygon(latLngs, {
-                    draggable: true,
-                    scalable: true,
-                    rotatable: false,
-                    keepRatio: false,
-                    fit: true,
-                    attribution: 'imageTransform',
-                    index: imagePalletObj.id
-                }).on('contextmenu', e => imagePalletPopup(map, e, globalStore.removeImagePalletById))
-
-                // imageTransform._onScaleEnd(function(event) {
-                //     console.log('Image dragged to:', event.target.getLatLng());
-                // });
-
                 globalStore.setStatusImagePallet(imagePalletObj.id, true);
             }
         }

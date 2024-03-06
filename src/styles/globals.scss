@@ -98,3 +98,7 @@ sub {
   display: flex;
   flex: 1;
 }
+
+.leaflet-image-layer {
+  z-index: 10000;
+}
