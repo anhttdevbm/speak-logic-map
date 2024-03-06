@@ -913,11 +913,23 @@ export class GlobalStore {
                 this.listMarkerFunction[i].shape = shape;
             }
         }
+
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].name === name) {
+                this.mapLayer[i].shape = shape;
+            }
+        }
+
     }
     setShapeOfMarkerPl = (name: number, shape: string): void => {
         for (let i = 0; i < this.listMarkerProblem.length; i++) {
             if (this.listMarkerProblem[i].value === name) {
                 this.listMarkerProblem[i].shape = shape;
+            }
+        }
+        for (let i = 0; i < this.mapLayer.length; i++) {
+            if (this.mapLayer[i].name === name) {
+                this.mapLayer[i].shape = shape;
             }
         }
     }
