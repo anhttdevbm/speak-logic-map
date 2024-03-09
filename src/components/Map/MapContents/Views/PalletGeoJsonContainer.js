@@ -123,9 +123,8 @@ const PalletGeoJsonContainer = () => {
                 let weight = globalStore.listCirclePolygonPallet[i].weight;
                 console.log(radius, toRadians(radius), lat, lng)
                 if (!status && lat && lat && type === 'circle-polygon') {
-                    let circle = L.circleMarker([lat, lng], {
-                        radius: (radius/100000)*Math.abs(lat/10),
-                        // radius: radius*7/10000/lat,
+                    let circle = L.circle([lat, lng], {
+                        radius: radius,
                         draggable: true,
                         status: 'add',
                         type: 'circle-polygon',
@@ -147,9 +146,12 @@ const PalletGeoJsonContainer = () => {
                     })
 
                     circle.on('dragend', function (event) {
-                        circle.setRadius((radius/100000)*Math.abs(lat/10));
+                        // circle.setRadius(radius);
                         let newCenter = event.target.getLatLng();
-                        console.log('event', event)
+                        console.log('Math.abs(lat)', Math.abs(lat))
+                        let x = Math.abs(lat) < 50 ? 1 : 3
+                        circle.setRadius((radius * x) * Math.cos(toRadians(Math.abs(newCenter.lat))));
+                        console.log('event', newCenter.lat, (radius * x) * Math.cos(toRadians(Math.abs(newCenter.lat))))
                         let currentCenter = globalStore.getCirclePolygonPalletById(id).bound;
                         for (let i = 0; i < globalStore.mapLayer.length; i++) {
                             let id = globalStore.mapLayer[i].id;
