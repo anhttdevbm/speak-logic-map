@@ -225,7 +225,8 @@ const PalletLineView = () => {
 
     const addTextPallet = (positionText, id, style, valueText) => {
         addInputTextPallet(map, positionText[0], positionText[1], id, globalStore.lock, globalStore.toggleShowDialogEditTextStyle,
-            style, globalStore.setItemAnnotationStyling, globalStore.setValueTextPallet, valueText ? valueText : '', globalStore.removeTextPalletById);
+            style, globalStore.setItemAnnotationStyling, globalStore.setValueTextPallet, valueText ? valueText : '',
+            globalStore.removeTextPalletById, globalStore.updatePositionTextPalletById);
         globalStore.setStatusTextPallet(id, true);
     }
 

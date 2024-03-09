@@ -205,6 +205,14 @@ export class GlobalStore {
         }
     }
 
+    updatePositionTextPalletById = (id: any, lat: any, lng: any) => {
+        for (let i = 0; i < this.listPositionOfTextPallet.length; i++) {
+            if (this.listPositionOfTextPallet[i].id == id) {
+                this.listPositionOfTextPallet[i].position = [lat, lng];
+            }
+        }
+    }
+
     updateStyleTextPalletById = (id: any, style: any) => {
         for (let i = 0; i < this.listPositionOfTextPallet.length; i++) {
             if (this.listPositionOfTextPallet[i].id == id) {

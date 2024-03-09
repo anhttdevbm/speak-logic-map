@@ -685,20 +685,30 @@ export const addPersonInMobility = (map, lat, lng, isLocked, numberPersonMobilit
 }
 
 export const addInputTextPallet = (map, lat, lng, index, isLocked, toggleShowDialogEditTextStyle, style, setItemAnnotationStyling,
-                                   setValueTextPallet, valueText, removeTextPalletById) => {
+                                   setValueTextPallet, valueText, removeTextPalletById, updatePositionTextPalletById) => {
     let divIcon = L.divIcon({
         html: makeHtml(index, valueText, style.fontFamily, Number(style.fontSize), style.fontColor, style.fontStyle, style.textAlign),
         className: 'input-text-pallet',
         iconSize: [200, 50],
         iconAnchor: [0, 0]
     });
-    L.marker([lat, lng], {
+    let marker = L.marker([lat, lng], {
         icon: divIcon,
         target: {status: 'add', type: 'input-text', index: index},
         draggable: !isLocked,
     })
         .on('contextmenu', e => textPalletPopup(map, e, toggleShowDialogEditTextStyle, setItemAnnotationStyling, setValueTextPallet, removeTextPalletById))
         .addTo(map);
+
+    document.getElementById(`input_text_${index}`).addEventListener('change', () => {
+        let value = document.getElementById(`input_text_${index}`).value;
+        setValueTextPallet(index, value);
+    })
+
+    marker.on('dragend', function (event) {
+        let latLng = event.target._latlng;
+        updatePositionTextPalletById(index, latLng.lat, latLng.lng)
+    })
 }
 
 function makeHtml(id, valueText, fontFamily, fontSize, fontColor, style, textAlign) {
