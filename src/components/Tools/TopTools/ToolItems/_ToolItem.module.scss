@@ -1,4 +1,4 @@
-@import '../../../../styles/variables';
+@import "../../../../styles/variables";
 
 .left-item-wrap {
   position: relative;
@@ -212,7 +212,6 @@
       height: 10px;
       background-color: transparent;
     }
-
   }
 }
 
@@ -246,9 +245,8 @@
   position: relative;
   z-index: 1000;
 
-
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 90%;
     left: 0;
@@ -444,7 +442,6 @@
           font-weight: 800;
           margin-left: 0.6rem;
           text-decoration: underline;
-
         }
 
         .country-list {
@@ -481,6 +478,21 @@
   pointer-events: none;
   cursor: default;
   opacity: 0.6;
+}
+
+.center-items {
+  display: flex;
+  align-items: center;
+}
+
+.end-items {
+  display: flex;
+  justify-content: end;
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-item {
+  display: flex !important;
+  align-items: center !important;
 }
 
 @keyframes loading {

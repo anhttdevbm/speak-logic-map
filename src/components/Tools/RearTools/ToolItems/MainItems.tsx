@@ -1,20 +1,21 @@
-import { useGlobalStore } from '@/providers/RootStoreProvider';
-import { ItemInterface } from '@/utils/util_interfaces';
-import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
-import RearItemName from './RearItemName';
-import styles from './_ToolItems.module.scss';
+import { useGlobalStore } from "@/providers/RootStoreProvider";
+import { ItemInterface } from "@/utils/util_interfaces";
+import { observer } from "mobx-react-lite";
+import React, { useEffect, useState } from "react";
+import RearItemName from "./RearItemName";
+import styles from "./_ToolItems.module.scss";
 
 interface Props {
-  isExpanded: boolean,
-  item: ItemInterface,
+  isExpanded: boolean;
+  item: ItemInterface;
 }
 
-const MainItems: React.FC<Props> = ({isExpanded, item}: Props): JSX.Element => {
+const MainItems: React.FC<Props> = ({ isExpanded, item }: Props): JSX.Element => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const globalStore = useGlobalStore();
+
   return (
-    <button 
+    <button
       draggable={!globalStore.click}
       onClick={() => {
         globalStore.click && globalStore.addIconHandle(item.value);
@@ -31,27 +32,17 @@ const MainItems: React.FC<Props> = ({isExpanded, item}: Props): JSX.Element => {
         }
       }}
       className={`
-        ${styles['item-btn']} 
-        ${globalStore.addIcon === item.value ? styles['active'] : null}
-        ${item.ability ? null : styles['disable']}
+        ${styles["item-btn"]}
+        ${globalStore.addIcon === item.value ? styles["active"] : null}
+        ${item.ability ? null : styles["disable"]}
       `}
     >
       <span>
         <item.Icon />
       </span>
-      {isExpanded 
-        ? (
-          <p>{item.name}</p>
-        )
-        : (isDragging 
-          ? <></> 
-          : (
-            <RearItemName itemName={item.name}/>
-          )
-        )
-      }
+      {isExpanded ? <p>{item.name}</p> : isDragging ? <></> : <RearItemName itemName={item.name} />}
     </button>
-  )
-}
+  );
+};
 
-export default observer(MainItems)
+export default observer(MainItems);

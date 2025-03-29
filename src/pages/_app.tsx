@@ -1,7 +1,7 @@
-import Layout from '@/components/Layout/Layout'
-import { RootStoreProvider } from '@/providers/RootStoreProvider'
-import '@/styles/globals.scss'
-import type { AppProps } from 'next/app';
+import Layout from "@/components/Layout/Layout";
+import { RootStoreProvider } from "@/providers/RootStoreProvider";
+import "@/styles/globals.scss";
+import type { AppProps } from "next/app";
 
 declare global {
   interface Window {
@@ -14,7 +14,7 @@ declare global {
     UnT: number[];
     HnT: number[];
     problem: string;
-
+    MathJax: any;
     openRenameModal: () => void;
     edittingItem: () => void;
     handleRemoveTempList: () => void;
@@ -87,5 +87,5 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Layout>
     </RootStoreProvider>
-  )
+  );
 }
