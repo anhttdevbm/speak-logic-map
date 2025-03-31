@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-unwanted-polyfillio */
 /* eslint-disable @next/next/no-sync-scripts */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useGlobalStore, useSimulationSettingStore } from "@/providers/RootStoreProvider";
 import styles from "./_ToolItem.module.scss";
 import { RelatedIcon } from "@/components/Icons/Icons";
@@ -23,7 +23,8 @@ const Equation = () => {
     equationValue: null,
   };
   const [dataRequest, setDataRequest] = useState(baseDataRequest);
-  const [toggleSimulationSettingModal, setToggleSimulationSettingModal] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [renderedOptions, setRenderedOptions] = useState<any[]>([]);
   const globalStore = useGlobalStore();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Equation = () => {
         })
         .catch((err: any) => console.error("MathJax rendering error:", err));
     }
-  }, [toggleSimulationSettingModal]);
+  }, [dataRequest.equation]);
 
   const handleUpdateDataRequest = (value: any, config: string) => {
     if (config === "equation") {
@@ -64,23 +65,36 @@ const Equation = () => {
   };
 
   const handleAddMap = () => {
-    handleClickMapElement("equation");
-    globalStore.addIconHandle("equation");
+    const value =
+      !dataRequest.equation || dataRequest.equation === "customize" ? dataRequest.equationValue : window.MathJax.tex2chtml(dataRequest.equationValue).outerHTML;
+    handleClickMapElement(value || "--");
+    setIsOpenModal(false);
+    return setDataRequest(baseDataRequest);
+  };
+
+  const renderMath = (label: string) => {
+    if (window.MathJax) {
+      return window.MathJax.tex2chtml(label).outerHTML;
+    }
+    return label;
   };
 
   return (
     <div>
       <MathJaxScript />
-      <button
-        type="button"
-        className={`${styles["left-item-wrap"]} ${globalStore.simulation ? styles["active"] : null}`}
-        onClick={() => setToggleSimulationSettingModal(true)}
-      >
+      <button type="button" className={`${styles["left-item-wrap"]} ${globalStore.simulation ? styles["active"] : null}`} onClick={() => setIsOpenModal(true)}>
         <RelatedIcon />
       </button>
 
-      {toggleSimulationSettingModal && (
-        <Modal open={toggleSimulationSettingModal} onCancel={() => setToggleSimulationSettingModal(false)} onOk={() => handleAddMap()} title="Select Equation">
+      {isOpenModal && (
+        <Modal
+          open={isOpenModal}
+          onCancel={() => {
+            setIsOpenModal(false), setDataRequest(baseDataRequest);
+          }}
+          onOk={() => handleAddMap()}
+          title="Select Equation"
+        >
           <div>
             <div className={`${styles["center-items"]}`}>
               <div style={{ width: "50%" }}>Select Equation</div>
@@ -88,38 +102,36 @@ const Equation = () => {
                 <Select
                   placeholder="Select Equation"
                   style={{ width: "100%" }}
+                  size="large"
                   options={OPTIONS_EQUATION}
                   value={dataRequest.equation}
                   onChange={(value) => handleUpdateDataRequest(value, "equation")}
                 />
               </div>
             </div>
-
-            <div className={`${styles["center-items"]}`} style={{ marginTop: "20px" }}>
-              <div style={{ width: "100%" }}>Select Mathematical</div>
-              <Select
-                placeholder="Select Mathematical"
-                style={{ width: "100%" }}
-                value={dataRequest.equationType}
-                onChange={(value) => handleUpdateDataRequest(value, "equationType")}
-                options={OPTIONS_MATHEMATICAL?.filter((obj) => obj.parentId === dataRequest.equation).map((options) => ({
-                  value: options.value,
-                  label: (
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: window.MathJax ? window.MathJax.tex2chtml(options.label).outerHTML : options.label,
-                      }}
-                    />
-                  ),
-                }))}
-              />
-            </div>
+            {dataRequest.equation && dataRequest.equation !== "customize" && (
+              <div className={`${styles["center-items"]}`} style={{ marginTop: "20px" }}>
+                <div style={{ width: "100%" }}>Select Mathematical</div>
+                <Select
+                  placeholder="Select Mathematical"
+                  style={{ width: "100%" }}
+                  size="large"
+                  value={dataRequest.equationType}
+                  onChange={(value) => handleUpdateDataRequest(value, "equationType")}
+                  options={OPTIONS_MATHEMATICAL?.filter((obj) => obj.parentId === dataRequest.equation).map((options) => ({
+                    value: options.value,
+                    label: <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />,
+                  }))}
+                />
+              </div>
+            )}
 
             <div className={`${styles["center-items"]}`} style={{ marginTop: "20px" }}>
               <div style={{ width: "100%" }}>Input Value</div>
               <Input
                 placeholder="Input Value"
-                style={{ width: "100%" }}
+                style={{ width: "95%" }}
+                size="large"
                 value={dataRequest.equationValue || ""}
                 onChange={(e) => handleUpdateDataRequest(e.target.value, "equationValue")}
               />
