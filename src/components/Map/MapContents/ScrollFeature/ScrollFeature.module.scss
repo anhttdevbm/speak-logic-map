@@ -1,0 +1,25 @@
+.scrollFeatureIcon {
+  padding: 20px 40px;
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+  border: 1px solid #3d3d3d;
+  background-color: #eae7e7;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 800px !important;
+  //height: 300px !important;
+  //transform: translate3d(5%, 20%, 0px) !important;
+  z-index: 1000 !important;
+}
+
+.textCircle {
+  justify-content: center;
+  align-items: center;
+}
+.scroll {
+  margin-top: 10px;
+  align-items: center;
+  height: 30px;
+  border: 1px solid #0f0f0f;
+}

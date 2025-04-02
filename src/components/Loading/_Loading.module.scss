@@ -1,0 +1,66 @@
+.loading-wrap {
+  position: absolute;
+  background-color: #fff;
+  inset: 0;
+  z-index: 20001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    animation-name: loading;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+}
+
+.loading-bar-wrap {
+  position: relative;
+  margin-top: 1rem;
+
+  .loading-bar {
+    border: 1px solid #000;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    width: 70vw;
+    span {
+      display: flex;
+      flex: 1;
+      height: 2rem;
+
+      &.active {
+        background-color: #3388ff;
+      }
+    }
+  }
+
+  .loading-percent {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: 600;
+    
+    &.active {
+      color: #fff;
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

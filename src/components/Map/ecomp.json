@@ -1,0 +1,125 @@
+{
+  "type": "FeatureCollection",
+  "name": "USLabels",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "NY",
+        "description": "New York",
+        "altitudeMode": "clampToGround",
+        "tessellate": "-1",
+        "extrude": "0",
+        "visibility": "-1",
+        "snippet": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.498046875,
+          42.90816007196054,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "AL",
+        "description": "Alabama",
+        "altitudeMode": "clampToGround",
+        "tessellate": "-1",
+        "extrude": "0",
+        "visibility": "-1",
+        "snippet": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8434593,
+          32.7396323,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "AK",
+        "description": "Alaska",
+        "extrude": "0",
+        "visibility": "-1",
+        "snippet": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -152.8370679,
+          63.3461910,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "AZ",
+        "description": "Arizona",
+        "extrude": "0",
+        "visibility": "-1",
+        "snippet": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.6024010,
+          34.2099643,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "AR",
+        "description": "Arakansa",
+        "extrude": "0",
+        "visibility": "-1",
+        "snippet": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -92.4446262,
+          34.8955256,
+          0.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "CA",
+        "description": "California",
+        "tessellate": "-1",
+        "extrude": "0",
+        "visibility": "-1",
+        "snippet": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -119.7509765625,
+          37.125286284966805,
+          0.0
+        ]
+      }
+    }
+  ]
+}

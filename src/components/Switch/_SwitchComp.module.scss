@@ -1,0 +1,17 @@
+.switch {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 5rem;
+  padding: 0 0.625rem;
+  font-size: 0.938rem;
+  color: #fff;
+}
+
+.switch-on {
+  margin-left: 0.2rem;
+}
+
+.switch-off {
+  margin-left: -2.25rem;
+}
