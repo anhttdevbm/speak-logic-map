@@ -65,8 +65,7 @@ const Equation = () => {
   };
 
   const handleAddMap = () => {
-    const value =
-      !dataRequest.equation || dataRequest.equation === "customize" ? dataRequest.equationValue : window.MathJax.tex2chtml(dataRequest.equationValue).outerHTML;
+    const value = !dataRequest.equation ? dataRequest.equationValue : window.MathJax.tex2chtml(dataRequest.equationValue).outerHTML;
     handleClickMapElement(value || "--");
     setIsOpenModal(false);
     return setDataRequest(baseDataRequest);
