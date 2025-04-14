@@ -24,7 +24,6 @@ const Equation = () => {
   };
   const [dataRequest, setDataRequest] = useState(baseDataRequest);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [renderedOptions, setRenderedOptions] = useState<any[]>([]);
   const globalStore = useGlobalStore();
 
   useEffect(() => {
@@ -42,23 +41,26 @@ const Equation = () => {
       return setDataRequest({
         ...dataRequest,
         equationType: null,
-        equationValue: null,
         [config]: value,
       });
     }
+
     if (config === "equationType") {
-      const findOption = OPTIONS_MATHEMATICAL.find((obj) => obj.value === value)?.label || null;
+      const findOption = OPTIONS_MATHEMATICAL.find((obj) => obj.value === value)?.label || "";
+
       return setDataRequest({
         ...dataRequest,
-        equationValue: (findOption as any) || "",
+        equationValue: dataRequest.equationValue ? `${dataRequest.equationValue}, ${findOption}` : (findOption as any),
         [config]: value,
       });
     }
+
     return setDataRequest({
       ...dataRequest,
       [config]: value,
     });
   };
+
   const handleClickMapElement = (element: any) => {
     globalStore.setMapElementSelected(element);
     globalStore.setListMapElementSelected(element);
