@@ -100,5 +100,8 @@ export const OPTIONS_MATHEMATICAL = [
 
   // FRACTION & RADICAL
   { value: "59", label: "\\sqrt{x}", parentId: "fraction" },
-  { value: "60", label: "σ = \\sqrt[2]{x^3 + x^2 + 1}", parentId: "fraction" },
+  { value: "60", label: "σ =", parentId: "fraction" },
+  { value: "61", label: "\\sqrt[2]{}", parentId: "fraction" },
+  { value: "62", label: "x^3", parentId: "fraction" },
+  { value: "63", label: "x^2", parentId: "fraction" },
 ];

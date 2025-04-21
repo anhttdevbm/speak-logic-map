@@ -27,14 +27,14 @@ const Equation = () => {
   const globalStore = useGlobalStore();
 
   useEffect(() => {
-    if (window.MathJax) {
+    if (window.MathJax && isOpenModal) {
       window.MathJax.typesetPromise()
         .then(() => {
           console.log("MathJax rendering complete");
         })
         .catch((err: any) => console.error("MathJax rendering error:", err));
     }
-  }, [dataRequest.equation]);
+  }, [isOpenModal]);
 
   const handleUpdateDataRequest = (value: any, config: string) => {
     if (config === "equation") {
@@ -67,7 +67,7 @@ const Equation = () => {
   };
 
   const handleAddMap = () => {
-    const value = !dataRequest.equation ? dataRequest.equationValue : window.MathJax.tex2chtml(dataRequest.equationValue).outerHTML;
+    const value = window.MathJax.tex2chtml(dataRequest.equationValue).outerHTML;
     handleClickMapElement(value || "--");
     setIsOpenModal(false);
     return setDataRequest(baseDataRequest);
@@ -97,7 +97,7 @@ const Equation = () => {
           title="Select Equation"
         >
           <div>
-            <div className={`${styles["center-items"]}`}>
+            {/* <div className={`${styles["center-items"]}`}>
               <div style={{ width: "50%" }}>Select Equation</div>
               <div className={`${styles["end-items"]}`} style={{ flex: 1 }}>
                 <Select
@@ -109,23 +109,23 @@ const Equation = () => {
                   onChange={(value) => handleUpdateDataRequest(value, "equation")}
                 />
               </div>
+            </div> */}
+            {/* {dataRequest.equation && dataRequest.equation !== "customize" && ( */}
+            <div className={`${styles["center-items"]}`} style={{ marginTop: "20px" }}>
+              <div style={{ width: "100%" }}>Select Mathematical</div>
+              <Select
+                placeholder="Select Mathematical"
+                style={{ width: "100%" }}
+                size="large"
+                value={dataRequest.equationType}
+                onChange={(value) => handleUpdateDataRequest(value, "equationType")}
+                options={OPTIONS_MATHEMATICAL.map((options) => ({
+                  value: options.value,
+                  label: <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />,
+                }))}
+              />
             </div>
-            {dataRequest.equation && dataRequest.equation !== "customize" && (
-              <div className={`${styles["center-items"]}`} style={{ marginTop: "20px" }}>
-                <div style={{ width: "100%" }}>Select Mathematical</div>
-                <Select
-                  placeholder="Select Mathematical"
-                  style={{ width: "100%" }}
-                  size="large"
-                  value={dataRequest.equationType}
-                  onChange={(value) => handleUpdateDataRequest(value, "equationType")}
-                  options={OPTIONS_MATHEMATICAL?.filter((obj) => obj.parentId === dataRequest.equation).map((options) => ({
-                    value: options.value,
-                    label: <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />,
-                  }))}
-                />
-              </div>
-            )}
+            {/* )} */}
 
             <div className={`${styles["center-items"]}`} style={{ marginTop: "20px" }}>
               <div style={{ width: "100%" }}>Input Value</div>
