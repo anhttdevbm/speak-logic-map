@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .top-tools-wrap {
   background-color: #ffffffe5;
@@ -26,12 +26,18 @@
 
     .left-content {
     }
-  
+
     .middle-content {
       flex: 1;
     }
 
     .right-content {
     }
+  }
+}
+
+#modal-add-equation {
+  .MathJax {
+    margin: 0;
   }
 }
