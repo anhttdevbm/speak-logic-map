@@ -28,7 +28,7 @@ const Equation = () => {
   const globalStore = useGlobalStore();
 
   useEffect(() => {
-    if (window.MathJax && isOpenModal) {
+    if (window.MathJax) {
       window.MathJax.typesetPromise()
         .then(() => {
           console.log("MathJax rendering complete");
@@ -51,7 +51,7 @@ const Equation = () => {
 
       return setDataRequest({
         ...dataRequest,
-        equationValue: dataRequest.equationValue ? `${dataRequest.equationValue}, ${findOption}` : (findOption as any),
+        equationValue: dataRequest.equationValue ? `${dataRequest.equationValue} ${findOption}` : (findOption as any),
         [config]: value,
       });
     }
