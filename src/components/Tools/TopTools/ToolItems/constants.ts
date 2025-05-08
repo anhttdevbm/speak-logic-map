@@ -1,3 +1,10 @@
+import Image1 from "@/assets/images/Integral-07.png";
+import Image2 from "@/assets/images/function/x-hat.png";
+import Image3 from "@/assets/images/Fraction/1.png";
+import Image4 from "@/assets/images/Theory/1.png";
+import Image5 from "@/assets/images/Theory/2.png";
+import Image6 from "@/assets/images/Fraction/2.png";
+
 export const OPTIONS_EQUATION = [
   {
     value: "function",
@@ -23,10 +30,10 @@ export const OPTIONS_EQUATION = [
     value: "fraction",
     label: "Fraction & Radical",
   },
-  {
-    value: "customize",
-    label: "Customize",
-  },
+  // {
+  //   value: "customize",
+  //   label: "Customize",
+  // },
 ];
 
 export const OPTIONS_MATHEMATICAL = [
@@ -44,7 +51,7 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "11", label: "ECF_i", parentId: "function" },
   { value: "12", label: "f_i(\\overline{x}_i)", parentId: "function" },
   { value: "13", label: "x_i", parentId: "function" },
-  { value: "14", label: "f_i(x)", parentId: "function" },
+  { value: "14", label: "f_i(x)", parentId: "function", image: Image1 },
 
   // WORD-related labels
   { value: "15", label: "W", parentId: "word" },
@@ -61,7 +68,7 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "26", label: "S(\\overline{W})", parentId: "word" },
 
   // Application-related labels
-  { value: "27", label: "A", parentId: "application" },
+  { value: "27", label: "A", parentId: "application", image: Image5 },
   { value: "28", label: "A_0", parentId: "application" },
   { value: "29", label: "\\widehat{A}", parentId: "application" },
   { value: "30", label: "\\overline{A}", parentId: "application" },
@@ -79,9 +86,9 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "40", label: "T_8", parentId: "theory" },
   { value: "41", label: "T_9", parentId: "theory" },
   { value: "42", label: "T_{10}", parentId: "theory" },
-  { value: "43", label: "T", parentId: "theory" },
+  { value: "43", label: "T", parentId: "theory", image: Image4 },
   { value: "44", label: "T_0", parentId: "theory" },
-  { value: "45", label: "A", parentId: "theory" },
+  { value: "45", label: "A", parentId: "theory", image: Image5 },
   { value: "46", label: "A'", parentId: "theory" },
   { value: "47", label: "A'_0", parentId: "theory" },
 
@@ -100,8 +107,8 @@ export const OPTIONS_MATHEMATICAL = [
 
   // FRACTION & RADICAL
   { value: "59", label: "\\sqrt{x}", parentId: "fraction" },
-  { value: "60", label: "σ =", parentId: "fraction" },
-  { value: "61", label: "\\sqrt[2]{}", parentId: "fraction" },
+  { value: "60", label: "σ", parentId: "fraction", image: Image3 },
+  { value: "61", label: "\\sqrt[2]{}", parentId: "fraction", image: Image6 },
   { value: "62", label: "x^3", parentId: "fraction" },
   { value: "63", label: "x^2", parentId: "fraction" },
 ];

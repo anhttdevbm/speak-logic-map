@@ -7,8 +7,10 @@ import styles from "./_ToolItem.module.scss";
 import { RelatedIcon } from "@/components/Icons/Icons";
 import { Button, Collapse, CollapseProps, Input, Modal, Select } from "antd";
 import { OPTIONS_EQUATION, OPTIONS_MATHEMATICAL } from "./constants";
+import Image1 from "@/assets/images/Integral-07.png";
 
 import Head from "next/head";
+import Image from "next/image";
 
 const { TextArea } = Input;
 const MathJaxScript = () => (
@@ -89,7 +91,11 @@ const Equation = () => {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
           {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
             <Button className={`${styles["center-items"]}`} key={options.value} onClick={() => handleUpdateDataRequest(options.value, "equationType")}>
-              <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+              {options.image ? (
+                <Image width={20} height={20} src={options.image} alt="img" />
+              ) : (
+                <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+              )}
             </Button>
           ))}
         </div>
