@@ -1,4 +1,4 @@
-import Image1 from "@/assets/images/Integral-07.png";
+import Image1 from "@/assets/images/Fraction/3.svg";
 import Image3 from "@/assets/images/Fraction/1.png";
 import Image4 from "@/assets/images/Theory/1.png";
 // import Image5 from "@/assets/images/Theory/2.png";
@@ -168,9 +168,9 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "32", label: "\\overline{A}_0", parentId: "application", image: Image11 },
 
   // FRACTION & RADICAL
-  { value: "59", label: "\\sqrt{x}", parentId: "fraction" },
+  { value: "59", label: "\\sqrt{x}", parentId: "fraction", image: Image1 },
   { value: "60", label: "σ", parentId: "fraction", image: Image3 },
   { value: "61", label: "\\sqrt[2]{}", parentId: "fraction", image: Image6 },
-  { value: "62", label: "x^3", parentId: "fraction" },
-  { value: "63", label: "x^2", parentId: "fraction" },
+  // { value: "62", label: "x^3", parentId: "fraction" },
+  // { value: "63", label: "x^2", parentId: "fraction" },
 ];
