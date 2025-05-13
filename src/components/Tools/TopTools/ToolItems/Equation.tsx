@@ -90,9 +90,17 @@ const Equation = () => {
       children: (
         <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
           {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
-            <Button className={`${styles["center-items"]}`} key={options.value} onClick={() => handleUpdateDataRequest(options.value, "equationType")}>
+            <Button
+              className={`${styles["center-items"]}`}
+              style={{
+                width: "75px",
+                height: "75px",
+              }}
+              key={options.value}
+              onClick={() => handleUpdateDataRequest(options.value, "equationType")}
+            >
               {options.image ? (
-                <Image width={20} height={20} src={options.image} alt="img" />
+                <Image width={50} height={50} src={options.image} alt="img" />
               ) : (
                 <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
               )}
