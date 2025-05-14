@@ -99,6 +99,22 @@ export const OPTIONS_EQUATION = [
 ];
 
 export const OPTIONS_MATHEMATICAL = [
+  // FUNCTION-related labels
+  { value: "1", label: "x", parentId: "function", image: Image12 },
+  { value: "2", label: "f_0(x)", parentId: "function", image: Image13 },
+  { value: "3", label: "\\overline{x}", parentId: "function", image: Image14 },
+  { value: "4", label: "f(x)", parentId: "function", image: Image15 },
+  { value: "5", label: "f_i(x)", parentId: "function", image: Image16 },
+  { value: "6", label: "P_i", parentId: "function", image: Image17 },
+  { value: "7", label: "G_i", parentId: "function", image: Image18 },
+  { value: "8", label: "G_i(x)", parentId: "function", image: Image19 },
+  { value: "9", label: "f(x)", parentId: "function", image: Image20 },
+  { value: "10", label: "ECF(x)", parentId: "function", image: Image21, width: 50, height: 50 },
+  { value: "11", label: "ECF_i", parentId: "function", image: Image22, width: 50, height: 50 },
+  { value: "12", label: "f_i(\\overline{x}_i)", parentId: "function", image: Image23, width: 50, height: 50 },
+  { value: "13", label: "x_i", parentId: "function", image: Image24 },
+  { value: "14", label: "f_i(x)", parentId: "function", image: Image25 },
+
   // Theory-related labels
   { value: "33", label: "T_1", parentId: "theory", image: Image49 },
   { value: "34", label: "T_2", parentId: "theory", image: Image50 },
@@ -142,22 +158,6 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "24", label: "D(\\overline{W})", parentId: "word", image: Image35 },
   { value: "25", label: "G(\\overline{W})", parentId: "word", image: Image36 },
   { value: "26", label: "S(\\overline{W})", parentId: "word", image: Image37 },
-
-  // FUNCTION-related labels
-  { value: "1", label: "x", parentId: "function", image: Image12 },
-  { value: "2", label: "f_0(x)", parentId: "function", image: Image13 },
-  { value: "3", label: "\\overline{x}", parentId: "function", image: Image14 },
-  { value: "4", label: "f(x)", parentId: "function", image: Image15 },
-  { value: "5", label: "f_i(x)", parentId: "function", image: Image16 },
-  { value: "6", label: "P_i", parentId: "function", image: Image17 },
-  { value: "7", label: "G_i", parentId: "function", image: Image18 },
-  { value: "8", label: "G_i(x)", parentId: "function", image: Image19 },
-  { value: "9", label: "f(x)", parentId: "function", image: Image20 },
-  { value: "10", label: "ECF(x)", parentId: "function", image: Image21 },
-  { value: "11", label: "ECF_i", parentId: "function", image: Image22 },
-  { value: "12", label: "f_i(\\overline{x}_i)", parentId: "function", image: Image23 },
-  { value: "13", label: "x_i", parentId: "function", image: Image24 },
-  { value: "14", label: "f_i(x)", parentId: "function", image: Image25 },
 
   // Application-related labels
   { value: "27", label: "A", parentId: "application", image: Image5 },
