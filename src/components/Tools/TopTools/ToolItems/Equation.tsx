@@ -100,7 +100,7 @@ const Equation = () => {
               onClick={() => handleUpdateDataRequest(options.value, "equationType")}
             >
               {options.image ? (
-                <Image width={50} height={50} src={options.image} alt="img" />
+                <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
               ) : (
                 <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
               )}
