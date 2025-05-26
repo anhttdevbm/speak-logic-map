@@ -67,6 +67,10 @@ import Image61 from "@/assets/images/Theory/Theory_Dropdown_13.svg";
 import Image62 from "@/assets/images/Theory/Theory_Dropdown_14.svg";
 import Image63 from "@/assets/images/Theory/Theory_Dropdown_16.svg";
 
+import Image64 from "@/assets/images/Test/1.png";
+import Image65 from "@/assets/images/Test/2.png";
+import Image66 from "@/assets/images/Test/3.svg";
+
 export const OPTIONS_EQUATION = [
   {
     value: "function",
@@ -92,10 +96,10 @@ export const OPTIONS_EQUATION = [
     value: "fraction",
     label: "Fraction & Radical",
   },
-  // {
-  //   value: "customize",
-  //   label: "Customize",
-  // },
+  {
+    value: "test",
+    label: "Test",
+  },
 ];
 
 export const OPTIONS_MATHEMATICAL = [
@@ -173,4 +177,9 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "61", label: "\\sqrt[2]{}", parentId: "fraction", image: Image6 },
   // { value: "62", label: "x^3", parentId: "fraction" },
   // { value: "63", label: "x^2", parentId: "fraction" },
+
+  // Test
+  { value: "64", label: "\\sqrt{x}", parentId: "test", image: Image64 },
+  { value: "65", label: "σ", parentId: "test", image: Image65 },
+  { value: "66", label: "\\sqrt[2]{}", parentId: "test", image: Image66 },
 ];
