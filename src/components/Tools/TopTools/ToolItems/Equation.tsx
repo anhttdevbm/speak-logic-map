@@ -4,9 +4,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useGlobalStore, useSimulationSettingStore } from "@/providers/RootStoreProvider";
 import styles from "./_ToolItem.module.scss";
-import { RelatedIcon } from "@/components/Icons/Icons";
+import { SimulationIcon } from "@/components/Icons/Icons";
 import { Button, Collapse, CollapseProps, Input, Modal, Select } from "antd";
-import { OPTIONS_EQUATION, OPTIONS_MATHEMATICAL } from "./constants";
+import { OPTIONS_EQUATION_COMMUNICATION, OPTIONS_EQUATION_THEORY, OPTIONS_MATHEMATICAL } from "./constants";
 import Image1 from "@/assets/images/Integral-07.png";
 
 import Head from "next/head";
@@ -83,6 +83,7 @@ const Equation = () => {
 
   const handleClickMapElement = (element: any) => {
     globalStore.setMapElementSelected(element);
+    globalStore.setMapEquationSelectedPrev(element);
     globalStore.setListMapElementSelected(element);
   };
 
@@ -101,38 +102,83 @@ const Equation = () => {
   };
 
   const getItemsCollapse = () => {
-    return OPTIONS_EQUATION.map((obj) => ({
-      key: obj.value,
-      label: obj.label,
-      children: (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-          {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
-            <Button
-              className={`${styles["center-items"]}`}
-              style={{
-                width: "75px",
-                height: "75px",
-              }}
-              key={options.value}
-              onClick={() => handleUpdateDataRequest(options.value, "equationType")}
-            >
-              {options.image ? (
-                <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
-              ) : (
-                <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
-              )}
-            </Button>
-          ))}
-        </div>
-      ),
-    }));
+    return [
+      {
+        key: 'communication-omain',
+        label: 'Communication Domain',
+        children: (
+          <Collapse 
+            items={OPTIONS_EQUATION_COMMUNICATION.map((obj) => ({
+              key: obj.value,
+              label: obj.label,
+              children: (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
+                    <Button
+                      className={`${styles["center-items"]}`}
+                      style={{
+                        width: "75px",
+                        height: "75px",
+                      }}
+                      key={options.value}
+                      onClick={() => handleUpdateDataRequest(options.value, "equationType")}
+                    >
+                      {options.image ? (
+                        <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
+                      ) : (
+                        <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+                      )}
+                    </Button>
+                  ))}
+                </div>
+              ),
+            }))}
+            defaultActiveKey={["function"]}
+          />
+        )
+      },
+      {
+        key: 'theory domain',
+        label: 'Theory Domain',
+        children: (
+          <Collapse 
+            items={OPTIONS_EQUATION_THEORY.map((obj) => ({
+              key: obj.value,
+              label: obj.label,
+              children: (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
+                    <Button
+                      className={`${styles["center-items"]}`}
+                      style={{
+                        width: "75px",
+                        height: "75px",
+                      }}
+                      key={options.value}
+                      onClick={() => handleUpdateDataRequest(options.value, "equationType")}
+                    >
+                      {options.image ? (
+                        <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
+                      ) : (
+                        <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+                      )}
+                    </Button>
+                  ))}
+                </div>
+              ),
+            }))}
+            defaultActiveKey={["function"]}
+          />
+        )
+      }
+    ];
   };
 
   return (
     <div id="modal-add-equation">
       <MathJaxScript />
       <button type="button" className={`${styles["left-item-wrap"]} ${globalStore.simulation ? styles["active"] : null}`} onClick={() => setIsOpenModal(true)}>
-        <RelatedIcon />
+        <SimulationIcon />
       </button>
 
       {isOpenModal && (

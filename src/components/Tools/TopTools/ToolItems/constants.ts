@@ -39,17 +39,44 @@ import Image35 from "@/assets/images/Words/word_10.svg";
 import Image36 from "@/assets/images/Words/word_13.svg";
 import Image37 from "@/assets/images/Words/word_12.svg";
 
-import Image38 from "@/assets/images/Fundamental/Theory_1.svg";
-import Image39 from "@/assets/images/Fundamental/Theory_2.svg";
-import Image40 from "@/assets/images/Fundamental/Theory_3.svg";
-import Image41 from "@/assets/images/Fundamental/Theory_4.svg";
-import Image42 from "@/assets/images/Fundamental/Theory_5.svg";
-import Image43 from "@/assets/images/Fundamental/Theory_6.svg";
-import Image44 from "@/assets/images/Fundamental/Theory_7.svg";
-import Image45 from "@/assets/images/Fundamental/Theory_8.svg";
-import Image46 from "@/assets/images/Fundamental/Theory_9.svg";
-import Image47 from "@/assets/images/Fundamental/Theory_10.svg";
-import Image48 from "@/assets/images/Fundamental/Theory_11.svg";
+// import Image38 from "@/assets/images/Fundamental/Theory_1.svg";
+// import Image39 from "@/assets/images/Fundamental/Theory_2.svg";
+// import Image40 from "@/assets/images/Fundamental/Theory_3.svg";
+// import Image41 from "@/assets/images/Fundamental/Theory_4.svg";
+// import Image42 from "@/assets/images/Fundamental/Theory_5.svg";
+// import Image43 from "@/assets/images/Fundamental/Theory_6.svg";
+// import Image44 from "@/assets/images/Fundamental/Theory_7.svg";
+// import Image45 from "@/assets/images/Fundamental/Theory_8.svg";
+// import Image46 from "@/assets/images/Fundamental/Theory_9.svg";
+// import Image47 from "@/assets/images/Fundamental/Theory_10.svg";
+// import Image48 from "@/assets/images/Fundamental/Theory_11.svg";
+import Image38 from "@/assets/images/Fundamental1/Fundamental_1.svg";
+import Image39 from "@/assets/images/Fundamental1/Fundamental_2.svg";
+import Image40 from "@/assets/images/Fundamental1/Fundamental_3.svg";
+import Image41 from "@/assets/images/Fundamental1/Fundamental_4.svg";
+import Image42 from "@/assets/images/Fundamental1/Fundamental_5.svg";
+import Image43 from "@/assets/images/Fundamental1/Fundamental_6.svg";
+import Image44 from "@/assets/images/Fundamental1/Fundamental_7.svg";
+import Image45 from "@/assets/images/Fundamental1/Fundamental_8.svg";
+import Image46 from "@/assets/images/Fundamental1/Fundamental_9.svg";
+import Image47 from "@/assets/images/Fundamental1/Fundamental_10.svg";
+import Image48 from "@/assets/images/Fundamental1/Fundamental_11.svg";
+
+import Image38_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_1.svg";
+import Image39_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_2.svg";
+import Image40_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_3.svg";
+import Image41_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_4.svg";
+import Image42_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_5.svg";
+import Image43_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_6.svg";
+import Image44_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_7.svg";
+import Image45_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_8.svg";
+import Image46_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_9.svg";
+import Image47_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_10.svg";
+import Image48_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_11.svg";
+import Image49_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_12.svg";
+import Image50_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_13.svg";
+import Image51_2 from "@/assets/images/Fundamental2/Fundamental_Dropdown_14.svg";
+
 
 import Image49 from "@/assets/images/Theory/Theory_Dropdown_1.svg";
 import Image50 from "@/assets/images/Theory/Theory_Dropdown_2.svg";
@@ -80,12 +107,12 @@ import LeftAngleImage from "@/assets/images/Bracket/LeftAngle.png";
 import LeftBarImage from "@/assets/images/Bracket/LeftBar.png";
 import LeftCurlyBracketImage from "@/assets/images/Bracket/LeftCurlyBracket.png";
 import LeftDoubleBarImage from "@/assets/images/Bracket/LeftDoubleBar.png";
-import LeftLeftSquareBracketImage from "@/assets/images/Bracket/LeftLeftSquareBracket.png"; 
+import LeftLeftSquareBracketImage from "@/assets/images/Bracket/LeftLeftSquareBracket.png";
 import LeftParenthesisImage from "@/assets/images/Bracket/LeftParenthesis.png";
 import LeftSquareBarImage from "@/assets/images/Bracket/LeftSquareBar.png";
 import LeftSquareBracketImage from "@/assets/images/Bracket/LeftSquareBracket.png";
 import ParenthesesImage from "@/assets/images/Bracket/Parentheses.png";
-import ParenthesisSquareImage from "@/assets/images/Bracket/ParenthesisSquare.png"; 
+import ParenthesisSquareImage from "@/assets/images/Bracket/ParenthesisSquare.png";
 import PointingAnglesImage from "@/assets/images/Bracket/PointingAngles.png";
 import RightAngleImage from "@/assets/images/Bracket/RightAngle.png";
 import RightBarImage from "@/assets/images/Bracket/RightBar.png";
@@ -345,7 +372,7 @@ import Arrow2Image from "@/assets/images/Arrow/2.png";
 import Arrow3Image from "@/assets/images/Arrow/3.png";
 import Arrow4Image from "@/assets/images/Arrow/4.png";
 import Arrow5Image from "@/assets/images/Arrow/5.png";
-import Arrow6Image from "@/assets/images/Arrow/6.png";  
+import Arrow6Image from "@/assets/images/Arrow/6.png";
 import Arrow7Image from "@/assets/images/Arrow/7.png";
 import Arrow8Image from "@/assets/images/Arrow/8.png";
 import Arrow9Image from "@/assets/images/Arrow/9.png";
@@ -419,7 +446,7 @@ import Arrow76Image from "@/assets/images/Arrow/76.png";
 import Arrow77Image from "@/assets/images/Arrow/77.png";
 import Arrow78Image from "@/assets/images/Arrow/78.png";
 
-export const OPTIONS_EQUATION = [
+export const OPTIONS_EQUATION_COMMUNICATION = [
   {
     value: "function",
     label: "Function",
@@ -432,13 +459,20 @@ export const OPTIONS_EQUATION = [
     value: "application",
     label: "Application",
   },
+];
+
+export const OPTIONS_EQUATION_THEORY = [
   {
     value: "theory",
     label: "Theory",
   },
   {
     value: "fundamental",
-    label: "Fundamental",
+    label: "Fundamental 1",
+  },
+  {
+    value: "fundamental_2",
+    label: "Fundamental 2",
   },
   {
     value: "fraction",
@@ -529,17 +563,113 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "47", label: "A'_0", parentId: "theory", image: Image63 },
 
   // Fundamental-related labels
-  { value: "48", label: "K_T", parentId: "fundamental", image: Image38 },
-  { value: "49", label: "i_T", parentId: "fundamental", image: Image39 },
-  { value: "50", label: "I_T", parentId: "fundamental", image: Image40 },
-  { value: "51", label: "E_T", parentId: "fundamental", image: Image41 },
-  { value: "52", label: "P_T", parentId: "fundamental", image: Image42 },
-  { value: "53", label: "M_T", parentId: "fundamental", image: Image43 },
-  { value: "54", label: "Es_T", parentId: "fundamental", image: Image44 },
-  { value: "55", label: "W_T", parentId: "fundamental", image: Image45 },
-  { value: "56", label: "G_T", parentId: "fundamental", image: Image46 },
-  { value: "57", label: "X_T", parentId: "fundamental", image: Image47 },
-  { value: "58", label: "U_T", parentId: "fundamental", image: Image48 },
+  // { value: "48", label: "K_T", parentId: "fundamental", image: Image38 },
+  // { value: "49", label: "i_T", parentId: "fundamental", image: Image39 },
+  // { value: "50", label: "I_T", parentId: "fundamental", image: Image40 },
+  // { value: "51", label: "E_T", parentId: "fundamental", image: Image41 },
+  // { value: "52", label: "P_T", parentId: "fundamental", image: Image42 },
+  // { value: "53", label: "M_T", parentId: "fundamental", image: Image43 },
+  // { value: "54", label: "Es_T", parentId: "fundamental", image: Image44 },
+  // { value: "55", label: "W_T", parentId: "fundamental", image: Image45 },
+  // { value: "56", label: "G_T", parentId: "fundamental", image: Image46 },
+  // { value: "57", label: "X_T", parentId: "fundamental", image: Image47 },
+  // { value: "58", label: "U_T", parentId: "fundamental", image: Image48 },
+  { value: "48", label: 'f_{\\large{K}_{\\large{T}}}', parentId: "fundamental", image: Image38 },
+  {
+    value: "49", label: 'f_{\\large{i}_{\\large{T}}}',
+    parentId: "fundamental", image: Image39
+  },
+  {
+    value: "50", label: 'f_{\\large{I_{T}}}',
+    parentId: "fundamental", image: Image40
+  },
+  {
+    value: "51", label: 'f_{\\large{E_{T}}}',
+    parentId: "fundamental", image: Image41
+  },
+  {
+    value: "52", label: 'f_{\\large{P_{T}}}',
+    parentId: "fundamental", image: Image42
+  },
+  {
+    value: "53", label: 'f_{\\large{M_{T}}}',
+    parentId: "fundamental", image: Image43
+  },
+  {
+    value: "54", label: 'f_{\\large{E_{S_{T}}}}',
+    parentId: "fundamental", image: Image44
+  },
+  {
+    value: "55", label: 'f_{\\large{W_{T}}}',
+    parentId: "fundamental", image: Image45
+  },
+  {
+    value: "56", label: 'f_{\\large{G_{T}}}',
+    parentId: "fundamental", image: Image46
+  },
+  {
+    value: "57", label: 'f_{\\large{X_{T}}}',
+    parentId: "fundamental", image: Image47
+  },
+  {
+    value: "58", label: 'f_{\\large{U_{T}}}',
+    parentId: "fundamental", image: Image48
+  },
+
+  // Fundamental-2
+  { value: "48_2", label: 'f_{\\large{T_{1}}}', parentId: "fundamental_2", image: Image38_2 },
+  {
+    value: "49_2", label: 'f_{\\large{T_{2}}}',
+    parentId: "fundamental_2", image: Image39_2
+  },
+  {
+    value: "50_2", label: 'f_{\\large{T_{3}}}',
+    parentId: "fundamental_2", image: Image40_2
+  },
+  {
+    value: "51_2", label:  'f_{\\large{T_{4}}}',
+    parentId: "fundamental_2", image: Image41_2
+  },
+  {
+    value: "52_2", label: 'f_{\\large{T_{5}}}',
+    parentId: "fundamental_2", image: Image42_2
+  },
+  {
+    value: "53_2", label: 'f_{\\large{T_{6}}}',
+    parentId: "fundamental_2", image: Image43_2
+  },
+  {
+    value: "54_2", label: 'f_{\\large{T_{7}}}',
+    parentId: "fundamental_2", image: Image44_2
+  },
+  {
+    value: "55_2", label: 'f_{\\large{T_{8}}}',
+    parentId: "fundamental_2", image: Image45_2
+  },
+  {
+    value: "56_2", label: 'f_{\\large{T_{9}}}',
+    parentId: "fundamental_2", image: Image46_2
+  },
+  {
+    value: "57_2", label: 'f_{\\large{T_{10}}}',
+    parentId: "fundamental_2", image: Image47_2
+  },
+  {
+    value: "58_2", label: 'f_{\\large{T}}',
+    parentId: "fundamental_2", image: Image48_2
+  },
+  {
+    value: "59_2", label: 'f_{\\large{G_{T}}}',
+    parentId: "fundamental_2", image: Image49_2
+  },
+  {
+    value: "60_2", label: 'f_{\\large{A}}',
+    parentId: "fundamental_2", image: Image50_2
+  },
+  {
+    value: "61_2", label: "f_{\\large{A}'}",
+    parentId: "fundamental_2", image: Image51_2
+  },
 
   // WORD-related labels
   { value: "15", label: "W", parentId: "word", image: Image26 },
@@ -571,7 +701,7 @@ export const OPTIONS_MATHEMATICAL = [
   // { value: "63", label: "x^2", parentId: "fraction" },
 
   // Bracket
-  { value: "64", label:  "\\left\\langle\\large{x}}\\right\\vert", parentId: "bracket", image: AngleBarImage },
+  { value: "64", label: "\\left\\langle\\large{x}}\\right\\vert", parentId: "bracket", image: AngleBarImage },
   { value: "65", label: "\\left\\vert\\large{x}}\\right\\rangle", parentId: "bracket", image: BarAngleImage },
   { value: "66", label: "\\underbrace{\\large{x}}_{\\large{y}}", parentId: "bracket", image: BottomCurlyBracketImage },
   { value: "67", label: "\\left\\lceil\\large{x}\\right\\rceil", parentId: "bracket", image: CeilingImage },
@@ -627,7 +757,7 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "115", label: "\\xleftequilibrium[\\large{x}]{}", parentId: "labeledArrow", image: SmallRightLeftHarpBottomImage },
   { value: "116", label: "\\xleftequilibrium[\\large{x}]{\\large{y}}", parentId: "labeledArrow", image: SmallRightLeftHarpBottomTopImage },
   { value: "117", label: "\\xleftequilibrium[]{\\large{y}}", parentId: "labeledArrow", image: SmallRightLeftHarpTopImage },
-  
+
   // Sum & Products
   { value: "118", label: "\\coprod{\\large{x}}", parentId: "sumproducts", image: coProductImage },
   { value: "119", label: "\\coprod_{\\large{x}}{\\large{y}}", parentId: "sumproducts", image: coProductBottomImage },
@@ -784,7 +914,7 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "256", label: '\\overset{\\Large{...}}{\\large{x}}', parentId: "accentprime", image: CharacterTopTDotImage },
   { value: "257", label: '\\tilde{\\large{x}} ', parentId: "accentprime", image: CharacterTopTildeImage },
   { value: "258", label: "\\large{x}'''", parentId: "accentprime", image: CharacterTriplePrimeImage },
-  
+
   // Operators
   { value: "259", label: '\u00d7', parentId: "operator", image: Operator1Image },
   { value: "260", label: '\u002D', parentId: "operator", image: Operator2Image },
@@ -804,8 +934,8 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "274", label: '\u2205', parentId: "operator", image: Operator16Image },
   { value: "275", label: '\u2208', parentId: "operator", image: Operator17Image },
   { value: "276", label: '\u2209', parentId: "operator", image: Operator18Image },
-  { value: "277", label: '\u220B', parentId: "operator", image :Operator19Image },
-  { value : '278' , label :'\u220C' ,parentId :'operator' ,image :Operator20Image},
+  { value: "277", label: '\u220B', parentId: "operator", image: Operator19Image },
+  { value: '278', label: '\u220C', parentId: 'operator', image: Operator20Image },
   { value: "279", label: '\u220F', parentId: "operator", image: Operator21Image },
   { value: "280", label: '\u2210', parentId: "operator", image: Operator22Image },
   { value: "281", label: '\u2211', parentId: "operator", image: Operator23Image },
@@ -818,13 +948,13 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "288", label: '\u2229', parentId: "operator", image: Operator30Image },
   { value: "289", label: '\u222A', parentId: "operator", image: Operator31Image },
   { value: "290", label: '\u2234', parentId: "operator", image: Operator32Image },
-  { value: "291", label: '\u2235', parentId: "operator", image :Operator33Image},
-  { value : '292' , label :'\u2237' ,parentId :'operator' ,image :Operator34Image},
-  { value : '293' , label :'\u2238' ,parentId :'operator' ,image :Operator35Image},
-  { value : '294' , label :'\u2264' ,parentId :'operator' ,image :Operator36Image},
-  { value : '295' , label :'\u2265' ,parentId :'operator' ,image :Operator37Image},
-  { value : '296' , label :'\u226e' ,parentId :'operator' ,image :Operator38Image},
-  { value : '297' , label :'\u226f' ,parentId :'operator' ,image :Operator39Image},
+  { value: "291", label: '\u2235', parentId: "operator", image: Operator33Image },
+  { value: '292', label: '\u2237', parentId: 'operator', image: Operator34Image },
+  { value: '293', label: '\u2238', parentId: 'operator', image: Operator35Image },
+  { value: '294', label: '\u2264', parentId: 'operator', image: Operator36Image },
+  { value: '295', label: '\u2265', parentId: 'operator', image: Operator37Image },
+  { value: '296', label: '\u226e', parentId: 'operator', image: Operator38Image },
+  { value: '297', label: '\u226f', parentId: 'operator', image: Operator39Image },
   { value: "298", label: '\u25B3', parentId: "operator", image: Operator40Image },
   { value: "299", label: '\u25B7', parentId: "operator", image: Operator41Image },
   { value: "300", label: '\u25BD', parentId: "operator", image: Operator42Image },
@@ -833,12 +963,12 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "303", label: '\u25CE', parentId: "operator", image: Operator45Image },
   { value: "304", label: '\u25E0', parentId: "operator", image: Operator46Image },
   { value: "305", label: '\u25E1', parentId: "operator", image: Operator47Image },
-  { value: "306", label: '\u25EC', parentId: "operator", image :Operator48Image},
-  { value : '307' , label :'\u211d' ,parentId :'operator' ,image :Operator49Image},
-  { value : '308' , label :'\u2124' ,parentId :'operator' ,image :Operator50Image},
-  { value : '309' , label :'\u2102' ,parentId :'operator' ,image :Operator51Image},
-  { value : '310' , label :'\ud835\udd46' ,parentId :'operator' ,image :Operator52Image},
-  { value : '311' , label :'\u2115' ,parentId :'operator' ,image :Operator53Image},
+  { value: "306", label: '\u25EC', parentId: "operator", image: Operator48Image },
+  { value: '307', label: '\u211d', parentId: 'operator', image: Operator49Image },
+  { value: '308', label: '\u2124', parentId: 'operator', image: Operator50Image },
+  { value: '309', label: '\u2102', parentId: 'operator', image: Operator51Image },
+  { value: '310', label: '\ud835\udd46', parentId: 'operator', image: Operator52Image },
+  { value: '311', label: '\u2115', parentId: 'operator', image: Operator53Image },
 
   // ARROW
   { value: "312", label: '\u2190', parentId: "arrow", image: Arrow1Image },
@@ -847,72 +977,72 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "315", label: '\u2193', parentId: "arrow", image: Arrow4Image },
   { value: "316", label: '\u2194', parentId: "arrow", image: Arrow5Image },
   { value: "317", label: '\u2195', parentId: "arrow", image: Arrow6Image },
-  { value: "318", label: '\u2196', parentId: "arrow", image :Arrow7Image},
-  { value : '319' , label :'\u2197' ,parentId :'arrow' ,image :Arrow8Image},
-  { value : '320' , label :'\u2198' ,parentId :'arrow' ,image :Arrow9Image},
-  { value : '321' , label :'\u2199' ,parentId :'arrow' ,image :Arrow10Image},
-  { value : '322' , label :'\u219A' ,parentId :'arrow' ,image :Arrow11Image},
-  { value : '323' , label :'\u219B' ,parentId :'arrow' ,image :Arrow12Image},
-  { value : '324' , label :'\u219C' ,parentId :'arrow' ,image :Arrow13Image},
-  { value : '325' , label :'\u219D' ,parentId :'arrow' ,image :Arrow14Image},
-  { value : '326' , label :'\u219E' ,parentId :'arrow' ,image :Arrow15Image},
-  { value : '327' , label :'\u219F' ,parentId :'arrow' ,image :Arrow16Image},
-  { value : '328' , label :'\u21A0' ,parentId :'arrow' ,image :Arrow17Image},
-  { value : '329' , label :'\u21A1' ,parentId :'arrow' ,image :Arrow18Image},
-  { value : '330' , label :'\u21A2' ,parentId :'arrow' ,image :Arrow19Image},
+  { value: "318", label: '\u2196', parentId: "arrow", image: Arrow7Image },
+  { value: '319', label: '\u2197', parentId: 'arrow', image: Arrow8Image },
+  { value: '320', label: '\u2198', parentId: 'arrow', image: Arrow9Image },
+  { value: '321', label: '\u2199', parentId: 'arrow', image: Arrow10Image },
+  { value: '322', label: '\u219A', parentId: 'arrow', image: Arrow11Image },
+  { value: '323', label: '\u219B', parentId: 'arrow', image: Arrow12Image },
+  { value: '324', label: '\u219C', parentId: 'arrow', image: Arrow13Image },
+  { value: '325', label: '\u219D', parentId: 'arrow', image: Arrow14Image },
+  { value: '326', label: '\u219E', parentId: 'arrow', image: Arrow15Image },
+  { value: '327', label: '\u219F', parentId: 'arrow', image: Arrow16Image },
+  { value: '328', label: '\u21A0', parentId: 'arrow', image: Arrow17Image },
+  { value: '329', label: '\u21A1', parentId: 'arrow', image: Arrow18Image },
+  { value: '330', label: '\u21A2', parentId: 'arrow', image: Arrow19Image },
   { value: "331", label: '\u21A3', parentId: "arrow", image: Arrow20Image },
   { value: "332", label: '\u21A4', parentId: "arrow", image: Arrow21Image },
   { value: "333", label: '\u21A5', parentId: "arrow", image: Arrow22Image },
   { value: "334", label: '\u21A6', parentId: "arrow", image: Arrow23Image },
   { value: "335", label: '\u21A7', parentId: "arrow", image: Arrow24Image },
-  { value: "336", label: '\u21A8', parentId: "arrow", image :Arrow25Image},
-  { value : '337' , label :'\u21A9' ,parentId :'arrow' ,image :Arrow26Image},
-  { value : '338' , label :'\u21AA' ,parentId :'arrow' ,image :Arrow27Image},
-  { value : '339' , label :'\u21AB' ,parentId :'arrow' ,image :Arrow28Image},
-  { value : '340' , label :'\u21AC' ,parentId :'arrow' ,image :Arrow29Image},
-  { value : '341' , label :'\u21AD' ,parentId :'arrow' ,image :Arrow30Image},
-  { value : '342' , label :'\u21AE' ,parentId :'arrow' ,image :Arrow31Image},
-  { value : '343' , label :'\u21AF' ,parentId :'arrow' ,image :Arrow32Image},
-  { value : '344' , label :'\u21B0' ,parentId :'arrow' ,image :Arrow33Image},
-  { value : '345' , label :'\u21B1' ,parentId :'arrow' ,image :Arrow34Image},
-  { value : '346' , label :'\u21B2' ,parentId :'arrow' ,image :Arrow35Image},
-  { value : '347' , label :'\u21B3' ,parentId :'arrow' ,image :Arrow36Image},
-  { value : '348' , label :'\u21B4' ,parentId :'arrow' ,image :Arrow37Image},
-  { value : '349' , label :'\u21B5' ,parentId :'arrow' ,image :Arrow38Image},
+  { value: "336", label: '\u21A8', parentId: "arrow", image: Arrow25Image },
+  { value: '337', label: '\u21A9', parentId: 'arrow', image: Arrow26Image },
+  { value: '338', label: '\u21AA', parentId: 'arrow', image: Arrow27Image },
+  { value: '339', label: '\u21AB', parentId: 'arrow', image: Arrow28Image },
+  { value: '340', label: '\u21AC', parentId: 'arrow', image: Arrow29Image },
+  { value: '341', label: '\u21AD', parentId: 'arrow', image: Arrow30Image },
+  { value: '342', label: '\u21AE', parentId: 'arrow', image: Arrow31Image },
+  { value: '343', label: '\u21AF', parentId: 'arrow', image: Arrow32Image },
+  { value: '344', label: '\u21B0', parentId: 'arrow', image: Arrow33Image },
+  { value: '345', label: '\u21B1', parentId: 'arrow', image: Arrow34Image },
+  { value: '346', label: '\u21B2', parentId: 'arrow', image: Arrow35Image },
+  { value: '347', label: '\u21B3', parentId: 'arrow', image: Arrow36Image },
+  { value: '348', label: '\u21B4', parentId: 'arrow', image: Arrow37Image },
+  { value: '349', label: '\u21B5', parentId: 'arrow', image: Arrow38Image },
   { value: "350", label: '\u21B6', parentId: "arrow", image: Arrow39Image },
   { value: "351", label: '\u21B7', parentId: "arrow", image: Arrow40Image },
   { value: "352", label: '\u21B8', parentId: "arrow", image: Arrow41Image },
   { value: "353", label: '\u21B9', parentId: "arrow", image: Arrow42Image },
   { value: "354", label: '\u21BA', parentId: "arrow", image: Arrow43Image },
-  { value: "355", label: '\u21BB', parentId: "arrow", image :Arrow44Image},
-  { value : '356' , label :'\u21BC' ,parentId :'arrow' ,image :Arrow45Image},
-  { value : '357' , label :'\u21BD' ,parentId :'arrow' ,image :Arrow46Image},
-  { value : '358' , label :'\u21BE' ,parentId :'arrow' ,image :Arrow47Image},
-  { value : '359' , label :'\u21BF' ,parentId :'arrow' ,image :Arrow48Image},
-  { value : '360' , label :'\u21C0' ,parentId :'arrow' ,image :Arrow49Image},
-  { value : '361' , label :'\u21C1' ,parentId :'arrow' ,image :Arrow50Image},
-  { value : '362' , label :'\u21C2' ,parentId :'arrow' ,image :Arrow51Image},
-  { value : '363' , label :'\u21C3' ,parentId :'arrow' ,image :Arrow52Image},
-  { value : '364' , label :'\u21C4' ,parentId :'arrow' ,image :Arrow53Image},
-  { value : '365' , label :'\u21C5' ,parentId :'arrow' ,image :Arrow54Image},
-  { value : '366' , label :'\u21C6' ,parentId :'arrow' ,image :Arrow55Image},
-  { value : '367' , label :'\u21C7' ,parentId :'arrow' ,image :Arrow56Image},
-  { value : '368' , label :'\u21C8' ,parentId :'arrow' ,image :Arrow57Image},
+  { value: "355", label: '\u21BB', parentId: "arrow", image: Arrow44Image },
+  { value: '356', label: '\u21BC', parentId: 'arrow', image: Arrow45Image },
+  { value: '357', label: '\u21BD', parentId: 'arrow', image: Arrow46Image },
+  { value: '358', label: '\u21BE', parentId: 'arrow', image: Arrow47Image },
+  { value: '359', label: '\u21BF', parentId: 'arrow', image: Arrow48Image },
+  { value: '360', label: '\u21C0', parentId: 'arrow', image: Arrow49Image },
+  { value: '361', label: '\u21C1', parentId: 'arrow', image: Arrow50Image },
+  { value: '362', label: '\u21C2', parentId: 'arrow', image: Arrow51Image },
+  { value: '363', label: '\u21C3', parentId: 'arrow', image: Arrow52Image },
+  { value: '364', label: '\u21C4', parentId: 'arrow', image: Arrow53Image },
+  { value: '365', label: '\u21C5', parentId: 'arrow', image: Arrow54Image },
+  { value: '366', label: '\u21C6', parentId: 'arrow', image: Arrow55Image },
+  { value: '367', label: '\u21C7', parentId: 'arrow', image: Arrow56Image },
+  { value: '368', label: '\u21C8', parentId: 'arrow', image: Arrow57Image },
   { value: "369", label: '\u21C9', parentId: "arrow", image: Arrow58Image },
   { value: "370", label: '\u21CA', parentId: "arrow", image: Arrow59Image },
   { value: "371", label: '\u21CB', parentId: "arrow", image: Arrow60Image },
   { value: "372", label: '\u21CC', parentId: "arrow", image: Arrow61Image },
-  { value: "373", label: '\u21CD', parentId: "arrow", image :Arrow62Image},
-  { value : '374' , label :'\u21CE' ,parentId :'arrow' ,image :Arrow63Image},
-  { value : '375' , label :'\u21CF' ,parentId :'arrow' ,image :Arrow64Image},
-  { value : '376' , label :'\u21D0' ,parentId :'arrow' ,image :Arrow65Image},
-  { value : '377' , label :'\u21D1' ,parentId :'arrow' ,image :Arrow66Image},
-  { value : '378' , label :'\u21D2' ,parentId :'arrow' ,image :Arrow67Image},
-  { value : '379' , label :'\u21D3' ,parentId :'arrow' ,image :Arrow68Image},
-  { value : '380' , label :'\u21D4' ,parentId :'arrow' ,image :Arrow69Image},
-  { value : '381' , label :'\u21D5' ,parentId :'arrow' ,image :Arrow70Image},
-  { value : '382' , label :'\u21D6' ,parentId :'arrow' ,image :Arrow71Image},
-  { value : '383' , label :'\u21D7' ,parentId :'arrow' ,image :Arrow72Image},
+  { value: "373", label: '\u21CD', parentId: "arrow", image: Arrow62Image },
+  { value: '374', label: '\u21CE', parentId: 'arrow', image: Arrow63Image },
+  { value: '375', label: '\u21CF', parentId: 'arrow', image: Arrow64Image },
+  { value: '376', label: '\u21D0', parentId: 'arrow', image: Arrow65Image },
+  { value: '377', label: '\u21D1', parentId: 'arrow', image: Arrow66Image },
+  { value: '378', label: '\u21D2', parentId: 'arrow', image: Arrow67Image },
+  { value: '379', label: '\u21D3', parentId: 'arrow', image: Arrow68Image },
+  { value: '380', label: '\u21D4', parentId: 'arrow', image: Arrow69Image },
+  { value: '381', label: '\u21D5', parentId: 'arrow', image: Arrow70Image },
+  { value: '382', label: '\u21D6', parentId: 'arrow', image: Arrow71Image },
+  { value: '383', label: '\u21D7', parentId: 'arrow', image: Arrow72Image },
   { value: "384", label: '\u21D8', parentId: "arrow", image: Arrow73Image },
   { value: "385", label: '\u21D8', parentId: "arrow", image: Arrow74Image },
   { value: "386", label: '\u21D9', parentId: "arrow", image: Arrow75Image },
@@ -920,4 +1050,3 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "388", label: '\u21DB', parentId: "arrow", image: Arrow77Image },
   { value: "389", label: '\u21DC', parentId: "arrow", image: Arrow78Image },
 ];
-  
