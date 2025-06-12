@@ -446,6 +446,103 @@ import Arrow76Image from "@/assets/images/Arrow/76.png";
 import Arrow77Image from "@/assets/images/Arrow/77.png";
 import Arrow78Image from "@/assets/images/Arrow/78.png";
 
+import Relationship1Image from "@/assets/images/Relationship/Relationship_1.svg";
+import Relationship2Image from "@/assets/images/Relationship/Relationship_2.svg";
+import Relationship3Image from "@/assets/images/Relationship/Relationship_3.svg";
+import Relationship4Image from "@/assets/images/Relationship/Relationship_4.svg";
+import Relationship5Image from "@/assets/images/Relationship/Relationship_5.svg";
+import Relationship6Image from "@/assets/images/Relationship/Relationship_6.svg";
+import Relationship7Image from "@/assets/images/Relationship/Relationship_7.svg";
+import Relationship8Image from "@/assets/images/Relationship/Relationship_8.svg";
+import Relationship9Image from "@/assets/images/Relationship/Relationship_9.svg";
+import Relationship10Image from "@/assets/images/Relationship/Relationship_10.svg";
+
+import TheoryDropdown1Image from "@/assets/images/Theory2/Theory_Dropdown_1.svg";
+import TheoryDropdown2Image from "@/assets/images/Theory2/Theory_Dropdown_2.svg";
+import TheoryDropdown3Image from "@/assets/images/Theory2/Theory_Dropdown_3.svg";
+import TheoryDropdown4Image from "@/assets/images/Theory2/Theory_Dropdown_4.svg";
+import TheoryDropdown5Image from "@/assets/images/Theory2/Theory_Dropdown_5.svg";
+import TheoryDropdown6Image from "@/assets/images/Theory2/Theory_Dropdown_6.svg";
+import TheoryDropdown7Image from "@/assets/images/Theory2/Theory_Dropdown_7.svg";
+import TheoryDropdown8Image from "@/assets/images/Theory2/Theory_Dropdown_8.svg";
+import TheoryDropdown9Image from "@/assets/images/Theory2/Theory_Dropdown_9.svg";
+import TheoryDropdown10Image from "@/assets/images/Theory2/Theory_Dropdown_10.svg";
+import TheoryDropdown11Image from "@/assets/images/Theory2/Theory_Dropdown_11.svg";
+import TheoryDropdown12Image from "@/assets/images/Theory2/Theory_Dropdown_12.svg";
+import TheoryDropdown13Image from "@/assets/images/Theory2/Theory_Dropdown_13.svg";
+import TheoryDropdown14Image from "@/assets/images/Theory2/Theory_Dropdown_14.svg";
+import TheoryDropdown15Image from "@/assets/images/Theory2/Theory_Dropdown_15.svg";
+import TheoryDropdown16Image from "@/assets/images/Theory2/Theory_Dropdown_16.svg";
+
+import Derivative1Image from "@/assets/images/Derivatives/Derivative_1.svg";
+import Derivative2Image from "@/assets/images/Derivatives/Derivative_2.svg";
+import Derivative3Image from "@/assets/images/Derivatives/Derivative_3.svg";
+import Derivative4Image from "@/assets/images/Derivatives/Derivative_4.svg";
+import Derivative5Image from "@/assets/images/Derivatives/Derivative_5.svg";
+
+import Instrument1Image from "@/assets/images/Instruments/Instrument_1.svg";
+import Instrument2Image from "@/assets/images/Instruments/Instrument_2.svg";
+import Instrument3Image from "@/assets/images/Instruments/Instrument_3.svg";
+import Instrument4Image from "@/assets/images/Instruments/Instrument_4.svg";
+import Instrument5Image from "@/assets/images/Instruments/Instrument_5.svg";
+import Instrument6Image from "@/assets/images/Instruments/Instrument_6.svg";
+import Instrument7Image from "@/assets/images/Instruments/Instrument_7.svg";
+import Instrument8Image from "@/assets/images/Instruments/Instrument_8.svg";
+
+import Stability1Image from "@/assets/images/Stability/Stability_1.svg";
+import Stability2Image from "@/assets/images/Stability/Stability_2.svg";
+import Stability3Image from "@/assets/images/Stability/Stability_3.svg";
+import Stability4Image from "@/assets/images/Stability/Stability_4.svg";
+import Stability5Image from "@/assets/images/Stability/Stability_5.svg";
+import Stability6Image from "@/assets/images/Stability/Stability_6.svg";
+import Stability7Image from "@/assets/images/Stability/Stability_7.svg";
+import Stability8Image from "@/assets/images/Stability/Stability_8.svg";
+import Stability9Image from "@/assets/images/Stability/Stability_9.svg";
+import Stability10Image from "@/assets/images/Stability/Stability_10.svg";
+import Stability11Image from "@/assets/images/Stability/Stability_11.svg";
+import Stability12Image from "@/assets/images/Stability/Stability_12.svg";
+import Stability13Image from "@/assets/images/Stability/Stability_13.svg";
+import Stability14Image from "@/assets/images/Stability/Stability_14.svg";
+import Stability15Image from "@/assets/images/Stability/Stability_15.svg";
+import Stability16Image from "@/assets/images/Stability/Stability_16.svg";
+import Stability17Image from "@/assets/images/Stability/Stability_17.svg";
+import Stability18Image from "@/assets/images/Stability/Stability_18.svg";
+import Stability19Image from "@/assets/images/Stability/Stability_19.svg";
+import Stability20Image from "@/assets/images/Stability/Stability_20.svg";
+import Stability21Image from "@/assets/images/Stability/Stability_21.svg";
+import Stability22Image from "@/assets/images/Stability/Stability_22.svg";
+import Stability23Image from "@/assets/images/Stability/Stability_23.svg";
+import Stability24Image from "@/assets/images/Stability/Stability_24.svg";
+import Stability25Image from "@/assets/images/Stability/Stability_25.svg";
+import Stability26Image from "@/assets/images/Stability/Stability_26.svg";
+import Stability27Image from "@/assets/images/Stability/Stability_27.svg";
+import Stability28Image from "@/assets/images/Stability/Stability_28.svg";
+import Stability29Image from "@/assets/images/Stability/Stability_29.svg";
+import Stability30Image from "@/assets/images/Stability/Stability_30.svg";
+import Stability31Image from "@/assets/images/Stability/Stability_31.svg";
+
+import TheoromDropdown1Image from "@/assets/images/Theorems/Theorem_Dropdown_1.svg";
+import TheoromDropdown2Image from "@/assets/images/Theorems/Theorem_Dropdown_2.svg";
+import TheoromDropdown3Image from "@/assets/images/Theorems/Theorem_Dropdown_3.svg";
+import TheoromDropdown4Image from "@/assets/images/Theorems/Theorem_Dropdown_4.svg";
+import TheoromDropdown5Image from "@/assets/images/Theorems/Theorem_Dropdown_5.svg";
+import TheoromDropdown6Image from "@/assets/images/Theorems/Theorem_Dropdown_6.svg";
+import TheoromDropdown7Image from "@/assets/images/Theorems/Theorem_Dropdown_7.svg";
+import TheoromDropdown8Image from "@/assets/images/Theorems/Theorem_Dropdown_8.svg";
+import TheoromDropdown9Image from "@/assets/images/Theorems/Theorem_Dropdown_9.svg";
+import TheoromDropdown10Image from "@/assets/images/Theorems/Theorem_Dropdown_10.svg";
+import TheoromDropdown11Image from "@/assets/images/Theorems/Theorem_Dropdown_11.svg";
+import TheoromDropdown12Image from "@/assets/images/Theorems/Theorem_Dropdown_12.svg";
+import TheoromDropdown13Image from "@/assets/images/Theorems/Theorem_Dropdown_13.svg";
+import TheoromDropdown14Image from "@/assets/images/Theorems/Theorem_Dropdown_14.svg";
+import TheoromDropdown15Image from "@/assets/images/Theorems/Theorem_Dropdown_15.svg";
+import TheoromDropdown16Image from "@/assets/images/Theorems/Theorem_Dropdown_16.svg";
+import TheoromDropdown17Image from "@/assets/images/Theorems/Theorem_Dropdown_17.svg";
+import TheoromDropdown18Image from "@/assets/images/Theorems/Theorem_Dropdown_18.svg";
+import TheoromDropdown19Image from "@/assets/images/Theorems/Theorem_Dropdown_19.svg";
+import TheoromDropdown20Image from "@/assets/images/Theorems/Theorem_Dropdown_20.svg";
+import TheoromDropdown21Image from "@/assets/images/Theorems/Theorem_Dropdown_21.svg";
+
 export const OPTIONS_EQUATION_COMMUNICATION = [
   {
     value: "function",
@@ -458,6 +555,10 @@ export const OPTIONS_EQUATION_COMMUNICATION = [
   {
     value: "application",
     label: "Application",
+  },
+  {
+    value: "relationship",
+    label: "Relationship",
   },
 ];
 
@@ -474,6 +575,29 @@ export const OPTIONS_EQUATION_THEORY = [
     value: "fundamental_2",
     label: "Fundamental 2",
   },
+  {
+    value: "theory2",
+    label: "Theory 2",
+  },
+  {
+    value: "derivative",
+    label: "Derivative",
+  },
+  {
+    value: "instrument",
+    label: "Instrument",
+  },
+  {
+    value: "stability",
+    label: "Stability",
+  },
+  {
+    value: "theorem",
+    label: "Theorem",
+  }
+];
+
+export const OPTIONS_EQUATION_OTHER = [
   {
     value: "fraction",
     label: "Fraction & Radical",
@@ -526,6 +650,14 @@ export const OPTIONS_EQUATION_THEORY = [
     value: "arrow",
     label: "Arrow",
   },
+  // {
+  //   value: "greek_capital",
+  //   label: "Greek Capital",
+  // },
+  // {
+  //   value: "greek_small",
+  //   label: "Greek Small",
+  // }
 ];
 
 export const OPTIONS_MATHEMATICAL = [
@@ -1049,4 +1181,107 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "387", label: '\u21DA', parentId: "arrow", image: Arrow76Image },
   { value: "388", label: '\u21DB', parentId: "arrow", image: Arrow77Image },
   { value: "389", label: '\u21DC', parentId: "arrow", image: Arrow78Image },
+
+  // Relationship
+  { value: "400", label: '\\sim', parentId: "relationship", image: Relationship1Image },
+  { value: "401", label: '\\alpha', parentId: "relationship", image: Relationship2Image },
+  { value: "402", label: '\\Rightarrow', parentId: "relationship", image: Relationship3Image },
+  { value: "403", label: '\\Leftarrow', parentId: "relationship", image: Relationship4Image },
+  { value: "404", label: '\\Leftrightarrow', parentId: "relationship", image: Relationship5Image },
+  { value: "405", label: '\\geq', parentId: "relationship", image: Relationship6Image },
+  { value: "406", label: '\\gt', parentId: "relationship", image: Relationship7Image },
+  { value: "407", label: '\\lt', parentId: "relationship", image: Relationship8Image },
+  { value: "408", label: '=', parentId: "relationship", image: Relationship9Image },
+  { value: "409", label: '\\leq', parentId: "relationship", image: Relationship10Image },
+
+  // Theory2
+  { value: "410", label: '\\large{T_1}', parentId: "theory2", image: TheoryDropdown1Image },
+  { value: "411", label: '\\large{T_2}', parentId: "theory2", image: TheoryDropdown2Image },
+  { value: "412", label: '\\large{T_3}', parentId: "theory2", image: TheoryDropdown3Image },
+  { value: "413", label: '\\large{T_4}', parentId: "theory2", image: TheoryDropdown4Image },
+  { value: "414", label: '\\large{T_5}', parentId: "theory2", image: TheoryDropdown5Image },
+  { value: "415", label: '\\large{T_6}', parentId: "theory2", image: TheoryDropdown6Image },
+  { value: "416", label: '\\large{T_7}', parentId: "theory2", image: TheoryDropdown7Image },
+  { value: "417", label: '\\large{T_8}', parentId: "theory2", image: TheoryDropdown8Image },
+  { value: "418", label: '\\large{T_9}', parentId: "theory2", image: TheoryDropdown9Image },
+  { value: "419", label: '\\large{T_{10}}', parentId: "theory2", image: TheoryDropdown10Image },
+  { value: "420", label: '\\large{T}', parentId: "theory2", image: TheoryDropdown11Image },
+  { value: "421", label: '\\large{T}_{\\large{x}}', parentId: "theory2", image: TheoryDropdown12Image },
+  { value: "422", label: '\\large{A}', parentId: "theory2", image: TheoryDropdown13Image },
+  { value: "423", label: "\\large{A}'", parentId: "theory2", image: TheoryDropdown14Image },
+  { value: "424", label: "\\large{A}'|_{\\Large{t_{x}}}", parentId: "theory2", image: TheoryDropdown15Image },
+  { value: "425", label: "\\large{A}'_{\\Large{x}}", parentId: "theory2", image: TheoryDropdown16Image },
+
+  // Derivative
+  { value: "426", label: '\\frac{\\large{d{a}}}{\\large{dx}}', parentId: "derivative", image: Derivative1Image },
+  { value: "427", label: '\\frac{\\large{dI}}{\\large{dT}}', parentId: "derivative", image: Derivative2Image },
+  { value: "428", label: '\\frac{\\large{dM}}{\\large{dT}}', parentId: "derivative", image: Derivative3Image },
+  { value: "429", label: '\\large{NE}', parentId: "derivative", image: Derivative4Image },
+  { value: "430", label: '\\large{IE}', parentId: "derivative", image: Derivative5Image },
+
+  // Instrument
+  { value: "431", label: '\\large{I}', parentId: "instrument", image: Instrument1Image },
+  { value: "432", label: '\\large{M}', parentId: "instrument", image: Instrument2Image },
+  { value: "433", label: 'Tr\\left\\{{T}\\right\\}', parentId: "instrument", image: Instrument3Image },
+  { value: "434", label: 'Tr\\left\\{{\\large{x}}\\right\\}', parentId: "instrument", image: Instrument4Image },
+  { value: "435", label: '\\large{I}[\\large{u(t)}]', parentId: "instrument", image: Instrument5Image },
+  { value: "436", label: '\\large{M}[\\large{u(t)}]', parentId: "instrument", image: Instrument6Image },
+  { value: "437", label: 'I[u_{\\large{x}}(t)]', parentId: "instrument", image: Instrument7Image },
+  { value: "438", label: 'M[u_{\\large{x}}(t)]', parentId: "instrument", image: Instrument8Image },
+
+  // Stability
+  { value: "439", label: '\\large{k}', parentId: "stability", image: Stability1Image },
+  { value: "440", label: '\\large{x}', parentId: "stability", image: Stability2Image },
+  { value: "441", label: '\\large{y}', parentId: "stability", image: Stability3Image },
+  { value: "442", label: '\\large{x}_{\\large{x}}', parentId: "stability", image: Stability4Image },
+  { value: "443", label: '\\large{y}_{\\large{x}}', parentId: "stability", image: Stability5Image },
+  { value: "444", label: '\\large{xy}', parentId: "stability", image: Stability6Image },
+  { value: "445", label: '\\large{x}_{\\large{x}}\\large{y}_{\\large{y}}', parentId: "stability", image: Stability7Image },
+  { value: "446", label: '\\large{S}', parentId: "stability", image: Stability8Image },
+  { value: "447", label: '\\large{S}_{\\large{x}}', parentId: "stability", image: Stability9Image },
+  { value: "448", label: '\\Delta{\\large{x}}', parentId: "stability", image: Stability10Image },
+  { value: "449", label: '\\bar{\\large{T}}', parentId: "stability", image: Stability11Image },
+  { value: "450", label: '\\large{L}', parentId: "stability", image: Stability12Image },
+  { value: "451", label: '\\large{G}', parentId: "stability", image: Stability13Image },
+  { value: "452", label: '\\Delta{L}', parentId: "stability", image: Stability14Image },
+  { value: "453", label: 'L_{\\large{x}}', parentId: "stability", image: Stability15Image },
+  { value: "454", label: 'G_{\\large{x}}', parentId: "stability", image: Stability16Image },
+  { value: "455", label: 'L|_{t_{\\large{x}}}', parentId: "stability", image: Stability17Image },
+  { value: "456", label: 'G|_{t_{\\large{x}}}', parentId: "stability", image: Stability18Image },
+  { value: "457", label: '\\Delta{G}', parentId: "stability", image: Stability19Image },
+  { value: "458", label: '\\Delta{t}', parentId: "stability", image: Stability20Image },
+  { value: "459", label: '\\frac{\\Delta{L}}{\\Delta{t}}', parentId: "stability", image: Stability21Image },
+  { value: "460", label: '\\frac{\\Delta{G}}{\\Delta{t}} ', parentId: "stability", image: Stability22Image },
+  { value: "461", label: 'Q', parentId: "stability", image: Stability23Image },
+  { value: "462", label: 'q', parentId: "stability", image: Stability24Image },
+  { value: "463", label: 'Q|_{t_{\\large{x}}}', parentId: "stability", image: Stability25Image },
+  { value: "464", label: 'd', parentId: "stability", image: Stability26Image },
+  { value: "465", label: 'd_{\\large{x}}', parentId: "stability", image: Stability27Image },
+  { value: "466", label: '\\Delta{t}', parentId: "stability", image: Stability28Image },
+  { value: "467", label: '\\Delta{t}_{u}', parentId: "stability", image: Stability29Image },
+  { value: "468", label: '\\Delta{t}_{d}', parentId: "stability", image: Stability30Image },
+  { value: "469", label: '\\Delta{t}_{\\large{x}}', parentId: "stability", image: Stability31Image },
+
+  // Theorem
+  { value: "470", label: '\\large{Th}', parentId: "theorem", image: TheoromDropdown1Image },
+  { value: "471", label: '\\large{K_{Th}}', parentId: "theorem", image: TheoromDropdown2Image },
+  { value: "472", label: '\\large{i_{Th}}', parentId: "theorem", image: TheoromDropdown3Image },
+  { value: "473", label: '\\large{I_{Th}}', parentId: "theorem", image: TheoromDropdown4Image },
+  { value: "474", label: '\\large{M_{Th}}', parentId: "theorem", image: TheoromDropdown5Image },
+  { value: "475", label: '\\large{E_{S_{Th}}}', parentId: "theorem", image: TheoromDropdown6Image },
+  { value: "476", label: '\\large{W_{Th}}', parentId: "theorem", image: TheoromDropdown7Image },
+  { value: "477", label: '\\large{G_{Th}}', parentId: "theorem", image: TheoromDropdown8Image },
+  { value: "478", label: '\\large{Th_{n}}', parentId: "theorem", image: TheoromDropdown9Image },
+  { value: "479", label: '\\large{K}_{\\large{Th}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown10Image },
+  { value: "480", label: '\\large{i}_{\\large{Th}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown11Image },
+  { value: "481", label: '\\large{I}_{\\large{Th}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown12Image },
+  { value: "482", label: '\\large{M}_{\\large{Th}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown13Image },
+  { value: "483", label: '\\large{E}_{\\large{S}_{\\large{Th}_{\\large{x}}}}', parentId: "theorem", image: TheoromDropdown14Image },
+  { value: "484", label: '\\large{W}_{\\large{Th}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown15Image },
+  { value: "485", label: '\\large{G}_{\\large{Th}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown16Image },
+  { value: "486", label: '\\large{Th}', parentId: "theorem", image: TheoromDropdown17Image },
+  { value: "487", label: '\\large{Th}_{\\large{x}}', parentId: "theorem", image: TheoromDropdown18Image },
+  { value: "488", label: '\\large{Th}|_{\\large{t}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown19Image },
+  { value: "489", label: '\\large{Th}_{\\large{g}}', parentId: "theorem", image: TheoromDropdown20Image },
+  { value: "490", label: '\\large{Th}_{\\large{g}}|_{\\large{t}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown21Image },
 ];
