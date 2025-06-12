@@ -1,12 +1,12 @@
 "use client";
 /* eslint-disable @next/next/no-unwanted-polyfillio */
 /* eslint-disable @next/next/no-sync-scripts */
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useGlobalStore, useSimulationSettingStore } from "@/providers/RootStoreProvider";
 import styles from "./_ToolItem.module.scss";
-import { RelatedIcon } from "@/components/Icons/Icons";
+import { SimulationIcon } from "@/components/Icons/Icons";
 import { Button, Collapse, CollapseProps, Input, Modal, Select } from "antd";
-import { OPTIONS_EQUATION, OPTIONS_MATHEMATICAL } from "./constants";
+import { OPTIONS_EQUATION_COMMUNICATION, OPTIONS_EQUATION_OTHER, OPTIONS_EQUATION_THEORY, OPTIONS_MATHEMATICAL } from "./constants";
 import Image1 from "@/assets/images/Integral-07.png";
 
 import Head from "next/head";
@@ -28,6 +28,7 @@ const Equation = () => {
   const [dataRequest, setDataRequest] = useState(baseDataRequest);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const globalStore = useGlobalStore();
+  const textAreaRef = useRef<any>(null);
 
   useEffect(() => {
     if (window.MathJax) {
@@ -38,6 +39,14 @@ const Equation = () => {
         .catch((err: any) => console.error("MathJax rendering error:", err));
     }
   }, [isOpenModal]);
+
+  const getCursorPosition = () => {
+    if (textAreaRef.current) {
+      const position = textAreaRef.current.resizableTextArea.textArea.selectionStart;
+      return position;
+    }
+    return null;
+  };
 
   const handleUpdateDataRequest = (value: any, config: string) => {
     if (config === "equation") {
@@ -50,10 +59,18 @@ const Equation = () => {
 
     if (config === "equationType") {
       const findOption = OPTIONS_MATHEMATICAL.find((obj) => obj.value === value)?.label || "";
+      const cursorPosition = getCursorPosition();
+      let newValue: string = "";
+      if (cursorPosition !== null && textAreaRef.current) {
+        const equationValue = dataRequest?.equationValue || "";
+        newValue = `${equationValue?.slice(0, cursorPosition)} ${findOption} ${equationValue?.slice(cursorPosition)}`.trim().replace(/\s+/g, ' ');
+        textAreaRef.current.resizableTextArea.textArea.value = newValue;
+        textAreaRef.current.resizableTextArea.textArea.focus();
+      }
 
       return setDataRequest({
         ...dataRequest,
-        equationValue: dataRequest.equationValue ? `${dataRequest.equationValue} ${findOption}` : (findOption as any),
+        equationValue: newValue as any,
         [config]: value,
       });
     }
@@ -66,6 +83,7 @@ const Equation = () => {
 
   const handleClickMapElement = (element: any) => {
     globalStore.setMapElementSelected(element);
+    globalStore.setMapEquationSelectedPrev(element);
     globalStore.setListMapElementSelected(element);
   };
 
@@ -84,38 +102,108 @@ const Equation = () => {
   };
 
   const getItemsCollapse = () => {
-    return OPTIONS_EQUATION.map((obj) => ({
-      key: obj.value,
-      label: obj.label,
-      children: (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-          {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
-            <Button
-              className={`${styles["center-items"]}`}
-              style={{
-                width: "75px",
-                height: "75px",
-              }}
-              key={options.value}
-              onClick={() => handleUpdateDataRequest(options.value, "equationType")}
-            >
-              {options.image ? (
-                <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
-              ) : (
-                <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
-              )}
-            </Button>
-          ))}
-        </div>
-      ),
-    }));
+    return [
+      {
+        key: 'communication-omain',
+        label: 'Communication Domain',
+        children: (
+          <Collapse 
+            items={OPTIONS_EQUATION_COMMUNICATION.map((obj) => ({
+              key: obj.value,
+              label: obj.label,
+              children: (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
+                    <Button
+                      className={`${styles["center-items"]}`}
+                      style={{
+                        width: "75px",
+                        height: "75px",
+                      }}
+                      key={options.value}
+                      onClick={() => handleUpdateDataRequest(options.value, "equationType")}
+                    >
+                      {options.image ? (
+                        <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
+                      ) : (
+                        <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+                      )}
+                    </Button>
+                  ))}
+                </div>
+              ),
+            }))}
+            defaultActiveKey={["function"]}
+          />
+        )
+      },
+      {
+        key: 'theory domain',
+        label: 'Theory Domain',
+        children: (
+          <Collapse 
+            items={OPTIONS_EQUATION_THEORY.map((obj) => ({
+              key: obj.value,
+              label: obj.label,
+              children: (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
+                    <Button
+                      className={`${styles["center-items"]}`}
+                      style={{
+                        width: "75px",
+                        height: "75px",
+                      }}
+                      key={options.value}
+                      onClick={() => handleUpdateDataRequest(options.value, "equationType")}
+                    >
+                      {options.image ? (
+                        <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
+                      ) : (
+                        <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+                      )}
+                    </Button>
+                  ))}
+                </div>
+              ),
+            }))}
+            defaultActiveKey={["function"]}
+          />
+        )
+      },
+      ...OPTIONS_EQUATION_OTHER.map((obj) => ({
+        key: obj.value,
+        label: obj.label,
+        children: (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+            {OPTIONS_MATHEMATICAL.filter((option) => option.parentId === obj.value).map((options) => (
+              <Button
+                className={`${styles["center-items"]}`}
+                style={{
+                  width: "75px",
+                  height: "75px",
+                }}
+                key={options.value}
+                onClick={() => handleUpdateDataRequest(options.value, "equationType")}
+              >
+                {options.image ? (
+                  <Image width={options?.image ?? 35} height={options?.height ?? 35} src={options.image} alt="img" />
+                ) : (
+                  <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
+                )}
+              </Button>
+            ))}
+          </div>
+        ),
+      }))
+    ];
   };
 
   return (
     <div id="modal-add-equation">
       <MathJaxScript />
       <button type="button" className={`${styles["left-item-wrap"]} ${globalStore.simulation ? styles["active"] : null}`} onClick={() => setIsOpenModal(true)}>
-        <RelatedIcon />
+        <SimulationIcon />
       </button>
 
       {isOpenModal && (
@@ -128,10 +216,13 @@ const Equation = () => {
           title="Select Equation"
         >
           <div>
-            <Collapse items={getItemsCollapse()} defaultActiveKey={["function"]} />
+            <div style={{ height: "50vh", overflowY: "auto" }}>
+              <Collapse items={getItemsCollapse()} defaultActiveKey={["function"]} />
+            </div>
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
               <div style={{ width: "100%" }}>Value</div>
               <TextArea
+                ref={textAreaRef}
                 placeholder="Input Value"
                 style={{ width: "100%" }}
                 showCount

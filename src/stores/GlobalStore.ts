@@ -93,6 +93,7 @@ export class GlobalStore {
   listPositionOfPallet4: any[] = [];
   valueOfImage: string = "";
   mapElementSelected = "";
+  mapEquationSelectedPrev = "";
   listMapElementSelected: any[] = [];
   mapElementRelate = "";
   listMapElementRelate: any[] = [];
@@ -1005,6 +1006,10 @@ export class GlobalStore {
   setMapElementSelected = (value: any): void => {
     this.mapElementSelected = value;
   };
+
+  setMapEquationSelectedPrev = (value: any): void => {
+    this.mapEquationSelectedPrev = value;
+  } 
 
   resetListMapElementSelected = () => {
     this.listMapElementSelected = [];
