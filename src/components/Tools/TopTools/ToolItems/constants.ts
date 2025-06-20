@@ -543,6 +543,89 @@ import TheoromDropdown19Image from "@/assets/images/Theorems/Theorem_Dropdown_19
 import TheoromDropdown20Image from "@/assets/images/Theorems/Theorem_Dropdown_20.svg";
 import TheoromDropdown21Image from "@/assets/images/Theorems/Theorem_Dropdown_21.svg";
 
+// Greeks Capital
+import GreekCapital1Image from "@/assets/images/Greeks/GreekCapital_1.svg";
+import GreekCapital2Image from "@/assets/images/Greeks/GreekCapital_2.svg";
+import GreekCapital3Image from "@/assets/images/Greeks/GreekCapital_3.svg";
+import GreekCapital4Image from "@/assets/images/Greeks/GreekCapital_4.svg";
+import GreekCapital5Image from "@/assets/images/Greeks/GreekCapital_5.svg";
+import GreekCapital6Image from "@/assets/images/Greeks/GreekCapital_6.svg";
+import GreekCapital7Image from "@/assets/images/Greeks/GreekCapital_7.svg";
+import GreekCapital8Image from "@/assets/images/Greeks/GreekCapital_8.svg";
+import GreekCapital9Image from "@/assets/images/Greeks/GreekCapital_9.svg";
+import GreekCapital10Image from "@/assets/images/Greeks/GreekCapital_10.svg";
+import GreekCapital11Image from "@/assets/images/Greeks/GreekCapital_11.svg";
+import GreekCapital12Image from "@/assets/images/Greeks/GreekCapital_12.svg";
+import GreekCapital13Image from "@/assets/images/Greeks/GreekCapital_13.svg";
+import GreekCapital14Image from "@/assets/images/Greeks/GreekCapital_14.svg";
+import GreekCapital15Image from "@/assets/images/Greeks/GreekCapital_15.svg";
+import GreekCapital16Image from "@/assets/images/Greeks/GreekCapital_16.svg";
+import GreekCapital17Image from "@/assets/images/Greeks/GreekCapital_17.svg";
+import GreekCapital18Image from "@/assets/images/Greeks/GreekCapital_18.svg";
+import GreekCapital19Image from "@/assets/images/Greeks/GreekCapital_19.svg";
+import GreekCapital20Image from "@/assets/images/Greeks/GreekCapital_20.svg";
+import GreekCapital21Image from "@/assets/images/Greeks/GreekCapital_21.svg";
+import GreekCapital22Image from "@/assets/images/Greeks/GreekCapital_22.svg";
+import GreekCapital23Image from "@/assets/images/Greeks/GreekCapital_23.svg";
+import GreekCapital24Image from "@/assets/images/Greeks/GreekCapital_24.svg";
+
+// Greek Small
+import GreekSmall1Image from "@/assets/images/GreekSmall/GreekSmall_1.svg";
+import GreekSmall2Image from "@/assets/images/GreekSmall/GreekSmall_2.svg";
+import GreekSmall3Image from "@/assets/images/GreekSmall/GreekSmall_3.svg";
+import GreekSmall4Image from "@/assets/images/GreekSmall/GreekSmall_4.svg";
+import GreekSmall5Image from "@/assets/images/GreekSmall/GreekSmall_5.svg";
+import GreekSmall6Image from "@/assets/images/GreekSmall/GreekSmall_6.svg";
+import GreekSmall7Image from "@/assets/images/GreekSmall/GreekSmall_7.svg";
+import GreekSmall8Image from "@/assets/images/GreekSmall/GreekSmall_8.svg";
+import GreekSmall9Image from "@/assets/images/GreekSmall/GreekSmall_9.svg";
+import GreekSmall10Image from "@/assets/images/GreekSmall/GreekSmall_10.svg";
+import GreekSmall11Image from "@/assets/images/GreekSmall/GreekSmall_11.svg";
+import GreekSmall12Image from "@/assets/images/GreekSmall/GreekSmall_12.svg";
+import GreekSmall13Image from "@/assets/images/GreekSmall/GreekSmall_13.svg";
+import GreekSmall14Image from "@/assets/images/GreekSmall/GreekSmall_14.svg";
+import GreekSmall15Image from "@/assets/images/GreekSmall/GreekSmall_15.svg";
+import GreekSmall16Image from "@/assets/images/GreekSmall/GreekSmall_16.svg";
+import GreekSmall17Image from "@/assets/images/GreekSmall/GreekSmall_17.svg";
+import GreekSmall18Image from "@/assets/images/GreekSmall/GreekSmall_18.svg";
+import GreekSmall19Image from "@/assets/images/GreekSmall/GreekSmall_19.svg";
+import GreekSmall20Image from "@/assets/images/GreekSmall/GreekSmall_20.svg";
+import GreekSmall21Image from "@/assets/images/GreekSmall/GreekSmall_21.svg";
+import GreekSmall22Image from "@/assets/images/GreekSmall/GreekSmall_22.svg";
+import GreekSmall23Image from "@/assets/images/GreekSmall/GreekSmall_23.svg";
+import GreekSmall24Image from "@/assets/images/GreekSmall/GreekSmall_24.svg";
+import GreekSmall25Image from "@/assets/images/GreekSmall/GreekSmall_25.svg";
+
+// DropdownTimes
+import DropdownTime1Image from "@/assets/images/DropdownTimes/Dropdown_Time_1.svg";
+import DropdownTime2Image from "@/assets/images/DropdownTimes/Dropdown_Time_2.svg";
+import DropdownTime3Image from "@/assets/images/DropdownTimes/Dropdown_Time_3.svg";
+import DropdownTime4Image from "@/assets/images/DropdownTimes/Dropdown_Time_4.svg";
+import DropdownTime5Image from "@/assets/images/DropdownTimes/Dropdown_Time_5.svg";
+import DropdownTime6Image from "@/assets/images/DropdownTimes/Dropdown_Time_6.svg";
+import DropdownTime7Image from "@/assets/images/DropdownTimes/Dropdown_Time_7.svg";
+import DropdownTime8Image from "@/assets/images/DropdownTimes/Dropdown_Time_8.svg";
+import DropdownTime9Image from "@/assets/images/DropdownTimes/Dropdown_Time_9.svg";
+import DropdownTime10Image from "@/assets/images/DropdownTimes/Dropdown_Time_10.svg";
+import DropdownTime11Image from "@/assets/images/DropdownTimes/Dropdown_Time_11.svg";
+import DropdownTime12Image from "@/assets/images/DropdownTimes/Dropdown_Time_12.svg";
+
+// Functons
+import function1Image from "@/assets/images/Functions/function_1.svg";
+import function2Image from "@/assets/images/Functions/function_2.svg";
+import function3Image from "@/assets/images/Functions/function_3.svg";
+import function4Image from "@/assets/images/Functions/function_4.svg";
+import function5Image from "@/assets/images/Functions/function_5.svg";
+import function6Image from "@/assets/images/Functions/function_6.svg";
+import function7Image from "@/assets/images/Functions/function_7.svg";
+import function8Image from "@/assets/images/Functions/function_8.svg";
+import function9Image from "@/assets/images/Functions/function_9.svg";
+import function10Image from "@/assets/images/Functions/function_10.svg";
+import function11Image from "@/assets/images/Functions/function_11.svg";
+import function12Image from "@/assets/images/Functions/function_12.svg";
+import function13Image from "@/assets/images/Functions/function_13.svg";
+import function14Image from "@/assets/images/Functions/function_14.svg";
+
 export const OPTIONS_EQUATION_COMMUNICATION = [
   {
     value: "function",
@@ -578,6 +661,14 @@ export const OPTIONS_EQUATION_THEORY = [
   {
     value: "theory2",
     label: "Theory 2",
+  },
+  {
+    value: "functiontheory",
+    label: "Function",
+  },
+  {
+    value: "timetheory",
+    label: "Time",
   },
   {
     value: "derivative",
@@ -650,14 +741,14 @@ export const OPTIONS_EQUATION_OTHER = [
     value: "arrow",
     label: "Arrow",
   },
-  // {
-  //   value: "greek_capital",
-  //   label: "Greek Capital",
-  // },
-  // {
-  //   value: "greek_small",
-  //   label: "Greek Small",
-  // }
+  {
+    value: "greekcapital",
+    label: "Greek Capital",
+  },
+  {
+    value: "greeksmall",
+    label: "Greek Small",
+  }
 ];
 
 export const OPTIONS_MATHEMATICAL = [
@@ -1284,4 +1375,87 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "488", label: '\\large{Th}|_{\\large{t}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown19Image },
   { value: "489", label: '\\large{Th}_{\\large{g}}', parentId: "theorem", image: TheoromDropdown20Image },
   { value: "490", label: '\\large{Th}_{\\large{g}}|_{\\large{t}_{\\large{x}}}', parentId: "theorem", image: TheoromDropdown21Image },
+
+  // Greek Capital
+  { value: "491", label: '\u0391', parentId: "greekcapital", image: GreekCapital1Image },
+  { value: "492", label: '\u0392', parentId: "greekcapital", image: GreekCapital2Image },
+  { value: "493", label: '\u0393', parentId: "greekcapital", image: GreekCapital3Image },
+  { value: "494", label: '\u0394', parentId: "greekcapital", image: GreekCapital4Image },
+  { value: "495", label: '\u0395', parentId: "greekcapital", image: GreekCapital5Image },
+  { value: "496", label: '\u0396', parentId: "greekcapital", image: GreekCapital6Image },
+  { value: "497", label: '\u0397', parentId: "greekcapital", image: GreekCapital7Image },
+  { value: "498", label: '\u0398', parentId: "greekcapital", image: GreekCapital8Image },
+  { value: "499", label: '\u0399', parentId: "greekcapital", image: GreekCapital9Image },
+  { value: "500", label: '\u039A', parentId: "greekcapital", image: GreekCapital10Image },
+  { value: "501", label: '\u039B', parentId: "greekcapital", image: GreekCapital11Image },
+  { value: "502", label: '\u039C', parentId: "greekcapital", image: GreekCapital12Image },
+  { value: "503", label: '\u039D', parentId: "greekcapital", image: GreekCapital13Image },
+  { value: "504", label: '\u039E', parentId: "greekcapital", image: GreekCapital14Image },
+  { value: "505", label: '\u039F', parentId: "greekcapital", image: GreekCapital15Image },
+  { value: "506", label: '\u03A0', parentId: "greekcapital", image: GreekCapital16Image },
+  { value: "507", label: '\u03A1', parentId: "greekcapital", image: GreekCapital17Image },
+  { value: "508", label: '\u03A3', parentId: "greekcapital", image: GreekCapital18Image },
+  { value: "509", label: '\u03A4', parentId: "greekcapital", image: GreekCapital19Image },
+  { value: "510", label: '\u03A5', parentId: "greekcapital", image: GreekCapital20Image },
+  { value: "511", label: '\u03A6', parentId: "greekcapital", image: GreekCapital21Image },
+  { value: "512", label: '\u03A7', parentId: "greekcapital", image: GreekCapital22Image },
+  { value: "513", label: '\u03A8', parentId: "greekcapital", image: GreekCapital23Image },
+  { value: "514", label: '\u03A9', parentId: "greekcapital", image: GreekCapital24Image },
+
+  // Greek Small
+  { value: "515", label: '\u03B1', parentId: "greeksmall", image: GreekSmall1Image },
+  { value: "516", label: '\u03B2', parentId: "greeksmall", image: GreekSmall2Image },
+  { value: "517", label: '\u03B3', parentId: "greeksmall", image: GreekSmall3Image },
+  { value: "518", label: '\u03B4', parentId: "greeksmall", image: GreekSmall4Image },
+  { value: "519", label: '\u03B5', parentId: "greeksmall", image: GreekSmall5Image },
+  { value: "520", label: '\u03B6', parentId: "greeksmall", image: GreekSmall6Image },
+  { value: "521", label: '\u03B7', parentId: "greeksmall", image: GreekSmall7Image },
+  { value: "522", label: '\u03B8', parentId: "greeksmall", image: GreekSmall8Image },
+  { value: "523", label: '\u03B9', parentId: "greeksmall", image: GreekSmall9Image },
+  { value: "524", label: '\u03BA', parentId: "greeksmall", image: GreekSmall10Image },
+  { value: "525", label: '\u03BB', parentId: "greeksmall", image: GreekSmall11Image },
+  { value: "526", label: '\u03BC', parentId: "greeksmall", image: GreekSmall12Image },
+  { value: "527", label: '\u03BD', parentId: "greeksmall", image: GreekSmall13Image },
+  { value: "528", label: '\u03BE', parentId: "greeksmall", image: GreekSmall14Image },
+  { value: "529", label: '\u03BF', parentId: "greeksmall", image: GreekSmall15Image },
+  { value: "530", label: '\u03C0', parentId: "greeksmall", image: GreekSmall16Image },
+  { value: "531", label: '\u03C1', parentId: "greeksmall", image: GreekSmall17Image },
+  { value: "532", label: '\u03C2', parentId: "greeksmall", image: GreekSmall18Image },
+  { value: "533", label: '\u03C3', parentId: "greeksmall", image: GreekSmall19Image },
+  { value: "534", label: '\u03C4', parentId: "greeksmall", image: GreekSmall20Image },
+  { value: "535", label: '\u03C5', parentId: "greeksmall", image: GreekSmall21Image },
+  { value: "536", label: '\u03C6', parentId: "greeksmall", image: GreekSmall22Image },
+  { value: "537", label: '\u03C7', parentId: "greeksmall", image: GreekSmall23Image },
+  { value: "538", label: '\u03C8', parentId: "greeksmall", image: GreekSmall24Image },
+  { value: "539", label: '\u03C9', parentId: "greeksmall", image: GreekSmall25Image },
+
+  // Time Theory
+  { value: "540", label: '\\large{t_{0}}', parentId: "timetheory", image: DropdownTime1Image },
+  { value: "541", label: '\\large{t_{0+}}', parentId: "timetheory", image: DropdownTime2Image },
+  { value: "542", label: '\\large{t_{0++}}', parentId: "timetheory", image: DropdownTime3Image },
+  { value: "543", label: '\\large{t_{1}}', parentId: "timetheory", image: DropdownTime4Image },
+  { value: "544", label: '\\large{t_{1}}+{\\large{x}}', parentId: "timetheory", image: DropdownTime5Image },
+  { value: "545", label: '\\large{t_{2}}', parentId: "timetheory", image: DropdownTime6Image },
+  { value: "546", label: '\\large{t_{2}}+{\\large{x}}', parentId: "timetheory", image: DropdownTime7Image },
+  { value: "547", label: '\\large{t_{3}}', parentId: "timetheory", image: DropdownTime8Image },
+  { value: "548", label: '\\large{t_{3}}+{\\large{x}}', parentId: "timetheory", image: DropdownTime9Image },
+  { value: "549", label: '\\large{t_{4}}', parentId: "timetheory", image: DropdownTime10Image },
+  { value: "550", label: '\\large{t_{4}}+{\\large{x}}', parentId: "timetheory", image: DropdownTime11Image },
+  { value: "551", label: "\\large{t'}", parentId: "timetheory", image: DropdownTime12Image },
+
+  // Function Theory
+  { value: "552", label: '\\large{x}', parentId: "functiontheory", image: function1Image },
+  { value: "553", label: 'f({\\large{x}}})', parentId: "functiontheory", image: function2Image },
+  { value: "554", label: '\\bar{\\large{x}}', parentId: "functiontheory", image: function3Image },
+  { value: "555", label: 'f(\\bar{\\large{x}})', parentId: "functiontheory", image: function4Image },
+  { value: "556", label: 'f_{\\large{x}}(\\bar{\\large{y}})', parentId: "functiontheory", image: function5Image },
+  { value: "557", label: 'P_{\\large{x}}', parentId: "functiontheory", image: function6Image },
+  { value: "558", label: 'G_{\\large{x}}', parentId: "functiontheory", image: function7Image },
+  { value: "559", label: 'G_{\\large{x}}(\\large{x})', parentId: "functiontheory", image: function8Image },
+  { value: "560", label: 'f(\\large{x})', parentId: "functiontheory", image: function9Image },
+  { value: "561", label: 'ECF(\\large{x})', parentId: "functiontheory", image: function10Image },
+  { value: "562", label: 'ECF({\\large{x})', parentId: "functiontheory", image: function11Image },
+  { value: "563", label: 'f_{\\large{x}}(\\bar{\\large{y}}_{z})', parentId: "functiontheory", image: function12Image },
+  { value: "564", label: '\\large{x}_{z}', parentId: "functiontheory", image: function13Image },
+  { value: "565", label: 'f_{\\large{x}}(y)', parentId: "functiontheory", image: function14Image },
 ];
