@@ -642,6 +642,21 @@ const Markers = ({setModal, setModalType}) => {
                         addPersonInMobility(map, latlng.lat, latlng.lng, globalStore.lock, globalStore.numberPersonMobility, globalStore.setNumberPersonMobility, globalStore.setPositionOfPreviewPerson, globalStore.positionOfPreviewPerson, globalStore.typeMobility);
                     }
                     globalStore.addIconHandle('');
+                } else if (globalStore.addIcon === 'equation') {
+                    if (globalStore.moreName === 'world-as-function') {
+                        globalStore.setShowErrorInsertPerson(true);
+                    } else if (globalStore.moreName === 'population-view' || globalStore.moreName === 'population-view-with-country' || globalStore.moreName === 'population-view-principle-line') {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else if (!globalStore.mapElementSelected) {
+                        globalStore.setShowErrorInsertFunction(true);
+                    } else {
+                        addMarkerMapElement(map, latlng.lat, latlng.lng, globalStore.lock, 
+                            globalStore.listMapElementSelected.find(item => item.name === globalStore.mapEquationSelectedPrev), 
+                            globalStore.setListMapElementRelate, 
+                            globalStore.setPositionOfMapElementSelected
+                        );
+                    }
+                    globalStore.addIconHandle('');
                 }
             }
             if (globalStore.mapView !== '' && globalStore.addIcon === '') {
