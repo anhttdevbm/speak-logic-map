@@ -1880,6 +1880,11 @@ export const mapElementPopup = (map, e, setMapElementRelate, id) => {
         setMapElementRelate(value, id);
         map.removeLayer(popup);
     }
+
+    window.deleteEquation = () => {
+        map.removeLayer(popup);
+        map.removeLayer(e.target);
+    }
 }
 
 export const givenSetPopup = (map, e, resetPositionOfHorizontalLine) => {

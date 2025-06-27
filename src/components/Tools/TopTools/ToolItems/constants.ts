@@ -626,6 +626,17 @@ import function12Image from "@/assets/images/Functions/function_12.svg";
 import function13Image from "@/assets/images/Functions/function_13.svg";
 import function14Image from "@/assets/images/Functions/function_14.svg";
 
+import DropdownFunction1Image from "@/assets/images/DropdownFunctions/Dropdown_Function_1.svg";
+import DropdownFunction2Image from "@/assets/images/DropdownFunctions/Dropdown_Function_2.svg";
+import DropdownFunction3Image from "@/assets/images/DropdownFunctions/Dropdown_Function_3.svg";
+import DropdownFunction4Image from "@/assets/images/DropdownFunctions/Dropdown_Function_4.svg";
+import DropdownFunction5Image from "@/assets/images/DropdownFunctions/Dropdown_Function_5.svg";
+import DropdownFunction6Image from "@/assets/images/DropdownFunctions/Dropdown_Function_6.svg";
+import DropdownFunction7Image from "@/assets/images/DropdownFunctions/Dropdown_Function_7.svg";
+import DropdownFunction8Image from "@/assets/images/DropdownFunctions/Dropdown_Function_8.svg";
+import DropdownFunction9Image from "@/assets/images/DropdownFunctions/Dropdown_Function_9.svg";
+import DropdownFunction10Image from "@/assets/images/DropdownFunctions/Dropdown_Function_10.svg";
+
 export const OPTIONS_EQUATION_COMMUNICATION = [
   {
     value: "function",
@@ -648,7 +659,11 @@ export const OPTIONS_EQUATION_COMMUNICATION = [
 export const OPTIONS_EQUATION_THEORY = [
   {
     value: "theory",
-    label: "Theory",
+    label: "Theory 1",
+  },
+  {
+    value: "theory2",
+    label: "Theory 2",
   },
   {
     value: "fundamental",
@@ -657,10 +672,6 @@ export const OPTIONS_EQUATION_THEORY = [
   {
     value: "fundamental_2",
     label: "Fundamental 2",
-  },
-  {
-    value: "theory2",
-    label: "Theory 2",
   },
   {
     value: "functiontheory",
@@ -1444,18 +1455,14 @@ export const OPTIONS_MATHEMATICAL = [
   { value: "551", label: "\\large{t'}", parentId: "timetheory", image: DropdownTime12Image },
 
   // Function Theory
-  { value: "552", label: '\\large{x}', parentId: "functiontheory", image: function1Image },
-  { value: "553", label: 'f({\\large{x}}})', parentId: "functiontheory", image: function2Image },
-  { value: "554", label: '\\bar{\\large{x}}', parentId: "functiontheory", image: function3Image },
-  { value: "555", label: 'f(\\bar{\\large{x}})', parentId: "functiontheory", image: function4Image },
-  { value: "556", label: 'f_{\\large{x}}(\\bar{\\large{y}})', parentId: "functiontheory", image: function5Image },
-  { value: "557", label: 'P_{\\large{x}}', parentId: "functiontheory", image: function6Image },
-  { value: "558", label: 'G_{\\large{x}}', parentId: "functiontheory", image: function7Image },
-  { value: "559", label: 'G_{\\large{x}}(\\large{x})', parentId: "functiontheory", image: function8Image },
-  { value: "560", label: 'f(\\large{x})', parentId: "functiontheory", image: function9Image },
-  { value: "561", label: 'ECF(\\large{x})', parentId: "functiontheory", image: function10Image },
-  { value: "562", label: 'ECF({\\large{x})', parentId: "functiontheory", image: function11Image },
-  { value: "563", label: 'f_{\\large{x}}(\\bar{\\large{y}}_{z})', parentId: "functiontheory", image: function12Image },
-  { value: "564", label: '\\large{x}_{z}', parentId: "functiontheory", image: function13Image },
-  { value: "565", label: 'f_{\\large{x}}(y)', parentId: "functiontheory", image: function14Image },
+  { value: "552", label: '\\large{\\class{nimbusScript}L}(\\large{t})}', parentId: "functiontheory", image: DropdownFunction1Image },
+  { value: "553", label: '\\large{h({t})}', parentId: "functiontheory", image: DropdownFunction2Image },
+  { value: "554", label: '\\large{u({t})}', parentId: "functiontheory", image: DropdownFunction3Image },
+  { value: "555", label: '\\large{h({t})+u({t})}', parentId: "functiontheory", image: DropdownFunction4Image },
+  { value: "556", label: '\\sum\\limits_{\\large{n=1}}^{\\large{\\infty}}{\\large{h_{n}(t)}}', parentId: "functiontheory", image: DropdownFunction5Image },
+  { value: "557", label: '\\sum\\limits_{\\large{m=0}}^{\\large{M}}{\\large{u_{m}(t)}}', parentId: "functiontheory", image: DropdownFunction6Image },
+  { value: "558", label: 'Int\\left\\{{\\large{x}}\\right\\}', parentId: "functiontheory", image: DropdownFunction7Image },
+  { value: "559", label: '\\bar{\\large{u}}(t)', parentId: "functiontheory", image: DropdownFunction8Image },
+  { value: "560", label: '\\bar{\\large{u}}_{\\large{x}}(t)', parentId: "functiontheory", image: DropdownFunction9Image },
+  { value: "561", label: '\\large{h}_{\\large{x}}(t)', parentId: "functiontheory", image: DropdownFunction10Image },
 ];

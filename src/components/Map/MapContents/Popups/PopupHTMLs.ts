@@ -1043,6 +1043,10 @@ export const mapElementPopupHTML = (): string => {
         onclick="handleSelectMapRelate('Function Boundary')"
         class="${styles['row']} ${styles['on-hover']}"
       >Relate with Function Boundary</div>
+      <div 
+        onclick="deleteEquation()"
+        class="${styles['row']} ${styles['on-hover']}"
+      >Delete Item </div>
     </div>
   `;
 }
