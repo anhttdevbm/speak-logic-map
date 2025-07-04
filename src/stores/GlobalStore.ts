@@ -1025,7 +1025,7 @@ export class GlobalStore {
     return false;
   };
 
-  setListMapElementSelected = (value: any): void => {
+  setListMapElementSelected = (value: any, noBorder?: boolean): void => {
     let id = this.listMapElementSelected.length;
     this.checkListMapElementSelectedContainElementNotRelate();
     this.listMapElementSelected.push({
@@ -1035,6 +1035,7 @@ export class GlobalStore {
       status: false,
       related: null,
       statusRelate: false,
+      noBorder: noBorder,
     });
   };
   checkMapLayerRelationship = (lat: any, lng: any) => {

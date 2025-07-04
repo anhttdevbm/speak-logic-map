@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useGlobalStore, useSimulationSettingStore } from "@/providers/RootStoreProvider";
 import styles from "./_ToolItem.module.scss";
 import { EquationIcon } from "@/components/Icons/Icons";
-import { Button, Collapse, CollapseProps, Input, Modal, Select } from "antd";
+import { Button, Collapse, CollapseProps, Input, Modal, Select, Checkbox } from "antd";
 import { OPTIONS_EQUATION_COMMUNICATION, OPTIONS_EQUATION_OTHER, OPTIONS_EQUATION_THEORY, OPTIONS_MATHEMATICAL } from "./constants";
 import Image1 from "@/assets/images/Integral-07.png";
 
@@ -29,6 +29,7 @@ const Equation = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const globalStore = useGlobalStore();
   const textAreaRef = useRef<any>(null);
+  const [noBorder, setNoBorder] = useState(false);
 
   useEffect(() => {
     if (window.MathJax) {
@@ -84,7 +85,7 @@ const Equation = () => {
   const handleClickMapElement = (element: any) => {
     globalStore.setMapElementSelected(element);
     globalStore.setMapEquationSelectedPrev(element);
-    globalStore.setListMapElementSelected(element);
+    globalStore.setListMapElementSelected(element, noBorder);
   };
 
   const handleAddMap = () => {
@@ -143,7 +144,11 @@ const Equation = () => {
       },
       {
         key: 'theory domain',
-        label: 'Speak Logic Theory Domain',
+        label: (
+          <div style={{ background: 'green', color: '#fff', padding: 4, borderRadius: 4, width: '100%', height: '100%' }}>
+            Speak Logic Theory Domain
+          </div>
+        ),
         children: (
           <Collapse 
             items={OPTIONS_EQUATION_THEORY.map((obj) => ({
@@ -162,7 +167,7 @@ const Equation = () => {
                       onClick={() => handleUpdateDataRequest(options.value, "equationType")}
                     >
                       {options.image ? (
-                        <Image width={options?.image ?? 50} height={options?.height ?? 50} src={options.image} alt="img" />
+                        <Image width={options?.image ?? 75} height={options?.height ?? 75} src={options.image} alt="img" />
                       ) : (
                         <span dangerouslySetInnerHTML={{ __html: renderMath(options.label) }} />
                       )}
@@ -234,6 +239,9 @@ const Equation = () => {
                 value={dataRequest.equationValue || ""}
                 onChange={(e) => handleUpdateDataRequest(e.target.value, "equationValue")}
               />
+              <Checkbox checked={noBorder} onChange={e => setNoBorder(e.target.checked)} style={{ marginTop: "10px" }}>
+                Equation without border
+              </Checkbox>
             </div>
           </div>
           {/* <div>
